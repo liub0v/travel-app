@@ -11,6 +11,7 @@ import {
   OnboardingBackground,
   Pagination,
   Point,
+  PointsView,
   TextDescription,
   TextHeader,
 } from './Onboarding.style';
@@ -32,9 +33,11 @@ export const Onboarding = () => {
         But you find the nicest city trips as well!
       </TextDescription>
       <Pagination>
-        <Point />
-        <Point />
-        <Point />
+        <PointsView>
+          <Point />
+          <Point />
+          <Point />
+        </PointsView>
         <Arrow source={arrow} />
       </Pagination>
     </OnboardingBackground>

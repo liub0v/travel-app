@@ -60,10 +60,16 @@ export const Point = styled.View`
 export const Pagination = styled.View`
   margin-top: 10%;
   flex-direction: row;
+`;
+export const PointsView = styled.View`
+  margin-left: 20px;
+  flex-direction: row;
   justify-content: center;
   flex: 3;
 `;
 export const Arrow = styled.Image`
-  margin-left: 50px;
+  margin-right: 20px;
 `;
+
 export const Next = styled.View``;
+export const Next1 = styled.View``;
