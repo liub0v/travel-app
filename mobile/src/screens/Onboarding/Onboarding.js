@@ -1,12 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  Image,
-  Text,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {Image, TouchableWithoutFeedback, View} from 'react-native';
+import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {
   Arrow,
   ButtonStart,
@@ -17,11 +11,10 @@ import {
   Point,
   PointContainer,
 } from './Onboarding.style';
-import arrow from '../../../assets/images/arrowButton.png';
+import arrowImage from '../../../assets/images/arrowButton.png';
 import {FirstPage} from './FirstPage';
 import {SecondPage} from './SecondPage';
 import {ThirdPage} from './ThirdPage';
-import {Constants} from 'react-native-unimodules';
 
 export const Onboarding = () => {
   const [page, setPage] = useState(1);
@@ -43,7 +36,6 @@ export const Onboarding = () => {
         return <ThirdPage />;
     }
   };
-  useEffect(() => {}, [page]);
   return (
     <OnboardingBackground>
       {component()}
@@ -57,18 +49,14 @@ export const Onboarding = () => {
           <View>
             <TouchableWithoutFeedback onPress={pressHandler}>
               <Arrow>
-                <Image source={arrow} />
+                <Image source={arrowImage} />
               </Arrow>
             </TouchableWithoutFeedback>
           </View>
         </Pagination>
       )}
       {page === 3 && (
-        <ButtonWrapper>
-          <ButtonStart onPress={buttonHandler}>
-            <ButtonText>Get started</ButtonText>
-          </ButtonStart>
-        </ButtonWrapper>
+        <ButtonItem handler={buttonHandler} title={'Get started'} />
       )}
     </OnboardingBackground>
   );
