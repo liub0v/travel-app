@@ -5,7 +5,7 @@ export const ButtonItem = ({handler, title}) => {
   return (
     <ButtonWrapper>
       <ButtonStart onPress={handler}>
-        <ButtonText>{title}d</ButtonText>
+        <ButtonText>{title}</ButtonText>
       </ButtonStart>
     </ButtonWrapper>
   );
