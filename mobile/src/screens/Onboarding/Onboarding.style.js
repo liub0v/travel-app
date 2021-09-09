@@ -19,7 +19,7 @@ export const TextHeader = styled.Text`
   background-color: rgba(2, 3, 3, 0);
 `;
 export const TextDescription = styled.Text`
-  padding: ${Platform.OS === 'android' ? 5 : 15}% ;
+  padding: ${Platform.OS === 'android' ? 5 : 15}%;
   font-style: normal;
   font-size: 14px;
   text-align: center;
@@ -35,17 +35,17 @@ export const Images = styled.View`
   border-radius: 16px;
   justify-content: space-between;
 `;
-export const ImageItem1 = styled.Image`
+export const ImageItemLeft = styled.Image`
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 16px;
   border-top-left-radius: 0px;
   border-top-right-radius: 16px;
 `;
-export const ImageItem2 = styled.Image`
+export const ImageItemCenter = styled.Image`
   border-radius: 16px;
 `;
 
-export const ImageItem3 = styled.Image`
+export const ImageItemRight = styled.Image`
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 0px;
   border-top-left-radius: 16px;
@@ -82,22 +82,64 @@ export const ViewContainer = styled.View`
   justify-content: space-around;
   flex: 1;
   flex-direction: column;
+  margin-left: 3%;
+  margin-right: 3%;
 `;
 export const ViewWrapper = styled.View`
   flex: 1;
   flex-direction: row;
 `;
-export const ViewItem = styled.View`
+export const ImageWrapper = styled.View`
+  position: relative;
   margin-left: 10px;
   margin-right: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
   flex: 1;
-  background-color: blue;
+  background-color: rgba(0, 0, 255, 0);
+`;
+export const ImageItem = styled.Image`
+  height: 100%;
+  width: 100%;
   border-radius: 16px;
 `;
-export const ButtonStart = styled.Button`
-  
+
+export const TextWrapper = styled.View`
+  position: absolute;
+  right: 10px;
+  bottom: -10%;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
 `;
-export const Next5 = styled.View``;
-export const Next6 = styled.View``;
+export const TextItem = styled.Text`
+  border-radius: 16px;
+  background-color: #212530;
+  color: white;
+  font-family: Montserrat;
+  font-size: 16px;
+  padding: 10px;
+`;
+export const ButtonStart = styled.TouchableOpacity`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #2d9cdb;
+  border-radius: 16px;
+  height: 50px;
+  width: 300px;
+`;
+export const ButtonWrapper = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+`;
+export const ButtonText = styled.Text`
+  font-family: Montserrat;
+  font-size: 16px;
+  line-height: 20px;
+
+  color: #ffffff;
+`;
+export const Next8 = styled.View``;

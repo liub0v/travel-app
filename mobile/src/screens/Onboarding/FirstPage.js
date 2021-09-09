@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 
 import {
-  ImageItem1,
-  ImageItem2,
-  ImageItem3,
+  ImageItemLeft,
+  ImageItemCenter,
+  ImageItemRight,
   Images,
   TextDescription,
   TextHeader,
@@ -16,9 +16,9 @@ export const FirstPage = () => {
     <>
       <TextHeader>Get inspiration for your next trip</TextHeader>
       <Images>
-        <ImageItem1 source={image1}></ImageItem1>
-        <ImageItem2 source={image2}></ImageItem2>
-        <ImageItem3 source={image3}></ImageItem3>
+        <ImageItemLeft source={image1}></ImageItemLeft>
+        <ImageItemCenter source={image2}></ImageItemCenter>
+        <ImageItemRight source={image3}></ImageItemRight>
       </Images>
       <TextDescription>
         We’re happy to share our best tips for destinations where you can relax.
