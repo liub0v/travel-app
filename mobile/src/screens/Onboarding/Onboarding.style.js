@@ -1,8 +1,9 @@
 import styled from 'styled-components/native';
+import {Platform} from 'react-native';
 
 export const OnboardingBackground = styled.View`
   flex: 1;
-  justify-content: center;
+  justify-content: space-between;
   background-color: rgba(26, 79, 226, 0);
   margin-top: 10%;
 `;
@@ -12,16 +13,14 @@ export const TextHeader = styled.Text`
   text-align: center;
   color: #ffffff;
   font-style: normal;
-  font-weight: 800;
   font-size: 28px;
   line-height: 34px;
-  font-family: Montserrat;
+  font-family: MontserratExtraBold;
   background-color: rgba(2, 3, 3, 0);
 `;
 export const TextDescription = styled.Text`
-  padding: 15%;
+  padding: ${Platform.OS === 'android' ? 5 : 15}% ;
   font-style: normal;
-  font-weight: normal;
   font-size: 14px;
   text-align: center;
   line-height: 24px;
@@ -68,13 +67,14 @@ export const PointsView = styled.View`
   margin-left: 20px;
   flex-direction: row;
   justify-content: center;
-  flex: 3;
+  flex: 1;
+  margin-bottom: 10%;
 `;
 export const Arrow = styled.Image`
   margin-right: 20px;
 `;
 export const ImageView = styled.Image`
-  margin-top: 15%;
+  margin-top: 25%;
   width: 100%;
 `;
 export const ViewContainer = styled.View`
@@ -96,6 +96,8 @@ export const ViewItem = styled.View`
   background-color: blue;
   border-radius: 16px;
 `;
-export const ButtonStart = styled.Button``;
+export const ButtonStart = styled.Button`
+  
+`;
 export const Next5 = styled.View``;
 export const Next6 = styled.View``;

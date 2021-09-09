@@ -6,16 +6,11 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import type, {Node} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
 
 import {
@@ -26,14 +21,27 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {Onboarding} from './screens/Onboarding/Onboarding';
+import {useFonts} from 'expo-font';
+import * as Font from 'expo-font';
+const App = () => {
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [fontsLoaded, setFontsLoaded] = useState(false)
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  async function loadFonts() {
+    await Font.loadAsync({
+      // Load a font `Montserrat` from a static resource
+      Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
+      MontserratExtraBold: require('../assets/fonts/Montserrat-ExtraBold.ttf'),
 
+      // // Any string can be used as the fontFamily name. Here we use an object to provide more control
+      // 'Montserrat-SemiBold': {
+      //   uri: require('./assets/fonts/Montserrat-SemiBold.ttf'),
+      //   display: Font.FontDisplay.FALLBACK,
+      // },
+    });
+    setFontsLoaded(true)
+  }
+  useEffect(()=>loadFonts(),[])
   return (
     <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
       <Onboarding />
@@ -41,23 +49,5 @@ const App: () => Node = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
