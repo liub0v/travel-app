@@ -3,9 +3,6 @@ import {Image, TouchableWithoutFeedback, View} from 'react-native';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {
   Arrow,
-  ButtonStart,
-  ButtonText,
-  ButtonWrapper,
   OnboardingBackground,
   Pagination,
   Point,
@@ -21,7 +18,6 @@ export const Onboarding = () => {
   const pressHandler = () => {
     setPage(page + 1);
     if (page > 2) setPage(1);
-    console.log(' Page', page);
   };
   const buttonHandler = () => {
     setPage(1);

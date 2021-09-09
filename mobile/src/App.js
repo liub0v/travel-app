@@ -19,8 +19,8 @@ const App = () => {
 
   return (
     <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
-      {/*<Onboarding />*/}
-      <StartPage></StartPage>
+      <Onboarding />
+      {/*<StartPage></StartPage>*/}
     </SafeAreaView>
   );
 };
