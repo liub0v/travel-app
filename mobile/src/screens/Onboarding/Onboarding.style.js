@@ -63,15 +63,17 @@ export const Pagination = styled.View`
   margin-top: 10%;
   flex-direction: row;
 `;
-export const PointsView = styled.View`
-  margin-left: 20px;
+export const PointContainer = styled.View`
   flex-direction: row;
   justify-content: center;
   flex: 1;
   margin-bottom: 10%;
+  margin-left: 30px;
 `;
-export const Arrow = styled.Image`
-  margin-right: 20px;
+export const Arrow = styled.View`
+  margin-right: 10px;
+  margin-top: -10px;
+  padding: 10px;
 `;
 export const ImageView = styled.Image`
   margin-top: 25%;

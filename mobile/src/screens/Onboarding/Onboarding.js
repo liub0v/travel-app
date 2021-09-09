@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Text, TouchableWithoutFeedback} from 'react-native';
+import {
+  Button,
+  Image,
+  Text,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {
   Arrow,
   ButtonStart,
@@ -8,7 +15,7 @@ import {
   OnboardingBackground,
   Pagination,
   Point,
-  PointsView,
+  PointContainer,
 } from './Onboarding.style';
 import arrow from '../../../assets/images/arrowButton.png';
 import {FirstPage} from './FirstPage';
@@ -42,14 +49,18 @@ export const Onboarding = () => {
       {component()}
       {page !== 3 && (
         <Pagination>
-          <PointsView>
+          <PointContainer>
             <Point active={page === 1} />
             <Point active={page === 2} />
             <Point active={page === 3} />
-          </PointsView>
-          <TouchableWithoutFeedback onPress={pressHandler}>
-            <Arrow source={arrow} />
-          </TouchableWithoutFeedback>
+          </PointContainer>
+          <View>
+            <TouchableWithoutFeedback onPress={pressHandler}>
+              <Arrow>
+                <Image source={arrow} />
+              </Arrow>
+            </TouchableWithoutFeedback>
+          </View>
         </Pagination>
       )}
       {page === 3 && (
