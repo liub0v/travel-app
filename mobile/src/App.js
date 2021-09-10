@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native';
-import {Onboarding} from './screens/Onboarding/Onboarding';
-import {StartScreen} from './screens/StartPage/StartScreen';
 import * as Font from 'expo-font';
 import {LoginNavigation} from './navigation/LoginNavigation';
 import {NavigationContainer} from '@react-navigation/native';
@@ -38,8 +36,6 @@ const App = () => {
     <NavigationContainer theme={DefaultTheme}>
       <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
         <LoginNavigation />
-
-        {/*<StartPage></StartPage>*/}
       </SafeAreaView>
     </NavigationContainer>
   );
