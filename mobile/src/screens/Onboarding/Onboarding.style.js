@@ -51,6 +51,7 @@ export const ImageItemRight = styled.Image`
   border-top-left-radius: 16px;
   border-top-right-radius: 0px;
 `;
+
 export const Point = styled.View`
   width: 10px;
   height: 10px;
