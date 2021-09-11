@@ -2,48 +2,56 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {
-  AccountLoginWrapper,
+  SocialNetworksLoginContainer,
   CenterPosition,
-  EmailInput,
-  FacebookView,
+  InputItem,
   LeftPosition,
   LoginContainer,
-  LoginHeader,
+  HeaderText,
   NormalText,
-  PasswordInput,
   ThinkText,
-  TwitterView,
-  ViewButtomWrapper,
-  ViewWrapper,
-} from './Login.style';
+  SocialNetworkWrapper,
+  SingupWrapper,
+  HeaderWrapper,
+  FieldsContainer,
+} from './LoginScreen.style';
 
 export const LoginScreen = ({navigation}) => {
-  const buttonHandler = () => {
+  const loginButtonHandler = () => {
     // setPage(1);
     navigation.navigate('Onboarding');
   };
+
+  const SingupButtonHandler = () => {
+    // setPage(1);
+    navigation.navigate('SingupScreen');
+  };
   return (
     <LoginContainer>
-      <LoginHeader>Log in</LoginHeader>
-      <AccountLoginWrapper>
-        <TwitterView />
-        <FacebookView />
-      </AccountLoginWrapper>
-      <ThinkText>or log in with email </ThinkText>
-      <ViewWrapper>
-        <EmailInput value={'email'} />
-        <PasswordInput value={'password'} />
+      <HeaderWrapper>
+        <HeaderText>Log in</HeaderText>
+      </HeaderWrapper>
+      <SocialNetworksLoginContainer>
+        <SocialNetworkWrapper />
+        <SocialNetworkWrapper />
+      </SocialNetworksLoginContainer>
+      <FieldsContainer>
+        <CenterPosition>
+          <ThinkText>or log in with email </ThinkText>
+        </CenterPosition>
+        <InputItem value={'email'} />
+        <InputItem value={'password'} />
         <LeftPosition>
           <NormalText>Forgot password?</NormalText>
         </LeftPosition>
-        <ButtonItem title={'Log in'} handler={buttonHandler} />
-      </ViewWrapper>
-      <ViewButtomWrapper>
+        <ButtonItem title={'Log in'} handler={loginButtonHandler} />
+      </FieldsContainer>
+      <SingupWrapper>
         <CenterPosition>
           <ThinkText>Don’t have an account?</ThinkText>
         </CenterPosition>
-        <ButtonItem title={'Sing up'} handler={buttonHandler} />
-      </ViewButtomWrapper>
+        <ButtonItem title={'Sing up'} handler={SingupButtonHandler} />
+      </SingupWrapper>
     </LoginContainer>
   );
 };

@@ -14,10 +14,12 @@ import {
 import logo from '../../../assets/images/Logo.png';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 
-const loginHandler = () => {};
 export const StartScreen = ({navigation}) => {
-  const buttonHandler = () => {
+  const loginHandler = () => {
     navigation.navigate('LoginScreen');
+  };
+  const buttonHandler = () => {
+    navigation.navigate('SingupScreen');
   };
   return (
     <ImageBackground
