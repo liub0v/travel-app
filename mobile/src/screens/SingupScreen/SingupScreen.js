@@ -22,8 +22,10 @@ import {
 } from '../StartScreen/StartPage.style';
 
 export const SingupScreen = ({navigation}) => {
-  const signupButtonHandler = () => {};
-  const loginButtonHandler = () => {};
+  const signupButtonHandler = () => {
+    navigation.navigate('HomeScreen');
+  };
+
   const loginHandler = () => {
     navigation.navigate('LoginScreen');
   };
