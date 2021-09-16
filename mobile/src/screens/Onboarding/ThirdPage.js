@@ -26,7 +26,7 @@ const ImageContainer = ({image, text}) => {
 };
 export const ThirdPage = () => {
   return (
-    <>
+    <View style={{flex: 1}}>
       <TextHeader>Find best deals</TextHeader>
       <ViewContainer>
         <ImageContainer image={image1} text={'326$'} />
@@ -36,6 +36,6 @@ export const ThirdPage = () => {
         </ViewWrapper>
         <ImageContainer image={image4} text={'438$'} />
       </ViewContainer>
-    </>
+    </View>
   );
 };

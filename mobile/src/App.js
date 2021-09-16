@@ -3,6 +3,7 @@ import {SafeAreaView} from 'react-native';
 import * as Font from 'expo-font';
 import {LoginNavigation} from './navigation/LoginNavigation';
 import {NavigationContainer} from '@react-navigation/native';
+import SplashScreen from 'react-native-splash-screen';
 
 const DefaultTheme = {
   dark: false,
@@ -29,6 +30,7 @@ const App = () => {
 
   useEffect(() => {
     loadFonts();
+    SplashScreen.hide();
     return null; // ?
   }, []);
 
