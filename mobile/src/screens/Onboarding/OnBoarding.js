@@ -13,7 +13,7 @@ import {FirstPage} from './FirstPage';
 import {SecondPage} from './SecondPage';
 import {ThirdPage} from './ThirdPage';
 
-export const Onboarding = ({navigation}) => {
+export const OnBoarding = ({navigation}) => {
   const [page, setPage] = useState(1);
   const pressHandler = () => {
     setPage(page + 1);

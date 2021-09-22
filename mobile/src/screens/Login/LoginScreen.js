@@ -14,28 +14,20 @@ import {
   FieldsContainer,
 } from './LoginScreen.style';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
-import {
-  Button,
-  Dimensions,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  TextInput,
-  View,
-} from 'react-native';
+import {ScrollView} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {logInUser} from '../../../redux/actions/AuthActions';
 
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
+
   const loginButtonHandler = ({email, password}) => {
-    // navigation.navigate('Onboarding');
+    // navigation.navigate('OnBoarding');
     dispatch(logInUser({email, password}));
   };
 
-  const SingupButtonHandler = () => {
-    // setPage(1);
-    navigation.navigate('SingupScreen');
+  const singUpButtonHandler = () => {
+    navigation.navigate('SingUpScreen');
   };
   return (
     <ScrollView contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
@@ -78,7 +70,7 @@ export const LoginScreen = ({navigation}) => {
         <CenterPosition>
           <ThinkText>Don’t have an account?</ThinkText>
         </CenterPosition>
-        <ButtonItem title={'Sing up'} handler={SingupButtonHandler} />
+        <ButtonItem title={'Sing up'} handler={singUpButtonHandler} />
       </SingupWrapper>
     </ScrollView>
   );

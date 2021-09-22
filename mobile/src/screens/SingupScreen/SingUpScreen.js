@@ -18,7 +18,7 @@ import {
   LoginText,
 } from '../StartScreen/StartPage.style';
 
-export const SingupScreen = ({navigation}) => {
+export const SingUpScreen = ({navigation}) => {
   const signupButtonHandler = () => {
     navigation.navigate('HomeScreen');
   };
