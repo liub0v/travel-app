@@ -6,11 +6,16 @@ import {HomeScreen} from '../screens/HomeScreen/HomeScreen';
 import {StartScreen} from '../screens/StartScreen/StartScreen';
 import {LoginScreen} from '../screens/Login/LoginScreen';
 import {SingupScreen} from '../screens/SingupScreen/SingupScreen';
+import {useSelector} from 'react-redux';
+import {tokenSelector} from '../../redux/selectors/userSelector';
 const Stack = createNativeStackNavigator();
 
 export const LoginNavigation = () => {
+  const token = useSelector(tokenSelector);
+  console.log('TOKEN', token);
   return (
     <Stack.Navigator
+      initialRouteName={token ? 'Onboarding' : 'LoginScreen'}
       screenOptions={{
         headerShown: false,
       }}>

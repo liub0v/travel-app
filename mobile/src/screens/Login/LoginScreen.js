@@ -5,7 +5,6 @@ import {
   CenterPosition,
   InputItem,
   LeftPosition,
-  LoginContainer,
   HeaderText,
   NormalText,
   ThinkText,
@@ -24,11 +23,14 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
+import {logInUser} from '../../../redux/actions/AuthActions';
 
 export const LoginScreen = ({navigation}) => {
-  const loginButtonHandler = () => {
-    // setPage(1);
-    navigation.navigate('Onboarding');
+  const dispatch = useDispatch();
+  const loginButtonHandler = ({email, password}) => {
+    // navigation.navigate('Onboarding');
+    dispatch(logInUser({email, password}));
   };
 
   const SingupButtonHandler = () => {
@@ -51,7 +53,7 @@ export const LoginScreen = ({navigation}) => {
 
         <Formik
           initialValues={{email: '', password: ''}}
-          onSubmit={values => console.log(values)}>
+          onSubmit={loginButtonHandler}>
           {({handleChange, handleBlur, handleSubmit, values}) => (
             <>
               <InputItem
