@@ -4,7 +4,11 @@ import * as Font from 'expo-font';
 import {LoginNavigation} from './navigation/LoginNavigation';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
-
+import {applyMiddleware, createStore} from 'redux';
+import {reducers} from '../redux/reducers';
+import createSagaMiddleware from 'redux-saga';
+import {sagaWatcher} from '../redux/sagas';
+import {Provider} from 'react-redux';
 const DefaultTheme = {
   dark: false,
   colors: {
@@ -16,6 +20,10 @@ const DefaultTheme = {
     notification: 'rgb(255, 69, 58)',
   },
 };
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(sagaWatcher);
 
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -31,15 +39,16 @@ const App = () => {
   useEffect(() => {
     loadFonts();
     SplashScreen.hide();
-    return null; // ?
   }, []);
 
   return (
-    <NavigationContainer theme={DefaultTheme}>
-      <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
-        <LoginNavigation />
-      </SafeAreaView>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer theme={DefaultTheme}>
+        <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
+          <LoginNavigation />
+        </SafeAreaView>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
