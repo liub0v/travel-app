@@ -38,7 +38,7 @@ export const logInValidationSchema = yup.object().shape({
     .min(6, ({min}) => `Password must be at least ${min} characters`)
     .required('Password is required'),
 });
-export function getInvalidStyles(errors, touched) {
+export function getValidationStyles(errors, touched) {
   if (touched && !errors) {
     return {
       borderWidth: 2,

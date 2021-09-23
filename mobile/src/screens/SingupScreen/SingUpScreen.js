@@ -14,7 +14,11 @@ import {
 } from '../Login/LoginScreen.style';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {LoginButton, LoginText} from '../StartScreen/StartPage.style';
-import {singUpValidationSchema, validate} from '../../services/validation';
+import {
+  getValidationStyles,
+  singUpValidationSchema,
+  validate,
+} from '../../services/validation';
 import {useDispatch} from 'react-redux';
 import {logInUser, singUpUser} from '../../../redux/actions/AuthActions';
 
@@ -65,6 +69,7 @@ export const SingUpScreen = ({navigation}) => {
                 value={values.username}
                 placeholder="username"
                 maxLength={16}
+                style={getValidationStyles(errors.username, touched.username)}
               />
               {errors.username && touched.username && (
                 <Text style={{color: 'red'}}> {errors.username}</Text>
@@ -74,6 +79,7 @@ export const SingUpScreen = ({navigation}) => {
                 onBlur={handleBlur('email')}
                 value={values.email}
                 placeholder="email"
+                style={getValidationStyles(errors.email, touched.email)}
               />
               {errors.email && touched.email && (
                 <Text style={{color: 'red'}}> {errors.email}</Text>
@@ -85,6 +91,7 @@ export const SingUpScreen = ({navigation}) => {
                 placeholder="password"
                 maxLength={128}
                 secureTextEntry
+                style={getValidationStyles(errors.password, touched.password)}
               />
               {errors.password && touched.password && (
                 <Text style={{color: 'red'}}> {errors.password}</Text>
@@ -95,6 +102,10 @@ export const SingUpScreen = ({navigation}) => {
                 value={values.confirmPassword}
                 placeholder="confirm password"
                 secureTextEntry
+                style={getValidationStyles(
+                  errors.confirmPassword,
+                  touched.confirmPassword,
+                )}
               />
               {errors.confirmPassword && touched.confirmPassword && (
                 <Text style={{color: 'red'}}> {errors.confirmPassword}</Text>
