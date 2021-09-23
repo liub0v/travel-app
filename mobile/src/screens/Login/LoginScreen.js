@@ -14,9 +14,13 @@ import {
   FieldsContainer,
 } from './LoginScreen.style';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
-import {ScrollView} from 'react-native';
+import {ScrollView, Text} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {logInUser} from '../../../redux/actions/AuthActions';
+import {
+  logInValidationSchema,
+  singUpValidationSchema,
+} from '../../services/validation';
 
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -44,24 +48,46 @@ export const LoginScreen = ({navigation}) => {
         </CenterPosition>
 
         <Formik
+          validationSchema={logInValidationSchema}
           initialValues={{email: '', password: ''}}
           onSubmit={loginButtonHandler}>
-          {({handleChange, handleBlur, handleSubmit, values}) => (
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            isValid,
+          }) => (
             <>
               <InputItem
                 onChangeText={handleChange('email')}
                 onBlur={handleBlur('email')}
                 value={values.email}
+                placeholder="email"
               />
+              {errors.email && touched.email && (
+                <Text style={{color: 'red'}}> {errors.email}</Text>
+              )}
               <InputItem
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
                 value={values.password}
+                placeholder="password"
+                secureTextEntry
               />
+              {errors.password && touched.password && (
+                <Text style={{color: 'red'}}> {errors.password}</Text>
+              )}
               <LeftPosition>
                 <NormalText>Forgot password?</NormalText>
               </LeftPosition>
-              <ButtonItem title={'Log in'} handler={handleSubmit} />
+              <ButtonItem
+                // disabled={!isValid}
+                title={'Log in'}
+                handler={handleSubmit}
+              />
             </>
           )}
         </Formik>

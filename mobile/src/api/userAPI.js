@@ -14,6 +14,17 @@ async function logInUser(email, password) {
     console.log('LOGIN', error);
   }
 }
+async function singUpUser(username, email, password) {
+  try {
+    return await instance.post('/users', {
+      username,
+      email,
+      password,
+    });
+  } catch (error) {
+    console.log('SING_UP', error);
+  }
+}
 async function getUserByToken(token) {
   try {
     return await instance.get('/users/me', {

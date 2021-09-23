@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, TouchableWithoutFeedback, View} from 'react-native';
+import {ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {Formik} from 'formik';
 import {LoginWrapper, SingupContainer} from './SingupScreen.style';
 import {
   CenterPosition,
@@ -12,22 +13,22 @@ import {
   ThinkText,
 } from '../Login/LoginScreen.style';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
-import {
-  LoginButton,
-  LoginContainer,
-  LoginText,
-} from '../StartScreen/StartPage.style';
+import {LoginButton, LoginText} from '../StartScreen/StartPage.style';
+import {singUpValidationSchema, validate} from '../../services/validation';
+import {useDispatch} from 'react-redux';
+import {logInUser, singUpUser} from '../../../redux/actions/AuthActions';
 
 export const SingUpScreen = ({navigation}) => {
-  const signupButtonHandler = () => {
-    navigation.navigate('HomeScreen');
+  const dispatch = useDispatch();
+  const signupButtonHandler = ({username, email, password}) => {
+    dispatch(singUpUser({username, email, password}));
   };
 
   const loginHandler = () => {
     navigation.navigate('LoginScreen');
   };
   return (
-    <SingupContainer>
+    <ScrollView contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
       <HeaderWrapper>
         <HeaderText>Sing up</HeaderText>
       </HeaderWrapper>
@@ -39,11 +40,73 @@ export const SingUpScreen = ({navigation}) => {
         <CenterPosition>
           <ThinkText>or sing up with email </ThinkText>
         </CenterPosition>
-        <InputItem value={'Username'} />
-        <InputItem value={'Your email'} />
-        <InputItem value={'password'} />
-        <InputItem value={'Confirm password'} />
-        <ButtonItem title={'Sign up'} handler={signupButtonHandler} />
+        <Formik
+          validationSchema={singUpValidationSchema}
+          initialValues={{
+            username: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+          }}
+          onSubmit={signupButtonHandler}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            isValid,
+          }) => (
+            <>
+              <InputItem
+                onChangeText={handleChange('username')}
+                onBlur={handleBlur('username')}
+                value={values.username}
+                placeholder="username"
+                maxLength={16}
+              />
+              {errors.username && touched.username && (
+                <Text style={{color: 'red'}}> {errors.username}</Text>
+              )}
+              <InputItem
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                placeholder="email"
+              />
+              {errors.email && touched.email && (
+                <Text style={{color: 'red'}}> {errors.email}</Text>
+              )}
+              <InputItem
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                placeholder="password"
+                maxLength={128}
+                secureTextEntry
+              />
+              {errors.password && touched.password && (
+                <Text style={{color: 'red'}}> {errors.password}</Text>
+              )}
+              <InputItem
+                onChangeText={handleChange('confirmPassword')}
+                onBlur={handleBlur('confirmPassword')}
+                value={values.confirmPassword}
+                placeholder="confirm password"
+                secureTextEntry
+              />
+              {errors.confirmPassword && touched.confirmPassword && (
+                <Text style={{color: 'red'}}> {errors.confirmPassword}</Text>
+              )}
+              <ButtonItem
+                disabled={!isValid}
+                title={'Sign up'}
+                handler={handleSubmit}
+              />
+            </>
+          )}
+        </Formik>
       </FieldsContainer>
       <LoginWrapper>
         <LoginText>Already have an account?</LoginText>
@@ -51,6 +114,6 @@ export const SingUpScreen = ({navigation}) => {
           <LoginButton>Log in</LoginButton>
         </TouchableWithoutFeedback>
       </LoginWrapper>
-    </SingupContainer>
+    </ScrollView>
   );
 };

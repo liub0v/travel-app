@@ -1,4 +1,9 @@
-import {LOG_IN_USER, SET_USER, SET_USER_TOKEN} from '../types/AuthTypes';
+import {
+  LOG_IN_USER,
+  SET_USER,
+  SET_USER_TOKEN,
+  SING_UP_USER,
+} from '../types/AuthTypes';
 
 export const logInUser = user => {
   return {
@@ -15,6 +20,12 @@ export const setUserToken = token => {
 export const setUser = user => {
   return {
     type: SET_USER,
+    payload: user,
+  };
+};
+export const singUpUser = user => {
+  return {
+    type: SING_UP_USER,
     payload: user,
   };
 };

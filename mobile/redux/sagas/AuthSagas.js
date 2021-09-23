@@ -1,10 +1,11 @@
-import {LOG_IN_USER, LOG_OUT_USER} from '../types/AuthTypes';
+import {LOG_IN_USER, LOG_OUT_USER, SING_UP_USER} from '../types/AuthTypes';
 import {takeEvery, call, put} from 'redux-saga/effects';
 import {userAPI} from '../../src/api/userAPI';
 import {setUser, setUserToken} from '../actions/AuthActions';
 import * as NavigationService from '../../src/navigation/AuthNavigationService';
 export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
+  takeEvery(SING_UP_USER, singUpUserSaga),
   takeEvery(LOG_OUT_USER, logOutUserSaga),
 ];
 
@@ -21,3 +22,7 @@ function* logInUserSaga(action) {
   NavigationService.navigate('OnBoarding');
 }
 function* logOutUserSaga(action) {}
+function* singUpUserSaga(action) {
+  const {username, email, password} = action.payload;
+  console.log(action.payload);
+}
