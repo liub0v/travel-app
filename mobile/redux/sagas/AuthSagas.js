@@ -11,18 +11,20 @@ export const authSagas = [
 
 function* logInUserSaga(action) {
   const {email, password} = action.payload;
-  // console.log('DATA:', email, password);
   const response = yield call(userAPI.logInUser, email, password);
   const token = response.data;
-  // console.log('TOKEN', token);
-  const user = yield call(userAPI.getUserByToken, token);
   yield put(setUserToken(response.data));
-  // console.log('USER', user.data);
+  const user = yield call(userAPI.getUserByToken, token);
   yield put(setUser(user.data));
   NavigationService.navigate('OnBoarding');
 }
 function* logOutUserSaga(action) {}
 function* singUpUserSaga(action) {
   const {username, email, password} = action.payload;
-  console.log(action.payload);
+  const response = yield call(userAPI.singUpUser, username, email, password);
+  const token = response.headers['x-auth-token'];
+  yield put(setUserToken(response.data));
+  const user = yield call(userAPI.getUserByToken, token);
+  yield put(setUser(user.data));
+  NavigationService.navigate('OnBoarding');
 }

@@ -35,4 +35,4 @@ async function getUserByToken(token) {
   }
 }
 
-export const userAPI = {logInUser, getUserByToken};
+export const userAPI = {logInUser, getUserByToken, singUpUser};
