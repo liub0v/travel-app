@@ -10,6 +10,8 @@ import createSagaMiddleware from 'redux-saga';
 import {sagaWatcher} from '../redux/sagas';
 import {Provider} from 'react-redux';
 import * as NavigationService from './navigation/AuthNavigationService';
+import {persistStore} from 'redux-persist';
+import {PersistGate} from 'redux-persist/integration/react';
 const DefaultTheme = {
   dark: false,
   colors: {
@@ -23,7 +25,7 @@ const DefaultTheme = {
 };
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducers, applyMiddleware(sagaMiddleware));
-
+const persistor = persistStore(store);
 sagaMiddleware.run(sagaWatcher);
 
 const App = () => {
@@ -45,15 +47,17 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <NavigationContainer
-        theme={DefaultTheme}
-        ref={nav => {
-          navigator = nav;
-        }}>
-        <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
-          <LoginNavigation />
-        </SafeAreaView>
-      </NavigationContainer>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer
+          theme={DefaultTheme}
+          ref={nav => {
+            navigator = nav;
+          }}>
+          <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
+            <LoginNavigation />
+          </SafeAreaView>
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 };
