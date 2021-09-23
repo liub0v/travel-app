@@ -18,6 +18,7 @@ import {ScrollView, Text} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {logInUser} from '../../../redux/actions/AuthActions';
 import {
+  getInvalidStyles,
   logInValidationSchema,
   singUpValidationSchema,
 } from '../../services/validation';
@@ -26,7 +27,6 @@ export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   const loginButtonHandler = ({email, password}) => {
-    // navigation.navigate('OnBoarding');
     dispatch(logInUser({email, password}));
   };
 
@@ -66,6 +66,7 @@ export const LoginScreen = ({navigation}) => {
                 onBlur={handleBlur('email')}
                 value={values.email}
                 placeholder="email"
+                style={getInvalidStyles(errors.email, touched.email)}
               />
               {errors.email && touched.email && (
                 <Text style={{color: 'red'}}> {errors.email}</Text>
@@ -76,6 +77,7 @@ export const LoginScreen = ({navigation}) => {
                 value={values.password}
                 placeholder="password"
                 secureTextEntry
+                style={getInvalidStyles(errors.password, touched.password)}
               />
               {errors.password && touched.password && (
                 <Text style={{color: 'red'}}> {errors.password}</Text>

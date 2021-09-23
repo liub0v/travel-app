@@ -12,10 +12,9 @@ const Stack = createNativeStackNavigator();
 
 export const LoginNavigation = () => {
   const token = useSelector(tokenSelector);
-  console.log('TOKEN', token);
   return (
     <Stack.Navigator
-      initialRouteName={token ? 'OnBoarding' : 'LoginScreen'}
+      initialRouteName={token ? 'OnBoarding' : 'StartScreen'}
       screenOptions={{
         headerShown: false,
       }}>

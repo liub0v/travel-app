@@ -10,21 +10,29 @@ export const authSagas = [
 ];
 
 function* logInUserSaga(action) {
-  const {email, password} = action.payload;
-  const response = yield call(userAPI.logInUser, email, password);
-  const token = response.data;
-  yield put(setUserToken(response.data));
-  const user = yield call(userAPI.getUserByToken, token);
-  yield put(setUser(user.data));
-  NavigationService.navigate('OnBoarding');
+  try {
+    const {email, password} = action.payload;
+    const response = yield call(userAPI.logInUser, email, password);
+    const token = response.data;
+    yield put(setUserToken(response.data));
+    const user = yield call(userAPI.getUserByToken, token);
+    yield put(setUser(user.data));
+    NavigationService.navigate('OnBoarding');
+  } catch (error) {
+    alert(error.message);
+  }
 }
 function* logOutUserSaga(action) {}
 function* singUpUserSaga(action) {
-  const {username, email, password} = action.payload;
-  const response = yield call(userAPI.singUpUser, username, email, password);
-  const token = response.headers['x-auth-token'];
-  yield put(setUserToken(response.data));
-  const user = yield call(userAPI.getUserByToken, token);
-  yield put(setUser(user.data));
-  NavigationService.navigate('OnBoarding');
+  try {
+    const {username, email, password} = action.payload;
+    const response = yield call(userAPI.singUpUser, username, email, password);
+    const token = response.headers['x-auth-token'];
+    yield put(setUserToken(response.data));
+    const user = yield call(userAPI.getUserByToken, token);
+    yield put(setUser(user.data));
+    NavigationService.navigate('OnBoarding');
+  } catch (error) {
+    alert(error.message);
+  }
 }

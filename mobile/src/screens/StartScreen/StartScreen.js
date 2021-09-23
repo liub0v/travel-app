@@ -19,7 +19,7 @@ export const StartScreen = ({navigation}) => {
     navigation.navigate('LoginScreen');
   };
   const buttonHandler = () => {
-    navigation.navigate('SingupScreen');
+    navigation.navigate('SingUpScreen');
   };
   return (
     <ImageBackground
