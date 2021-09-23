@@ -9,6 +9,7 @@ import {reducers} from '../redux/reducers';
 import createSagaMiddleware from 'redux-saga';
 import {sagaWatcher} from '../redux/sagas';
 import {Provider} from 'react-redux';
+import * as NavigationService from './navigation/AuthNavigationService';
 const DefaultTheme = {
   dark: false,
   colors: {
@@ -37,13 +38,18 @@ const App = () => {
   }
 
   useEffect(() => {
+    NavigationService.setNavigator(navigator);
     loadFonts();
     SplashScreen.hide();
   }, []);
 
   return (
     <Provider store={store}>
-      <NavigationContainer theme={DefaultTheme}>
+      <NavigationContainer
+        theme={DefaultTheme}
+        ref={nav => {
+          navigator = nav;
+        }}>
         <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
           <LoginNavigation />
         </SafeAreaView>
