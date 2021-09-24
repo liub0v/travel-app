@@ -16,8 +16,8 @@ const DefaultTheme = {
   dark: false,
   colors: {
     primary: 'rgb(255, 45, 85)',
-    background: '212530',
-    card: '212530',
+    background: '#212530',
+    card: '#212530',
     text: 'rgb(255,255,255)',
     border: 'rgb(199, 199, 204)',
     notification: 'rgb(255, 69, 58)',

@@ -1,17 +1,20 @@
-import {SET_USER, SET_USER_TOKEN} from '../types/AuthTypes';
+import {LOG_OUT_USER, SET_USER, SET_USER_TOKEN} from '../types/AuthTypes';
 
 const initialState = {
+  user: {
+    _id: '',
+    isAdmin: false,
+  },
   token: '',
-  userId: '',
-  isAdmin: false,
 };
-
 export const authReducer = (state = initialState, {type, payload}) => {
   switch (type) {
     case SET_USER_TOKEN:
       return {...state, token: payload};
     case SET_USER:
-      return {...state, userId: payload._id, isAdmin: payload.isAdmin};
+      return {...state, user: payload};
+    case LOG_OUT_USER:
+      return {...state, token: '', user: null};
     default:
       return state;
   }

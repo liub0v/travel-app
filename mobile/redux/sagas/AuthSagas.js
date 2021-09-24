@@ -3,6 +3,7 @@ import {takeEvery, call, put} from 'redux-saga/effects';
 import {userAPI} from '../../src/api/userAPI';
 import {setUser, setUserToken} from '../actions/AuthActions';
 import * as NavigationService from '../../src/navigation/AuthNavigationService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
   takeEvery(SING_UP_USER, singUpUserSaga),
@@ -17,12 +18,18 @@ function* logInUserSaga(action) {
     yield put(setUserToken(response.data));
     const user = yield call(userAPI.getUserByToken, token);
     yield put(setUser(user.data));
-    NavigationService.navigate('OnBoarding');
   } catch (error) {
     alert(error.message);
   }
 }
-function* logOutUserSaga(action) {}
+function* logOutUserSaga(action) {
+  try {
+    yield call(AsyncStorage.clear);
+    console.log('log out');
+  } catch (error) {
+    alert(error.message);
+  }
+}
 function* singUpUserSaga(action) {
   try {
     const {username, email, password} = action.payload;

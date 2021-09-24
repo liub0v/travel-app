@@ -1,5 +1,6 @@
 import {
   LOG_IN_USER,
+  LOG_OUT_USER,
   SET_USER,
   SET_USER_TOKEN,
   SING_UP_USER,
@@ -27,5 +28,10 @@ export const singUpUser = user => {
   return {
     type: SING_UP_USER,
     payload: user,
+  };
+};
+export const logOutUser = () => {
+  return {
+    type: LOG_OUT_USER,
   };
 };
