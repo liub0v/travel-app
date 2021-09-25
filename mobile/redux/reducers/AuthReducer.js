@@ -4,8 +4,22 @@ const initialState = {
   user: {
     _id: '',
     isAdmin: false,
+    username: '',
+    email: '',
   },
   token: '',
+  logIn: {
+    isLoading: false,
+    error: null,
+  },
+  logOut: {
+    isLoading: false,
+    error: null,
+  },
+  singUp: {
+    isLoading: false,
+    error: null,
+  },
 };
 export const authReducer = (state = initialState, {type, payload}) => {
   switch (type) {

@@ -14,17 +14,18 @@ export const LoginNavigation = () => {
   const token = useSelector(tokenSelector);
   return (
     <Stack.Navigator
-      // initialRouteName={token ? 'HomeScreen' : 'StartScreen'}
       screenOptions={{
         headerShown: false,
       }}>
       {token ? (
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <>
+          <Stack.Screen name="OnBoarding" component={OnBoarding} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        </>
       ) : (
         <>
           <Stack.Screen name="StartScreen" component={StartScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="OnBoarding" component={OnBoarding} />
           <Stack.Screen name="SingUpScreen" component={SingUpScreen} />
         </>
       )}

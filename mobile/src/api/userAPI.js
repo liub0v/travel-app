@@ -5,34 +5,22 @@ const instance = axios.create({
   timeout: 3000,
 });
 async function logInUser(email, password) {
-  try {
-    return await instance.post('/auth', {
-      email,
-      password,
-    });
-  } catch (error) {
-    console.log('LOGIN', error);
-  }
+  return await instance.post('/auth', {
+    email,
+    password,
+  });
 }
 async function singUpUser(username, email, password) {
-  try {
-    return await instance.post('/users', {
-      username,
-      email,
-      password,
-    });
-  } catch (error) {
-    console.log('SING_UP', error);
-  }
+  return await instance.post('/users', {
+    username,
+    email,
+    password,
+  });
 }
 async function getUserByToken(token) {
-  try {
-    return await instance.get('/users/me', {
-      headers: {'x-auth-token': token},
-    });
-  } catch (error) {
-    console.log('USER', error);
-  }
+  return await instance.get('/users/me', {
+    headers: {'x-auth-token': token},
+  });
 }
 
 export const userAPI = {logInUser, getUserByToken, singUpUser};

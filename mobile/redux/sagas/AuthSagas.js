@@ -14,10 +14,10 @@ function* logInUserSaga(action) {
   try {
     const {email, password} = action.payload;
     const response = yield call(userAPI.logInUser, email, password);
-    const token = response.data;
-    yield put(setUserToken(response.data));
-    const user = yield call(userAPI.getUserByToken, token);
-    yield put(setUser(user.data));
+    const token = response.headers['x-auth-token'];
+    yield put(setUserToken(token));
+    const user = response.data;
+    yield put(setUser(user));
   } catch (error) {
     alert(error.message);
   }
@@ -35,10 +35,9 @@ function* singUpUserSaga(action) {
     const {username, email, password} = action.payload;
     const response = yield call(userAPI.singUpUser, username, email, password);
     const token = response.headers['x-auth-token'];
-    yield put(setUserToken(response.data));
-    const user = yield call(userAPI.getUserByToken, token);
-    yield put(setUser(user.data));
-    NavigationService.navigate('OnBoarding');
+    yield put(setUserToken(token));
+    const user = response.data;
+    yield put(setUser(user));
   } catch (error) {
     alert(error.message);
   }
