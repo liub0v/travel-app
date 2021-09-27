@@ -27,7 +27,12 @@ router.post("/", async (req, res) => {
   }
 
   const token = user.generateAuthToken();
-  res.send(token);
+  res.header("x-auth-token", token).send({
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+  });
+  // res.send(token);
 });
 function validate(req) {
   const schema = Joi.object({
