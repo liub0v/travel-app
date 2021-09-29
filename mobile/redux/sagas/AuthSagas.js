@@ -1,8 +1,17 @@
 import {LOG_IN_USER, LOG_OUT_USER, SING_UP_USER} from '../types/AuthTypes';
 import {takeEvery, call, put} from 'redux-saga/effects';
 import {userAPI} from '../../src/api/userAPI';
-import {setUser, setUserToken} from '../actions/AuthActions';
-import * as NavigationService from '../../src/navigation/AuthNavigationService';
+import {
+  logInUser,
+  setLogInError,
+  setLogInIsLoading,
+  setLogOutError,
+  setLogOutIsLoading,
+  setSignUpError,
+  setSignUpIsLoading,
+  setUser,
+  setUserToken,
+} from '../actions/AuthActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
@@ -13,32 +22,44 @@ export const authSagas = [
 function* logInUserSaga(action) {
   try {
     const {email, password} = action.payload;
+    yield put(setLogInIsLoading(true));
     const response = yield call(userAPI.logInUser, email, password);
     const token = response.headers['x-auth-token'];
-    yield put(setUserToken(token));
     const user = response.data;
+    yield put(setUserToken(token));
     yield put(setUser(user));
+    yield put(setLogInIsLoading(false));
+    console.log('token', token);
   } catch (error) {
-    alert(error.message);
+    yield put(setLogInIsLoading(false));
+    yield put(setLogInError(error));
   }
+}
+function test() {
+  setTimeout(() => {}, 3000);
 }
 function* logOutUserSaga(action) {
   try {
+    yield put(setLogOutIsLoading(true));
     yield call(AsyncStorage.clear);
-    console.log('log out');
+    yield put(setLogOutIsLoading(false));
   } catch (error) {
-    alert(error.message);
+    yield put(setLogOutIsLoading(false));
+    yield put(setLogOutError(error));
   }
 }
 function* singUpUserSaga(action) {
   try {
     const {username, email, password} = action.payload;
+    yield put(setSignUpIsLoading(true));
     const response = yield call(userAPI.singUpUser, username, email, password);
     const token = response.headers['x-auth-token'];
-    yield put(setUserToken(token));
     const user = response.data;
+    yield put(setUserToken(token));
     yield put(setUser(user));
+    yield put(setSignUpIsLoading(false));
   } catch (error) {
-    alert(error.message);
+    yield put(setSignUpIsLoading(false));
+    yield put(setSignUpError(error));
   }
 }

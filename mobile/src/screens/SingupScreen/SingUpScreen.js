@@ -25,6 +25,7 @@ import {logInUser, singUpUser} from '../../../redux/actions/AuthActions';
 export const SingUpScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const signupButtonHandler = ({username, email, password}) => {
+    username = username.toLowerCase();
     dispatch(singUpUser({username, email, password}));
   };
 

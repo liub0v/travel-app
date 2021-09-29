@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://192.168.43.209:3000/api',
+  baseURL: 'http://192.168.43.50:3000/api',
+  // baseURL: 'http://192.168.43.209:3000/api',
   timeout: 3000,
 });
 async function logInUser(email, password) {

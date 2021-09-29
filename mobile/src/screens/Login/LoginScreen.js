@@ -15,17 +15,18 @@ import {
 } from './LoginScreen.style';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {ScrollView, Text} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {logInUser} from '../../../redux/actions/AuthActions';
 import {
   getValidationStyles,
   logInValidationSchema,
-  singUpValidationSchema,
 } from '../../services/validation';
+import {logInIsLoadingSelector} from '../../../redux/selectors/userSelector';
 
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
-
+  const isLoading = useSelector(logInIsLoadingSelector);
+  console.log('isLoading', isLoading);
   const loginButtonHandler = ({email, password}) => {
     dispatch(logInUser({email, password}));
   };
@@ -86,7 +87,7 @@ export const LoginScreen = ({navigation}) => {
                 <NormalText>Forgot password?</NormalText>
               </LeftPosition>
               <ButtonItem
-                // disabled={!isValid}
+                isLoading={isLoading}
                 title={'Log in'}
                 handler={handleSubmit}
               />

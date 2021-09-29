@@ -17,3 +17,8 @@ export const ButtonText = styled.Text`
   font-size: 16px;
   color: #ffffff;
 `;
+export const ButtonLoader = styled.Text`
+  font-family: Montserrat;
+  font-size: 40px;
+  color: #fc0606;
+`;

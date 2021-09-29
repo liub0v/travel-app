@@ -1,6 +1,14 @@
+export const SET_USER = 'SET_USER';
+export const SET_USER_TOKEN = 'SET_USER_TOKEN';
+
 export const LOG_IN_USER = 'LOG_IN_USER';
 export const LOG_OUT_USER = 'LOG_OUT_USER';
 export const SING_UP_USER = 'SING_UP_USER';
-export const SET_IS_LOADING = 'SET_IS_LOADING';
-export const SET_USER = 'SET_USER';
-export const SET_USER_TOKEN = 'SET_USER_TOKEN';
+
+export const SET_LOG_IN_IS_LOADING = 'SET_LOG_IN_IS_LOADING';
+export const SET_LOG_OUT_IS_LOADING = 'SET_LOG_OUT_IS_LOADING';
+export const SET_SIGN_UP_IS_LOADING = 'SET_SING_UP_IS_LOADING';
+
+export const SET_LOG_IN_ERROR = 'SET_LOG_IN_ERROR';
+export const SET_LOG_OUT_ERROR = 'SET_LOG_OUT_ERROR';
+export const SET_SIGN_UP_ERROR = 'SET_SING_UP_ERROR';
