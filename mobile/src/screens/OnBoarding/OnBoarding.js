@@ -7,7 +7,7 @@ import {
   Pagination,
   Point,
   PointContainer,
-} from './Onboarding.style';
+} from './OnBoarding.style';
 import arrowImage from '../../../assets/images/arrowButton.png';
 import {FirstPage} from './FirstPage';
 import {SecondPage} from './SecondPage';

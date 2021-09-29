@@ -19,11 +19,13 @@ import {
   singUpValidationSchema,
   validate,
 } from '../../services/validation';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {logInUser, singUpUser} from '../../../redux/actions/AuthActions';
+import {signUpIsLoadingSelector} from '../../../redux/selectors/userSelector';
 
 export const SingUpScreen = ({navigation}) => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(signUpIsLoadingSelector);
   const signupButtonHandler = ({username, email, password}) => {
     username = username.toLowerCase();
     dispatch(singUpUser({username, email, password}));
@@ -113,6 +115,7 @@ export const SingUpScreen = ({navigation}) => {
               )}
               <ButtonItem
                 disabled={!isValid}
+                isLoading={isLoading}
                 title={'Sign up'}
                 handler={handleSubmit}
               />

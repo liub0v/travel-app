@@ -7,7 +7,7 @@ import {
   Images,
   TextDescription,
   TextHeader,
-} from './Onboarding.style';
+} from './OnBoarding.style';
 import image1 from '../../../assets/images/imageOnboarding1.png';
 import image2 from '../../../assets/images/imageOnboarding2.png';
 import image3 from '../../../assets/images/imageOnboarding3.png';
