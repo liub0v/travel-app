@@ -10,6 +10,15 @@ router.get("/me", auth, async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
   res.send(user);
 });
+router.put("/onboarding", auth, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (!user) res.status(404).send("User isn't exist");
+  user.isOnBoarding = req.body.isOnBoarding;
+  await user.save();
+  res.send({
+    isOnBoarding: user.isOnBoarding,
+  });
+});
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
@@ -24,6 +33,7 @@ router.post("/", async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
+    isOnBoarding: true,
   });
 
   const salt = await bcrypt.genSalt(10);
@@ -36,6 +46,7 @@ router.post("/", async (req, res) => {
     _id: user._id,
     username: user.username,
     email: user.email,
+    isOnBoarding: user.isOnBoarding,
   });
 });
 module.exports = router;

@@ -31,6 +31,7 @@ router.post("/", async (req, res) => {
     _id: user._id,
     username: user.username,
     email: user.email,
+    isOnBoarding: user.isOnBoarding,
   });
   // res.send(token);
 });
