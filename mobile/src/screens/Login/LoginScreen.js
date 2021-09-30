@@ -26,7 +26,7 @@ import {logInIsLoadingSelector} from '../../../redux/selectors/userSelector';
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logInIsLoadingSelector);
-  console.log('isLoading', isLoading);
+
   const loginButtonHandler = ({email, password}) => {
     dispatch(logInUser({email, password}));
   };

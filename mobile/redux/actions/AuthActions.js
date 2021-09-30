@@ -1,6 +1,8 @@
 import {
   LOG_IN_USER,
   LOG_OUT_USER,
+  PUT_IS_ONBOARDING,
+  SET_IS_ONBOARDING,
   SET_LOG_IN_ERROR,
   SET_LOG_IN_IS_LOADING,
   SET_LOG_OUT_ERROR,
@@ -75,5 +77,18 @@ export const setSignUpError = error => {
   return {
     type: SET_SIGN_UP_ERROR,
     payload: error,
+  };
+};
+
+export const setIsOnboarding = isOnboarding => {
+  return {
+    type: SET_IS_ONBOARDING,
+    payload: isOnboarding,
+  };
+};
+export const putIsOnboarding = isOnboarding => {
+  return {
+    type: PUT_IS_ONBOARDING,
+    payload: isOnboarding,
   };
 };

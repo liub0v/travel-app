@@ -8,16 +8,12 @@ import {
   SET_LOG_IN_ERROR,
   SET_LOG_OUT_ERROR,
   SET_SIGN_UP_ERROR,
+  SET_IS_ONBOARDING,
 } from '../types/AuthTypes';
 
 const initialState = {
-  user: {
-    _id: '',
-    isAdmin: false,
-    username: '',
-    email: '',
-  },
-  token: '',
+  user: undefined,
+  token: undefined,
   logIn: {
     isLoading: false,
     error: null,
@@ -37,8 +33,17 @@ export const authReducer = (state = initialState, {type, payload}) => {
       return {...state, token: payload};
     case SET_USER:
       return {...state, user: payload};
-    case LOG_OUT_USER:
-      return {...state, token: '', user: null};
+    case LOG_OUT_USER: {
+      return {...state, user: undefined, token: undefined};
+    }
+    case SET_IS_ONBOARDING:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isOnBoarding: payload,
+        },
+      };
     case SET_LOG_IN_IS_LOADING:
       return {
         ...state,

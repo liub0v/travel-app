@@ -13,3 +13,7 @@ export const signUpIsLoadingSelector = createSelector(
   authSelector,
   item => item.signUp.isLoading,
 );
+export const isOnboardingSelector = createSelector(
+  authSelector,
+  item => item.user?.isOnBoarding,
+);

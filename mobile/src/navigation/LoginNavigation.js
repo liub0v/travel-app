@@ -1,17 +1,21 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {OnBoarding} from '../screens/OnBoarding/OnBoarding';
 import {HomeScreen} from '../screens/HomeScreen/HomeScreen';
 import {StartScreen} from '../screens/StartScreen/StartScreen';
 import {LoginScreen} from '../screens/Login/LoginScreen';
 import {SingUpScreen} from '../screens/SingupScreen/SingUpScreen';
 import {useSelector} from 'react-redux';
-import {tokenSelector} from '../../redux/selectors/userSelector';
+import {
+  isOnboardingSelector,
+  tokenSelector,
+} from '../../redux/selectors/userSelector';
+import {OnBoarding} from '../screens/OnBoarding/OnBoarding';
 const Stack = createNativeStackNavigator();
 
 export const LoginNavigation = () => {
   const token = useSelector(tokenSelector);
+  const isOnboarding = useSelector(isOnboardingSelector);
   return (
     <Stack.Navigator
       screenOptions={{
@@ -19,7 +23,9 @@ export const LoginNavigation = () => {
       }}>
       {token ? (
         <>
-          <Stack.Screen name="OnBoarding" component={OnBoarding} />
+          {isOnboarding && (
+            <Stack.Screen name="OnBoarding" component={OnBoarding} />
+          )}
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
         </>
       ) : (

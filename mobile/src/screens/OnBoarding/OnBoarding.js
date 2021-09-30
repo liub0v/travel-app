@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Image, TouchableWithoutFeedback, View} from 'react-native';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {
@@ -12,15 +12,18 @@ import arrowImage from '../../../assets/images/arrowButton.png';
 import {FirstPage} from './FirstPage';
 import {SecondPage} from './SecondPage';
 import {ThirdPage} from './ThirdPage';
+import {putIsOnboarding} from '../../../redux/actions/AuthActions';
+import {useDispatch} from 'react-redux';
 
 export const OnBoarding = ({navigation}) => {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const pressHandler = () => {
     setPage(page + 1);
     if (page > 2) setPage(1);
   };
   const buttonHandler = () => {
-    // setPage(1);
+    dispatch(putIsOnboarding(false));
     navigation.navigate('HomeScreen');
   };
   const component = () => {

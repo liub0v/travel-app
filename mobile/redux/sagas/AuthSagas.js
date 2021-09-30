@@ -1,22 +1,22 @@
-import {LOG_IN_USER, LOG_OUT_USER, SING_UP_USER} from '../types/AuthTypes';
-import {takeEvery, call, put} from 'redux-saga/effects';
+import {LOG_IN_USER, PUT_IS_ONBOARDING, SING_UP_USER} from '../types/AuthTypes';
+import {takeEvery, call, put, select} from 'redux-saga/effects';
 import {userAPI} from '../../src/api/userAPI';
 import {
   logInUser,
+  setIsOnboarding,
   setLogInError,
   setLogInIsLoading,
-  setLogOutError,
-  setLogOutIsLoading,
   setSignUpError,
   setSignUpIsLoading,
   setUser,
   setUserToken,
 } from '../actions/AuthActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {tokenSelector} from '../selectors/userSelector';
 export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
   takeEvery(SING_UP_USER, singUpUserSaga),
-  takeEvery(LOG_OUT_USER, logOutUserSaga),
+  takeEvery(PUT_IS_ONBOARDING, putIsOnboarding),
 ];
 
 function* logInUserSaga(action) {
@@ -26,28 +26,15 @@ function* logInUserSaga(action) {
     const response = yield call(userAPI.logInUser, email, password);
     const token = response.headers['x-auth-token'];
     const user = response.data;
-    yield put(setUserToken(token));
     yield put(setUser(user));
+    yield put(setUserToken(token));
     yield put(setLogInIsLoading(false));
-    console.log('token', token);
   } catch (error) {
     yield put(setLogInIsLoading(false));
     yield put(setLogInError(error));
   }
 }
-function test() {
-  setTimeout(() => {}, 3000);
-}
-function* logOutUserSaga(action) {
-  try {
-    yield put(setLogOutIsLoading(true));
-    yield call(AsyncStorage.clear);
-    yield put(setLogOutIsLoading(false));
-  } catch (error) {
-    yield put(setLogOutIsLoading(false));
-    yield put(setLogOutError(error));
-  }
-}
+
 function* singUpUserSaga(action) {
   try {
     const {username, email, password} = action.payload;
@@ -61,5 +48,18 @@ function* singUpUserSaga(action) {
   } catch (error) {
     yield put(setSignUpIsLoading(false));
     yield put(setSignUpError(error));
+  }
+}
+
+function* putIsOnboarding(action) {
+  try {
+    const isOnboarding = action.payload;
+    const token = yield select(tokenSelector);
+    const response = yield call(userAPI.putIsOnBoarding, isOnboarding, token);
+    console.log('response.data', response.data);
+    console.log(typeof response.data);
+    yield put(setIsOnboarding(response.data));
+  } catch (error) {
+    console.log(error.message);
   }
 }
