@@ -24,7 +24,11 @@ function* logInUserSaga(action) {
   try {
     const {email, password} = action.payload;
     yield put(setLogInIsLoading(true));
-    const response = yield call(userAPI.logInUser, email, password);
+    const response = yield call(
+      userAPI.logInUser,
+      email.toLowerCase(),
+      password,
+    );
     const token = response.headers['x-auth-token'];
     const user = response.data;
     yield put(setUser(user));
@@ -32,15 +36,8 @@ function* logInUserSaga(action) {
     yield put(setLogInIsLoading(false));
   } catch (error) {
     yield put(setLogInError(error));
-    let message;
-    console.log('Error', error);
-    switch (error.status) {
-      default:
-        message = 'No server connection';
-        break;
-    }
     yield call(showMessage, {
-      message: message,
+      message: error.response?.data,
       type: 'error',
     });
   }
@@ -50,7 +47,12 @@ function* singUpUserSaga(action) {
   try {
     const {username, email, password} = action.payload;
     yield put(setSignUpIsLoading(true));
-    const response = yield call(userAPI.singUpUser, username, email, password);
+    const response = yield call(
+      userAPI.singUpUser,
+      username,
+      email.toLowerCase(),
+      password,
+    );
     const token = response.headers['x-auth-token'];
     const user = response.data;
     yield put(setUser(user));
@@ -58,6 +60,18 @@ function* singUpUserSaga(action) {
     yield put(setSignUpIsLoading(false));
   } catch (error) {
     yield put(setSignUpError(error));
+    // let message;
+    // switch (error.response.status) {
+    //   case 400:
+    //     message = 'User already exist';
+    //   default:
+    //     message = 'No server connection';
+    //     break;
+    // }
+    yield call(showMessage, {
+      message: error.response?.data,
+      type: 'error',
+    });
   }
 }
 
@@ -70,6 +84,11 @@ function* putIsOnboarding(action) {
     console.log(typeof response.data);
     yield put(setIsOnboarding(response.data));
   } catch (error) {
-    console.log(error.message);
+    //loading???
+    //set error ???
+    yield call(showMessage, {
+      message: error.response?.data,
+      type: 'error',
+    });
   }
 }
