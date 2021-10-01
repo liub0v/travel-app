@@ -8,6 +8,7 @@ router.get("/", async (req, res) => {
 });
 router.get("/me", auth, async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
+  if(!user) res.status(404).send("User isn't exist");
   res.send(user);
 });
 router.put("/onboarding", auth, async (req, res) => {
