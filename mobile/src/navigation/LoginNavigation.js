@@ -16,6 +16,7 @@ const Stack = createNativeStackNavigator();
 export const LoginNavigation = () => {
   const token = useSelector(tokenSelector);
   const isOnboarding = useSelector(isOnboardingSelector);
+  console.log(isOnboarding);
   return (
     <Stack.Navigator
       screenOptions={{

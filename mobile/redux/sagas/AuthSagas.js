@@ -31,15 +31,12 @@ function* logInUserSaga(action) {
     yield put(setUserToken(token));
     yield put(setLogInIsLoading(false));
   } catch (error) {
-    yield put(setLogInIsLoading(false));
     yield put(setLogInError(error));
-    let message = error.message;
+    let message;
+    console.log('Error', error);
     switch (error.status) {
-      case 400:
-        message = 'Invalid email or password';
-        break;
       default:
-        message = 'ERROR';
+        message = 'No server connection';
         break;
     }
     yield call(showMessage, {
@@ -56,11 +53,10 @@ function* singUpUserSaga(action) {
     const response = yield call(userAPI.singUpUser, username, email, password);
     const token = response.headers['x-auth-token'];
     const user = response.data;
-    yield put(setUserToken(token));
     yield put(setUser(user));
+    yield put(setUserToken(token));
     yield put(setSignUpIsLoading(false));
   } catch (error) {
-    yield put(setSignUpIsLoading(false));
     yield put(setSignUpError(error));
   }
 }

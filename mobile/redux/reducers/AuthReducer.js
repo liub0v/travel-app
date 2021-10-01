@@ -76,6 +76,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         logIn: {
           ...state.logIn,
+          isLoading: false,
           error: payload,
         },
       };
@@ -84,6 +85,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         logOut: {
           ...state.logOut,
+          isLoading: false,
           error: payload,
         },
       };
@@ -92,6 +94,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         signUp: {
           ...state.signUp,
+          isLoading: false,
           error: payload,
         },
       };
