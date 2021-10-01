@@ -6,7 +6,8 @@ const users = require("./routers/users");
 const app = express();
 
 mongoose
-  .connect("mongodb://localhost/travelApp")
+  .connect("mongodb+srv://Liubov:fnmozw290@travelapp.xcj4z.mongodb.net/test")
+  // .connect("mongodb://localhost/travelApp")
   .then(() => console.log("Connected to MongoDB..."))
   .catch((error) => console.error(error.message));
 
