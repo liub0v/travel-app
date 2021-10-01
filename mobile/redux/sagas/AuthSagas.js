@@ -13,6 +13,7 @@ import {
 } from '../actions/AuthActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {tokenSelector} from '../selectors/userSelector';
+import {showMessage} from 'react-native-flash-message';
 export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
   takeEvery(SING_UP_USER, singUpUserSaga),
@@ -32,6 +33,19 @@ function* logInUserSaga(action) {
   } catch (error) {
     yield put(setLogInIsLoading(false));
     yield put(setLogInError(error));
+    let message = error.message;
+    switch (error.status) {
+      case 400:
+        message = 'Invalid email or password';
+        break;
+      default:
+        message = 'ERROR';
+        break;
+    }
+    yield call(showMessage, {
+      message: message,
+      type: 'error',
+    });
   }
 }
 

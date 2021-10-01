@@ -21,14 +21,19 @@ import {
   getValidationStyles,
   logInValidationSchema,
 } from '../../services/validation';
-import {logInIsLoadingSelector} from '../../../redux/selectors/userSelector';
+import {
+  logInErrorSelector,
+  logInIsLoadingSelector,
+} from '../../../redux/selectors/userSelector';
+import {showMessage} from 'react-native-flash-message';
 
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logInIsLoadingSelector);
-
+  const error = useSelector(logInErrorSelector);
   const loginButtonHandler = ({email, password}) => {
     dispatch(logInUser({email, password}));
+    console.log('error', error.message);
   };
 
   const singUpButtonHandler = () => {
@@ -95,6 +100,7 @@ export const LoginScreen = ({navigation}) => {
           )}
         </Formik>
       </FieldsContainer>
+
       <SingupWrapper>
         <CenterPosition>
           <ThinkText>Don’t have an account?</ThinkText>

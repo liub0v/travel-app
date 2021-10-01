@@ -9,6 +9,10 @@ export const logInIsLoadingSelector = createSelector(
   authSelector,
   item => item.logIn.isLoading,
 );
+export const logInErrorSelector = createSelector(
+  authSelector,
+  item => item.logIn.error,
+);
 export const signUpIsLoadingSelector = createSelector(
   authSelector,
   item => item.signUp.isLoading,

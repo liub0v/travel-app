@@ -12,6 +12,7 @@ import {Provider} from 'react-redux';
 import * as NavigationService from './navigation/AuthNavigationService';
 import {persistStore} from 'redux-persist';
 import {PersistGate} from 'redux-persist/integration/react';
+import FlashMessage from 'react-native-flash-message';
 
 console.reportErrorsAsExceptions = false;
 
@@ -67,6 +68,7 @@ const App = () => {
             <LoginNavigation />
           </SafeAreaView>
         </NavigationContainer>
+        <FlashMessage position="top" />
       </PersistGate>
     </Provider>
   );

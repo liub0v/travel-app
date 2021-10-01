@@ -16,15 +16,15 @@ const initialState = {
   token: undefined,
   logIn: {
     isLoading: false,
-    error: null,
+    error: undefined,
   },
   logOut: {
     isLoading: false,
-    error: null,
+    error: undefined,
   },
   signUp: {
     isLoading: false,
-    error: null,
+    error: undefined,
   },
 };
 export const authReducer = (state = initialState, {type, payload}) => {
@@ -49,6 +49,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         logIn: {
           ...state.logIn,
+          error: undefined,
           isLoading: payload,
         },
       };
@@ -57,6 +58,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         logOut: {
           ...state.logOut,
+          error: undefined,
           isLoading: payload,
         },
       };
@@ -65,6 +67,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         signUp: {
           ...state.signUp,
+          error: undefined,
           isLoading: payload,
         },
       };
