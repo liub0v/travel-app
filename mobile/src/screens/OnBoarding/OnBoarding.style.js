@@ -4,7 +4,7 @@ import {Platform} from 'react-native';
 export const OnboardingBackground = styled.View`
   flex: 1;
   justify-content: space-between;
-  align-items: center;
+
   background-color: rgba(26, 79, 226, 0);
   margin-top: 10%;
 `;

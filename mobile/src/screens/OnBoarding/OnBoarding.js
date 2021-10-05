@@ -14,6 +14,7 @@ import {SecondPage} from './SecondPage';
 import {ThirdPage} from './ThirdPage';
 import {putIsOnboarding} from '../../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
+import {CenterPosition} from '../Login/LoginScreen.style';
 
 export const OnBoarding = ({navigation}) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ export const OnBoarding = ({navigation}) => {
   const buttonHandler = () => {
     dispatch(putIsOnboarding(false));
     navigation.navigate('HomeScreen');
+    setPage(1);
   };
   const component = () => {
     switch (page) {
@@ -56,7 +58,9 @@ export const OnBoarding = ({navigation}) => {
         </Pagination>
       )}
       {page === 3 && (
-        <ButtonItem handler={buttonHandler} title={'Get started'} />
+        <CenterPosition>
+          <ButtonItem handler={buttonHandler} title={'Get started'} />
+        </CenterPosition>
       )}
     </OnboardingBackground>
   );

@@ -31,9 +31,10 @@ export const LoginNavigation = () => {
         </>
       ) : (
         <>
-          <Stack.Screen name="StartScreen" component={StartScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="SingUpScreen" component={SingUpScreen} />
+          <Stack.Screen name="OnBoarding" component={OnBoarding} />
+          {/*<Stack.Screen name="StartScreen" component={StartScreen} />*/}
+          {/*<Stack.Screen name="LoginScreen" component={LoginScreen} />*/}
+          {/*<Stack.Screen name="SingUpScreen" component={SingUpScreen} />*/}
         </>
       )}
     </Stack.Navigator>
