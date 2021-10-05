@@ -39,7 +39,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    NavigationService.setNavigator(navigator);
+    // NavigationService.setNavigator(navigator);
     loadFonts();
     SplashScreen.hide();
   }, []);

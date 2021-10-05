@@ -1,7 +1,7 @@
 import React from 'react';
-import {ScrollView, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {ScrollView, Text, TouchableWithoutFeedback} from 'react-native';
 import {Formik} from 'formik';
-import {LoginWrapper, SingupContainer} from './SingupScreen.style';
+import {LoginWrapper} from './SingupScreen.style';
 import {
   CenterPosition,
   FieldsContainer,
@@ -17,10 +17,9 @@ import {LoginButton, LoginText} from '../StartScreen/StartPage.style';
 import {
   getValidationStyles,
   singUpValidationSchema,
-  validate,
 } from '../../services/validation';
 import {useDispatch, useSelector} from 'react-redux';
-import {logInUser, singUpUser} from '../../../redux/actions/AuthActions';
+import {singUpUser} from '../../../redux/actions/AuthActions';
 import {signUpIsLoadingSelector} from '../../../redux/selectors/userSelector';
 
 export const SingUpScreen = ({navigation}) => {

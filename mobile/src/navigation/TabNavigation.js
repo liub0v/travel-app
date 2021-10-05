@@ -24,10 +24,7 @@ const Tab = createBottomTabNavigator();
 
 const BackBottom = ({navigation}) => {
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        navigation.goBack();
-      }}>
+    <TouchableWithoutFeedback onPress={() => {}}>
       <View
         style={{
           flex: 1,
@@ -62,13 +59,14 @@ export const TabNavigation = () => {
   return (
     <Tab.Navigator
       initialRouteName="Explore"
-      backBehavior="history"
+      backBehavior="none"
       screenOptions={({route}) => ({
         tabBarActiveTintColor: '#219653',
         tabBarInactiveTintColor: '#FFFFFF',
         tabBarStyle: {
           borderTopWidth: 0,
         },
+
         headerStyle: {
           shadowOffset: {
             height: 0,
@@ -82,6 +80,7 @@ export const TabNavigation = () => {
       })}>
       <Tab.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) =>
             focused ? (
               <Image height={20} width={20} source={exploreActiveIcon} />
