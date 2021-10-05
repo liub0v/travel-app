@@ -13,20 +13,10 @@ import * as NavigationService from './navigation/AuthNavigationService';
 import {persistStore} from 'redux-persist';
 import {PersistGate} from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
-
+import {TabNavigation} from './navigation/TabNavigation';
+import {Navigation} from './navigation/Navigation';
 console.reportErrorsAsExceptions = false;
 
-const DefaultTheme = {
-  dark: false,
-  colors: {
-    primary: 'rgb(255, 45, 85)',
-    background: '#212530',
-    card: '#212530',
-    text: 'rgb(255,255,255)',
-    border: 'rgb(199, 199, 204)',
-    notification: 'rgb(255, 69, 58)',
-  },
-};
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
@@ -40,7 +30,6 @@ sagaMiddleware.run(sagaWatcher);
 
 const App = () => {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
   async function loadFonts() {
     const fonts = await Font.loadAsync({
       Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
@@ -58,15 +47,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer
-          theme={DefaultTheme}
-          ref={nav => {
-            navigator = nav;
-          }}>
-          <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
-            <LoginNavigation />
-          </SafeAreaView>
-        </NavigationContainer>
+        <Navigation />
         <FlashMessage position="top" />
       </PersistGate>
     </Provider>

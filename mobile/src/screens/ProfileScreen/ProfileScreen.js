@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {Text, View} from 'react-native';
-import {ButtonItem} from '../../components/Buttons/ButtonItem';
+import React from 'react';
+import {View, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {logOutUser} from '../../../redux/actions/AuthActions';
 import {logOutIsLoadingSelector} from '../../../redux/selectors/userSelector';
+import {logOutUser} from '../../../redux/actions/AuthActions';
+import {ButtonItem} from '../../components/Buttons/ButtonItem';
 
-export const HomeScreen = () => {
+export const ProfileScreen = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logOutIsLoadingSelector);
   console.log('isLoading', isLoading);

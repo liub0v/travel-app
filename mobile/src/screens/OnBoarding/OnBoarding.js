@@ -25,7 +25,7 @@ export const OnBoarding = ({navigation}) => {
   };
   const buttonHandler = () => {
     dispatch(putIsOnboarding(false));
-    navigation.navigate('HomeScreen');
+    navigation.navigate('Explore');
     setPage(1);
   };
   const component = () => {
