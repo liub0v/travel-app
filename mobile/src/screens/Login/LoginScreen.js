@@ -33,6 +33,7 @@ export const LoginScreen = ({navigation}) => {
   const error = useSelector(logInErrorSelector);
   const loginButtonHandler = ({email, password}) => {
     dispatch(logInUser({email, password}));
+    console.log('error', error.message);
   };
 
   const singUpButtonHandler = () => {
