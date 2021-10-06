@@ -1,6 +1,6 @@
 import React from 'react';
 import {ImageBackground, TouchableWithoutFeedback} from 'react-native';
-import imageBackground from '../../../assets/images/startBackground.png';
+import imageBackground from '../../../../assets/images/startBackground.png';
 import {
   LogoText,
   LogoContainer,
@@ -11,8 +11,8 @@ import {
   LoginContainer,
   LoginButton,
 } from './StartPage.style';
-import logo from '../../../assets/images/Logo.png';
-import {ButtonItem} from '../../components/Buttons/ButtonItem';
+import logo from '../../../../assets/images/Logo.png';
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 
 export const StartScreen = ({navigation}) => {
   const loginHandler = () => {

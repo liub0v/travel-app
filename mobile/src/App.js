@@ -1,26 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView} from 'react-native';
 import * as Font from 'expo-font';
-import {LoginNavigation} from './navigation/LoginNavigation';
-import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import {applyMiddleware, compose, createStore} from 'redux';
 import {reducers} from '../redux/reducers';
 import createSagaMiddleware from 'redux-saga';
 import {sagaWatcher} from '../redux/sagas';
 import {Provider} from 'react-redux';
-import * as NavigationService from './navigation/AuthNavigationService';
 import {persistStore} from 'redux-persist';
 import {PersistGate} from 'redux-persist/integration/react';
 import FlashMessage from 'react-native-flash-message';
-import {TabNavigation} from './navigation/TabNavigation';
 import {Navigation} from './navigation/Navigation';
 console.reportErrorsAsExceptions = false;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [sagaMiddleware];
-// const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 const store = createStore(
   reducers,
   composeEnhancers(applyMiddleware(...middleware)),

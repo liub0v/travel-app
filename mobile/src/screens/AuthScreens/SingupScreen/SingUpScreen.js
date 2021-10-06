@@ -11,16 +11,16 @@ import {
   SocialNetworksLoginContainer,
   SocialNetworkWrapper,
   ThinkText,
-} from '../Login/LoginScreen.style';
-import {ButtonItem} from '../../components/Buttons/ButtonItem';
+} from '../LoginScreen/LoginScreen.style';
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {LoginButton, LoginText} from '../StartScreen/StartPage.style';
 import {
   getValidationStyles,
   singUpValidationSchema,
-} from '../../services/validation';
+} from '../../../services/validation';
 import {useDispatch, useSelector} from 'react-redux';
-import {singUpUser} from '../../../redux/actions/AuthActions';
-import {signUpIsLoadingSelector} from '../../../redux/selectors/userSelector';
+import {singUpUser} from '../../../../redux/actions/AuthActions';
+import {signUpIsLoadingSelector} from '../../../../redux/selectors/userSelector';
 
 export const SingUpScreen = ({navigation}) => {
   const dispatch = useDispatch();

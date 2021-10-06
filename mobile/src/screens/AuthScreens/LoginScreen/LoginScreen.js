@@ -13,18 +13,18 @@ import {
   HeaderWrapper,
   FieldsContainer,
 } from './LoginScreen.style';
-import {ButtonItem} from '../../components/Buttons/ButtonItem';
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {ScrollView, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {logInUser} from '../../../redux/actions/AuthActions';
+import {logInUser} from '../../../../redux/actions/AuthActions';
 import {
   getValidationStyles,
   logInValidationSchema,
-} from '../../services/validation';
+} from '../../../services/validation';
 import {
   logInErrorSelector,
   logInIsLoadingSelector,
-} from '../../../redux/selectors/userSelector';
+} from '../../../../redux/selectors/userSelector';
 import {showMessage} from 'react-native-flash-message';
 
 export const LoginScreen = ({navigation}) => {
