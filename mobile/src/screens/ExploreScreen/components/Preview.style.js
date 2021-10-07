@@ -53,7 +53,7 @@ export const TextWrapper = styled.View`
   margin-bottom: 12px;
 `;
 export const SearchBarWrapper = styled.View`
-  width: 95%;
+  width: 100%;
   background-color: #ffffff;
   border-radius: 16px;
 `;

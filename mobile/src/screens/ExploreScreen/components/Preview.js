@@ -14,7 +14,7 @@ import {
   SearchBarWrapper,
   SearchBarIcon,
 } from './Preview.style';
-import {TouchableWithoutFeedback, SafeAreaView, View} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 import {Point} from '../../Onboarding/OnBoarding.style';
 import searchIcon from '../../../../assets/images/searchIcon.png';
 const SearchBar = () => {
@@ -27,6 +27,7 @@ const SearchBar = () => {
         editable
         onChangeText={text => onChangeText(text)}
         value={value}
+        onSubmitEditing={() => console.log(value)}
       />
     </SearchBarWrapper>
   );

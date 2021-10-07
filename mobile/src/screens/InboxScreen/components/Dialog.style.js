@@ -28,7 +28,8 @@ export const BottomInfoLine = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
+  padding-bottom: 15px;
 `;
 
 export const MessageNumberWrapper = styled.View`
@@ -56,7 +57,7 @@ export const UserName = styled.Text`
 `;
 export const Message = styled.Text`
   font-family: Montserrat;
-  font-size: 16px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.5);
   width: 90%;
 `;
