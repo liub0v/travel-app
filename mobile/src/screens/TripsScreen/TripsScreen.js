@@ -1,26 +1,30 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import {Section} from '../../components/Section/Section';
-import {adventures, destinations, hotels} from '../../api/mock';
-import {Destination} from '../ExploreScreen/components/Destination';
+import {hotels} from '../../api/mock';
 import {Adventure} from '../ExploreScreen/components/Adventure';
 import {Hotel} from '../ExploreScreen/components/Hotel';
 
 export const TripsScreen = () => {
   return (
     <ScrollView style={{flex: 1}}>
-      <Section
-        title={'Hotels'}
-        isHorizontal={false}
-        data={[hotels[0], hotels[1]]}
-        renderItem={Hotel}
-      />
-      <Section
-        title={'Adventures'}
-        isHorizontal={true}
-        data={[]}
-        renderItem={Adventure}
-      />
+      {!!hotels.length && (
+        <Section
+          title={'Hotels'}
+          isHorizontal={false}
+          data={[hotels[0], hotels[1]]}
+          renderItem={Hotel}
+        />
+      )}
+
+      {!![].length && (
+        <Section
+          title={'Adventures'}
+          isHorizontal={true}
+          data={[]}
+          renderItem={Adventure}
+        />
+      )}
     </ScrollView>
   );
 };
