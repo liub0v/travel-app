@@ -18,11 +18,12 @@ import {TouchableWithoutFeedback, SafeAreaView, View} from 'react-native';
 import {Point} from '../../Onboarding/OnBoarding.style';
 import searchIcon from '../../../../assets/images/searchIcon.png';
 const SearchBar = () => {
-  const [value, onChangeText] = React.useState('Where are you going?');
+  const [value, onChangeText] = React.useState();
   return (
     <SearchBarWrapper>
       <SearchBarIcon source={searchIcon} />
       <SearchBarInput
+        placeholder={'Where are you going?'}
         editable
         onChangeText={text => onChangeText(text)}
         value={value}

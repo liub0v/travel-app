@@ -22,22 +22,6 @@ import editIcon from '../../assets/images/editIcon.png';
 
 const Tab = createBottomTabNavigator();
 
-const BackBottom = ({navigation}) => {
-  return (
-    <TouchableWithoutFeedback onPress={() => {}}>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginLeft: 25,
-          width: 20,
-        }}>
-        <Image style={{transform: [{rotateY: '180deg'}]}} source={arrowImage} />
-      </View>
-    </TouchableWithoutFeedback>
-  );
-};
 const EditBottom = ({navigation}) => {
   return (
     <TouchableWithoutFeedback onPress={() => {}}>
@@ -76,7 +60,7 @@ export const TabNavigation = () => {
           fontFamily: 'MontserratExtraBold',
           fontSize: 28,
         },
-        headerLeft: props => <BackBottom navigation={navigation} />,
+        // headerLeft: props => <BackBottom navigation={navigation} />,
       })}>
       <Tab.Screen
         options={{
