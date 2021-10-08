@@ -3,7 +3,7 @@ import styled from 'styled-components/native/dist/styled-components.native.esm';
 export const ButtonStart = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
-  background-color: #2d9cdb;
+  background-color: ${props => props.backgroundColor};
   border-radius: 16px;
   height: 50px;
   width: 300px;
@@ -15,7 +15,7 @@ export const ButtonWrapper = styled.View`
 export const ButtonText = styled.Text`
   font-family: Montserrat;
   font-size: 16px;
-  color: #ffffff;
+  color: ${props => props.color};
 `;
 export const ButtonLoader = styled.Text`
   font-family: Montserrat;

@@ -55,6 +55,7 @@ export const ProfileScreen = () => {
       </InfoContainer>
       <ButtonWrapper>
         <ButtonItem
+          theme={{backgroundColor: 'white', textColor: 'black'}}
           isLoading={isLoading}
           handler={logOutButtonHandler}
           title={'Log out'}

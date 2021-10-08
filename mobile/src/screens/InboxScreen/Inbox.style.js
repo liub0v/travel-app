@@ -5,4 +5,5 @@ export const SearchWrapper = styled.View`
   align-items: center;
   padding-left: 24px;
   padding-right: 24px;
+  margin-top: 10px;
 `;

@@ -12,14 +12,18 @@ export const ButtonItem = ({
   title,
   disabled = false,
   isLoading = false,
+  theme = {backgroundColor: '#2d9cdb', textColor: 'white'},
 }) => {
   return (
     <ButtonWrapper>
-      <ButtonStart disabled={disabled} onPress={handler}>
+      <ButtonStart
+        disabled={disabled}
+        onPress={handler}
+        backgroundColor={theme.backgroundColor}>
         {isLoading ? (
           <ActivityIndicator size="small" color="white" />
         ) : (
-          <ButtonText>{title}</ButtonText>
+          <ButtonText color={theme.textColor}>{title}</ButtonText>
         )}
       </ButtonStart>
     </ButtonWrapper>
