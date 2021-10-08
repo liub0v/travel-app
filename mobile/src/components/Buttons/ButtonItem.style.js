@@ -17,8 +17,3 @@ export const ButtonText = styled.Text`
   font-size: 16px;
   color: ${props => props.color};
 `;
-export const ButtonLoader = styled.Text`
-  font-family: Montserrat;
-  font-size: 40px;
-  color: #fc0606;
-`;

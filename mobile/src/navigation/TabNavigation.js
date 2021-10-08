@@ -60,7 +60,6 @@ export const TabNavigation = () => {
           fontFamily: 'MontserratExtraBold',
           fontSize: 28,
         },
-        // headerLeft: props => <BackBottom navigation={navigation} />,
       })}>
       <Tab.Screen
         options={{

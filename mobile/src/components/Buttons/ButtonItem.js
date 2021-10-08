@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  ButtonLoader,
-  ButtonStart,
-  ButtonText,
-  ButtonWrapper,
-} from './ButtonItem.style';
+import {ButtonStart, ButtonText, ButtonWrapper} from './ButtonItem.style';
 import {ActivityIndicator} from 'react-native';
 
 export const ButtonItem = ({

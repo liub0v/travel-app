@@ -21,19 +21,9 @@ export const LoginNavigation = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      {token ? (
-        <>
-          {isOnboarding && (
-            <Stack.Screen name="OnBoarding" component={OnBoarding} />
-          )}
-          <Stack.Screen name="Explore" component={ExploreScreen} />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="StartScreen" component={StartScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="SingUpScreen" component={SingUpScreen} />
-        </>
+      <Stack.Screen name="StartScreen" component={StartScreen} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
+      <Stack.Screen name="SingUpScreen" component={SingUpScreen} />
       )}
     </Stack.Navigator>
   );

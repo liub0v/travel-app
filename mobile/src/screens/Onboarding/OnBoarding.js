@@ -25,8 +25,8 @@ export const OnBoarding = ({navigation}) => {
   };
   const buttonHandler = () => {
     dispatch(putIsOnboarding(false));
-    navigation.navigate('Explore');
-    setPage(1);
+    // navigation.navigate('Explore');
+    // setPage(1);
   };
   const component = () => {
     switch (page) {
