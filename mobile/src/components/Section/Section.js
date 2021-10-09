@@ -37,6 +37,7 @@ export const Section = ({title, isHorizontal, data, renderItem}) => {
       <SectionHeader title={title} />
       <View style={isHorizontal ? rowContainerStyle : columnContainerStyle}>
         <FlatList
+          showsHorizontalScrollIndicator={false}
           horizontal={isHorizontal}
           data={data}
           renderItem={renderItem}

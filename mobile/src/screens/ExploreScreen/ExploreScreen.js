@@ -32,6 +32,8 @@ const Category = ({image, title}) => {
 export const ExploreScreen = () => {
   return (
     <MainContainer
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
         flexGrow: 1,
         alignItems: 'center',

@@ -34,7 +34,10 @@ export const SingUpScreen = ({navigation}) => {
     navigation.navigate('LoginScreen');
   };
   return (
-    <ScrollView contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
       <HeaderWrapper>
         <HeaderText>Sing up</HeaderText>
       </HeaderWrapper>
