@@ -7,7 +7,10 @@ import {Adventure} from '../ExploreScreen/components/Adventure';
 
 export const SavedScreen = () => {
   return (
-    <ScrollView style={{flex: 1}}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      style={{flex: 1}}>
       {!!hotels.length && (
         <Section
           title={'Hotels'}

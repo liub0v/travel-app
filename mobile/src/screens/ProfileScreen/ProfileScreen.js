@@ -25,6 +25,8 @@ export const ProfileScreen = () => {
 
   return (
     <Container
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
       contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}}>
       <MainInfo>
         <Avatar source={avatar} />

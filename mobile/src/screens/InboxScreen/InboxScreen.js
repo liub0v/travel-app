@@ -28,7 +28,10 @@ const Search = () => {
 
 export const InboxScreen = () => {
   return (
-    <ScrollView style={{flex: 1}}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      style={{flex: 1}}>
       <SearchWrapper>
         <Search />
       </SearchWrapper>
