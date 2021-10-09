@@ -34,31 +34,34 @@ export const BookingButtonTitle = styled.Text`
 export const Title = styled.Text`
   font-family: MontserratExtraBold;
   font-size: 28px;
-  color: white;
+  color: #ffffff;
 `;
 export const Description = styled.Text`
   font-family: Montserrat;
   font-size: 16px;
   color: rgba(255, 255, 255, 0.5);
 `;
+export const TextWrapper = styled.View`
+  width: 80%;
+  margin-bottom: 12px;
+`;
+export const SearchBarContainer = styled.View`
+  width: 100%;
+  background-color: rgba(47, 42, 42, 0);
+`;
+export const SearchBarWrapper = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
 export const SearchBarInput = styled.TextInput`
   font-family: Montserrat;
   font-size: 14px;
   color: rgba(3, 25, 37, 0.5);
   height: 40px;
-  padding-left: 15%;
+  padding-left: 0px;
 `;
-export const TextWrapper = styled.View`
-  width: 80%;
-  margin-bottom: 12px;
-`;
-export const SearchBarWrapper = styled.View`
-  width: 100%;
-  background-color: #ffffff;
-  border-radius: 16px;
-`;
+
 export const SearchBarIcon = styled.Image`
-  position: absolute;
-  top: 11px;
-  left: 5%;
+  margin-left: 24px;
+  margin-right: 12px;
 `;

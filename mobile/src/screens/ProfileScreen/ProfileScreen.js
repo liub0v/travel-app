@@ -14,7 +14,7 @@ import {
   MainInfo,
   BoldWhiteText,
 } from './Profile.style';
-import avatar from '../../../assets/images/avatarBig.png';
+import avatar from '../../../assets/images/avatar.png';
 export const ProfileScreen = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logOutIsLoadingSelector);
