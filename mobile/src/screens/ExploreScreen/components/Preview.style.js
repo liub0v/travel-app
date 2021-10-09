@@ -1,4 +1,5 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import {Animated} from 'react-native';
 
 export const Container = styled.ImageBackground`
   width: 100%;
@@ -45,11 +46,12 @@ export const TextWrapper = styled.View`
   width: 80%;
   margin-bottom: 12px;
 `;
-export const SearchBarContainer = styled.View`
-  width: 100%;
-  background-color: rgba(47, 42, 42, 0);
+export const IconWrapper = styled.View`
+  margin-left: 24px;
+  margin-right: 12px;
 `;
-export const SearchBarWrapper = styled.View`
+export const SearchBarWrapper = styled(Animated.View)`
+  border-radius: 16px;
   flex-direction: row;
   align-items: center;
 `;
@@ -59,9 +61,4 @@ export const SearchBarInput = styled.TextInput`
   color: rgba(3, 25, 37, 0.5);
   height: 40px;
   padding-left: 0px;
-`;
-
-export const SearchBarIcon = styled.Image`
-  margin-left: 24px;
-  margin-right: 12px;
 `;

@@ -12,8 +12,7 @@ import {
   PointContainer,
   SearchBarInput,
   SearchBarWrapper,
-  SearchBarIcon,
-  SearchBarContainer,
+  IconWrapper,
 } from './Preview.style';
 import {Animated, Image, TouchableWithoutFeedback, View} from 'react-native';
 import {Point} from '../../Onboarding/OnBoarding.style';
@@ -50,47 +49,39 @@ const SearchBar = () => {
     inputRange,
     outputRange: ['90%', '0%'],
   });
-  const background = value.interpolate({
+  const backgroundColor = value.interpolate({
     inputRange,
     outputRange: ['#FFFFFF00', 'white'],
   });
   return (
-    <SearchBarContainer>
-      <Animated.View
-        style={{
-          width: widthWrapper,
-          backgroundColor: background,
-          borderRadius: 16,
-          marginLeft,
-        }}>
-        <SearchBarWrapper>
-          <TouchableWithoutFeedback onPress={startAnimate}>
-            <View
-              style={{
-                marginLeft: 24,
-                marginRight: 12,
-              }}>
-              <Animated.View style={{opacity: opacityDown}}>
-                <Image source={searchIconWhite} />
-              </Animated.View>
-              <Animated.View style={{position: 'absolute', opacity: opacityUp}}>
-                <Image style={{}} source={searchIcon} />
-              </Animated.View>
-            </View>
-          </TouchableWithoutFeedback>
-          <Animated.View
-            style={{flex: 1, opacity: opacityUp, width: widthInput}}>
-            <SearchBarInput
-              placeholder={'Where are you going?'}
-              editable
-              onChangeText={text => onChangeText(text)}
-              value={value}
-              onSubmitEditing={() => console.log(text)}
-            />
-          </Animated.View>
-        </SearchBarWrapper>
+    <SearchBarWrapper
+      style={{
+        width: widthWrapper,
+        backgroundColor,
+        marginLeft,
+      }}>
+      <TouchableWithoutFeedback onPress={startAnimate}>
+        <IconWrapper>
+          <Animated.Image
+            source={searchIconWhite}
+            style={{opacity: opacityDown}}
+          />
+          <Animated.Image
+            source={searchIcon}
+            style={{position: 'absolute', opacity: opacityUp}}
+          />
+        </IconWrapper>
+      </TouchableWithoutFeedback>
+      <Animated.View style={{opacity: opacityUp, width: widthInput}}>
+        <SearchBarInput
+          placeholder={'Where are you going?'}
+          editable
+          onChangeText={text => onChangeText(text)}
+          value={value}
+          onSubmitEditing={() => console.log(text)}
+        />
       </Animated.View>
-    </SearchBarContainer>
+    </SearchBarWrapper>
   );
 };
 
