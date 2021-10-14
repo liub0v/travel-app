@@ -1,4 +1,5 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import colors from '../../constants/colors';
 
 export const SearchWrapper = styled.View`
   width: 100%;
@@ -17,7 +18,7 @@ export const SearchBarInput = styled.TextInput`
 
 export const SearchBarWrapper = styled.View`
   width: 100%;
-  background-color: #ffffff;
+  background-color: ${colors.white};
   border-radius: 16px;
 `;
 export const SearchBarIcon = styled.Image`

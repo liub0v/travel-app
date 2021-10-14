@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import colors from '../../constants/colors';
 export const MainContainer = styled.ScrollView``;
 
 export const CategoriesContainer = styled.View`
@@ -18,7 +19,7 @@ export const CategoryItem = styled.View`
   justify-content: space-between;
 `;
 export const CategoryTitle = styled.Text`
-  color: white;
+  color: ${colors.white};
   font-family: Montserrat;
   font-size: 12px;
 `;

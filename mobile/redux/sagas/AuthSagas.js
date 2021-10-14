@@ -1,8 +1,11 @@
-import {LOG_IN_USER, PUT_IS_ONBOARDING, SING_UP_USER} from '../types/AuthTypes';
+import {
+  LOG_IN_USER,
+  SAVE_PROFILE_ONBOARDING,
+  SING_UP_USER,
+} from '../types/AuthTypes';
 import {takeEvery, call, put, select} from 'redux-saga/effects';
 import {userAPI} from '../../src/api/userAPI';
 import {
-  logInUser,
   setIsOnboarding,
   setLogInError,
   setLogInIsLoading,
@@ -11,13 +14,12 @@ import {
   setUser,
   setUserToken,
 } from '../actions/AuthActions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {tokenSelector} from '../selectors/userSelector';
 import {showMessage} from 'react-native-flash-message';
 export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
   takeEvery(SING_UP_USER, singUpUserSaga),
-  takeEvery(PUT_IS_ONBOARDING, putIsOnboarding),
+  takeEvery(SAVE_PROFILE_ONBOARDING, saveProfileOnboarding),
 ];
 
 function* logInUserSaga(action) {
@@ -60,14 +62,6 @@ function* singUpUserSaga(action) {
     yield put(setSignUpIsLoading(false));
   } catch (error) {
     yield put(setSignUpError(error));
-    // let message;
-    // switch (error.response.status) {
-    //   case 400:
-    //     message = 'User already exist';
-    //   default:
-    //     message = 'No server connection';
-    //     break;
-    // }
     yield call(showMessage, {
       message: error.response?.data,
       type: 'error',
@@ -75,17 +69,13 @@ function* singUpUserSaga(action) {
   }
 }
 
-function* putIsOnboarding(action) {
+function* saveProfileOnboarding(action) {
   try {
     const isOnboarding = action.payload;
     const token = yield select(tokenSelector);
     const response = yield call(userAPI.putIsOnBoarding, isOnboarding, token);
-    console.log('response.data', response.data);
-    console.log(typeof response.data);
     yield put(setIsOnboarding(response.data));
   } catch (error) {
-    //loading???
-    //set error ???
     yield call(showMessage, {
       message: error.response?.data,
       type: 'error',

@@ -1,13 +1,14 @@
 import React from 'react';
 import {ButtonStart, ButtonText, ButtonWrapper} from './ButtonItem.style';
 import {ActivityIndicator} from 'react-native';
+import colors from '../../constants/colors';
 
 export const ButtonItem = ({
   handler,
   title,
   disabled = false,
   isLoading = false,
-  theme = {backgroundColor: '#2d9cdb', textColor: 'white'},
+  theme = {backgroundColor: colors.blue, textColor: colors.white},
 }) => {
   return (
     <ButtonWrapper>
@@ -16,7 +17,7 @@ export const ButtonItem = ({
         onPress={handler}
         backgroundColor={theme.backgroundColor}>
         {isLoading ? (
-          <ActivityIndicator size="small" color="white" />
+          <ActivityIndicator size="small" color={colors.white} />
         ) : (
           <ButtonText color={theme.textColor}>{title}</ButtonText>
         )}

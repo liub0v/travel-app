@@ -1,4 +1,5 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import colors from '../../../constants/colors';
 
 export const DialogItem = styled.View`
   flex: 1;
@@ -36,28 +37,30 @@ export const MessageNumberWrapper = styled.View`
   width: 24px;
   height: 24px;
   border-radius: 12px;
-  background-color: #219653;
+  background-color: ${colors.green};
   justify-content: center;
   align-items: center;
 `;
 export const MessageTime = styled.Text`
   font-family: Montserrat;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.5);
+  color: ${colors.white};
+  opacity: 0.5;
 `;
 export const MessageNumber = styled.Text`
   font-family: Montserrat;
   font-size: 10px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 export const UserName = styled.Text`
   font-family: MontserratExtraBold;
   font-size: 16px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 export const Message = styled.Text`
   font-family: Montserrat;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.5);
+  color: ${colors.white};
+  opacity: 0.5;
   width: 90%;
 `;

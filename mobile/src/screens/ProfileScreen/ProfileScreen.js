@@ -15,6 +15,7 @@ import {
   BoldWhiteText,
 } from './Profile.style';
 import avatar from '../../../assets/images/avatar.png';
+import colors from '../../constants/colors';
 export const ProfileScreen = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logOutIsLoadingSelector);
@@ -57,7 +58,7 @@ export const ProfileScreen = () => {
       </InfoContainer>
       <ButtonWrapper>
         <ButtonItem
-          theme={{backgroundColor: 'white', textColor: 'black'}}
+          theme={{backgroundColor: colors.white, textColor: 'black'}}
           isLoading={isLoading}
           handler={logOutButtonHandler}
           title={'Log out'}

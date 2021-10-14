@@ -1,7 +1,7 @@
 import {
   LOG_IN_USER,
   LOG_OUT_USER,
-  PUT_IS_ONBOARDING,
+  SAVE_PROFILE_ONBOARDING,
   SET_IS_ONBOARDING,
   SET_LOG_IN_ERROR,
   SET_LOG_IN_IS_LOADING,
@@ -86,9 +86,9 @@ export const setIsOnboarding = isOnboarding => {
     payload: isOnboarding,
   };
 };
-export const putIsOnboarding = isOnboarding => {
+export const saveProfileOnboarding = isOnboarding => {
   return {
-    type: PUT_IS_ONBOARDING,
+    type: SAVE_PROFILE_ONBOARDING,
     payload: isOnboarding,
   };
 };

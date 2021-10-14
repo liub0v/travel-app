@@ -1,4 +1,5 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import colors from '../../constants/colors';
 
 export const Container = styled.ScrollView``;
 
@@ -14,19 +15,20 @@ export const Avatar = styled.Image`
 `;
 export const BoldWhiteText = styled.Text`
   font-family: MontserratExtraBold;
-  color: white;
+  color: ${colors.white};
   font-size: 16px;
   margin-bottom: 4px;
 `;
 export const GreyText = styled.Text`
   font-size: 14px;
   font-family: Montserrat;
-  color: rgba(255, 255, 255, 0.5);
+  color: ${colors.white};
+  opacity: 0.5;
 `;
 export const WhiteText = styled.Text`
   font-size: 14px;
   font-family: Montserrat;
-  color: rgb(255, 255, 255);
+  color: ${colors.white};
 `;
 export const InfoContainer = styled.View`
   margin-top: 16px;

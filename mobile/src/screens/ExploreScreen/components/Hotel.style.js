@@ -1,4 +1,5 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import colors from '../../../constants/colors';
 
 export const HotelItem = styled.View`
   flex: 1;
@@ -24,7 +25,7 @@ export const HotelInfoWrapper = styled.View`
 export const HotelName = styled.Text`
   font-family: Montserrat;
   font-size: 12px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 export const HotelStarsContainer = styled.View`
   flex-direction: row;
@@ -39,10 +40,11 @@ export const HotelPriceWrapper = styled.View`
 export const HotelPrice = styled.Text`
   font-family: Montserrat;
   font-size: 16px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 export const HotelPricePeriod = styled.Text`
   font-family: Montserrat;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+  color: ${colors.white};
+  opacity: 0.5;
 `;

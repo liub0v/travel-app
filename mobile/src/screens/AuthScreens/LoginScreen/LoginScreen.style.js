@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import colors from '../../../constants/colors';
 export const LoginContainer = styled.ScrollView`
   flex: 1;
 `;
@@ -7,7 +8,7 @@ export const HeaderWrapper = styled.View`
   justify-content: flex-end;
 `;
 export const HeaderText = styled.Text`
-  color: #ffffff;
+  color: ${colors.white};
   font-size: 28px;
   font-family: MontserratExtraBold;
 `;
@@ -37,7 +38,7 @@ export const ThinkText = styled.Text`
   color: rgba(255, 255, 255, 0.5);
 `;
 export const InputItem = styled.TextInput`
-  background-color: #ffffff;
+  background-color: ${colors.white};
   border-radius: 16px;
   height: 50px;
   width: 300px;
@@ -53,7 +54,7 @@ export const InputItem = styled.TextInput`
 export const NormalText = styled.Text`
   font-family: Montserrat;
   font-size: 14px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 
 export const LeftPosition = styled.View`

@@ -1,4 +1,5 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import colors from '../../../constants/colors';
 
 export const AdventureItem = styled.View`
   margin-right: 10px;
@@ -14,10 +15,11 @@ export const AdventureName = styled.Text`
   width: 140px;
   font-family: Montserrat;
   font-size: 14px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 export const AdventureLocation = styled.Text`
   font-family: Montserrat;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5); ;
+  color: ${colors.white};
+  opacity: 0.5;
 `;

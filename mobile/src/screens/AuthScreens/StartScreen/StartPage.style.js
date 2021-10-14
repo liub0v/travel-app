@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import colors from '../../../constants/colors';
 
 export const LogoContainer = styled.View`
   margin-top: 15%;
@@ -9,14 +10,14 @@ export const Logo = styled.Image``;
 export const LogoText = styled.Text`
   font-family: MontserratExtraBold;
   font-size: 28px;
-  color: white;
+  color: ${colors.white};
   padding: 5px;
 `;
 export const LogoDescription = styled.Text`
   font-family: Montserrat;
   font-weight: 500;
   font-size: 16px;
-  color: white;
+  color: ${colors.white};
 `;
 export const StartedContainer = styled.View`
   flex-direction: column;
@@ -31,7 +32,7 @@ export const LoginText = styled.Text`
   font-weight: 500;
   font-family: Montserrat;
   font-size: 14px;
-  color: white;
+  color: ${colors.white};
 `;
 export const LoginButton = styled.Text`
   background-color: rgba(127, 255, 212, 0);
@@ -39,5 +40,5 @@ export const LoginButton = styled.Text`
   font-family: Montserrat;
   font-weight: 500;
   font-size: 12px;
-  color: #2d9cdb;
+  color: ${colors.blue};
 `;

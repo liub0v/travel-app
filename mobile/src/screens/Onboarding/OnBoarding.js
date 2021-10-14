@@ -12,7 +12,7 @@ import arrowImage from '../../../assets/images/arrowButton.png';
 import {FirstPage} from './FirstPage';
 import {SecondPage} from './SecondPage';
 import {ThirdPage} from './ThirdPage';
-import {putIsOnboarding} from '../../../redux/actions/AuthActions';
+import {saveProfileOnboarding} from '../../../redux/actions/AuthActions';
 import {useDispatch} from 'react-redux';
 import {CenterPosition} from '../AuthScreens/LoginScreen/LoginScreen.style';
 
@@ -24,9 +24,8 @@ export const OnBoarding = ({navigation}) => {
     if (page > 2) setPage(1);
   };
   const buttonHandler = () => {
-    dispatch(putIsOnboarding(false));
+    dispatch(saveProfileOnboarding(false));
     // navigation.navigate('Explore');
-    // setPage(1);
   };
   const component = () => {
     switch (page) {

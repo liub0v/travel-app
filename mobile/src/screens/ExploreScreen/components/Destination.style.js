@@ -1,4 +1,5 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import colors from '../../../constants/colors';
 
 export const DestinationItem = styled.View`
   margin-right: 10px;
@@ -13,12 +14,12 @@ export const DestinationTitleWrapper = styled.View`
   position: absolute;
   left: 10px;
   bottom: 10px;
-  background: #ffffff;
+  background: ${colors.white};
   border-radius: 8px;
 `;
 export const DestinationTitle = styled.Text`
   padding: 5px 20px 5px 15px;
   font-family: Montserrat;
   font-size: 12px;
-  color: #031925;
+  color: ${colors.screenBackground};
 `;

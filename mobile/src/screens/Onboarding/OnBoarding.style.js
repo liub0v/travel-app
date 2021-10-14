@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {Platform} from 'react-native';
+import colors from '../../constants/colors';
 
 export const OnboardingBackground = styled.View`
   flex: 1;
@@ -55,7 +56,7 @@ export const ImageItemRight = styled.Image`
 export const Point = styled.View`
   width: 10px;
   height: 10px;
-  background: ${props => (props.active ? '#219653' : '#ffffff')};
+  background: ${props => (props.active ? colors.green : colors.white)};
   opacity: ${props => (props.active ? 1 : 0.5)};
   border-radius: 10px;
   margin: 3px;
@@ -117,8 +118,8 @@ export const TextWrapper = styled.View`
 `;
 export const TextItem = styled.Text`
   border-radius: 16px;
-  background-color: #212530;
-  color: white;
+  background-color: ${colors.screenBackground};
+  color: ${colors.white};
   font-family: Montserrat;
   font-size: 16px;
   padding: 10px;
