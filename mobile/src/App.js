@@ -22,9 +22,12 @@ const App = () => {
   }
 
   useEffect(() => {
-    // NavigationService.setNavigator(navigator);
-    loadFonts();
-    SplashScreen.hide();
+    const bootstrapApp = async () => {
+      await loadFonts();
+      SplashScreen.hide();
+    };
+
+    bootstrapApp();
   }, []);
 
   return (

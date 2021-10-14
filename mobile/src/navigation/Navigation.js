@@ -23,7 +23,7 @@ export const Navigation = () => {
       ref={nav => {
         navigator = nav;
       }}>
-      <SafeAreaView style={{backgroundColor: '#212530', flex: 1}}>
+      <SafeAreaView style={{backgroundColor: colors.screenBackground, flex: 1}}>
         {token ? <TabNavigation /> : <LoginNavigation />}
       </SafeAreaView>
     </NavigationContainer>
