@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const express = require("express");
 const auth = require("./routers/auth");
 const users = require("./routers/users");
+const config = require("config");
 
 const app = express();
 
 mongoose
-  .connect("mongodb+srv://Liubov:fnmozw290@travelapp.xcj4z.mongodb.net/test")
-  // .connect("mongodb://localhost/travelApp")
+  .connect(config.get("DATABASE_URL"))
   .then(() => console.log("Connected to MongoDB..."))
   .catch((error) => console.error(error.message));
 

@@ -4,7 +4,7 @@ const config = require("config");
 const { User } = require("../models/user");
 const Joi = require("joi");
 
-if (!config.get("jwtPrivateKey")) {
+if (!config.get("JWT_PRIVATE_KEY")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
   process.exit(1);
 }
@@ -16,7 +16,6 @@ router.post("/", async (req, res) => {
   }
 
   const user = await User.findOne({ email: req.body.email });
-
   if (!user) {
     return res.status(400).send("Invalid email or password");
   }
@@ -32,8 +31,8 @@ router.post("/", async (req, res) => {
     username: user.username,
     email: user.email,
     isOnBoarding: user.isOnBoarding,
+    role: user.role,
   });
-  // res.send(token);
 });
 function validate(req) {
   const schema = Joi.object({
