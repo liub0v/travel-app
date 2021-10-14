@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import {Platform} from 'react-native';
 import colors from '../../constants/colors';
+import fonts from '../../constants/fonts';
 
 export const OnboardingBackground = styled.View`
   flex: 1;
@@ -16,7 +17,7 @@ export const TextHeader = styled.Text`
   font-style: normal;
   font-size: 28px;
   line-height: 34px;
-  font-family: MontserratExtraBold;
+  font-family: ${fonts.bold};
   background-color: rgba(2, 3, 3, 0);
 `;
 export const TextDescription = styled.Text`
@@ -26,7 +27,7 @@ export const TextDescription = styled.Text`
   text-align: center;
   line-height: 24px;
   color: rgba(255, 255, 255, 0.5);
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
 `;
 
 export const Images = styled.View`
@@ -37,9 +38,9 @@ export const Images = styled.View`
   justify-content: space-between;
 `;
 export const ImageItemLeft = styled.Image`
-  border-bottom-left-radius: 0px;
+  border-bottom-left-radius: 0;
   border-bottom-right-radius: 16px;
-  border-top-left-radius: 0px;
+  border-top-left-radius: 0;
   border-top-right-radius: 16px;
 `;
 export const ImageItemCenter = styled.Image`
@@ -48,9 +49,9 @@ export const ImageItemCenter = styled.Image`
 
 export const ImageItemRight = styled.Image`
   border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 0px;
+  border-bottom-right-radius: 0;
   border-top-left-radius: 16px;
-  border-top-right-radius: 0px;
+  border-top-right-radius: 0;
 `;
 
 export const Point = styled.View`
@@ -120,7 +121,7 @@ export const TextItem = styled.Text`
   border-radius: 16px;
   background-color: ${colors.screenBackground};
   color: ${colors.white};
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 16px;
   padding: 10px;
 `;

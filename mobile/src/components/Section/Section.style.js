@@ -1,5 +1,6 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
 import colors from '../../constants/colors';
+import fonts from '../../constants/fonts';
 
 export const SectionContainer = styled.View`
   margin-top: 20px;
@@ -21,7 +22,7 @@ export const SectionHeaderTitleWrapper = styled.View`
   border-bottom-right-radius: 16px;
 `;
 export const SectionHeaderTitle = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 16px;
   color: ${colors.white};
   padding: 7px 16px 7px 24px;

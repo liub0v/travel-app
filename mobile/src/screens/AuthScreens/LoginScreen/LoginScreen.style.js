@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import colors from '../../../constants/colors';
+import fonts from '../../../constants/fonts';
 export const LoginContainer = styled.ScrollView`
   flex: 1;
 `;
@@ -10,7 +11,7 @@ export const HeaderWrapper = styled.View`
 export const HeaderText = styled.Text`
   color: ${colors.white};
   font-size: 28px;
-  font-family: MontserratExtraBold;
+  font-family: ${fonts.bold};
 `;
 export const SocialNetworksLoginContainer = styled.View`
   flex-direction: row;
@@ -33,7 +34,7 @@ export const SocialNetworkWrapper = styled.View`
 `;
 
 export const ThinkText = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 14px;
   color: rgba(255, 255, 255, 0.5);
 `;
@@ -42,7 +43,7 @@ export const InputItem = styled.TextInput`
   border-radius: 16px;
   height: 50px;
   width: 300px;
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 16px;
   line-height: 20px;
   color: rgba(3, 25, 37, 0.5);
@@ -52,7 +53,7 @@ export const InputItem = styled.TextInput`
 `;
 
 export const NormalText = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 14px;
   color: ${colors.white};
 `;

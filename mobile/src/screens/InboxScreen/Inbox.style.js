@@ -1,5 +1,6 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
 import colors from '../../constants/colors';
+import fonts from '../../constants/fonts';
 
 export const SearchWrapper = styled.View`
   width: 100%;
@@ -9,7 +10,7 @@ export const SearchWrapper = styled.View`
   margin-top: 10px;
 `;
 export const SearchBarInput = styled.TextInput`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 14px;
   color: rgba(3, 25, 37, 0.5);
   height: 40px;

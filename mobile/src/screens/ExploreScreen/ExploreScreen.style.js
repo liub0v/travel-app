@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import colors from '../../constants/colors';
+import fonts from '../../constants/fonts';
 export const MainContainer = styled.ScrollView``;
 
 export const CategoriesContainer = styled.View`
@@ -20,6 +21,6 @@ export const CategoryItem = styled.View`
 `;
 export const CategoryTitle = styled.Text`
   color: ${colors.white};
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 12px;
 `;

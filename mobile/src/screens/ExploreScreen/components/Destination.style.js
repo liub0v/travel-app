@@ -1,5 +1,6 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
 import colors from '../../../constants/colors';
+import fonts from '../../../constants/fonts';
 
 export const DestinationItem = styled.View`
   margin-right: 10px;
@@ -19,7 +20,7 @@ export const DestinationTitleWrapper = styled.View`
 `;
 export const DestinationTitle = styled.Text`
   padding: 5px 20px 5px 15px;
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 12px;
   color: ${colors.screenBackground};
 `;
