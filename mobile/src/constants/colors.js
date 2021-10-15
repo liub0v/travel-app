@@ -3,4 +3,6 @@ export default Object.freeze({
   green: '#219653',
   blue: '#2D9CDB',
   white: '#FFFFFF',
+  red: '#EB5757',
+  valid: '#9cee90',
 });

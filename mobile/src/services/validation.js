@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import colors from '../constants/colors';
 export const singUpValidationSchema = yup.object().shape({
   username: yup.string().required('Name is required'),
   email: yup
@@ -42,13 +43,13 @@ export function getValidationStyles(errors, touched) {
   if (touched && !errors) {
     return {
       borderWidth: 2,
-      borderColor: '#9cee90',
+      borderColor: colors.valid,
     };
   }
   if (touched && errors) {
     return {
       borderWidth: 2,
-      borderColor: 'red',
+      borderColor: colors.red,
     };
   }
 }

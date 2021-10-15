@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-
+import React from 'react';
 import {
   ImageItemLeft,
   ImageItemCenter,
@@ -16,9 +15,9 @@ export const FirstPage = () => {
     <>
       <TextHeader>Get inspiration for your next trip</TextHeader>
       <Images>
-        <ImageItemLeft source={image1}></ImageItemLeft>
-        <ImageItemCenter source={image2}></ImageItemCenter>
-        <ImageItemRight source={image3}></ImageItemRight>
+        <ImageItemLeft source={image1} />
+        <ImageItemCenter source={image2} />
+        <ImageItemRight source={image3} />
       </Images>
       <TextDescription>
         We’re happy to share our best tips for destinations where you can relax.

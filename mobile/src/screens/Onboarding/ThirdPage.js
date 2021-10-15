@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {View, Text, Button, Image} from 'react-native';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {View} from 'react-native';
 import {
   TextHeader,
   ViewContainer,
@@ -23,6 +24,11 @@ const ImageContainer = ({image, text}) => {
       </TextWrapper>
     </ImageWrapper>
   );
+};
+
+ImageContainer.propTypes = {
+  image: PropTypes.string,
+  text: PropTypes.string,
 };
 export const ThirdPage = () => {
   return (

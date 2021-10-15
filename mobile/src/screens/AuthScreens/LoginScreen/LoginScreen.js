@@ -1,5 +1,18 @@
 import React from 'react';
 import {Formik} from 'formik';
+import {ScrollView, Text} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {logInUser} from '../../../../redux/actions/AuthActions';
+import {
+  logInErrorSelector,
+  logInIsLoadingSelector,
+} from '../../../../redux/selectors/userSelector';
+
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
+import {
+  getValidationStyles,
+  logInValidationSchema,
+} from '../../../services/validation';
 import {
   SocialNetworksLoginContainer,
   CenterPosition,
@@ -13,19 +26,7 @@ import {
   HeaderWrapper,
   FieldsContainer,
 } from './LoginScreen.style';
-import {ButtonItem} from '../../../components/Buttons/ButtonItem';
-import {ScrollView, Text} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {logInUser} from '../../../../redux/actions/AuthActions';
-import {
-  getValidationStyles,
-  logInValidationSchema,
-} from '../../../services/validation';
-import {
-  logInErrorSelector,
-  logInIsLoadingSelector,
-} from '../../../../redux/selectors/userSelector';
-import {showMessage} from 'react-native-flash-message';
+import colors from '../../../constants/colors';
 
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -77,7 +78,7 @@ export const LoginScreen = ({navigation}) => {
                 style={getValidationStyles(errors.email, touched.email)}
               />
               {errors.email && touched.email && (
-                <Text style={{color: 'red'}}> {errors.email}</Text>
+                <Text style={{color: colors.red}}> {errors.email}</Text>
               )}
               <InputItem
                 onChangeText={handleChange('password')}
@@ -88,7 +89,7 @@ export const LoginScreen = ({navigation}) => {
                 style={getValidationStyles(errors.password, touched.password)}
               />
               {errors.password && touched.password && (
-                <Text style={{color: 'red'}}> {errors.password}</Text>
+                <Text style={{color: colors.red}}> {errors.password}</Text>
               )}
               <LeftPosition>
                 <NormalText>Forgot password?</NormalText>
