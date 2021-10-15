@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {instance} from './index';
 
 async function logInUser(email, password) {

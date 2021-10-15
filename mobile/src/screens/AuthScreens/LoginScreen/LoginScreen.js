@@ -31,7 +31,6 @@ import colors from '../../../constants/colors';
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logInIsLoadingSelector);
-  const error = useSelector(logInErrorSelector);
   const loginButtonHandler = ({email, password}) => {
     dispatch(logInUser({email, password}));
   };
@@ -67,7 +66,6 @@ export const LoginScreen = ({navigation}) => {
             values,
             errors,
             touched,
-            isValid,
           }) => (
             <>
               <InputItem
