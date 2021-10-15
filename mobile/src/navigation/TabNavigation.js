@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Image, TouchableWithoutFeedback} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {ExploreScreen} from '../screens/ExploreScreen/ExploreScreen';
@@ -17,8 +17,9 @@ import inboxIcon from '../../assets/images/inboxIcon.png';
 import inboxActiveIcon from '../../assets/images/inboxActiveIcon.png';
 import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
-import arrowImage from '../../assets/images/arrowButton.png';
 import editIcon from '../../assets/images/editIcon.png';
+import {useDispatch} from 'react-redux';
+import {getDestinations} from '../../redux/actions/DestinationActions';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,11 +41,15 @@ const EditBottom = ({navigation}) => {
 };
 export const TabNavigation = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getDestinations());
+  }, []);
   return (
     <Tab.Navigator
       initialRouteName="Explore"
       backBehavior="none"
-      screenOptions={({route}) => ({
+      screenOptions={() => ({
         tabBarActiveTintColor: '#219653',
         tabBarInactiveTintColor: '#FFFFFF',
         tabBarStyle: {

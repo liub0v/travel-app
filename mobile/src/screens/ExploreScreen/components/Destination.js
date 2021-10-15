@@ -9,9 +9,9 @@ import {
 export const Destination = ({item}) => {
   return (
     <DestinationItem>
-      <DestinationImage source={item.image}></DestinationImage>
+      <DestinationImage source={{uri: item.imageURL}}></DestinationImage>
       <DestinationTitleWrapper>
-        <DestinationTitle>{item.title}</DestinationTitle>
+        <DestinationTitle>{item.countryName}</DestinationTitle>
       </DestinationTitleWrapper>
     </DestinationItem>
   );
