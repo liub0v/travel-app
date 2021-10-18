@@ -2,7 +2,7 @@ import React from 'react';
 import {Image, TouchableWithoutFeedback} from 'react-native';
 import {destinationsSelector} from '../../../redux/selectors/DestinationSelector';
 import {useSelector} from 'react-redux';
-import {adventures, hotels} from '../../api/mock';
+import {hotels} from '../../api/mock';
 import {Section} from '../../components/Section/Section';
 import {Destination} from './components/Destination';
 import {Adventure} from './components/Adventure';
@@ -18,6 +18,7 @@ import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
+import {adventuresSelector} from '../../../redux/selectors/AdventureSelectors';
 
 const Category = ({image, title}) => {
   return (
@@ -32,6 +33,7 @@ const Category = ({image, title}) => {
 
 export const ExploreScreen = () => {
   const destinations = useSelector(destinationsSelector);
+  const adventures = useSelector(adventuresSelector);
   return (
     <MainContainer
       showsVerticalScrollIndicator={false}
@@ -52,6 +54,7 @@ export const ExploreScreen = () => {
         isHorizontal={true}
         data={destinations}
         renderItem={Destination}
+        showRightButton={false}
       />
       <Section
         title={'Adventures'}

@@ -39,7 +39,8 @@ export const adventures = [
   {
     image: adventureImage3,
     name: 'Hunt with eagle in Altai Mountains',
-    location: 'Ulgii, Mongolia',
+    location:
+      '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ',
   },
 ];
 

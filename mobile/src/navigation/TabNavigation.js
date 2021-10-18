@@ -20,6 +20,7 @@ import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
 import {useDispatch} from 'react-redux';
 import {getDestinations} from '../../redux/actions/DestinationActions';
+import {getAdventures} from '../../redux/actions/AdventureActions';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,6 +45,7 @@ export const TabNavigation = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getDestinations());
+    dispatch(getAdventures());
   }, []);
   return (
     <Tab.Navigator
