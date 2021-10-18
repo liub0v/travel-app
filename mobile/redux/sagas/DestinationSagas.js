@@ -12,7 +12,6 @@ export const destinationSagas = [
 ];
 function* getDestinationsSaga(action) {
   try {
-    console.log('saga');
     yield put(setDestinationsIsLoading(true));
     const response = yield call(destinationAPI.getDestinations);
     const destinations = response.data;
