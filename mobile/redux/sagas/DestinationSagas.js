@@ -18,6 +18,7 @@ function* getDestinationsSaga(action) {
     yield put(setDestinations(destinations));
     yield put(setDestinationsIsLoading(false));
   } catch (error) {
+    yield put(setDestinationsIsLoading(false));
     yield put(setDestinationsError(error));
     yield call(showMessage, {
       message: error.response?.data,

@@ -16,6 +16,7 @@ function* getAdventuresSaga(action) {
     yield put(setAdventures(adventures));
     yield put(setAdventuresIsLoading(false));
   } catch (error) {
+    yield put(setAdventuresIsLoading(false));
     yield put(setAdventuresError(error));
     yield call(showMessage, {
       message: error.response?.data,
