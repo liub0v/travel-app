@@ -15,7 +15,7 @@ const adventureSchema = new mongoose.Schema({
 });
 const Adventure = mongoose.model("Adventure", adventureSchema);
 
-function validateAdventure(destination) {
+function validateAdventure(adventure) {
   const schema = Joi.object({
     id: Joi.string(),
     name: Joi.string().required(),
@@ -23,8 +23,10 @@ function validateAdventure(destination) {
     image: Joi.object().optional(),
     price: Joi.number(),
     address: Joi.string(),
+    reviews: Joi.array(),
+    summery: Joi.string(),
   });
-  return schema.validate(destination);
+  return schema.validate(adventure);
 }
 module.exports.validate = validateAdventure;
 module.exports.Adventure = Adventure;

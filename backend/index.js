@@ -5,6 +5,7 @@ const users = require("./routers/users");
 const config = require("config");
 const destinations = require("./routers/destinations");
 const adventures = require("./routers/adventures");
+const hotels = require("./routers/hotels");
 const formData = require("express-form-data");
 const os = require("os");
 const app = express();
@@ -34,6 +35,7 @@ app.use("/api/auth", auth);
 app.use("/api/users", users);
 app.use("/api/destinations", destinations);
 app.use("/api/adventures", adventures);
+app.use("/api/hotels", hotels);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
