@@ -1,6 +1,10 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {logOutIsLoadingSelector} from '../../../redux/selectors/userSelector';
+import {
+  logOutIsLoadingSelector,
+  profileInfoSelector,
+  userSelector,
+} from '../../../redux/selectors/UserSelector';
 import {logOutUser} from '../../../redux/actions/AuthActions';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {
@@ -16,10 +20,13 @@ import {
 } from './Profile.style';
 import avatar from '../../../assets/images/avatar.png';
 import colors from '../../constants/colors';
+
 export const ProfileScreen = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logOutIsLoadingSelector);
-  console.log('isLoading', isLoading);
+  const user = useSelector(userSelector);
+  const profileInfo = useSelector(profileInfoSelector);
+  console.log(user);
   function logOutButtonHandler() {
     dispatch(logOutUser());
   }
@@ -30,30 +37,32 @@ export const ProfileScreen = () => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}}>
       <MainInfo>
-        <Avatar source={avatar} />
-        <BoldWhiteText>{'Tanya Edwards'}</BoldWhiteText>
-        <GreyText>{'San Francisco, CA'}</GreyText>
+        <Avatar source={{avatar}} />
+        <BoldWhiteText>
+          {`${profileInfo?.firstName} ${profileInfo?.lastName}`}
+        </BoldWhiteText>
+        <GreyText>{`${profileInfo?.address}`}</GreyText>
       </MainInfo>
       <InfoContainer>
         <InfoItem>
           <GreyText>{'Username'}</GreyText>
-          <WhiteText>{'MariotaJin'}</WhiteText>
+          <WhiteText>{`${user?.username}`}</WhiteText>
         </InfoItem>
         <InfoItem>
           <GreyText>{'Email'}</GreyText>
-          <WhiteText>{'tanya.edwards@gmail.com'}</WhiteText>
+          <WhiteText>{`${user?.email}`}</WhiteText>
         </InfoItem>
         <InfoItem>
           <GreyText>{'Phone'}</GreyText>
-          <WhiteText>{'(239) 555-0108'}</WhiteText>
+          <WhiteText>{`${profileInfo?.phone}`}</WhiteText>
         </InfoItem>
         <InfoItem>
           <GreyText>{'Date of birth'}</GreyText>
-          <WhiteText>{'March 27, 1989'}</WhiteText>
+          <WhiteText>{`${profileInfo?.birthDate}`}</WhiteText>
         </InfoItem>
         <InfoItem>
           <GreyText>{'Address'}</GreyText>
-          <WhiteText>{'6391 Elgin St Celina, Delaware'}</WhiteText>
+          <WhiteText>{`${profileInfo?.address}`}</WhiteText>
         </InfoItem>
       </InfoContainer>
       <ButtonWrapper>

@@ -8,7 +8,7 @@ import {
   setUser,
   setUserToken,
 } from '../actions/AuthActions';
-import {tokenSelector} from '../selectors/userSelector';
+import {tokenSelector} from '../selectors/UserSelector';
 import {
   LOG_IN_USER,
   SAVE_PROFILE_ONBOARDING,

@@ -4,7 +4,7 @@ import {LoginNavigation} from './LoginNavigation';
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {tokenSelector} from '../../redux/selectors/userSelector';
+import {tokenSelector} from '../../redux/selectors/UserSelector';
 import colors from '../constants/colors';
 
 const DefaultTheme = {
