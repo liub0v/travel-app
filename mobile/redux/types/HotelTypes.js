@@ -1,0 +1,4 @@
+export const SET_HOTELS = 'SET_HOTELS';
+export const GET_HOTELS = 'GET_HOTELS';
+export const SET_HOTELS_IS_LOADING = 'SET_HOTELS_IS_LOADING';
+export const SET_HOTELS_ERROR = 'SET_HOTELS_ERROR';

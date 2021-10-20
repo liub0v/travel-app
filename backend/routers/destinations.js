@@ -50,10 +50,8 @@ router.put("/", async (req, res) => {
         "destinations"
       );
     }
-  } else {
-    imageURL = destination.imageURL;
   }
-  destination.imageURL = imageURL;
+  destination.imageURL = imageURL ?? destination.imageURL;
   await destination.save();
   res.send(destination);
 });

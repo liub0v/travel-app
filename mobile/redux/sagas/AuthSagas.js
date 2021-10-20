@@ -1,10 +1,4 @@
-import {
-  LOG_IN_USER,
-  SAVE_PROFILE_ONBOARDING,
-  SING_UP_USER,
-} from '../types/AuthTypes';
 import {takeEvery, call, put, select} from 'redux-saga/effects';
-import {userAPI} from '../../src/api/userAPI';
 import {
   setIsOnboarding,
   setLogInError,
@@ -15,7 +9,14 @@ import {
   setUserToken,
 } from '../actions/AuthActions';
 import {tokenSelector} from '../selectors/userSelector';
+import {
+  LOG_IN_USER,
+  SAVE_PROFILE_ONBOARDING,
+  SING_UP_USER,
+} from '../types/AuthTypes';
 import {showMessage} from 'react-native-flash-message';
+import {userAPI} from '../../src/api/userAPI';
+
 export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
   takeEvery(SING_UP_USER, singUpUserSaga),
@@ -37,6 +38,7 @@ function* logInUserSaga(action) {
     yield put(setUserToken(token));
     yield put(setLogInIsLoading(false));
   } catch (error) {
+    yield put(setLogInIsLoading(false));
     yield put(setLogInError(error));
     yield call(showMessage, {
       message: error.response?.data,
@@ -61,6 +63,7 @@ function* singUpUserSaga(action) {
     yield put(setUserToken(token));
     yield put(setSignUpIsLoading(false));
   } catch (error) {
+    yield put(setSignUpIsLoading(false));
     yield put(setSignUpError(error));
     yield call(showMessage, {
       message: error.response?.data,
