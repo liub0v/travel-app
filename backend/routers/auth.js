@@ -3,7 +3,8 @@ const bcrypt = require("bcrypt");
 const config = require("config");
 const { User } = require("../models/user");
 const Joi = require("joi");
-
+const { Guide } = require("../models/guide");
+const { Client } = require("../models/client");
 if (!config.get("JWT_PRIVATE_KEY")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
   process.exit(1);
@@ -15,7 +16,7 @@ router.post("/", async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
 
-  const user = await User.findOne({ email: req.body.email });
+  let user = await User.findOne({ email: req.body.email });
   if (!user) {
     return res.status(400).send("Invalid email or password");
   }
@@ -26,13 +27,23 @@ router.post("/", async (req, res) => {
   }
 
   const token = user.generateAuthToken();
-  res.header("x-auth-token", token).send({
-    _id: user._id,
-    username: user.username,
-    email: user.email,
-    isOnBoarding: user.isOnBoarding,
-    role: user.role,
-  });
+  let userRole = null;
+  switch (user.role) {
+    case "client":
+      userRole = await Client.findOne({ userID: user._id });
+      if (!userRole) return res.status(400).send("User isn't a client");
+      console.log(userRole);
+      break;
+    case "guide":
+      userRole = await Guide.findOne({ userID: user._id });
+      if (!userRole) return res.status(400).send("User isn't a guide");
+      break;
+    case "admin":
+      break;
+  }
+
+  console.log("common", { ...userRole._doc, ...user._doc });
+  res.header("x-auth-token", token).send({ ...user._doc, ...userRole._doc });
 });
 function validate(req) {
   const schema = Joi.object({

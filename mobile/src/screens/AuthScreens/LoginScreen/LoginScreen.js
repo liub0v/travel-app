@@ -6,7 +6,7 @@ import {logInUser} from '../../../../redux/actions/AuthActions';
 import {
   logInErrorSelector,
   logInIsLoadingSelector,
-} from '../../../../redux/selectors/userSelector';
+} from '../../../../redux/selectors/UserSelector';
 
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {

@@ -7,7 +7,7 @@ async function logInUser(email, password) {
   });
 }
 async function singUpUser(username, email, password) {
-  return await instance.post('/users', {
+  return await instance.post('/users/client', {
     username,
     email,
     password,

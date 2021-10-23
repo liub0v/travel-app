@@ -1,7 +1,7 @@
 import React from 'react';
 import {ScrollView, Text, TouchableWithoutFeedback} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {signUpIsLoadingSelector} from '../../../../redux/selectors/userSelector';
+import {signUpIsLoadingSelector} from '../../../../redux/selectors/UserSelector';
 import {singUpUser} from '../../../../redux/actions/AuthActions';
 import {Formik} from 'formik';
 import {

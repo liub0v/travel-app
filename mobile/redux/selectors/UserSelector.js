@@ -1,6 +1,12 @@
 import {createSelector} from 'reselect';
 const authSelector = state => state.auth;
+
 export const tokenSelector = createSelector(authSelector, item => item.token);
+export const userSelector = createSelector(authSelector, item => item.user);
+export const profileInfoSelector = createSelector(
+  userSelector,
+  user => user.profileInfo,
+);
 export const logOutIsLoadingSelector = createSelector(
   authSelector,
   item => item.logOut.isLoading,
