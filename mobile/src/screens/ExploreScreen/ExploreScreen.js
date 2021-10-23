@@ -33,7 +33,7 @@ const Category = ({image, title, passHandler = () => {}}) => {
 
 export const ExploreScreen = ({navigation}) => {
   const goAdventureCatalog = () => {
-    navigation.navigate('AdventuresCatalog');
+    navigation.navigate('AdventureDestinationsCatalog');
   };
   const destinations = useSelector(destinationsSelector);
   const adventures = useSelector(adventuresSelector);

@@ -22,12 +22,13 @@ import {useDispatch} from 'react-redux';
 import {getDestinations} from '../../redux/actions/DestinationActions';
 import {getAdventures} from '../../redux/actions/AdventureActions';
 import {getHotels} from '../../redux/actions/HotelActions';
-import {AdventuresCatalog} from '../screens/AdventuresCatalogScreen/AdventuresCatalog';
+import {AdventureDestinationsCatalog} from '../screens/AdventureDestinationsCatalogScreen/AdventureDestinationsCatalog';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {AdventuresCatalog} from '../screens/AdventuresCatalogScreen/AdventuresCatalog';
 
 const Tab = createBottomTabNavigator();
 
-const EditBottom = ({navigation}) => {
+const EditButton = ({navigation}) => {
   return (
     <TouchableWithoutFeedback onPress={() => {}}>
       <View
@@ -54,6 +55,10 @@ function ExploreStackScreen() {
         }}
         name="Explore"
         component={ExploreScreen}
+      />
+      <ExploreStack.Screen
+        name="AdventureDestinationsCatalog"
+        component={AdventureDestinationsCatalog}
       />
       <ExploreStack.Screen
         name="AdventuresCatalog"
@@ -148,7 +153,7 @@ export const TabNavigation = () => {
             ) : (
               <Image height={20} width={20} source={profileIcon} />
             ),
-          headerRight: props => <EditBottom navigation={navigation} />,
+          headerRight: props => <EditButton navigation={navigation} />,
         }}
         name="Profile"
         component={ProfileScreen}
