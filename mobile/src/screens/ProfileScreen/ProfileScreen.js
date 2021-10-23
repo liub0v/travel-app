@@ -20,13 +20,16 @@ import {
 } from './Profile.style';
 import avatar from '../../../assets/images/avatar.png';
 import colors from '../../constants/colors';
+import {dateParser} from '../../services/dataParser';
 
 export const ProfileScreen = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logOutIsLoadingSelector);
   const user = useSelector(userSelector);
   const profileInfo = useSelector(profileInfoSelector);
-  console.log(user);
+
+  let birthDate = dateParser(profileInfo?.birthDate);
+
   function logOutButtonHandler() {
     dispatch(logOutUser());
   }
@@ -58,7 +61,7 @@ export const ProfileScreen = () => {
         </InfoItem>
         <InfoItem>
           <GreyText>{'Date of birth'}</GreyText>
-          <WhiteText>{`${profileInfo?.birthDate}`}</WhiteText>
+          <WhiteText>{`${birthDate}`}</WhiteText>
         </InfoItem>
         <InfoItem>
           <GreyText>{'Address'}</GreyText>
