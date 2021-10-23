@@ -20,9 +20,9 @@ import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
 
-const Category = ({image, title}) => {
+const Category = ({image, title, passHandler = () => {}}) => {
   return (
-    <TouchableWithoutFeedback onPress={() => {}}>
+    <TouchableWithoutFeedback onPress={passHandler}>
       <CategoryItem>
         <Image source={image} />
         <CategoryTitle>{title}</CategoryTitle>
@@ -31,7 +31,10 @@ const Category = ({image, title}) => {
   );
 };
 
-export const ExploreScreen = () => {
+export const ExploreScreen = ({navigation}) => {
+  const goAdventureCatalog = () => {
+    navigation.navigate('AdventuresCatalog');
+  };
   const destinations = useSelector(destinationsSelector);
   const adventures = useSelector(adventuresSelector);
   const hotels = useSelector(hotelsSelector);
@@ -47,7 +50,11 @@ export const ExploreScreen = () => {
       <CategoriesContainer>
         <Category image={hotelsIcon} title={'Hotels'} />
         <Category image={destinationsIcon} title={'Destinations'} />
-        <Category image={adventuresIcon} title={'Adventures'} />
+        <Category
+          image={adventuresIcon}
+          title={'Adventures'}
+          passHandler={goAdventureCatalog}
+        />
         <Category image={guidesIcon} title={'Giudes'} />
       </CategoriesContainer>
       <Section
@@ -62,6 +69,7 @@ export const ExploreScreen = () => {
         isHorizontal={true}
         data={adventures}
         renderItem={Adventure}
+        passHandler={goAdventureCatalog}
       />
       <Section
         title={'Hotel Best deals'}

@@ -22,6 +22,8 @@ import {useDispatch} from 'react-redux';
 import {getDestinations} from '../../redux/actions/DestinationActions';
 import {getAdventures} from '../../redux/actions/AdventureActions';
 import {getHotels} from '../../redux/actions/HotelActions';
+import {AdventuresCatalog} from '../screens/AdventuresCatalogScreen/AdventuresCatalog';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,6 +43,25 @@ const EditBottom = ({navigation}) => {
     </TouchableWithoutFeedback>
   );
 };
+const ExploreStack = createNativeStackNavigator();
+
+function ExploreStackScreen() {
+  return (
+    <ExploreStack.Navigator>
+      <ExploreStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Explore"
+        component={ExploreScreen}
+      />
+      <ExploreStack.Screen
+        name="AdventuresCatalog"
+        component={AdventuresCatalog}
+      />
+    </ExploreStack.Navigator>
+  );
+}
 export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -81,7 +102,7 @@ export const TabNavigation = () => {
             ),
         }}
         name="Explore"
-        component={ExploreScreen}
+        component={ExploreStackScreen}
       />
       <Tab.Screen
         options={{
