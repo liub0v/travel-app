@@ -40,7 +40,7 @@ export const ProfileScreen = () => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}}>
       <MainInfo>
-        <Avatar source={{avatar}} />
+        <Avatar source={{uri: profileInfo?.imageURL}} />
         <BoldWhiteText>
           {`${profileInfo?.firstName} ${profileInfo?.lastName}`}
         </BoldWhiteText>

@@ -2,9 +2,12 @@ const bcrypt = require("bcrypt");
 const router = require("express").Router();
 const auth = require("../middleware/auth");
 const validateObjectID = require("../middleware/validateObjectID");
+const { uploadToCloud } = require("../utils/cloudinary");
 const { User, validate } = require("../models/user");
 const { Client } = require("../models/client");
 const { Guide } = require("../models/guide");
+
+const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
   const users = await User.find().select("-password");
@@ -27,8 +30,9 @@ router.put("/onboarding", auth, async (req, res) => {
   });
 });
 //update profile info
-router.put("/profileInfo", auth, async (req, res) => {
-  let user = await User.findById(req.user._id);
+router.put("/profileInfo", async (req, res) => {
+  // let user = await User.findById(req.user._id);
+  let user = await User.findOne({ email: "c10@mail.com" });
   if (!user) res.status(404).send("User doesn't exist");
 
   switch (user.role) {
@@ -47,14 +51,17 @@ router.put("/profileInfo", auth, async (req, res) => {
       break;
     }
   }
-  user.profileInfo = {
-    firstName: req.body?.firstname,
-    lastName: req.body?.lastname,
-    phone: req.body?.phone,
-    birthDate: req.body?.birthDate,
-    address: req.body?.address,
-    imageURL: req.body?.imageURL,
-  };
+  const image = req.body?.image;
+
+  const imageURL = image && (await uploadToCloud(image, "avatars"));
+  user.profileInfo.firstName =
+    req.body?.firstname || user.profileInfo.firstName;
+  user.profileInfo.lastName = req.body?.lastName || user.profileInfo.lastName;
+  user.profileInfo.phone = req.body?.phone || user.profileInfo.phone;
+  user.profileInfo.birthDate =
+    req.body?.birthDate || user.profileInfo.birthDate;
+  user.profileInfo.address = req.body?.address || user.profileInfo.address;
+  user.profileInfo.imageURL = imageURL || user.profileInfo.imageURL;
   await user.save();
   res.send(user.profileInfo);
 });
