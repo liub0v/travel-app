@@ -24,7 +24,8 @@ function validateAdventure(adventure) {
     price: Joi.number(),
     address: Joi.string(),
     reviews: Joi.array(),
-    summery: Joi.string(),
+    summary: Joi.string(),
+    guideID: Joi.string(),
   });
   return schema.validate(adventure);
 }

@@ -98,7 +98,6 @@ export const authReducer = (state = initialState, {type, payload}) => {
           error: payload,
         },
       };
-      k;
 
     default:
       return state;

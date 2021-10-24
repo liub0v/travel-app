@@ -13,9 +13,12 @@ import {
   SearchWrapper,
   TitleWrapper,
 } from './AdventureDestinationsCatalog.style';
-const Destination = ({item, pressHandler = () => {}}) => {
+const Destination = ({item, navigation}) => {
+  const goAdventuresCatalogByDestination = () => {
+    navigation.navigate('AdventuresCatalog', {destination: item.countryName});
+  };
   return (
-    <TouchableWithoutFeedback onPress={pressHandler}>
+    <TouchableWithoutFeedback onPress={goAdventuresCatalogByDestination}>
       <ItemContainer>
         <FastImage
           style={{width: 155, height: 155, borderRadius: 16}}
@@ -32,10 +35,7 @@ const Destination = ({item, pressHandler = () => {}}) => {
 };
 export const AdventureDestinationsCatalog = ({navigation}) => {
   const destinations = useSelector(destinationsSelector);
-  const goAdventuresCatalogByLocation = () => {
-    console.log('navigate');
-    navigation.navigate('AdventuresCatalog', {destination: 'Spain'});
-  };
+
   return (
     <MainContainer>
       <SearchWrapper>
@@ -48,10 +48,7 @@ export const AdventureDestinationsCatalog = ({navigation}) => {
           showsHorizontalScrollIndicator={false}
           data={destinations}
           renderItem={({item}) => (
-            <Destination
-              pressHandler={goAdventuresCatalogByLocation}
-              item={item}
-            />
+            <Destination item={item} navigation={navigation} />
           )}
         />
       </FlatListWrapper>
