@@ -10,7 +10,7 @@ import {
   SectionHeaderWrapper,
 } from './Section.style';
 
-const SectionHeader = ({title = 'Section', showRightButton}) => {
+const SectionHeader = ({title = 'Section', showRightButton, passHandler}) => {
   return (
     <SectionHeaderWrapper>
       <SectionHeaderTitleWrapper>
@@ -18,7 +18,7 @@ const SectionHeader = ({title = 'Section', showRightButton}) => {
       </SectionHeaderTitleWrapper>
       {showRightButton && (
         <SectionHeaderButton>
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableWithoutFeedback onPress={passHandler}>
             <Image source={arrow} />
           </TouchableWithoutFeedback>
         </SectionHeaderButton>
@@ -32,6 +32,7 @@ export const Section = ({
   data,
   renderItem,
   showRightButton = true,
+  passHandler = () => {},
 }) => {
   const rowContainerStyle = {
     marginTop: 20,
@@ -43,7 +44,11 @@ export const Section = ({
   };
   return (
     <SectionContainer>
-      <SectionHeader title={title} showRightButton={showRightButton} />
+      <SectionHeader
+        title={title}
+        showRightButton={showRightButton}
+        passHandler={passHandler}
+      />
       <View style={isHorizontal ? rowContainerStyle : columnContainerStyle}>
         <FlatList
           showsHorizontalScrollIndicator={false}
