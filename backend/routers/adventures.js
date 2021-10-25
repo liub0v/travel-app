@@ -8,10 +8,16 @@ const router = require("express").Router();
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
-  const adventures = await Adventure.find();
-  if (!adventures.length) return res.status(404).send("Adventures is empty");
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 6;
+  const startIndex = (page - 1) * limit;
+  const adventures = await Adventure.find()
+    .sort({ _id: 1 })
+    .skip(startIndex)
+    .limit(limit);
   res.send(adventures);
 });
+
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {

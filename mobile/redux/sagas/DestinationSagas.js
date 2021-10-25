@@ -3,6 +3,7 @@ import {
   setDestinations,
   setDestinationsError,
   setDestinationsIsLoading,
+  setHasMoreDestinations,
 } from '../actions/DestinationActions';
 import {destinationAPI} from '../../src/api/destinationAPI';
 import {showMessage} from 'react-native-flash-message';
@@ -12,10 +13,13 @@ export const destinationSagas = [
 ];
 function* getDestinationsSaga(action) {
   try {
+    const {page, limit} = action.payload;
+    console.log(page, limit);
     yield put(setDestinationsIsLoading(true));
-    const response = yield call(destinationAPI.getDestinations);
+    const response = yield call(destinationAPI.getDestinations, page, limit);
     const destinations = response.data;
     yield put(setDestinations(destinations));
+    !destinations.length && (yield put(setHasMoreDestinations(false)));
     yield put(setDestinationsIsLoading(false));
   } catch (error) {
     yield put(setDestinationsIsLoading(false));

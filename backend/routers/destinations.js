@@ -4,13 +4,19 @@ const {
   removeFromCloud,
   updateCloudImage,
 } = require("../utils/cloudinary");
+const { Adventure } = require("../models/adventure");
 const router = require("express").Router();
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
-  const destinations = await Destination.find();
-  if (!destinations.length)
-    return res.status(404).send("Destinations is empty");
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 6;
+  const startIndex = (page - 1) * limit;
+  const destinations = await Destination.find()
+    .sort({ _id: 1 })
+    .skip(startIndex)
+    .limit(limit);
+
   res.send(destinations);
 });
 router.post("/", async (req, res) => {

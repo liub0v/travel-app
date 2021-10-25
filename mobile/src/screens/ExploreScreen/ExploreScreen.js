@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, TouchableWithoutFeedback} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {destinationsSelector} from '../../../redux/selectors/DestinationSelector';
 import {adventuresSelector} from '../../../redux/selectors/AdventureSelectors';
 import {hotelsSelector} from '../../../redux/selectors/HotelSelectors';
@@ -19,6 +19,7 @@ import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
+import {getDestinations} from '../../../redux/actions/DestinationActions';
 
 const Category = ({image, title, passHandler = () => {}}) => {
   return (

@@ -71,7 +71,7 @@ export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getDestinations());
+    dispatch(getDestinations({page: 1, limit: 3}));
     dispatch(getAdventures());
     dispatch(getHotels());
   }, []);

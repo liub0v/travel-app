@@ -1,6 +1,6 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
 import fonts from '../../constants/fonts';
-export const ButtonStart = styled.TouchableOpacity`
+export const ButtonWrapper = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   background-color: ${props => props.backgroundColor};
@@ -8,7 +8,7 @@ export const ButtonStart = styled.TouchableOpacity`
   height: 50px;
   width: 300px;
 `;
-export const ButtonWrapper = styled.View`
+export const ButtonContainer = styled.View`
   margin-top: 5%;
   margin-bottom: 5%;
 `;

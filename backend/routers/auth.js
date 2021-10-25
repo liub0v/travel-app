@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
     case "client":
       userRole = await Client.findOne({ userID: user._id });
       if (!userRole) return res.status(400).send("User isn't a client");
-      console.log(userRole);
+
       break;
     case "guide":
       userRole = await Guide.findOne({ userID: user._id });
@@ -42,7 +42,6 @@ router.post("/", async (req, res) => {
       break;
   }
 
-  console.log("common", { ...userRole._doc, ...user._doc });
   res.header("x-auth-token", token).send({ ...user._doc, ...userRole._doc });
 });
 function validate(req) {

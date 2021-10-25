@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ButtonStart, ButtonText, ButtonWrapper} from './ButtonItem.style';
+import {ButtonWrapper, ButtonText, ButtonContainer} from './ButtonItem.style';
 import {ActivityIndicator} from 'react-native';
 import colors from '../../constants/colors';
 
@@ -12,8 +12,8 @@ export const ButtonItem = ({
   theme = {backgroundColor: colors.blue, textColor: colors.white},
 }) => {
   return (
-    <ButtonWrapper>
-      <ButtonStart
+    <ButtonContainer>
+      <ButtonWrapper
         disabled={disabled}
         onPress={handler}
         backgroundColor={theme.backgroundColor}>
@@ -22,8 +22,8 @@ export const ButtonItem = ({
         ) : (
           <ButtonText color={theme.textColor}>{title}</ButtonText>
         )}
-      </ButtonStart>
-    </ButtonWrapper>
+      </ButtonWrapper>
+    </ButtonContainer>
   );
 };
 
