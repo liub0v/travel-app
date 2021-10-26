@@ -15,8 +15,8 @@ router.get("/", async (req, res) => {
   const destinations = await Destination.find()
     .sort({ _id: 1 })
     .skip(startIndex)
-    .limit(limit);
 
+    .limit(limit);
   res.send(destinations);
 });
 router.post("/", async (req, res) => {
@@ -71,4 +71,5 @@ router.delete("/", async (req, res) => {
 
   res.send(destination);
 });
+
 module.exports = router;

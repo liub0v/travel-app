@@ -3,9 +3,11 @@ import {
   SET_DESTINATIONS_ERROR,
   SET_DESTINATIONS_IS_LOADING,
   SET_HAS_MORE_DESTINATIONS,
+  SET_POPULAR_DESTINATIONS,
 } from '../types/DestinationTypes';
 
 const initialState = {
+  popularDestinations: undefined,
   destinations: undefined,
   isLoading: false,
   error: undefined,
@@ -22,6 +24,8 @@ export const destinationReducer = (state = initialState, {type, payload}) => {
     }
     case SET_HAS_MORE_DESTINATIONS:
       return {...state, hasMore: payload};
+    case SET_POPULAR_DESTINATIONS:
+      return {...state, popularDestinations: payload};
     case SET_DESTINATIONS_IS_LOADING:
       return {...state, isLoading: payload};
     case SET_DESTINATIONS_ERROR:

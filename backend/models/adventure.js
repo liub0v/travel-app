@@ -13,6 +13,7 @@ const adventureSchema = new mongoose.Schema({
   address: String,
   reviews: Array,
 });
+adventureSchema.index({ address: "text" });
 const Adventure = mongoose.model("Adventure", adventureSchema);
 
 function validateAdventure(adventure) {

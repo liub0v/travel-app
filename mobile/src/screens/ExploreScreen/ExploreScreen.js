@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Image, TouchableWithoutFeedback} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {destinationsSelector} from '../../../redux/selectors/DestinationSelector';
-import {adventuresSelector} from '../../../redux/selectors/AdventureSelectors';
+import {useSelector} from 'react-redux';
+import {popularDestinationsSelector} from '../../../redux/selectors/DestinationSelector';
+import {popularAdventuresSelector} from '../../../redux/selectors/AdventureSelectors';
 import {hotelsSelector} from '../../../redux/selectors/HotelSelectors';
 import {Section} from '../../components/Section/Section';
 import {Destination} from './components/Destination';
@@ -19,7 +19,6 @@ import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
-import {getDestinations} from '../../../redux/actions/DestinationActions';
 
 const Category = ({image, title, passHandler = () => {}}) => {
   return (
@@ -36,8 +35,8 @@ export const ExploreScreen = ({navigation}) => {
   const goAdventureCatalog = () => {
     navigation.navigate('AdventureDestinationsCatalog');
   };
-  const destinations = useSelector(destinationsSelector);
-  const adventures = useSelector(adventuresSelector);
+  const destinations = useSelector(popularDestinationsSelector);
+  const adventures = useSelector(popularAdventuresSelector);
   const hotels = useSelector(hotelsSelector);
   return (
     <MainContainer

@@ -11,13 +11,25 @@ router.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 6;
   const startIndex = (page - 1) * limit;
+  await Adventure.createIndexes();
   const adventures = await Adventure.find()
     .sort({ _id: 1 })
     .skip(startIndex)
     .limit(limit);
   res.send(adventures);
 });
-
+router.get("/byDestination", async (req, res) => {
+  const destination = req.query.destination;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 6;
+  const startIndex = (page - 1) * limit;
+  await Adventure.createIndexes();
+  const adventures = await Adventure.find({ $text: { $search: destination } })
+    .sort({ _id: 1 })
+    .skip(startIndex)
+    .limit(limit);
+  res.send(adventures);
+});
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {

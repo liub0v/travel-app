@@ -17,7 +17,7 @@ import {
   TitleWrapper,
 } from './AdventureDestinationsCatalog.style';
 import {getDestinations} from '../../../redux/actions/DestinationActions';
-import {MoreButton} from '../../components/Buttons/MoreButton';
+
 const Destination = ({item, navigation}) => {
   const dispatch = useDispatch();
 

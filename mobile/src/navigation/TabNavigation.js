@@ -19,8 +19,14 @@ import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
 import {useDispatch} from 'react-redux';
-import {getDestinations} from '../../redux/actions/DestinationActions';
-import {getAdventures} from '../../redux/actions/AdventureActions';
+import {
+  getDestinations,
+  getPopularDestinations,
+} from '../../redux/actions/DestinationActions';
+import {
+  getAdventures,
+  getPopularAdventures,
+} from '../../redux/actions/AdventureActions';
 import {getHotels} from '../../redux/actions/HotelActions';
 import {AdventureDestinationsCatalog} from '../screens/AdventureDestinationsCatalogScreen/AdventureDestinationsCatalog';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -71,8 +77,8 @@ export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getDestinations({page: 1, limit: 3}));
-    dispatch(getAdventures());
+    dispatch(getPopularDestinations());
+    dispatch(getPopularAdventures());
     dispatch(getHotels());
   }, []);
   return (

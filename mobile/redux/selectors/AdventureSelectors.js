@@ -4,6 +4,10 @@ export const adventuresSelector = createSelector(
   adventureSelector,
   item => item.adventures,
 );
+export const popularAdventuresSelector = createSelector(
+  adventureSelector,
+  item => item.popularAdventures,
+);
 export const adventuresByDestinationSelector = createSelector(
   adventuresSelector,
   (_, destination) => destination,

@@ -1,10 +1,7 @@
-import React from 'react';
-import {FlatList, Text} from 'react-native';
-import {useSelector} from 'react-redux';
-import {
-  adventuresByDestinationSelector,
-  adventuresSelector,
-} from '../../../redux/selectors/AdventureSelectors';
+import React, {useEffect, useState} from 'react';
+import {FlatList} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {adventuresSelector} from '../../../redux/selectors/AdventureSelectors';
 import {
   FlatListWrapper,
   MainContainer,
@@ -12,14 +9,17 @@ import {
 } from '../AdventureDestinationsCatalogScreen/AdventureDestinationsCatalog.style';
 import {Search} from '../../components/Seacrh/Search';
 import {Adventure} from '../ExploreScreen/components/Adventure';
+import {getAdventures} from '../../../redux/actions/AdventureActions';
 
 export const AdventuresCatalog = ({route}) => {
   const destination = route.params.destination;
-  const adventures = useSelector(state =>
-    adventuresByDestinationSelector(state, destination),
-  );
-  console.log('destination', destination);
-  console.log('adv', adventures);
+  const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
+  const adventures = useSelector(adventuresSelector);
+
+  useEffect(() => {
+    dispatch(getAdventures({page, limit: 8, destination}));
+  }, [page]);
 
   return (
     <MainContainer>
@@ -32,6 +32,10 @@ export const AdventuresCatalog = ({route}) => {
           horizontal={false}
           showsHorizontalScrollIndicator={false}
           data={adventures}
+          onEndReachedThreshold={0.5}
+          onEndReached={({distanceFromEnd}) => {
+            setPage(page + 1);
+          }}
           renderItem={({item}) => (
             <Adventure
               // pressHandler={goAdventuresCatalogByDestination}
