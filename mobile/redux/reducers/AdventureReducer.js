@@ -1,11 +1,11 @@
 import {
+  CLEAR_ADVENTURES,
   SET_ADVENTURES,
   SET_ADVENTURES_ERROR,
   SET_ADVENTURES_IS_LOADING,
   SET_HAS_MORE_ADVENTURES,
   SET_POPULAR_ADVENTURES,
 } from '../types/AdventureTypes';
-import {SET_HAS_MORE_DESTINATIONS} from '../types/DestinationTypes';
 
 const initialState = {
   popularAdventures: undefined,
@@ -23,6 +23,8 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
       }
       return {...state, adventures: payload};
     }
+    case CLEAR_ADVENTURES:
+      return {...state, adventures: undefined};
     case SET_HAS_MORE_ADVENTURES:
       return {...state, hasMore: payload};
     case SET_POPULAR_ADVENTURES:

@@ -40,6 +40,7 @@ export const ExploreScreen = ({navigation}) => {
   const hotels = useSelector(hotelsSelector);
   return (
     <MainContainer
+      nestedScrollEnabled
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{

@@ -18,6 +18,7 @@ router.get("/", async (req, res) => {
     .limit(limit);
   res.send(adventures);
 });
+
 router.get("/byDestination", async (req, res) => {
   const destination = req.query.destination;
   const page = parseInt(req.query.page) || 1;

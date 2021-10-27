@@ -1,4 +1,5 @@
 import {
+  CLEAR_ADVENTURES,
   GET_ADVENTURES,
   GET_POPULAR_ADVENTURES,
   SET_ADVENTURES,
@@ -48,5 +49,10 @@ export const setHasMoreAdventures = hasMore => {
   return {
     type: SET_HAS_MORE_ADVENTURES,
     payload: hasMore,
+  };
+};
+export const clearAdventures = () => {
+  return {
+    type: CLEAR_ADVENTURES,
   };
 };

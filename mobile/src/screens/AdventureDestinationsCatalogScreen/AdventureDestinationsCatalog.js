@@ -17,11 +17,13 @@ import {
   TitleWrapper,
 } from './AdventureDestinationsCatalog.style';
 import {getDestinations} from '../../../redux/actions/DestinationActions';
+import {clearAdventures} from '../../../redux/actions/AdventureActions';
 
 const Destination = ({item, navigation}) => {
   const dispatch = useDispatch();
 
   const goAdventuresCatalogByDestination = () => {
+    dispatch(clearAdventures());
     navigation.navigate('AdventuresCatalog', {destination: item.countryName});
   };
   return (
@@ -66,6 +68,7 @@ export const AdventureDestinationsCatalog = ({navigation}) => {
           renderItem={({item}) => (
             <Destination item={item} navigation={navigation} />
           )}
+          keyExtractor={item => item._id}
         />
       </FlatListWrapper>
     </MainContainer>

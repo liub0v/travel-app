@@ -1,7 +1,9 @@
 import styled from 'styled-components/native';
 import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
-export const MainContainer = styled.View``;
+export const MainContainer = styled.View`
+  flex: 1;
+`;
 
 export const SearchWrapper = styled.View`
   width: 100%;
@@ -33,6 +35,7 @@ export const BoldText = styled.Text`
 `;
 
 export const FlatListWrapper = styled.View`
+  flex: 1;
   margin-top: 20px;
   width: 100%;
   align-items: center;

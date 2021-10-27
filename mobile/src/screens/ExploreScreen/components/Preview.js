@@ -14,7 +14,7 @@ import {
   SearchBarWrapper,
   IconWrapper,
 } from './Preview.style';
-import {Animated, Image, TouchableWithoutFeedback, View} from 'react-native';
+import {Animated, TouchableWithoutFeedback} from 'react-native';
 import {Point} from '../../Onboarding/OnBoarding.style';
 import searchIcon from '../../../../assets/images/searchIcon.png';
 import searchIconWhite from '../../../../assets/images/searchIconWhite.png';
@@ -77,7 +77,6 @@ const SearchBar = () => {
           placeholder={'Where are you going?'}
           editable
           onChangeText={text => onChangeText(text)}
-          value={value}
           onSubmitEditing={() => console.log(text)}
         />
       </Animated.View>

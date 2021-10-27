@@ -55,7 +55,7 @@ export const Section = ({
           horizontal={isHorizontal}
           data={data}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
         />
       </View>
     </SectionContainer>

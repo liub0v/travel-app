@@ -40,9 +40,8 @@ function* getAdventuresSaga(action) {
       destination,
     );
     const adventures = response.data;
-    yield put(setAdventures(adventures));
     !adventures.length && (yield put(setHasMoreAdventures(false)));
-
+    yield put(setAdventures(adventures));
     yield put(setAdventuresIsLoading(false));
   } catch (error) {
     yield put(setAdventuresIsLoading(false));
