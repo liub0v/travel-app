@@ -10,13 +10,13 @@ import {
   FlatListWrapper,
   MainContainer,
   SearchWrapper,
-} from '../AdventureDestinationsCatalogScreen/AdventureDestinationsCatalog.style';
+} from '../DestinationsCatalogScreen/DestinationsCatalog.style';
 import {Search} from '../../components/Seacrh/Search';
 import {Adventure} from '../ExploreScreen/components/Adventure';
 import {getAdventures} from '../../../redux/actions/AdventureActions';
 import colors from '../../constants/colors';
 
-export const AdventuresCatalog = ({route}) => {
+export const AdventuresCatalog = ({navigation, route}) => {
   const destination = route.params.destination;
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
@@ -24,7 +24,6 @@ export const AdventuresCatalog = ({route}) => {
   const isLoading = useSelector(isLoadingAdventureSelector);
   const hasMore = useSelector(hasMoreAdventuresSelector);
   useEffect(() => {
-    console.log(page);
     dispatch(getAdventures({page, limit: 8, destination}));
   }, [page]);
 
@@ -48,10 +47,12 @@ export const AdventuresCatalog = ({route}) => {
             showsVerticalScrollIndicator={false}
             data={adventures}
             onEndReachedThreshold={0.5}
-            onEndReached={({distanceFromEnd}) => {
+            onEndReached={() => {
               hasMore && setPage(page + 1);
             }}
-            renderItem={({item}) => <Adventure item={item} />}
+            renderItem={({item}) => (
+              <Adventure item={item} navigation={navigation} />
+            )}
             keyExtractor={item => item._id}
           />
         )}

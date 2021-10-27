@@ -19,18 +19,13 @@ import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
 import {useDispatch} from 'react-redux';
-import {
-  getDestinations,
-  getPopularDestinations,
-} from '../../redux/actions/DestinationActions';
-import {
-  getAdventures,
-  getPopularAdventures,
-} from '../../redux/actions/AdventureActions';
+import {getPopularDestinations} from '../../redux/actions/DestinationActions';
+import {getPopularAdventures} from '../../redux/actions/AdventureActions';
 import {getHotels} from '../../redux/actions/HotelActions';
-import {AdventureDestinationsCatalog} from '../screens/AdventureDestinationsCatalogScreen/AdventureDestinationsCatalog';
+import {DestinationsCatalog} from '../screens/DestinationsCatalogScreen/DestinationsCatalog';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {AdventuresCatalog} from '../screens/AdventuresCatalogScreen/AdventuresCatalog';
+import {AdventureScreen} from '../screens/AdventureScreen/AdventureScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -63,13 +58,14 @@ function ExploreStackScreen() {
         component={ExploreScreen}
       />
       <ExploreStack.Screen
-        name="AdventureDestinationsCatalog"
-        component={AdventureDestinationsCatalog}
+        name="DestinationsCatalog"
+        component={DestinationsCatalog}
       />
       <ExploreStack.Screen
         name="AdventuresCatalog"
         component={AdventuresCatalog}
       />
+      <ExploreStack.Screen name="AdventureScreen" component={AdventureScreen} />
     </ExploreStack.Navigator>
   );
 }

@@ -33,7 +33,7 @@ const Category = ({image, title, passHandler = () => {}}) => {
 
 export const ExploreScreen = ({navigation}) => {
   const goAdventureCatalog = () => {
-    navigation.navigate('AdventureDestinationsCatalog');
+    navigation.navigate('DestinationsCatalog');
   };
   const destinations = useSelector(popularDestinationsSelector);
   const adventures = useSelector(popularAdventuresSelector);
@@ -50,7 +50,11 @@ export const ExploreScreen = ({navigation}) => {
       <Preview />
       <CategoriesContainer>
         <Category image={hotelsIcon} title={'Hotels'} />
-        <Category image={destinationsIcon} title={'Destinations'} />
+        <Category
+          image={destinationsIcon}
+          title={'Destinations'}
+          passHandler={goAdventureCatalog}
+        />
         <Category
           image={adventuresIcon}
           title={'Adventures'}

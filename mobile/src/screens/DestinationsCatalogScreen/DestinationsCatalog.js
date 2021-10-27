@@ -1,5 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, TouchableWithoutFeedback} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Text,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   destinationsSelector,
@@ -15,9 +20,11 @@ import {
   NormalText,
   SearchWrapper,
   TitleWrapper,
-} from './AdventureDestinationsCatalog.style';
+} from './DestinationsCatalog.style';
 import {getDestinations} from '../../../redux/actions/DestinationActions';
 import {clearAdventures} from '../../../redux/actions/AdventureActions';
+import colors from '../../constants/colors';
+import fonts from '../../constants/fonts';
 
 const Destination = ({item, navigation}) => {
   const dispatch = useDispatch();
@@ -42,7 +49,17 @@ const Destination = ({item, navigation}) => {
     </TouchableWithoutFeedback>
   );
 };
-export const AdventureDestinationsCatalog = ({navigation}) => {
+export const Loader = () => {
+  return <ActivityIndicator size="large" color={colors.green} />;
+};
+export const Footer = () => {
+  return (
+    <Text style={{fontFamily: fonts.normal, color: colors.white}}>
+      {'the end'}
+    </Text>
+  );
+};
+export const DestinationsCatalog = ({navigation}) => {
   const destinations = useSelector(destinationsSelector);
   const hasMore = useSelector(hasMoreDestinationsSelector);
   const dispatch = useDispatch();
@@ -62,13 +79,14 @@ export const AdventureDestinationsCatalog = ({navigation}) => {
           showsVerticalScrollIndicator={false}
           data={destinations}
           onEndReachedThreshold={0.5}
-          onEndReached={({distanceFromEnd}) => {
+          onEndReached={() => {
             hasMore && setPage(page + 1);
           }}
           renderItem={({item}) => (
             <Destination item={item} navigation={navigation} />
           )}
           keyExtractor={item => item._id}
+          ListFooterComponent={hasMore ? Loader : Footer}
         />
       </FlatListWrapper>
     </MainContainer>
