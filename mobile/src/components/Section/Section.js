@@ -10,7 +10,11 @@ import {
   SectionHeaderWrapper,
 } from './Section.style';
 
-const SectionHeader = ({title = 'Section', showRightButton, passHandler}) => {
+export const SectionHeader = ({
+  title = 'Section',
+  showRightButton = true,
+  passHandler = () => {},
+}) => {
   return (
     <SectionHeaderWrapper>
       <SectionHeaderTitleWrapper>

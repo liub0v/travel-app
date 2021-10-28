@@ -26,6 +26,8 @@ import {DestinationsCatalog} from '../screens/DestinationsCatalogScreen/Destinat
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {AdventuresCatalog} from '../screens/AdventuresCatalogScreen/AdventuresCatalog';
 import {AdventureScreen} from '../screens/AdventureScreen/AdventureScreen';
+import arrow from '../../assets/images/next.png';
+import {Like} from '../components/Like/Like';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,6 +50,8 @@ const EditButton = ({navigation}) => {
 const ExploreStack = createNativeStackNavigator();
 
 function ExploreStackScreen() {
+  const {goBack} = useNavigation();
+
   return (
     <ExploreStack.Navigator>
       <ExploreStack.Screen
@@ -65,10 +69,20 @@ function ExploreStackScreen() {
         name="AdventuresCatalog"
         component={AdventuresCatalog}
       />
-      <ExploreStack.Screen name="AdventureScreen" component={AdventureScreen} />
+      <ExploreStack.Screen
+        options={{
+          headerTransparent: true,
+          headerShadowVisible: false,
+          headerTitle: '',
+          headerRight: () => <Like />,
+        }}
+        name="AdventureScreen"
+        component={AdventureScreen}
+      />
     </ExploreStack.Navigator>
   );
 }
+
 export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();

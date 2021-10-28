@@ -5,4 +5,5 @@ export default Object.freeze({
   white: '#FFFFFF',
   red: '#EB5757',
   valid: '#9cee90',
+  grey: '#FFFFFF7F',
 });

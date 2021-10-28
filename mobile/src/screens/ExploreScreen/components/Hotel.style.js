@@ -28,10 +28,10 @@ export const HotelName = styled.Text`
   font-size: 12px;
   color: ${colors.white};
 `;
-export const HotelStarsContainer = styled.View`
+export const StarsContainer = styled.View`
   flex-direction: row;
 `;
-export const HotelStar = styled.Image`
+export const Star = styled.Image`
   margin-right: 5px;
 `;
 export const HotelPriceWrapper = styled.View`

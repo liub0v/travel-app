@@ -28,7 +28,9 @@ router.get("/byDestination", async (req, res) => {
   const adventures = await Adventure.find({ $text: { $search: destination } })
     .sort({ _id: 1 })
     .skip(startIndex)
-    .limit(limit);
+    .limit(limit)
+    .populate("guideID");
+  console.log(adventures);
   res.send(adventures);
 });
 router.post("/", async (req, res) => {

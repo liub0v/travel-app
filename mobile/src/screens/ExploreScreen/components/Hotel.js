@@ -8,8 +8,8 @@ import {
   HotelPrice,
   HotelPricePeriod,
   HotelPriceWrapper,
-  HotelStar,
-  HotelStarsContainer,
+  Star,
+  StarsContainer,
 } from './Hotel.style';
 
 export const Hotel = ({item}) => {
@@ -18,11 +18,11 @@ export const Hotel = ({item}) => {
       <HotelImage source={{uri: item.imageURL}} />
       <HotelInfoWrapper>
         <HotelName>{`${item.name} ${item?.rating}*`}</HotelName>
-        <HotelStarsContainer>
+        <StarsContainer>
           {[...Array(item.starsNumber)].map((item, index) => {
-            return <HotelStar key={index} source={star} />;
+            return <Star key={index} source={star} />;
           })}
-        </HotelStarsContainer>
+        </StarsContainer>
         <HotelPriceWrapper>
           <HotelPrice>{`$ ${item.price} / `}</HotelPrice>
           <HotelPricePeriod>{'per night'}</HotelPricePeriod>
