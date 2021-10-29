@@ -7,20 +7,32 @@ import colors from '../../constants/colors';
 export const ButtonItem = ({
   handler = () => {},
   title = 'press',
+  titleSize = 16,
   disabled = false,
   isLoading = false,
-  theme = {backgroundColor: colors.blue, textColor: colors.white},
+  theme = {
+    backgroundColor: colors.blue,
+    textColor: colors.white,
+  },
+  size = {
+    height: 50,
+    width: 80,
+  },
 }) => {
   return (
     <ButtonContainer>
       <ButtonWrapper
         disabled={disabled}
         onPress={handler}
-        backgroundColor={theme.backgroundColor}>
+        backgroundColor={theme.backgroundColor}
+        height={size.height}
+        width={size.width}>
         {isLoading ? (
           <ActivityIndicator size="small" color={colors.white} />
         ) : (
-          <ButtonText color={theme.textColor}>{title}</ButtonText>
+          <ButtonText fontSize={titleSize} color={theme.textColor}>
+            {title}
+          </ButtonText>
         )}
       </ButtonWrapper>
     </ButtonContainer>

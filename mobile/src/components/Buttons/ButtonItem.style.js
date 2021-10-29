@@ -5,15 +5,15 @@ export const ButtonWrapper = styled.TouchableOpacity`
   align-items: center;
   background-color: ${props => props.backgroundColor};
   border-radius: 16px;
-  height: 50px;
-  width: 300px;
+  height: ${props => props.height}px;
+  width: ${props => props.width}%;
 `;
 export const ButtonContainer = styled.View`
-  margin-top: 5%;
-  margin-bottom: 5%;
+  width: 100%;
+  align-items: center;
 `;
 export const ButtonText = styled.Text`
   font-family: ${fonts.normal};
-  font-size: 16px;
+  font-size: ${props => props.fontSize}px;
   color: ${props => props.color};
 `;

@@ -35,6 +35,10 @@ export const ExploreScreen = ({navigation}) => {
   const goAdventureCatalog = () => {
     navigation.navigate('DestinationsCatalog');
   };
+
+  const goHotelsCatalog = () => {
+    navigation.navigate('HotelsCatalogByDestination');
+  };
   const destinations = useSelector(popularDestinationsSelector);
   const adventures = useSelector(popularAdventuresSelector);
   const hotels = useSelector(hotelsSelector);
@@ -49,7 +53,11 @@ export const ExploreScreen = ({navigation}) => {
       }}>
       <Preview />
       <CategoriesContainer>
-        <Category image={hotelsIcon} title={'Hotels'} />
+        <Category
+          image={hotelsIcon}
+          passHandler={goHotelsCatalog}
+          title={'Hotels'}
+        />
         <Category
           image={destinationsIcon}
           title={'Destinations'}

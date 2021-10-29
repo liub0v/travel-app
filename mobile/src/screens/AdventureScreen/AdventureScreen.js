@@ -1,5 +1,4 @@
 import React, {useCallback, useState} from 'react';
-import {Button, Text} from 'react-native';
 import {
   ButtonWrapper,
   CategoryRatingItem,
@@ -22,7 +21,6 @@ import {
   NameTitle,
   PriceContainer,
   PriceTitle,
-  RaitingContainer,
   RateTitle,
   RatingContainer,
   ReviewsContainer,
@@ -36,13 +34,10 @@ import {
   UserInfoWrapper,
   UserRatingTitle,
 } from './AdventureScreen.style';
-import {Star, StarsContainer} from '../ExploreScreen/components/Hotel.style';
-import star from '../../../assets/images/start.png';
 import {SectionHeader} from '../../components/Section/Section';
 import colors from '../../constants/colors';
 import guideAvatar from '../../../assets/images/avatarBig.png';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
-import {BottomInfoLine} from '../InboxScreen/components/Dialog.style';
 import {Stars} from '../../components/Stars/Stars';
 
 export const DynamicText = ({text, lineNumber = 5}) => {

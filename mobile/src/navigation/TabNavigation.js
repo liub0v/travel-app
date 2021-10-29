@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {View, Image, TouchableWithoutFeedback} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {ExploreScreen} from '../screens/ExploreScreen/ExploreScreen';
 import {InboxScreen} from '../screens/InboxScreen/InboxScreen';
 import {TripsScreen} from '../screens/TripsScreen/TripsScreen';
 import {ProfileScreen} from '../screens/ProfileScreen/ProfileScreen';
@@ -22,12 +21,8 @@ import {useDispatch} from 'react-redux';
 import {getPopularDestinations} from '../../redux/actions/DestinationActions';
 import {getPopularAdventures} from '../../redux/actions/AdventureActions';
 import {getHotels} from '../../redux/actions/HotelActions';
-import {DestinationsCatalog} from '../screens/DestinationsCatalogScreen/DestinationsCatalog';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {AdventuresCatalog} from '../screens/AdventuresCatalogScreen/AdventuresCatalog';
-import {AdventureScreen} from '../screens/AdventureScreen/AdventureScreen';
-import arrow from '../../assets/images/next.png';
-import {Like} from '../components/Like/Like';
+
+import {ExploreStackScreen} from './ExploreStackScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,41 +42,6 @@ const EditButton = ({navigation}) => {
     </TouchableWithoutFeedback>
   );
 };
-const ExploreStack = createNativeStackNavigator();
-
-function ExploreStackScreen() {
-  const {goBack} = useNavigation();
-
-  return (
-    <ExploreStack.Navigator>
-      <ExploreStack.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="Explore"
-        component={ExploreScreen}
-      />
-      <ExploreStack.Screen
-        name="DestinationsCatalog"
-        component={DestinationsCatalog}
-      />
-      <ExploreStack.Screen
-        name="AdventuresCatalog"
-        component={AdventuresCatalog}
-      />
-      <ExploreStack.Screen
-        options={{
-          headerTransparent: true,
-          headerShadowVisible: false,
-          headerTitle: '',
-          headerRight: () => <Like />,
-        }}
-        name="AdventureScreen"
-        component={AdventureScreen}
-      />
-    </ExploreStack.Navigator>
-  );
-}
 
 export const TabNavigation = () => {
   const navigation = useNavigation();
