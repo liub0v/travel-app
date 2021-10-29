@@ -1,5 +1,4 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useNavigation} from '@react-navigation/native';
 import {ExploreScreen} from '../screens/ExploreScreen/ExploreScreen';
 import {DestinationsCatalog} from '../screens/DestinationsCatalogScreen/DestinationsCatalog';
 import {AdventuresCatalog} from '../screens/AdventuresCatalogScreen/AdventuresCatalog';
