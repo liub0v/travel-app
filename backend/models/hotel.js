@@ -16,6 +16,7 @@ const hotelSchema = new mongoose.Schema({
   },
   starsNumber: Number,
 });
+hotelSchema.index({ address: "text" });
 const Hotel = mongoose.model("Hotel", hotelSchema);
 
 function validateHotel(hotel) {

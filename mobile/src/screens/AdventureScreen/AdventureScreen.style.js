@@ -1,17 +1,15 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
-import {Animated} from 'react-native';
 import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
 export const MainContainer = styled.ScrollView`
   flex: 1;
   flex-direction: column;
 `;
-export const Container = styled.ImageBackground`
+export const ImageContainer = styled.ImageBackground`
   width: 100%;
   height: 410px;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px 60px;
 `;
 export const InfoContainer = styled.View`
   flex-direction: row;

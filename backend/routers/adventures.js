@@ -30,7 +30,7 @@ router.get("/byDestination", async (req, res) => {
     .skip(startIndex)
     .limit(limit)
     .populate("guideID");
-  console.log(adventures);
+
   res.send(adventures);
 });
 router.post("/", async (req, res) => {

@@ -21,17 +21,18 @@ export const getAdventures = options => {
     payload: options,
   };
 };
-export const getPopularAdventures = () => {
-  return {
-    type: GET_POPULAR_ADVENTURES,
-  };
-};
 export const setPopularAdventures = adventures => {
   return {
     type: SET_POPULAR_ADVENTURES,
     payload: adventures,
   };
 };
+export const getPopularAdventures = () => {
+  return {
+    type: GET_POPULAR_ADVENTURES,
+  };
+};
+
 export const setAdventuresIsLoading = isLoading => {
   return {
     type: SET_ADVENTURES_IS_LOADING,

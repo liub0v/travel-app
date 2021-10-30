@@ -7,6 +7,7 @@ import {AdventureScreen} from '../screens/AdventureScreen/AdventureScreen';
 import React from 'react';
 import {HotelsCatalogByDestination} from '../screens/HotelsCatalogByDestinations/HotelsCatalogByDestination';
 import {HotelsCatalog} from '../screens/HotelsCatalogScreen/HotelsCatalog';
+import {HotelScreen} from '../screens/HotelScreen/HotelScreen';
 
 const ExploreStack = createNativeStackNavigator();
 
@@ -48,6 +49,16 @@ export function ExploreStackScreen() {
         }}
         name="AdventureScreen"
         component={AdventureScreen}
+      />
+      <ExploreStack.Screen
+        options={{
+          headerTransparent: true,
+          headerShadowVisible: false,
+          headerTitle: '',
+          headerRight: () => <Like />,
+        }}
+        name="HotelScreen"
+        component={HotelScreen}
       />
     </ExploreStack.Navigator>
   );

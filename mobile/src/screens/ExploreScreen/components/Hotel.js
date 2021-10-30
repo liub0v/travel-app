@@ -11,23 +11,26 @@ import {
   Star,
   StarsContainer,
 } from './Hotel.style';
+import {TouchableWithoutFeedback} from 'react-native';
 
-export const Hotel = ({item}) => {
+export const Hotel = ({item, handler}) => {
   return (
-    <HotelItem>
-      <HotelImage source={{uri: item.imageURL}} />
-      <HotelInfoWrapper>
-        <HotelName>{`${item.name} ${item?.rating}*`}</HotelName>
-        <StarsContainer>
-          {[...Array(item.starsNumber)].map((item, index) => {
-            return <Star key={index} source={star} />;
-          })}
-        </StarsContainer>
-        <HotelPriceWrapper>
-          <HotelPrice>{`$ ${item.price} / `}</HotelPrice>
-          <HotelPricePeriod>{'per night'}</HotelPricePeriod>
-        </HotelPriceWrapper>
-      </HotelInfoWrapper>
-    </HotelItem>
+    <TouchableWithoutFeedback onPress={handler}>
+      <HotelItem>
+        <HotelImage source={{uri: item.imageURL}} />
+        <HotelInfoWrapper>
+          <HotelName>{`${item.name} ${item?.rating}*`}</HotelName>
+          <StarsContainer>
+            {[...Array(item.starsNumber)].map((item, index) => {
+              return <Star key={index} source={star} />;
+            })}
+          </StarsContainer>
+          <HotelPriceWrapper>
+            <HotelPrice>{`$ ${item.price} / `}</HotelPrice>
+            <HotelPricePeriod>{'per night'}</HotelPricePeriod>
+          </HotelPriceWrapper>
+        </HotelInfoWrapper>
+      </HotelItem>
+    </TouchableWithoutFeedback>
   );
 };

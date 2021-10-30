@@ -20,7 +20,7 @@ import editIcon from '../../assets/images/editIcon.png';
 import {useDispatch} from 'react-redux';
 import {getPopularDestinations} from '../../redux/actions/DestinationActions';
 import {getPopularAdventures} from '../../redux/actions/AdventureActions';
-import {getHotels} from '../../redux/actions/HotelActions';
+import {getPopularHotels} from '../../redux/actions/HotelActions';
 
 import {ExploreStackScreen} from './ExploreStackScreen';
 
@@ -49,7 +49,7 @@ export const TabNavigation = () => {
   useEffect(() => {
     dispatch(getPopularDestinations());
     dispatch(getPopularAdventures());
-    dispatch(getHotels());
+    dispatch(getPopularHotels());
   }, []);
   return (
     <Tab.Navigator

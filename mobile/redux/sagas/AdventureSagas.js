@@ -9,6 +9,7 @@ import {
   setHasMoreAdventures,
   setPopularAdventures,
 } from '../actions/AdventureActions';
+
 export const adventureSagas = [
   takeEvery(GET_ADVENTURES, getAdventuresSaga),
   takeEvery(GET_POPULAR_ADVENTURES, getPopularAdventuresSaga),
@@ -16,7 +17,7 @@ export const adventureSagas = [
 function* getPopularAdventuresSaga(action) {
   try {
     // yield put(setAdventuresIsLoading(true));
-    const response = yield call(adventureAPI.getPopularAdventures, 1, 3);
+    const response = yield call(adventureAPI.getPopularAdventures, 1, 5);
     const adventures = response.data;
     yield put(setPopularAdventures(adventures));
     // yield put(setAdventuresIsLoading(false));

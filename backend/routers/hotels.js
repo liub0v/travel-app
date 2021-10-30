@@ -20,6 +20,19 @@ router.get("/", async (req, res) => {
   if (!hotels.length) return res.status(404).send("Hotel is empty");
   res.send(hotels);
 });
+router.get("/ByDestination", async (req, res) => {
+  const destination = req.query.destination;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 6;
+  const startIndex = (page - 1) * limit;
+  await Hotel.createIndexes();
+  const hotels = await Hotel.find({ $text: { $search: destination } })
+    .sort({ _id: 1 })
+    .skip(startIndex)
+    .limit(limit);
+
+  res.send(hotels);
+});
 router.delete("/gallery", async (req, res) => {
   const hotel = await Hotel.findById(req.body.id);
   if (!hotel) return res.status(404).send("Hotel doesn't exist");

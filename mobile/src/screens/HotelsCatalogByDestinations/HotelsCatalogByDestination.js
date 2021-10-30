@@ -20,11 +20,13 @@ import {
 import FastImage from 'react-native-fast-image';
 import {getDestinations} from '../../../redux/actions/DestinationActions';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
+import {clearHotels} from '../../../redux/actions/HotelActions';
 
 const Destination = ({item, navigation}) => {
+  const dispatch = useDispatch();
   const goHotelsCatalog = () => {
-    console.log('hotel');
-    navigation.navigate('HotelsCatalog');
+    dispatch(clearHotels());
+    navigation.navigate('HotelsCatalog', {destination: item.countryName});
   };
 
   return (
@@ -51,7 +53,6 @@ const Destination = ({item, navigation}) => {
   );
 };
 export const HotelsCatalogByDestination = ({navigation}) => {
-  const hotels = useSelector(hotelsSelector);
   const destinations = useSelector(destinationsSelector);
   const hasMore = useSelector(hasMoreDestinationsSelector);
   const dispatch = useDispatch();

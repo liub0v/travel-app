@@ -6,7 +6,7 @@ import {
   CategoryRatingLineValue,
   CategoryRatingTitle,
   CommentContainer,
-  Container,
+  ImageContainer,
   DateTitle,
   GeneralRatingTitle,
   GeneralRatingWrapper,
@@ -104,7 +104,7 @@ export const AdventureScreen = ({route}) => {
       contentContainerStyle={{
         flexGrow: 1,
       }}>
-      <Container source={{uri: adventure.imageURL}} />
+      <ImageContainer source={{uri: adventure.imageURL}} />
       <InfoContainer>
         <NameContainer>
           <Stars starsNumber={5} />
