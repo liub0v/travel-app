@@ -46,6 +46,7 @@ const EditButton = ({navigation}) => {
 export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getPopularDestinations());
     dispatch(getPopularAdventures());

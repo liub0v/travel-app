@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableWithoutFeedback} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 import {
   BoldText,
   ButtonSeeMoreWrapper,
@@ -98,7 +98,7 @@ export const HotelScreen = ({route}) => {
                 <GalleryMoreImage
                   blurRadius={3}
                   imageStyle={{borderRadius: 8}}
-                  source={{uri: hotel.gallery[1]}}>
+                  source={{uri: hotel.gallery[3]}}>
                   <GalleryMoreTitle>{'6+'}</GalleryMoreTitle>
                 </GalleryMoreImage>
               </TouchableWithoutFeedback>

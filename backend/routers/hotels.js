@@ -4,7 +4,6 @@ const {
   removeFromCloud,
   updateCloudImage,
 } = require("../utils/cloudinary");
-const { Adventure } = require("../models/adventure");
 const router = require("express").Router();
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 

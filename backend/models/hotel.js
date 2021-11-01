@@ -38,3 +38,4 @@ function validateHotel(hotel) {
 }
 module.exports.validate = validateHotel;
 module.exports.Hotel = Hotel;
+module.exports.hotelSchema = hotelSchema;

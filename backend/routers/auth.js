@@ -30,7 +30,9 @@ router.post("/", async (req, res) => {
   let userRole = null;
   switch (user.role) {
     case "client":
-      userRole = await Client.findOne({ userID: user._id });
+      userRole = await Client.findOne({ userID: user._id }).populate(
+        "savedHotels"
+      );
       if (!userRole) return res.status(400).send("User isn't a client");
 
       break;

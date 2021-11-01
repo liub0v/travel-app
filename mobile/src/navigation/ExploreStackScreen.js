@@ -54,6 +54,7 @@ export function ExploreStackScreen() {
         options={{
           headerTransparent: true,
           headerShadowVisible: false,
+          headerBackTitle: '',
           headerTitle: '',
           headerRight: () => <Like />,
         }}

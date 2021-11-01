@@ -3,9 +3,7 @@ import {Image, TouchableWithoutFeedback} from 'react-native';
 import {useSelector} from 'react-redux';
 import {popularDestinationsSelector} from '../../../redux/selectors/DestinationSelector';
 import {popularAdventuresSelector} from '../../../redux/selectors/AdventureSelectors';
-import {
-  popularHotelsSelector,
-} from '../../../redux/selectors/HotelSelectors';
+import {popularHotelsSelector} from '../../../redux/selectors/HotelSelectors';
 import {Section} from '../../components/Section/Section';
 import {Destination} from './components/Destination';
 import {Adventure} from './components/Adventure';
@@ -91,6 +89,7 @@ export const ExploreScreen = ({navigation}) => {
         isHorizontal={false}
         data={hotels}
         renderItem={Hotel}
+        passHandler={goHotelsCatalog}
       />
     </MainContainer>
   );

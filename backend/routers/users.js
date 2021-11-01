@@ -6,6 +6,8 @@ const { uploadToCloud } = require("../utils/cloudinary");
 const { User, validate } = require("../models/user");
 const { Client } = require("../models/client");
 const { Guide } = require("../models/guide");
+const { Hotel } = require("../models/hotel");
+const { Adventure } = require("../models/adventure");
 
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -16,13 +18,13 @@ router.get("/", async (req, res) => {
 //current user
 router.get("/me", validateObjectID, auth, async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
-  if (!user) res.status(404).send("User doesn't exist");
+  if (!user) return res.status(404).send("User doesn't exist");
   res.send(user);
 });
 //set isOnboarding
 router.put("/onboarding", auth, async (req, res) => {
   const user = await User.findById(req.user._id);
-  if (!user) res.status(404).send("User doesn't exist");
+  if (!user) return res.status(404).send("User doesn't exist");
   user.isOnBoarding = req.body.isOnBoarding; //!user.isOnBoarding
   await user.save();
   res.send({
@@ -30,24 +32,50 @@ router.put("/onboarding", auth, async (req, res) => {
   });
 });
 //update profile info
+router.put("/saveHotel", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id });
+  if (!client) return res.status(404).send("User doesn't exist");
+
+  const hotel = await Hotel.findById(req.body.hotelID);
+  if (!hotel) return res.status(404).send("Hotel doesn't exist");
+
+  client.savedHotels = [...client.savedHotels, hotel];
+
+  await client.save();
+
+  res.send({ savedHotels: client.savedHotels });
+});
+router.put("/saveAdventure", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id });
+  if (!client) return res.status(404).send("User doesn't exist");
+
+  const adventure = await Adventure.findById(req.body.adventureID);
+  if (!adventure) return res.status(404).send("Adventure doesn't exist");
+
+  client.savedAdventures = [...client.savedAdventures, adventure];
+
+  await client.save();
+
+  res.send({ savedAdventures: client.savedAdventures });
+});
 router.put("/profileInfo", async (req, res) => {
   // let user = await User.findById(req.user._id);
   let user = await User.findOne({ email: "c10@mail.com" });
-  if (!user) res.status(404).send("User doesn't exist");
+  if (!user) return res.status(404).send("User doesn't exist");
 
   switch (user.role) {
     case "client": {
       user = await Client.findOne({
         userID: user._id,
       });
-      if (!user) res.status(404).send("User isn't a client");
+      if (!user) return res.status(404).send("User isn't a client");
       break;
     }
     case "guide": {
       user = await Guide.findOne({
         userID: user._id,
       });
-      if (!user) res.status(404).send("User isn't a guide");
+      if (!user) return res.status(404).send("User isn't a guide");
       break;
     }
   }
@@ -132,4 +160,5 @@ router.post("/guide", async (req, res) => {
     role: user.role,
   });
 });
+
 module.exports = router;
