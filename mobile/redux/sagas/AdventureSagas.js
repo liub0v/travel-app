@@ -1,6 +1,11 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {showMessage} from 'react-native-flash-message';
-import {GET_ADVENTURES, GET_POPULAR_ADVENTURES} from '../types/AdventureTypes';
+import {
+  DELETE_SAVED_ADVENTURE,
+  GET_ADVENTURES,
+  GET_POPULAR_ADVENTURES,
+  SAVE_ADVENTURE,
+} from '../types/AdventureTypes';
 import {adventureAPI} from '../../src/api/adventureAPI';
 import {
   setAdventures,
@@ -8,11 +13,17 @@ import {
   setAdventuresError,
   setHasMoreAdventures,
   setPopularAdventures,
+  removeSavedAdventure,
 } from '../actions/AdventureActions';
+import {tokenSelector} from '../selectors/UserSelector';
+import {userAPI} from '../../src/api/userAPI';
+import {setAdventureHotel} from '../actions/AuthActions';
 
 export const adventureSagas = [
   takeEvery(GET_ADVENTURES, getAdventuresSaga),
   takeEvery(GET_POPULAR_ADVENTURES, getPopularAdventuresSaga),
+  takeEvery(SAVE_ADVENTURE, saveAdventureSaga),
+  takeEvery(DELETE_SAVED_ADVENTURE, deleteSavedAdventureSaga),
 ];
 function* getPopularAdventuresSaga(action) {
   try {
@@ -51,5 +62,49 @@ function* getAdventuresSaga(action) {
       message: error.response?.data,
       type: 'error',
     });
+  }
+}
+
+function* saveAdventureSaga(action) {
+  try {
+    // yield put(setHotelsIsLoading(true));
+    const token = yield select(tokenSelector);
+    const adventureID = action.payload;
+    const response = yield call(userAPI.saveAdventure, adventureID, token);
+    const adventure = response.data;
+    yield put(setAdventureHotel(adventure));
+    // yield put(setPopularHotels(hotels));
+    // yield put(setHotelsIsLoading(false));
+  } catch (error) {
+    // yield put(setHotelsIsLoading(false));
+    // yield put(setHotelsError(error));
+    // yield call(showMessage, {
+    //   message: error.response?.data,
+    //   type: 'error',
+    // });
+  }
+}
+function* deleteSavedAdventureSaga(action) {
+  try {
+    // yield put(setHotelsIsLoading(true));
+    const token = yield select(tokenSelector);
+    const adventureID = action.payload;
+
+    const response = yield call(
+      userAPI.deleteSavedAdventure,
+      adventureID,
+      token,
+    );
+    console.log(response);
+    yield put(removeSavedAdventure(adventureID));
+    // yield put(setPopularHotels(hotels));
+    // yield put(setHotelsIsLoading(false));
+  } catch (error) {
+    // yield put(setHotelsIsLoading(false));
+    // yield put(setHotelsError(error));
+    // yield call(showMessage, {
+    //   message: error.response?.data,
+    //   type: 'error',
+    // });
   }
 }

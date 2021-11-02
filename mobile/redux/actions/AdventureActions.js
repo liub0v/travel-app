@@ -1,7 +1,10 @@
 import {
   CLEAR_ADVENTURES,
+  DELETE_SAVED_ADVENTURE,
   GET_ADVENTURES,
   GET_POPULAR_ADVENTURES,
+  REMOVE_SAVED_ADVENTURE,
+  SAVE_ADVENTURE,
   SET_ADVENTURES,
   SET_ADVENTURES_ERROR,
   SET_ADVENTURES_IS_LOADING,
@@ -55,5 +58,23 @@ export const setHasMoreAdventures = hasMore => {
 export const clearAdventures = () => {
   return {
     type: CLEAR_ADVENTURES,
+  };
+};
+export const saveAdventure = adventureID => {
+  return {
+    type: SAVE_ADVENTURE,
+    payload: adventureID,
+  };
+};
+export const removeSavedAdventure = adventureID => {
+  return {
+    type: REMOVE_SAVED_ADVENTURE,
+    payload: adventureID,
+  };
+};
+export const deleteSavedAdventure = adventureID => {
+  return {
+    type: DELETE_SAVED_ADVENTURE,
+    payload: adventureID,
   };
 };

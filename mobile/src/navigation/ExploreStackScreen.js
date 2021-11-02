@@ -2,7 +2,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ExploreScreen} from '../screens/ExploreScreen/ExploreScreen';
 import {DestinationsCatalog} from '../screens/DestinationsCatalogScreen/DestinationsCatalog';
 import {AdventuresCatalog} from '../screens/AdventuresCatalogScreen/AdventuresCatalog';
-import {Like} from '../components/Like/Like';
 import {AdventureScreen} from '../screens/AdventureScreen/AdventureScreen';
 import React from 'react';
 import {HotelsCatalogByDestination} from '../screens/HotelsCatalogByDestinations/HotelsCatalogByDestination';
@@ -12,7 +11,6 @@ import {HotelScreen} from '../screens/HotelScreen/HotelScreen';
 const ExploreStack = createNativeStackNavigator();
 
 export function ExploreStackScreen() {
-  const setLikeOnAdventure = () => {};
   return (
     <ExploreStack.Navigator initialRouteName="Explore">
       <ExploreStack.Screen
@@ -46,7 +44,6 @@ export function ExploreStackScreen() {
           headerTransparent: true,
           headerShadowVisible: false,
           headerTitle: '',
-          headerRight: () => <Like handler={setLikeOnAdventure} />,
         }}
         name="AdventureScreen"
         component={AdventureScreen}

@@ -39,14 +39,12 @@ async function saveHotel(hotelID, token) {
   );
 }
 async function deleteSavedHotel(hotelID, token) {
-  return await instance.delete(
-    '/users/savedHotel',
-    {hotelID},
-    {
-      headers: {'x-auth-token': token},
-    },
-  );
+  return await instance.delete('/users/savedHotel', {
+    headers: {'x-auth-token': token},
+    data: {hotelID},
+  });
 }
+
 async function saveAdventure(adventureID, token) {
   return await instance.put(
     '/users/saveAdventure',
@@ -57,6 +55,12 @@ async function saveAdventure(adventureID, token) {
   );
 }
 
+async function deleteSavedAdventure(adventureID, token) {
+  return await instance.delete('/users/savedAdventure', {
+    headers: {'x-auth-token': token},
+    data: {adventureID},
+  });
+}
 export const userAPI = {
   logInUser,
   getUserByToken,
@@ -65,4 +69,5 @@ export const userAPI = {
   saveHotel,
   saveAdventure,
   deleteSavedHotel,
+  deleteSavedAdventure,
 };

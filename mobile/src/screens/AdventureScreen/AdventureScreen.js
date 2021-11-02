@@ -39,6 +39,14 @@ import colors from '../../constants/colors';
 import guideAvatar from '../../../assets/images/avatarBig.png';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {Stars} from '../../components/Stars/Stars';
+import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
+import {Like} from '../../components/Like/Like';
+import {useDispatch, useSelector} from 'react-redux';
+import {savedAdventuresSelector} from '../../../redux/selectors/UserSelector';
+import {
+  deleteSavedAdventure,
+  saveAdventure,
+} from '../../../redux/actions/AdventureActions';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -96,7 +104,14 @@ export const Criterion = ({title = 'criterion', value = 100}) => {
 };
 export const AdventureScreen = ({route}) => {
   const adventure = route.params.adventure;
-
+  const dispatch = useDispatch();
+  const savedAdventures = useSelector(savedAdventuresSelector);
+  const like =
+    savedAdventures.filter(item => item._id === adventure._id).length > 0;
+  const setLikeOnAdventure = () => {
+    like && dispatch(deleteSavedAdventure(adventure._id));
+    !like && dispatch(saveAdventure(adventure._id));
+  };
   return (
     <MainContainer
       showsVerticalScrollIndicator={false}
@@ -104,7 +119,11 @@ export const AdventureScreen = ({route}) => {
       contentContainerStyle={{
         flexGrow: 1,
       }}>
-      <ImageContainer source={{uri: adventure.imageURL}} />
+      <ImageContainer source={{uri: adventure.imageURL}}>
+        <LikeWrapper>
+          <Like handler={setLikeOnAdventure} likeInit={like} />
+        </LikeWrapper>
+      </ImageContainer>
       <InfoContainer>
         <NameContainer>
           <Stars starsNumber={5} />

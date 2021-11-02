@@ -7,6 +7,7 @@ import {
   SET_LOG_IN_IS_LOADING,
   SET_LOG_OUT_ERROR,
   SET_LOG_OUT_IS_LOADING,
+  SET_SAVED_ADVENTURE,
   SET_SAVED_HOTEL,
   SET_SIGN_UP_ERROR,
   SET_SIGN_UP_IS_LOADING,
@@ -93,6 +94,13 @@ export const setSavedHotel = hotel => {
     payload: hotel,
   };
 };
+export const setAdventureHotel = adventure => {
+  return {
+    type: SET_SAVED_ADVENTURE,
+    payload: adventure,
+  };
+};
+
 export const saveProfileOnboarding = isOnboarding => {
   return {
     type: SAVE_PROFILE_ONBOARDING,

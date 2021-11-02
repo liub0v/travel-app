@@ -59,6 +59,18 @@ router.delete("/savedHotel", auth, async (req, res) => {
 
   res.send(client.savedHotels);
 });
+router.delete("/savedAdventure", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id });
+  if (!client) return res.status(404).send("User doesn't exist");
+
+  client.savedAdventures = client.savedAdventures.filter(
+    (item) => item.toString() !== req.body.adventureID
+  );
+
+  await client.save();
+
+  res.send(client.savedAdventures);
+});
 router.put("/saveAdventure", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id }).populate(
     "savedAdventures"
