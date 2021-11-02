@@ -38,14 +38,7 @@ export const HotelsCatalog = ({navigation, route}) => {
           onEndReached={() => {
             hasMore && setPage(page + 1);
           }}
-          renderItem={({item}) => (
-            <Hotel
-              item={item}
-              handler={() => {
-                navigation.navigate('HotelScreen', {hotel: item});
-              }}
-            />
-          )}
+          renderItem={({item}) => <Hotel item={item} navigation={navigation} />}
           keyExtractor={item => item._id}
           // ListFooterComponent={hasMore ? Loader : Footer}
         />

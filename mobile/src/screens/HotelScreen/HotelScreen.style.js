@@ -20,6 +20,11 @@ export const NameContainer = styled.View`
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
 `;
+export const LikeWrapper = styled.View`
+  position: absolute;
+  right: 10px;
+  top: 30px;
+`;
 export const BoldText = styled.Text`
   font-family: ${fonts.bold};
   font-size: 24px;

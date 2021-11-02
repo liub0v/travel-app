@@ -29,5 +29,40 @@ async function putIsOnBoarding(isOnBoarding, token) {
     },
   );
 }
+async function saveHotel(hotelID, token) {
+  return await instance.put(
+    '/users/saveHotel',
+    {hotelID},
+    {
+      headers: {'x-auth-token': token},
+    },
+  );
+}
+async function deleteSavedHotel(hotelID, token) {
+  return await instance.delete(
+    '/users/savedHotel',
+    {hotelID},
+    {
+      headers: {'x-auth-token': token},
+    },
+  );
+}
+async function saveAdventure(adventureID, token) {
+  return await instance.put(
+    '/users/saveAdventure',
+    {adventureID},
+    {
+      headers: {'x-auth-token': token},
+    },
+  );
+}
 
-export const userAPI = {logInUser, getUserByToken, singUpUser, putIsOnBoarding};
+export const userAPI = {
+  logInUser,
+  getUserByToken,
+  singUpUser,
+  putIsOnBoarding,
+  saveHotel,
+  saveAdventure,
+  deleteSavedHotel,
+};

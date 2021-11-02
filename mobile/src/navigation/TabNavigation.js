@@ -4,7 +4,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {InboxScreen} from '../screens/InboxScreen/InboxScreen';
 import {TripsScreen} from '../screens/TripsScreen/TripsScreen';
 import {ProfileScreen} from '../screens/ProfileScreen/ProfileScreen';
-import {SavedScreen} from '../screens/SavedScreen/SavedScreen';
 import {useNavigation} from '@react-navigation/native';
 import exploreIcon from '../../assets/images/exploreIcon.png';
 import exploreActiveIcon from '../../assets/images/exploreActiveIcon.png';
@@ -23,6 +22,7 @@ import {getPopularAdventures} from '../../redux/actions/AdventureActions';
 import {getPopularHotels} from '../../redux/actions/HotelActions';
 
 import {ExploreStackScreen} from './ExploreStackScreen';
+import {SavedStackScreen} from './SavedStackScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -100,6 +100,7 @@ export const TabNavigation = () => {
       />
       <Tab.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) =>
             focused ? (
               <Image height={20} width={20} source={savedActiveIcon} />
@@ -108,7 +109,7 @@ export const TabNavigation = () => {
             ),
         }}
         name="Saved"
-        component={SavedScreen}
+        component={SavedStackScreen}
       />
       <Tab.Screen
         options={{

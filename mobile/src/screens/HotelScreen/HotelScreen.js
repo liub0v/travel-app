@@ -16,6 +16,7 @@ import {
   ImageContainer,
   InfoContainer,
   InfoWrapper,
+  LikeWrapper,
   LocationContainer,
   MainContainer,
   NameContainer,
@@ -33,6 +34,10 @@ import optionIcon from '../../../assets/images/coffeOption.png';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {DynamicText} from '../AdventureScreen/AdventureScreen';
 import {Map} from '../AdventureScreen/AdventureScreen.style';
+import {Like} from '../../components/Like/Like';
+import {useDispatch, useSelector} from 'react-redux';
+import {deleteSavedHotel, saveHotel} from '../../../redux/actions/HotelActions';
+import {savedHotelsSelector} from '../../../redux/selectors/UserSelector';
 const Option = ({title, icon}) => {
   return (
     <OptionWrapper>
@@ -43,7 +48,13 @@ const Option = ({title, icon}) => {
 };
 export const HotelScreen = ({route}) => {
   const hotel = route.params.hotel;
-  console.log(hotel);
+  const dispatch = useDispatch();
+  const savedHotels = useSelector(savedHotelsSelector);
+  const like = savedHotels.filter(item => item._id === hotel._id).length > 0;
+  const setLikeOnHotel = () => {
+    like && dispatch(deleteSavedHotel(hotel._id));
+    !like && dispatch(saveHotel(hotel._id));
+  };
   return (
     <MainContainer
       showsVerticalScrollIndicator={false}
@@ -52,6 +63,9 @@ export const HotelScreen = ({route}) => {
         flexGrow: 1,
       }}>
       <ImageContainer source={{uri: hotel.imageURL}}>
+        <LikeWrapper>
+          <Like handler={setLikeOnHotel} likeInit={like} />
+        </LikeWrapper>
         <NameContainer>
           <BoldText>{hotel.name}</BoldText>
           <NormalText>{hotel.address}</NormalText>
@@ -60,7 +74,6 @@ export const HotelScreen = ({route}) => {
       <InfoContainer>
         <InfoWrapper>
           <BoldText>{`$ ${hotel.price}`}</BoldText>
-
           <RatingTitle>{'4.9'}</RatingTitle>
         </InfoWrapper>
         <InfoWrapper>
@@ -69,7 +82,7 @@ export const HotelScreen = ({route}) => {
         </InfoWrapper>
       </InfoContainer>
       <OptionsContainer>
-        {hotel.hotelOptions.split(',').map(item => (
+        {hotel?.hotelOptions?.split(',').map(item => (
           <Option title={item.trim()} icon={optionIcon} />
         ))}
         <ButtonSeeMoreWrapper>

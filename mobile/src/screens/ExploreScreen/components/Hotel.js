@@ -12,10 +12,12 @@ import {
   StarsContainer,
 } from './Hotel.style';
 import {TouchableWithoutFeedback} from 'react-native';
-
-export const Hotel = ({item, handler}) => {
+export const Hotel = ({item, navigation}) => {
   return (
-    <TouchableWithoutFeedback onPress={handler}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        navigation.navigate('HotelScreen', {hotel: item});
+      }}>
       <HotelItem>
         <HotelImage source={{uri: item.imageURL}} />
         <HotelInfoWrapper>

@@ -12,8 +12,9 @@ import {HotelScreen} from '../screens/HotelScreen/HotelScreen';
 const ExploreStack = createNativeStackNavigator();
 
 export function ExploreStackScreen() {
+  const setLikeOnAdventure = () => {};
   return (
-    <ExploreStack.Navigator>
+    <ExploreStack.Navigator initialRouteName="Explore">
       <ExploreStack.Screen
         options={{
           headerShown: false,
@@ -45,7 +46,7 @@ export function ExploreStackScreen() {
           headerTransparent: true,
           headerShadowVisible: false,
           headerTitle: '',
-          headerRight: () => <Like />,
+          headerRight: () => <Like handler={setLikeOnAdventure} />,
         }}
         name="AdventureScreen"
         component={AdventureScreen}
@@ -56,7 +57,6 @@ export function ExploreStackScreen() {
           headerShadowVisible: false,
           headerBackTitle: '',
           headerTitle: '',
-          headerRight: () => <Like />,
         }}
         name="HotelScreen"
         component={HotelScreen}

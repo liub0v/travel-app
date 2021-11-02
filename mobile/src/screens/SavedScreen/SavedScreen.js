@@ -1,39 +1,39 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
 import {Section} from '../../components/Section/Section';
-import {hotels} from '../../api/mock';
 import {Hotel} from '../ExploreScreen/components/Hotel';
 import {Adventure} from '../ExploreScreen/components/Adventure';
+import {
+  savedAdventuresSelector,
+  savedHotelsSelector,
+} from '../../../redux/selectors/UserSelector';
+import {useSelector} from 'react-redux';
 
-export const SavedScreen = () => {
+export const SavedScreen = ({navigation}) => {
+  const hotels = useSelector(savedHotelsSelector);
+  const adventures = useSelector(savedAdventuresSelector);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      style={{flex: 1}}>
+      contentContainerStyle={{flexGrow: 1}}>
       {!!hotels.length && (
         <Section
           title={'Hotels'}
           isHorizontal={false}
-          data={[hotels[0], hotels[1]]}
-          renderItem={Hotel}
+          data={hotels}
+          renderItem={({item}) => <Hotel item={item} navigation={navigation} />}
         />
       )}
 
-      {!![].length && (
+      {!!adventures.length && (
         <Section
           title={'Adventures'}
           isHorizontal={true}
-          data={[]}
-          renderItem={Adventure}
-        />
-      )}
-      {!![].length && (
-        <Section
-          title={'Guides'}
-          isHorizontal={false}
-          data={[]}
-          renderItem={Adventure}
+          data={adventures}
+          renderItem={({item}) => (
+            <Adventure item={item} navigation={navigation} />
+          )}
         />
       )}
     </ScrollView>

@@ -33,7 +33,9 @@ router.put("/onboarding", auth, async (req, res) => {
 });
 //update profile info
 router.put("/saveHotel", auth, async (req, res) => {
-  const client = await Client.findOne({ userID: req.user._id });
+  const client = await Client.findOne({ userID: req.user._id }).populate(
+    "savedHotels"
+  );
   if (!client) return res.status(404).send("User doesn't exist");
 
   const hotel = await Hotel.findById(req.body.hotelID);
@@ -43,10 +45,24 @@ router.put("/saveHotel", auth, async (req, res) => {
 
   await client.save();
 
-  res.send({ savedHotels: client.savedHotels });
+  res.send(hotel);
+});
+router.delete("/savedHotel", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id });
+  if (!client) return res.status(404).send("User doesn't exist");
+
+  client.savedHotels = client.savedHotels.filter(
+    (item) => item.toString() !== req.body.hotelID
+  );
+
+  await client.save();
+
+  res.send(client.savedHotels);
 });
 router.put("/saveAdventure", auth, async (req, res) => {
-  const client = await Client.findOne({ userID: req.user._id });
+  const client = await Client.findOne({ userID: req.user._id }).populate(
+    "savedAdventures"
+  );
   if (!client) return res.status(404).send("User doesn't exist");
 
   const adventure = await Adventure.findById(req.body.adventureID);
@@ -56,7 +72,7 @@ router.put("/saveAdventure", auth, async (req, res) => {
 
   await client.save();
 
-  res.send({ savedAdventures: client.savedAdventures });
+  res.send(adventure);
 });
 router.put("/profileInfo", async (req, res) => {
   // let user = await User.findById(req.user._id);

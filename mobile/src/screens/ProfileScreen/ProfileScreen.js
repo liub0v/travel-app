@@ -18,7 +18,6 @@ import {
   MainInfo,
   BoldWhiteText,
 } from './Profile.style';
-import avatar from '../../../assets/images/avatar.png';
 import colors from '../../constants/colors';
 import {dateParser} from '../../services/dataParser';
 

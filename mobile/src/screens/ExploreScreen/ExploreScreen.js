@@ -81,14 +81,16 @@ export const ExploreScreen = ({navigation}) => {
         title={'Adventures'}
         isHorizontal={true}
         data={adventures}
-        renderItem={Adventure}
+        renderItem={({item}) => (
+          <Adventure item={item} navigation={navigation} />
+        )}
         passHandler={goAdventureCatalog}
       />
       <Section
         title={'Hotel Best deals'}
         isHorizontal={false}
         data={hotels}
-        renderItem={Hotel}
+        renderItem={({item}) => <Hotel item={item} navigation={navigation} />}
         passHandler={goHotelsCatalog}
       />
     </MainContainer>

@@ -7,6 +7,14 @@ export const profileInfoSelector = createSelector(
   userSelector,
   user => user.profileInfo,
 );
+export const savedHotelsSelector = createSelector(
+  userSelector,
+  user => user.savedHotels,
+);
+export const savedAdventuresSelector = createSelector(
+  userSelector,
+  user => user.savedAdventures,
+);
 export const logOutIsLoadingSelector = createSelector(
   authSelector,
   item => item.logOut.isLoading,

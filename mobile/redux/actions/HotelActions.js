@@ -1,7 +1,10 @@
 import {
   CLEAR_HOTELS,
+  DELETE_SAVED_HOTEL,
   GET_HOTELS,
   GET_POPULAR_HOTELS,
+  REMOVE_SAVED_HOTEL,
+  SAVE_HOTEL,
   SET_HAS_MORE_HOTELS,
   SET_HOTELS,
   SET_HOTELS_ERROR,
@@ -54,5 +57,23 @@ export const setHotelsError = error => {
 export const clearHotels = () => {
   return {
     type: CLEAR_HOTELS,
+  };
+};
+export const saveHotel = hotelID => {
+  return {
+    type: SAVE_HOTEL,
+    payload: hotelID,
+  };
+};
+export const deleteSavedHotel = hotelID => {
+  return {
+    type: DELETE_SAVED_HOTEL,
+    payload: hotelID,
+  };
+};
+export const removeSavedHotel = hotelID => {
+  return {
+    type: REMOVE_SAVED_HOTEL,
+    payload: hotelID,
   };
 };
