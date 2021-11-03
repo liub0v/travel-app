@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, Image, TouchableWithoutFeedback, View} from 'react-native';
 import PropTypes from 'prop-types';
-import arrow from '../../../assets/images/arrowButton.png';
+
 import {
   SectionContainer,
   SectionHeaderButton,
@@ -9,6 +9,8 @@ import {
   SectionHeaderTitleWrapper,
   SectionHeaderWrapper,
 } from './Section.style';
+
+import arrow from '../../../assets/images/arrowButton.png';
 
 export const SectionHeader = ({
   title = 'Section',

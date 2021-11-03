@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
+
 export const MainContainer = styled.ScrollView``;
 
 export const CategoriesContainer = styled.View`
@@ -12,7 +13,7 @@ export const CategoriesContainer = styled.View`
   padding-bottom: 20px;
   margin-top: 30px;
   border-bottom-width: 1px;
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: ${colors.gray}
 `;
 export const CategoryItem = styled.View`
   flex: 1;

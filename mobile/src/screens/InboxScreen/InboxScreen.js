@@ -1,6 +1,8 @@
 import React from 'react';
 import {ScrollView, FlatList} from 'react-native';
+
 import {dialogs} from '../../api/mock';
+
 import {Dialog} from './components/Dialog';
 import {Search} from '../../components/Seacrh/Search';
 import {SearchWrapper} from './Inbox.style';

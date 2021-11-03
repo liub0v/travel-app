@@ -1,5 +1,6 @@
-import star from '../../../../assets/images/start.png';
 import React from 'react';
+import {TouchableWithoutFeedback} from 'react-native';
+
 import {
   HotelImage,
   HotelInfoWrapper,
@@ -11,7 +12,9 @@ import {
   Star,
   StarsContainer,
 } from './Hotel.style';
-import {TouchableWithoutFeedback} from 'react-native';
+
+import star from '../../../../assets/images/start.png';
+
 export const Hotel = ({item, navigation}) => {
   return (
     <TouchableWithoutFeedback

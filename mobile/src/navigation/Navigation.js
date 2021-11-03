@@ -1,11 +1,14 @@
-import {SafeAreaView} from 'react-native';
-import {TabNavigation} from './TabNavigation';
-import {LoginNavigation} from './LoginNavigation';
-import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
+import {SafeAreaView} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+
 import {useSelector} from 'react-redux';
 import {tokenSelector} from '../../redux/selectors/UserSelector';
+
 import colors from '../constants/colors';
+
+import {TabNavigation} from './TabNavigation';
+import {LoginNavigation} from './LoginNavigation';
 
 const DefaultTheme = {
   dark: false,

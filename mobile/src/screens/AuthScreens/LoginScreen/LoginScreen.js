@@ -1,18 +1,21 @@
 import React from 'react';
 import {Formik} from 'formik';
 import {ScrollView, Text} from 'react-native';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {logInUser} from '../../../../redux/actions/AuthActions';
 import {
-  logInErrorSelector,
   logInIsLoadingSelector,
 } from '../../../../redux/selectors/UserSelector';
 
-import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {
   getValidationStyles,
   logInValidationSchema,
 } from '../../../services/validation';
+import colors from '../../../constants/colors';
+
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
+
 import {
   SocialNetworksLoginContainer,
   CenterPosition,
@@ -26,7 +29,6 @@ import {
   HeaderWrapper,
   FieldsContainer,
 } from './LoginScreen.style';
-import colors from '../../../constants/colors';
 
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();

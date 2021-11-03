@@ -1,10 +1,19 @@
 import React, {useEffect} from 'react';
 import {View, Image, TouchableWithoutFeedback} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useNavigation} from '@react-navigation/native';
+
+import {useDispatch} from 'react-redux';
+import {getPopularDestinations} from '../../redux/actions/DestinationActions';
+import {getPopularAdventures} from '../../redux/actions/AdventureActions';
+import {getPopularHotels} from '../../redux/actions/HotelActions';
+
 import {InboxScreen} from '../screens/InboxScreen/InboxScreen';
 import {TripsScreen} from '../screens/TripsScreen/TripsScreen';
 import {ProfileScreen} from '../screens/ProfileScreen/ProfileScreen';
-import {useNavigation} from '@react-navigation/native';
+import {ExploreStackScreen} from './ExploreStackScreen';
+import {SavedStackScreen} from './SavedStackScreen';
+
 import exploreIcon from '../../assets/images/exploreIcon.png';
 import exploreActiveIcon from '../../assets/images/exploreActiveIcon.png';
 import profileIcon from '../../assets/images/profileIcon.png';
@@ -16,13 +25,6 @@ import inboxActiveIcon from '../../assets/images/inboxActiveIcon.png';
 import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
-import {useDispatch} from 'react-redux';
-import {getPopularDestinations} from '../../redux/actions/DestinationActions';
-import {getPopularAdventures} from '../../redux/actions/AdventureActions';
-import {getPopularHotels} from '../../redux/actions/HotelActions';
-
-import {ExploreStackScreen} from './ExploreStackScreen';
-import {SavedStackScreen} from './SavedStackScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -42,7 +44,17 @@ const EditButton = ({navigation}) => {
     </TouchableWithoutFeedback>
   );
 };
-
+const TabBarIcon = ({focused, icon, activeIcon}) => {
+  return (
+    <>
+      {focused ? (
+        <Image height={20} width={20} source={activeIcon} />
+      ) : (
+        <Image height={20} width={20} source={icon} />
+      )}
+    </>
+  );
+};
 export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -76,24 +88,26 @@ export const TabNavigation = () => {
       <Tab.Screen
         options={{
           headerShown: false,
-          tabBarIcon: ({focused}) =>
-            focused ? (
-              <Image height={20} width={20} source={exploreActiveIcon} />
-            ) : (
-              <Image height={20} width={20} source={exploreIcon} />
-            ),
+          tabBarIcon: ({focused}) => (
+            <TabBarIcon
+              focused={focused}
+              icon={exploreIcon}
+              activeIcon={exploreActiveIcon}
+            />
+          ),
         }}
         name="Explore"
         component={ExploreStackScreen}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: ({focused}) =>
-            focused ? (
-              <Image height={20} width={20} source={tripsActiveIcon} />
-            ) : (
-              <Image height={20} width={20} source={tripsIcon} />
-            ),
+          tabBarIcon: ({focused}) => (
+            <TabBarIcon
+              focused={focused}
+              icon={tripsIcon}
+              activeIcon={tripsActiveIcon}
+            />
+          ),
         }}
         name="Trips"
         component={TripsScreen}
@@ -101,36 +115,39 @@ export const TabNavigation = () => {
       <Tab.Screen
         options={{
           headerShown: false,
-          tabBarIcon: ({focused}) =>
-            focused ? (
-              <Image height={20} width={20} source={savedActiveIcon} />
-            ) : (
-              <Image height={20} width={20} source={savedIcon} />
-            ),
+          tabBarIcon: ({focused}) => (
+            <TabBarIcon
+              focused={focused}
+              icon={savedIcon}
+              activeIcon={savedActiveIcon}
+            />
+          ),
         }}
         name="Saved"
         component={SavedStackScreen}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: ({focused}) =>
-            focused ? (
-              <Image height={20} width={20} source={inboxActiveIcon} />
-            ) : (
-              <Image height={20} width={20} source={inboxIcon} />
-            ),
+          tabBarIcon: ({focused}) => (
+            <TabBarIcon
+              focused={focused}
+              icon={inboxIcon}
+              activeIcon={inboxActiveIcon}
+            />
+          ),
         }}
         name="Inbox"
         component={InboxScreen}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: ({focused}) =>
-            focused ? (
-              <Image height={20} width={20} source={profileActiveIcon} />
-            ) : (
-              <Image height={20} width={20} source={profileIcon} />
-            ),
+          tabBarIcon: ({focused}) => (
+            <TabBarIcon
+              focused={focused}
+              icon={profileIcon}
+              activeIcon={profileActiveIcon}
+            />
+          ),
           headerRight: props => <EditButton navigation={navigation} />,
         }}
         name="Profile"

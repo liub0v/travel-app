@@ -1,13 +1,15 @@
 import React from 'react';
 import {ScrollView} from 'react-native';
-import {Section} from '../../components/Section/Section';
-import {Hotel} from '../ExploreScreen/components/Hotel';
-import {Adventure} from '../ExploreScreen/components/Adventure';
+
+import {useSelector} from 'react-redux';
 import {
   savedAdventuresSelector,
   savedHotelsSelector,
 } from '../../../redux/selectors/UserSelector';
-import {useSelector} from 'react-redux';
+
+import {Section} from '../../components/Section/Section';
+import {Hotel} from '../ExploreScreen/components/Hotel';
+import {Adventure} from '../ExploreScreen/components/Adventure';
 
 export const SavedScreen = ({navigation}) => {
   const hotels = useSelector(savedHotelsSelector);

@@ -1,6 +1,8 @@
 import React from 'react';
 import {View} from 'react-native';
+
 import {TextDescription, TextHeader, ImageView} from './OnBoarding.style';
+
 import image from '../../../assets/images/imageOnboarding4.png';
 
 export const SecondPage = () => {

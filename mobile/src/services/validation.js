@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import colors from '../constants/colors';
+
 export const singUpValidationSchema = yup.object().shape({
   username: yup.string().required('Name is required'),
   email: yup
