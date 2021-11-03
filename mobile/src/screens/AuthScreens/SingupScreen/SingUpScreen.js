@@ -1,6 +1,19 @@
 import React from 'react';
 import {ScrollView, Text, TouchableWithoutFeedback} from 'react-native';
 import {Formik} from 'formik';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {singUpUser} from '../../../../redux/actions/AuthActions';
+import {signUpIsLoadingSelector} from '../../../../redux/selectors/userSelector';
+
+import {
+  getValidationStyles,
+  singUpValidationSchema,
+} from '../../../services/validation';
+
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
+
+import {LoginButton, LoginText} from '../StartScreen/StartPage.style';
 import {LoginWrapper} from './SingupScreen.style';
 import {
   CenterPosition,
@@ -12,15 +25,6 @@ import {
   SocialNetworkWrapper,
   ThinkText,
 } from '../LoginScreen/LoginScreen.style';
-import {ButtonItem} from '../../../components/Buttons/ButtonItem';
-import {LoginButton, LoginText} from '../StartScreen/StartPage.style';
-import {
-  getValidationStyles,
-  singUpValidationSchema,
-} from '../../../services/validation';
-import {useDispatch, useSelector} from 'react-redux';
-import {singUpUser} from '../../../../redux/actions/AuthActions';
-import {signUpIsLoadingSelector} from '../../../../redux/selectors/userSelector';
 
 export const SingUpScreen = ({navigation}) => {
   const dispatch = useDispatch();

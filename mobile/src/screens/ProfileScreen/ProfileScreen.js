@@ -1,7 +1,9 @@
 import React from 'react';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {logOutIsLoadingSelector} from '../../../redux/selectors/userSelector';
 import {logOutUser} from '../../../redux/actions/AuthActions';
+
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {
   Avatar,
@@ -14,11 +16,13 @@ import {
   MainInfo,
   BoldWhiteText,
 } from './Profile.style';
+
 import avatar from '../../../assets/images/avatar.png';
+
 export const ProfileScreen = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logOutIsLoadingSelector);
-  console.log('isLoading', isLoading);
+
   function logOutButtonHandler() {
     dispatch(logOutUser());
   }

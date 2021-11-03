@@ -1,5 +1,21 @@
 import React from 'react';
+import {ScrollView, Text} from 'react-native';
 import {Formik} from 'formik';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {logInUser} from '../../../../redux/actions/AuthActions';
+import {
+  logInErrorSelector,
+  logInIsLoadingSelector,
+} from '../../../../redux/selectors/userSelector';
+
+import {
+  getValidationStyles,
+  logInValidationSchema,
+} from '../../../services/validation';
+
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
+
 import {
   SocialNetworksLoginContainer,
   CenterPosition,
@@ -13,19 +29,6 @@ import {
   HeaderWrapper,
   FieldsContainer,
 } from './LoginScreen.style';
-import {ButtonItem} from '../../../components/Buttons/ButtonItem';
-import {ScrollView, Text} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {logInUser} from '../../../../redux/actions/AuthActions';
-import {
-  getValidationStyles,
-  logInValidationSchema,
-} from '../../../services/validation';
-import {
-  logInErrorSelector,
-  logInIsLoadingSelector,
-} from '../../../../redux/selectors/userSelector';
-import {showMessage} from 'react-native-flash-message';
 
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();

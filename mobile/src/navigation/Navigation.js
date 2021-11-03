@@ -1,10 +1,12 @@
+import React from 'react';
 import {SafeAreaView} from 'react-native';
+
+import {useSelector} from 'react-redux';
+import {NavigationContainer} from '@react-navigation/native';
+import {tokenSelector} from '../../redux/selectors/userSelector';
+
 import {TabNavigation} from './TabNavigation';
 import {LoginNavigation} from './LoginNavigation';
-import {NavigationContainer} from '@react-navigation/native';
-import React from 'react';
-import {useSelector} from 'react-redux';
-import {tokenSelector} from '../../redux/selectors/userSelector';
 
 const DefaultTheme = {
   dark: false,
@@ -17,6 +19,7 @@ const DefaultTheme = {
     notification: 'rgb(255, 69, 58)',
   },
 };
+
 export const Navigation = () => {
   const token = useSelector(tokenSelector);
   return (

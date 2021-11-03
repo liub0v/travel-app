@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {
   ImageItemLeft,
@@ -8,9 +8,11 @@ import {
   TextDescription,
   TextHeader,
 } from './OnBoarding.style';
+
 import image1 from '../../../assets/images/imageOnboarding1.png';
 import image2 from '../../../assets/images/imageOnboarding2.png';
 import image3 from '../../../assets/images/imageOnboarding3.png';
+
 export const FirstPage = () => {
   return (
     <>

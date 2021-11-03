@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   BottomInfoLine,
   DialogAvatar,
@@ -6,24 +7,11 @@ import {
   DialogItem,
   Message,
   MessageNumber,
-  MessageNumberContainer,
   MessageNumberWrapper,
   MessageTime,
   TopInfoLine,
   UserName,
 } from './Dialog.style';
-import {
-  getValidationStyles,
-  logInValidationSchema,
-} from '../../../services/validation';
-import {
-  InputItem,
-  LeftPosition,
-  NormalText,
-} from '../../AuthScreens/LoginScreen/LoginScreen.style';
-import {Text} from 'react-native';
-import {ButtonItem} from '../../../components/Buttons/ButtonItem';
-import {Formik} from 'formik';
 
 export const Dialog = ({item}) => {
   return (

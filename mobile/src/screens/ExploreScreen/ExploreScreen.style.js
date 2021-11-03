@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+
 export const MainContainer = styled.ScrollView``;
 
 export const CategoriesContainer = styled.View`

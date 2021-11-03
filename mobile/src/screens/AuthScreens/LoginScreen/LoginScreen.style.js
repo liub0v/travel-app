@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+
 export const LoginContainer = styled.ScrollView`
   flex: 1;
 `;

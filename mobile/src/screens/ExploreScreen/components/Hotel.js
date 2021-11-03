@@ -1,5 +1,5 @@
-import star from '../../../../assets/images/start.png';
 import React from 'react';
+
 import {
   HotelImage,
   HotelInfoWrapper,
@@ -11,6 +11,8 @@ import {
   HotelStar,
   HotelStarsContainer,
 } from './Hotel.style';
+
+import star from '../../../../assets/images/start.png';
 
 export const Hotel = ({item}) => {
   return (

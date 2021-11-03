@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+
 export const singUpValidationSchema = yup.object().shape({
   username: yup.string().required('Name is required'),
   email: yup

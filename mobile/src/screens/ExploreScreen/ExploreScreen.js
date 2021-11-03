@@ -1,22 +1,25 @@
 import React from 'react';
-import {View, Text, Image, TouchableWithoutFeedback} from 'react-native';
+import {Image, TouchableWithoutFeedback} from 'react-native';
+
+import {adventures, destinations, hotels} from '../../api/mock';
+
+import {Section} from '../../components/Section/Section';
+import {Destination} from './components/Destination';
+import {Adventure} from './components/Adventure';
+import {Hotel} from './components/Hotel';
+import {Preview} from './components/Preview';
+
 import {
   CategoriesContainer,
   CategoryTitle,
   CategoryItem,
   MainContainer,
 } from './ExploreScreen.style';
-import mainImage from '../../../assets/images/Rome.png';
+
 import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import giudesIcon from '../../../assets/images/GiudesIcon.png';
-import {adventures, destinations, hotels} from '../../api/mock';
-import {Section} from '../../components/Section/Section';
-import {Destination} from './components/Destination';
-import {Adventure} from './components/Adventure';
-import {Hotel} from './components/Hotel';
-import {Preview} from './components/Preview';
 
 const Category = ({image, title}) => {
   return (
@@ -47,22 +50,17 @@ export const ExploreScreen = () => {
       </CategoriesContainer>
       <Section
         title={'Popular destination'}
-        isHorizontal={true}
+        isHorizontal
         data={destinations}
         renderItem={Destination}
       />
       <Section
         title={'Adventures'}
-        isHorizontal={true}
+        isHorizontal
         data={adventures}
         renderItem={Adventure}
       />
-      <Section
-        title={'Hotel Best deals'}
-        isHorizontal={false}
-        data={hotels}
-        renderItem={Hotel}
-      />
+      <Section title={'Hotel Best deals'} data={hotels} renderItem={Hotel} />
     </MainContainer>
   );
 };

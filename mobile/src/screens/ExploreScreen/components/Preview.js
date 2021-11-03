@@ -1,5 +1,8 @@
-import mainImage from '../../../../assets/images/Rome.png';
 import React, {useRef} from 'react';
+import {Animated, TouchableWithoutFeedback} from 'react-native';
+
+import {Point} from '../../Onboarding/OnBoarding.style';
+
 import {
   BookingButton,
   BookingButtonTitle,
@@ -14,10 +17,11 @@ import {
   SearchBarWrapper,
   IconWrapper,
 } from './Preview.style';
-import {Animated, Image, TouchableWithoutFeedback, View} from 'react-native';
-import {Point} from '../../Onboarding/OnBoarding.style';
+
 import searchIcon from '../../../../assets/images/searchIcon.png';
 import searchIconWhite from '../../../../assets/images/searchIconWhite.png';
+import mainImage from '../../../../assets/images/Rome.png';
+
 const SearchBar = () => {
   const [text, onChangeText] = React.useState();
   const animateState = {

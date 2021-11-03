@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import {View, Text, Button, Image} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
+
 import {
   TextHeader,
   ViewContainer,
@@ -9,6 +10,7 @@ import {
   TextItem,
   TextWrapper,
 } from './OnBoarding.style';
+
 import image1 from '../../../assets/images/imageOnboarding3_1.png';
 import image2 from '../../../assets/images/imageOnboarding3_2.png';
 import image3 from '../../../assets/images/imageOnboarding3_3.png';

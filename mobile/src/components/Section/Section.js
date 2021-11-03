@@ -1,6 +1,6 @@
-import {FlatList, Image, TouchableWithoutFeedback, View} from 'react-native';
 import React from 'react';
-import arrow from '../../../assets/images/arrowButton.png';
+import {FlatList, Image, TouchableWithoutFeedback, View} from 'react-native';
+
 import {
   SectionContainer,
   SectionHeaderButton,
@@ -8,6 +8,8 @@ import {
   SectionHeaderTitleWrapper,
   SectionHeaderWrapper,
 } from './Section.style';
+
+import arrow from '../../../assets/images/arrowButton.png';
 
 const SectionHeader = ({title}) => {
   return (
@@ -23,7 +25,7 @@ const SectionHeader = ({title}) => {
     </SectionHeaderWrapper>
   );
 };
-export const Section = ({title, isHorizontal, data, renderItem}) => {
+export const Section = ({title, isHorizontal = false, data, renderItem}) => {
   const rowContainerStyle = {
     marginTop: 20,
     flexDirection: 'row',

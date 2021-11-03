@@ -1,6 +1,14 @@
 import React, {useState} from 'react';
 import {Image, TouchableWithoutFeedback, View} from 'react-native';
+
+import {useDispatch} from 'react-redux';
+import {putIsOnboarding} from '../../../redux/actions/AuthActions';
+
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
+import {FirstPage} from './FirstPage';
+import {SecondPage} from './SecondPage';
+import {ThirdPage} from './ThirdPage';
+
 import {
   Arrow,
   OnboardingBackground,
@@ -8,13 +16,9 @@ import {
   Point,
   PointContainer,
 } from './OnBoarding.style';
-import arrowImage from '../../../assets/images/arrowButton.png';
-import {FirstPage} from './FirstPage';
-import {SecondPage} from './SecondPage';
-import {ThirdPage} from './ThirdPage';
-import {putIsOnboarding} from '../../../redux/actions/AuthActions';
-import {useDispatch} from 'react-redux';
 import {CenterPosition} from '../AuthScreens/LoginScreen/LoginScreen.style';
+
+import arrowImage from '../../../assets/images/arrowButton.png';
 
 export const OnBoarding = ({navigation}) => {
   const dispatch = useDispatch();
