@@ -1,8 +1,9 @@
-import {LOG_IN_USER, PUT_IS_ONBOARDING, SING_UP_USER} from '../types/AuthTypes';
 import {takeEvery, call, put, select} from 'redux-saga/effects';
+import {showMessage} from 'react-native-flash-message';
+
 import {userAPI} from '../../src/api/userAPI';
+import {LOG_IN_USER, PUT_IS_ONBOARDING, SING_UP_USER} from '../types/AuthTypes';
 import {
-  logInUser,
   setIsOnboarding,
   setLogInError,
   setLogInIsLoading,
@@ -11,9 +12,8 @@ import {
   setUser,
   setUserToken,
 } from '../actions/AuthActions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {tokenSelector} from '../selectors/userSelector';
-import {showMessage} from 'react-native-flash-message';
+
 export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
   takeEvery(SING_UP_USER, singUpUserSaga),
@@ -60,14 +60,6 @@ function* singUpUserSaga(action) {
     yield put(setSignUpIsLoading(false));
   } catch (error) {
     yield put(setSignUpError(error));
-    // let message;
-    // switch (error.response.status) {
-    //   case 400:
-    //     message = 'User already exist';
-    //   default:
-    //     message = 'No server connection';
-    //     break;
-    // }
     yield call(showMessage, {
       message: error.response?.data,
       type: 'error',
