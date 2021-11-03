@@ -11,7 +11,24 @@ const adventureSchema = new mongoose.Schema({
   summary: String,
   price: Number,
   address: String,
-  reviews: Array,
+  reviews: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    default: [],
+  },
+  ratings: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Rating",
+      },
+    ],
+    default: [],
+  },
 });
 adventureSchema.index({ address: "text" });
 const Adventure = mongoose.model("Adventure", adventureSchema);

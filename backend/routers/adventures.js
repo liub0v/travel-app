@@ -4,6 +4,8 @@ const {
   removeFromCloud,
   updateCloudImage,
 } = require("../utils/cloudinary");
+const { Review } = require("../models/review");
+const { Rating } = require("../models/rating");
 const router = require("express").Router();
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -15,7 +17,9 @@ router.get("/", async (req, res) => {
   const adventures = await Adventure.find()
     .sort({ _id: 1 })
     .skip(startIndex)
-    .limit(limit);
+    .limit(limit)
+    .populate("  ")
+    .populate("ratings");
   res.send(adventures);
 });
 
@@ -29,8 +33,8 @@ router.get("/byDestination", async (req, res) => {
     .sort({ _id: 1 })
     .skip(startIndex)
     .limit(limit)
-    .populate("guideID");
-
+    .populate("guideID")
+    .populate("reviews");
   res.send(adventures);
 });
 router.post("/", async (req, res) => {
@@ -96,5 +100,35 @@ router.delete("/", async (req, res) => {
   }
 
   res.send(adventure);
+});
+router.post("/review", async (req, res) => {
+  const review = new Review({
+    clientID: req.body.clientID,
+    comment: req.body.comment,
+  });
+  await review.save();
+
+  const adventure = await Adventure.findById(req.body.adventureID);
+  adventure.reviews.push(review);
+  await adventure.save();
+
+  res.send(review);
+});
+router.post("/rating", async (req, res) => {
+  const rating = new Rating({
+    clientID: req.body.clientID,
+    starsNumber: req.body.starsNumber,
+    interestingRating: req.body.interestingRating,
+    guideRating: req.body.guideRating,
+    serviceRating: req.body.serviceRating,
+    priceRating: req.body.priceRating,
+  });
+  await rating.save();
+
+  const adventure = await Adventure.findById(req.body.adventureID);
+  adventure.ratings.push(rating);
+  await adventure.save();
+
+  res.send(rating);
 });
 module.exports = router;

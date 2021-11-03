@@ -13,7 +13,7 @@ export const CategoriesContainer = styled.View`
   padding-bottom: 20px;
   margin-top: 30px;
   border-bottom-width: 1px;
-  border-color: ${colors.gray}
+  border-color: #ffffff7f;
 `;
 export const CategoryItem = styled.View`
   flex: 1;

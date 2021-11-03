@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
-const Joi = require("joi");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const { profileInfoSchema } = require("./schemas/profileInfo");
-const { hotelSchema } = require("./hotel");
+const { profileInfoSchema } = require("./profileInfo");
 
 const clientSchema = new mongoose.Schema({
   userID: {

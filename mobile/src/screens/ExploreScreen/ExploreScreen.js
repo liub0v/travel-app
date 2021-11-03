@@ -1,20 +1,24 @@
 import React from 'react';
 import {Image, TouchableWithoutFeedback} from 'react-native';
+
 import {useSelector} from 'react-redux';
 import {popularDestinationsSelector} from '../../../redux/selectors/DestinationSelector';
 import {popularAdventuresSelector} from '../../../redux/selectors/AdventureSelectors';
 import {popularHotelsSelector} from '../../../redux/selectors/HotelSelectors';
+
 import {Section} from '../../components/Section/Section';
 import {Destination} from './components/Destination';
 import {Adventure} from './components/Adventure';
 import {Hotel} from './components/Hotel';
 import {Preview} from './components/Preview';
+
 import {
   CategoriesContainer,
   CategoryTitle,
   CategoryItem,
   MainContainer,
 } from './ExploreScreen.style';
+
 import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
