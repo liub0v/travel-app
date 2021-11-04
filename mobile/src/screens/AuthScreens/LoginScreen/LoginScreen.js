@@ -4,9 +4,7 @@ import {ScrollView, Text} from 'react-native';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {logInUser} from '../../../../redux/actions/AuthActions';
-import {
-  logInIsLoadingSelector,
-} from '../../../../redux/selectors/UserSelector';
+import {logInIsLoadingSelector} from '../../../../redux/selectors/UserSelector';
 
 import {
   getValidationStyles,
@@ -59,7 +57,7 @@ export const LoginScreen = ({navigation}) => {
 
         <Formik
           validationSchema={logInValidationSchema}
-          initialValues={{email: '', password: ''}}
+          initialValues={{email: 'c10@mail.com', password: '12345678_Client'}}
           onSubmit={loginButtonHandler}>
           {({
             handleChange,

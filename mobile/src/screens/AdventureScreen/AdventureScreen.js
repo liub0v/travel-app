@@ -47,6 +47,7 @@ import {
   deleteSavedAdventure,
   saveAdventure,
 } from '../../../redux/actions/AdventureActions';
+import {dateParser} from '../../services/dataParser';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -72,23 +73,24 @@ export const DynamicText = ({text, lineNumber = 5}) => {
     </SummaryWrapper>
   );
 };
-export const Comment = ({text}) => {
+export const Comment = ({review}) => {
+  const date = new Date(review?.date);
   return (
     <CommentContainer>
       <UserContainer>
-        <UserAvatar source={guideAvatar} />
+        <UserAvatar source={{uri: review.clientID?.profileInfo?.imageURL}} />
         <UserInfoContainer>
           <UserInfoWrapper>
-            <UserFirstNameTitle>{'First name'}</UserFirstNameTitle>
-            <DateTitle>{'October, 2019'}</DateTitle>
+            <UserFirstNameTitle>{`${review.clientID?.profileInfo?.firstName} ${review.clientID?.profileInfo?.lastName}`}</UserFirstNameTitle>
+            <DateTitle>{dateParser(date)}</DateTitle>
           </UserInfoWrapper>
           <UserInfoWrapper>
-            <UserRatingTitle>{9}</UserRatingTitle>
-            <Stars starsNumber={5} />
+            <UserRatingTitle>{review?.rating?.generalRating}</UserRatingTitle>
+            <Stars starsNumber={review?.rating?.starsNumber} />
           </UserInfoWrapper>
         </UserInfoContainer>
       </UserContainer>
-      <DynamicText text={text} lineNumber={3} />
+      <DynamicText text={review?.comment} lineNumber={3} />
     </CommentContainer>
   );
 };
@@ -126,7 +128,7 @@ export const AdventureScreen = ({route}) => {
       </ImageContainer>
       <InfoContainer>
         <NameContainer>
-          <Stars starsNumber={5} />
+          <Stars starsNumber={adventure?.rating?.starsNumber} />
           <NameTitle>{adventure.name}</NameTitle>
           <LocationTitle>{adventure.address}</LocationTitle>
         </NameContainer>
@@ -147,21 +149,30 @@ export const AdventureScreen = ({route}) => {
       <RatingContainer>
         <SectionHeader showRightButton={false} title={'Rating'} />
         <GeneralRatingWrapper>
-          <GeneralRatingTitle>{'9.6'}</GeneralRatingTitle>
-          <Stars starsNumber={5} />
+          <GeneralRatingTitle>
+            {adventure?.rating?.generalRating.toFixed(1)}
+          </GeneralRatingTitle>
+          <Stars starsNumber={adventure?.rating?.starsNumber} />
         </GeneralRatingWrapper>
-        <Criterion title="Interesting" value={100} />
-        <Criterion title="Guide" value={100} />
-        <Criterion title="Service" value={97} />
-        <Criterion title="Price" value={90} />
+        <Criterion
+          title="Interesting"
+          value={adventure?.rating?.interestingRating * 10}
+        />
+        <Criterion title="Guide" value={adventure?.rating?.guideRating * 10} />
+        <Criterion
+          title="Service"
+          value={adventure?.rating?.serviceRating * 10}
+        />
+        <Criterion title="Price" value={adventure?.rating?.priceRating * 10} />
       </RatingContainer>
       <ReviewsContainer>
-        <SectionHeader showRightButton={true} title={`Reviews (${54})`} />
-        <Comment
-          text={
-            'skjvnskjv jsvnkjsav snvjksavnkjas asjfnaskjfnsajf slkvnsdklvnsd sndvkjsdnvkjds snvkdsjv sjdvnskdvnl asvnlasvnlasvn asvnkasnasjfknaskjfn asjfknaslkf askjfnas'
-          }
+        <SectionHeader
+          showRightButton={true}
+          title={`Reviews (${adventure?.reviews.length})`}
         />
+        {adventure?.reviews.map(review => (
+          <Comment review={review} />
+        ))}
       </ReviewsContainer>
       <LocationContainer>
         <SectionHeader showRightButton={false} title={'Location'} />

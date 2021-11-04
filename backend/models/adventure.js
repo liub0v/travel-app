@@ -20,15 +20,6 @@ const adventureSchema = new mongoose.Schema({
     ],
     default: [],
   },
-  ratings: {
-    type: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Rating",
-      },
-    ],
-    default: [],
-  },
   rating: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Rating",

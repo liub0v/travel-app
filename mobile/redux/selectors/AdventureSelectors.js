@@ -4,6 +4,7 @@ export const adventuresSelector = createSelector(
   adventureSelector,
   item => item.adventures,
 );
+
 export const isLoadingAdventureSelector = createSelector(
   adventureSelector,
   item => item.isLoading,

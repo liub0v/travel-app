@@ -20,8 +20,18 @@ router.get("/", async (req, res) => {
     .sort({ _id: 1 })
     .skip(startIndex)
     .limit(limit)
-    .populate("  ")
-    .populate("ratings");
+    .populate("rating")
+    .populate("reviews")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "rating clientID",
+        select:
+          "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
+      },
+    })
+    .populate("guideID");
+
   res.send(adventures);
 });
 
@@ -36,7 +46,16 @@ router.get("/byDestination", async (req, res) => {
     .skip(startIndex)
     .limit(limit)
     .populate("guideID")
-    .populate("reviews");
+    .populate("rating")
+    .populate("reviews")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "rating clientID",
+        select:
+          "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
+      },
+    });
   res.send(adventures);
 });
 router.post("/", async (req, res) => {
@@ -104,12 +123,6 @@ router.delete("/", async (req, res) => {
   res.send(adventure);
 });
 router.post("/review", async (req, res) => {
-  const review = new Review({
-    clientID: req.body.clientID,
-    comment: req.body.comment,
-  });
-  await review.save();
-
   const adventure = await Adventure.findById(req.body.adventureID);
   adventure.reviews.push(review);
   await adventure.save();
@@ -119,7 +132,15 @@ router.post("/review", async (req, res) => {
 router.post("/rating", async (req, res) => {
   const adventure = await Adventure.findById(req.body.adventureID)
     .populate("rating")
-    .populate("ratings");
+    .populate("reviews")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "rating clientID",
+        select:
+          "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
+      },
+    });
   if (!adventure) return res.status(404).send("Adventures doesn't exist");
 
   const averageRating = _.mean([
@@ -128,10 +149,10 @@ router.post("/rating", async (req, res) => {
     req.body.serviceRating,
     req.body.priceRating,
   ]);
+
   const averageRatingRound = _.round(averageRating);
 
   const rating = new Rating({
-    clientID: req.body.clientID,
     starsNumber: req.body.starsNumber,
     interestingRating: req.body.interestingRating,
     guideRating: req.body.guideRating,
@@ -139,15 +160,25 @@ router.post("/rating", async (req, res) => {
     priceRating: req.body.priceRating,
     generalRating: averageRatingRound,
   });
+
   await rating.save();
 
-  const count = adventure.ratings.length;
+  const review = new Review({
+    clientID: req.body.clientID,
+    comment: req.body.comment,
+    rating: rating,
+  });
+  await review.save();
+
+  const count = adventure.reviews.length;
 
   const generalRating = new Rating({
-    starsNumber: calculateAverageRating(
-      adventure.rating?.starsNumber ?? 0,
-      count,
-      req.body.starsNumber
+    starsNumber: _.round(
+      calculateAverageRating(
+        adventure.rating?.starsNumber ?? 0,
+        count,
+        req.body.starsNumber
+      )
     ),
     interestingRating: calculateAverageRating(
       adventure.rating?.interestingRating ?? 0,
@@ -176,8 +207,10 @@ router.post("/rating", async (req, res) => {
     ),
   });
   await generalRating.save();
-  adventure.ratings.push(rating);
+
+  adventure.reviews.push(review);
   adventure.rating = generalRating;
+
   await adventure.save();
 
   res.send(adventure);

@@ -60,6 +60,7 @@ export const GuideContainer = styled.View`
   border-top-color: ${colors.grey};
   align-items: center;
   margin-top: 40px;
+  padding-bottom: 24px;
 `;
 export const GuideAvatar = styled.Image`
   height: 80px;
@@ -117,7 +118,9 @@ export const ReviewsContainer = styled.View`
   flex-direction: column;
   padding-top: 24px;
 `;
-export const CommentContainer = styled.View``;
+export const CommentContainer = styled.View`
+  padding-bottom: 24px;
+`;
 export const UserContainer = styled.View`
   flex-direction: row;
   padding: 24px;
