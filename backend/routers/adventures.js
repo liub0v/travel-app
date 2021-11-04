@@ -6,6 +6,8 @@ const {
 } = require("../utils/cloudinary");
 const { Review } = require("../models/review");
 const { Rating } = require("../models/rating");
+const { _ } = require("lodash");
+const { calculateAverageRating } = require("../utils/averageRating");
 const router = require("express").Router();
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -93,7 +95,7 @@ router.put("/", async (req, res) => {
 });
 router.delete("/", async (req, res) => {
   const adventure = await Adventure.findByIdAndDelete(req.body.id);
-  if (!adventure) res.status(404).send("Adventures doesn't exist");
+  if (!adventure) return res.status(404).send("Adventures doesn't exist");
 
   if (adventure.imageURL !== DEFAULT_COVER_IMAGE_URL) {
     await removeFromCloud(adventure.imageURL, "adventures");
@@ -115,6 +117,19 @@ router.post("/review", async (req, res) => {
   res.send(review);
 });
 router.post("/rating", async (req, res) => {
+  const adventure = await Adventure.findById(req.body.adventureID)
+    .populate("rating")
+    .populate("ratings");
+  if (!adventure) return res.status(404).send("Adventures doesn't exist");
+
+  const averageRating = _.mean([
+    req.body.interestingRating,
+    req.body.guideRating,
+    req.body.serviceRating,
+    req.body.priceRating,
+  ]);
+  const averageRatingRound = _.round(averageRating);
+
   const rating = new Rating({
     clientID: req.body.clientID,
     starsNumber: req.body.starsNumber,
@@ -122,13 +137,49 @@ router.post("/rating", async (req, res) => {
     guideRating: req.body.guideRating,
     serviceRating: req.body.serviceRating,
     priceRating: req.body.priceRating,
+    generalRating: averageRatingRound,
   });
   await rating.save();
 
-  const adventure = await Adventure.findById(req.body.adventureID);
+  const count = adventure.ratings.length;
+
+  const generalRating = new Rating({
+    starsNumber: calculateAverageRating(
+      adventure.rating?.starsNumber ?? 0,
+      count,
+      req.body.starsNumber
+    ),
+    interestingRating: calculateAverageRating(
+      adventure.rating?.interestingRating ?? 0,
+      count,
+      req.body.interestingRating
+    ),
+    guideRating: calculateAverageRating(
+      adventure.rating?.guideRating ?? 0,
+      count,
+      req.body.guideRating
+    ),
+    serviceRating: calculateAverageRating(
+      adventure.rating?.serviceRating ?? 0,
+      count,
+      req.body.serviceRating
+    ),
+    priceRating: calculateAverageRating(
+      adventure.rating?.priceRating ?? 0,
+      count,
+      req.body.priceRating
+    ),
+    generalRating: calculateAverageRating(
+      adventure.rating?.generalRating ?? 0,
+      count,
+      averageRatingRound
+    ),
+  });
+  await generalRating.save();
   adventure.ratings.push(rating);
+  adventure.rating = generalRating;
   await adventure.save();
 
-  res.send(rating);
+  res.send(adventure);
 });
 module.exports = router;

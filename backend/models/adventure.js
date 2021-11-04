@@ -29,6 +29,10 @@ const adventureSchema = new mongoose.Schema({
     ],
     default: [],
   },
+  rating: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Rating",
+  },
 });
 adventureSchema.index({ address: "text" });
 const Adventure = mongoose.model("Adventure", adventureSchema);
