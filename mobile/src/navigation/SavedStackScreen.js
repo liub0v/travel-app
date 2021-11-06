@@ -11,7 +11,7 @@ export function SavedStackScreen() {
     <SavedStack.Navigator>
       <SavedStack.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
         name="Saved"
         component={SavedScreen}

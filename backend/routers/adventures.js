@@ -7,6 +7,7 @@ const {
 const { Review } = require("../models/review");
 const { Rating } = require("../models/rating");
 const { _ } = require("lodash");
+const auth = require("../middleware/auth");
 const { calculateAverageRating } = require("../utils/averageRating");
 const router = require("express").Router();
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
@@ -122,14 +123,8 @@ router.delete("/", async (req, res) => {
 
   res.send(adventure);
 });
-router.post("/review", async (req, res) => {
-  const adventure = await Adventure.findById(req.body.adventureID);
-  adventure.reviews.push(review);
-  await adventure.save();
 
-  res.send(review);
-});
-router.post("/rating", async (req, res) => {
+router.post("/rating", auth, async (req, res) => {
   const adventure = await Adventure.findById(req.body.adventureID)
     .populate("rating")
     .populate("reviews")
@@ -164,7 +159,7 @@ router.post("/rating", async (req, res) => {
   await rating.save();
 
   const review = new Review({
-    clientID: req.body.clientID,
+    clientID: req.user._id,
     comment: req.body.comment,
     rating: rating,
   });

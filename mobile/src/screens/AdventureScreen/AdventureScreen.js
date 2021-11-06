@@ -34,7 +34,7 @@ import {
   UserInfoWrapper,
   UserRatingTitle,
 } from './AdventureScreen.style';
-import {SectionHeader} from '../../components/Section/Section';
+import {Section, SectionHeader} from '../../components/Section/Section';
 import colors from '../../constants/colors';
 import guideAvatar from '../../../assets/images/avatarBig.png';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
@@ -48,6 +48,7 @@ import {
   saveAdventure,
 } from '../../../redux/actions/AdventureActions';
 import {dateParser} from '../../services/dataParser';
+import {CommentInput} from '../../components/CommentInput/CommentInput';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -73,27 +74,7 @@ export const DynamicText = ({text, lineNumber = 5}) => {
     </SummaryWrapper>
   );
 };
-export const Comment = ({review}) => {
-  const date = new Date(review?.date);
-  return (
-    <CommentContainer>
-      <UserContainer>
-        <UserAvatar source={{uri: review.clientID?.profileInfo?.imageURL}} />
-        <UserInfoContainer>
-          <UserInfoWrapper>
-            <UserFirstNameTitle>{`${review.clientID?.profileInfo?.firstName} ${review.clientID?.profileInfo?.lastName}`}</UserFirstNameTitle>
-            <DateTitle>{dateParser(date)}</DateTitle>
-          </UserInfoWrapper>
-          <UserInfoWrapper>
-            <UserRatingTitle>{review?.rating?.generalRating}</UserRatingTitle>
-            <Stars starsNumber={review?.rating?.starsNumber} />
-          </UserInfoWrapper>
-        </UserInfoContainer>
-      </UserContainer>
-      <DynamicText text={review?.comment} lineNumber={3} />
-    </CommentContainer>
-  );
-};
+
 export const Criterion = ({title = 'criterion', value = 100}) => {
   return (
     <CategoryRatingItem>
@@ -166,13 +147,7 @@ export const AdventureScreen = ({route}) => {
         <Criterion title="Price" value={adventure?.rating?.priceRating * 10} />
       </RatingContainer>
       <ReviewsContainer>
-        <SectionHeader
-          showRightButton={true}
-          title={`Reviews (${adventure?.reviews.length})`}
-        />
-        {adventure?.reviews.map(review => (
-          <Comment review={review} />
-        ))}
+        <CommentInput comments={adventure?.reviews} />
       </ReviewsContainer>
       <LocationContainer>
         <SectionHeader showRightButton={false} title={'Location'} />
