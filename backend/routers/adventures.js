@@ -4,6 +4,7 @@ const {
   removeFromCloud,
   updateCloudImage,
 } = require("../utils/cloudinary");
+const { Client } = require("../models/client");
 const { Review } = require("../models/review");
 const { Rating } = require("../models/rating");
 const { _ } = require("lodash");
@@ -124,7 +125,7 @@ router.delete("/", async (req, res) => {
   res.send(adventure);
 });
 
-router.post("/rating", auth, async (req, res) => {
+router.post("/review", auth, async (req, res) => {
   const adventure = await Adventure.findById(req.body.adventureID)
     .populate("rating")
     .populate("reviews")
@@ -157,9 +158,10 @@ router.post("/rating", auth, async (req, res) => {
   });
 
   await rating.save();
-
+  const client = await Client.findOne({ userID: req.user._id });
+  if (!client) return res.status(404).send("Client doesn't exist");
   const review = new Review({
-    clientID: req.user._id,
+    clientID: client._id,
     comment: req.body.comment,
     rating: rating,
   });
@@ -208,6 +210,6 @@ router.post("/rating", auth, async (req, res) => {
 
   await adventure.save();
 
-  res.send(adventure);
+  res.send(review);
 });
 module.exports = router;

@@ -1,13 +1,31 @@
 import React, {useCallback, useState} from 'react';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  deleteSavedAdventure,
+  saveAdventure,
+} from '../../../redux/actions/AdventureActions';
+import {
+  savedAdventuresSelector,
+  tokenSelector,
+} from '../../../redux/selectors/UserSelector';
+
+import {adventureAPI} from '../../api/adventureAPI';
+import colors from '../../constants/colors';
+
+import { SectionHeader} from '../../components/Section/Section';
+import {ButtonItem} from '../../components/Buttons/ButtonItem';
+import {Stars} from '../../components/Stars/Stars';
+import {Like} from '../../components/Like/Like';
+import {CommentInput} from '../../components/CommentInput/CommentInput';
+
 import {
   ButtonWrapper,
   CategoryRatingItem,
   CategoryRatingLine,
   CategoryRatingLineValue,
   CategoryRatingTitle,
-  CommentContainer,
   ImageContainer,
-  DateTitle,
   GeneralRatingTitle,
   GeneralRatingWrapper,
   GuideAvatar,
@@ -27,28 +45,10 @@ import {
   SummaryContainer,
   SummaryText,
   SummaryWrapper,
-  UserAvatar,
-  UserContainer,
-  UserFirstNameTitle,
-  UserInfoContainer,
-  UserInfoWrapper,
-  UserRatingTitle,
 } from './AdventureScreen.style';
-import {Section, SectionHeader} from '../../components/Section/Section';
-import colors from '../../constants/colors';
-import guideAvatar from '../../../assets/images/avatarBig.png';
-import {ButtonItem} from '../../components/Buttons/ButtonItem';
-import {Stars} from '../../components/Stars/Stars';
 import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
-import {Like} from '../../components/Like/Like';
-import {useDispatch, useSelector} from 'react-redux';
-import {savedAdventuresSelector} from '../../../redux/selectors/UserSelector';
-import {
-  deleteSavedAdventure,
-  saveAdventure,
-} from '../../../redux/actions/AdventureActions';
-import {dateParser} from '../../services/dataParser';
-import {CommentInput} from '../../components/CommentInput/CommentInput';
+
+import guideAvatar from '../../../assets/images/avatarBig.png';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -88,12 +88,32 @@ export const Criterion = ({title = 'criterion', value = 100}) => {
 export const AdventureScreen = ({route}) => {
   const adventure = route.params.adventure;
   const dispatch = useDispatch();
+  const token = useSelector(tokenSelector);
   const savedAdventures = useSelector(savedAdventuresSelector);
   const like =
     savedAdventures.filter(item => item._id === adventure._id).length > 0;
   const setLikeOnAdventure = () => {
     like && dispatch(deleteSavedAdventure(adventure._id));
     !like && dispatch(saveAdventure(adventure._id));
+  };
+  const saveReview = async (
+    starsNumber,
+    interestingRating,
+    guideRating,
+    serviceRating,
+    priceRating,
+    comment,
+  ) => {
+    return await adventureAPI.saveAdventureReview(
+      token,
+      adventure._id,
+      starsNumber,
+      interestingRating,
+      guideRating,
+      serviceRating,
+      priceRating,
+      comment,
+    );
   };
   return (
     <MainContainer
@@ -147,7 +167,7 @@ export const AdventureScreen = ({route}) => {
         <Criterion title="Price" value={adventure?.rating?.priceRating * 10} />
       </RatingContainer>
       <ReviewsContainer>
-        <CommentInput comments={adventure?.reviews} />
+        <CommentInput initComments={adventure?.reviews} onSubmit={saveReview} />
       </ReviewsContainer>
       <LocationContainer>
         <SectionHeader showRightButton={false} title={'Location'} />
