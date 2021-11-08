@@ -34,6 +34,8 @@ import {
   StarsRatingContainer,
   StarItem,
   StarsWrapper,
+  UserInfoFirstLineWrapper,
+  CommentTextWrapper,
 } from './CommentInput.style';
 
 import star from '../../../assets/images/star.png';
@@ -47,17 +49,19 @@ export const Comment = ({item}) => {
       <UserContainer>
         <UserAvatar source={{uri: item.clientID?.profileInfo?.imageURL}} />
         <UserInfoContainer>
-          <UserInfoWrapper>
+          <UserInfoFirstLineWrapper>
             <UserFirstNameTitle>{`${item.clientID?.profileInfo?.firstName} ${item.clientID?.profileInfo?.lastName}`}</UserFirstNameTitle>
             <DateTitle>{dateParser(date)}</DateTitle>
-          </UserInfoWrapper>
+          </UserInfoFirstLineWrapper>
           <UserInfoWrapper>
             <UserRatingTitle>{item?.rating?.generalRating}</UserRatingTitle>
             <Rating starsNumber={item?.rating?.starsNumber} />
           </UserInfoWrapper>
         </UserInfoContainer>
       </UserContainer>
-      <DynamicText text={item?.comment} lineNumber={3} />
+      <CommentTextWrapper>
+        <DynamicText text={item?.comment} lineNumber={3} />
+      </CommentTextWrapper>
     </CommentContainer>
   );
 };

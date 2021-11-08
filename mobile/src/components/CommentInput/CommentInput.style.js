@@ -31,12 +31,11 @@ export const CommentTextInput = styled.TextInput`
   padding-right: 24px;
 `;
 
-export const CommentContainer = styled.View`
-  padding-bottom: 24px;
-`;
+export const CommentContainer = styled.View``;
 export const UserContainer = styled.View`
   flex-direction: row;
-  padding: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
   flex: 1;
 `;
 export const UserAvatar = styled.Image`
@@ -52,10 +51,18 @@ export const ButtonWrapper = styled.View`
 export const UserInfoContainer = styled.View`
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
 `;
 export const UserInfoWrapper = styled.View`
   flex-direction: row;
   align-items: center;
+`;
+export const UserInfoFirstLineWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+export const CommentTextWrapper = styled.View`
+  padding-left: 48px;
 `;
 export const UserFirstNameTitle = styled.Text`
   font-family: ${fonts.normal};
