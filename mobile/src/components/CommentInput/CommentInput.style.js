@@ -29,6 +29,8 @@ export const CommentTextInput = styled.TextInput`
   margin-top: 12px;
   padding-left: 24px;
   padding-right: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 `;
 
 export const CommentContainer = styled.View``;

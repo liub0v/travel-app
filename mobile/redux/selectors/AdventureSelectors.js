@@ -21,3 +21,10 @@ export const popularAdventuresSelector = createSelector(
   adventureSelector,
   item => item.popularAdventures,
 );
+export const getAdventureReviewsSelector = adventureID => {
+  return createSelector(
+    adventuresSelector,
+    adventures =>
+      adventures.find(adventure => adventure._id === adventureID).reviews,
+  );
+};

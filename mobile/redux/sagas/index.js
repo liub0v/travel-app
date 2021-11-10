@@ -4,6 +4,7 @@ import {authSagas} from './AuthSagas';
 import {destinationSagas} from './DestinationSagas';
 import {adventureSagas} from './AdventureSagas';
 import {hotelSagas} from './HotelSagas';
+import {commentsSagas} from './CommentSaga';
 
 export function* sagaWatcher() {
   yield all([
@@ -11,5 +12,6 @@ export function* sagaWatcher() {
     ...destinationSagas,
     ...adventureSagas,
     ...hotelSagas,
+    ...commentsSagas,
   ]);
 }

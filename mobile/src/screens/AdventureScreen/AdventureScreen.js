@@ -13,7 +13,7 @@ import {
 import {adventureAPI} from '../../api/adventureAPI';
 import colors from '../../constants/colors';
 
-import { SectionHeader} from '../../components/Section/Section';
+import {SectionHeader} from '../../components/Section/Section';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {Stars} from '../../components/Stars/Stars';
 import {Like} from '../../components/Like/Like';
@@ -49,6 +49,7 @@ import {
 import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
 
 import guideAvatar from '../../../assets/images/avatarBig.png';
+import {getAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -85,8 +86,10 @@ export const Criterion = ({title = 'criterion', value = 100}) => {
     </CategoryRatingItem>
   );
 };
+
 export const AdventureScreen = ({route}) => {
   const adventure = route.params.adventure;
+  const commentSelector = getAdventureReviewsSelector(adventure._id);
   const dispatch = useDispatch();
   const token = useSelector(tokenSelector);
   const savedAdventures = useSelector(savedAdventuresSelector);
@@ -167,7 +170,11 @@ export const AdventureScreen = ({route}) => {
         <Criterion title="Price" value={adventure?.rating?.priceRating * 10} />
       </RatingContainer>
       <ReviewsContainer>
-        <CommentInput initComments={adventure?.reviews} onSubmit={saveReview} />
+        <CommentInput
+          commentSelector={commentSelector}
+          comments={adventure?.reviews}
+          onSubmit={saveReview}
+        />
       </ReviewsContainer>
       <LocationContainer>
         <SectionHeader showRightButton={false} title={'Location'} />

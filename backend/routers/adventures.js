@@ -11,6 +11,7 @@ const { _ } = require("lodash");
 const auth = require("../middleware/auth");
 const { calculateAverageRating } = require("../utils/averageRating");
 const router = require("express").Router();
+const comments = require("../routers/comments");
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
@@ -82,6 +83,7 @@ router.post("/", async (req, res) => {
   await adventure.save();
   res.send(adventure);
 });
+
 router.put("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
@@ -124,92 +126,6 @@ router.delete("/", async (req, res) => {
 
   res.send(adventure);
 });
+router.use("/", comments(Adventure));
 
-router.post("/review", auth, async (req, res) => {
-  const adventure = await Adventure.findById(req.body.adventureID)
-    .populate("rating")
-    .populate("reviews")
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "rating clientID",
-        select:
-          "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
-      },
-    });
-  if (!adventure) return res.status(404).send("Adventures doesn't exist");
-
-  const averageRating = _.mean([
-    req.body.interestingRating,
-    req.body.guideRating,
-    req.body.serviceRating,
-    req.body.priceRating,
-  ]);
-
-  const averageRatingRound = _.round(averageRating);
-
-  const rating = new Rating({
-    starsNumber: req.body.starsNumber,
-    interestingRating: req.body.interestingRating,
-    guideRating: req.body.guideRating,
-    serviceRating: req.body.serviceRating,
-    priceRating: req.body.priceRating,
-    generalRating: averageRatingRound,
-  });
-
-  await rating.save();
-  const client = await Client.findOne({ userID: req.user._id });
-  if (!client) return res.status(404).send("Client doesn't exist");
-  const review = new Review({
-    clientID: client._id,
-    comment: req.body.comment,
-    rating: rating,
-  });
-  await review.save();
-
-  const count = adventure.reviews.length;
-
-  const generalRating = new Rating({
-    starsNumber: _.round(
-      calculateAverageRating(
-        adventure.rating?.starsNumber ?? 0,
-        count,
-        req.body.starsNumber
-      )
-    ),
-    interestingRating: calculateAverageRating(
-      adventure.rating?.interestingRating ?? 0,
-      count,
-      req.body.interestingRating
-    ),
-    guideRating: calculateAverageRating(
-      adventure.rating?.guideRating ?? 0,
-      count,
-      req.body.guideRating
-    ),
-    serviceRating: calculateAverageRating(
-      adventure.rating?.serviceRating ?? 0,
-      count,
-      req.body.serviceRating
-    ),
-    priceRating: calculateAverageRating(
-      adventure.rating?.priceRating ?? 0,
-      count,
-      req.body.priceRating
-    ),
-    generalRating: calculateAverageRating(
-      adventure.rating?.generalRating ?? 0,
-      count,
-      averageRatingRound
-    ),
-  });
-  await generalRating.save();
-
-  adventure.reviews.push(review);
-  adventure.rating = generalRating;
-
-  await adventure.save();
-
-  res.send(review);
-});
 module.exports = router;

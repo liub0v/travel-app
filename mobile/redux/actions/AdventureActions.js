@@ -1,6 +1,8 @@
 import {
+  ADD_ADVENTURE_REVIEW,
   CLEAR_ADVENTURES,
   DELETE_SAVED_ADVENTURE,
+  GET_ADVENTURE_REVIEW,
   GET_ADVENTURES,
   GET_POPULAR_ADVENTURES,
   REMOVE_SAVED_ADVENTURE,
@@ -76,5 +78,17 @@ export const deleteSavedAdventure = adventureID => {
   return {
     type: DELETE_SAVED_ADVENTURE,
     payload: adventureID,
+  };
+};
+export const addAdventureReview = ({review, adventureID}) => {
+  return {
+    type: ADD_ADVENTURE_REVIEW,
+    payload: {review, adventureID},
+  };
+};
+export const getAdventureReview = socket => {
+  return {
+    type: GET_ADVENTURE_REVIEW,
+    payload: socket,
   };
 };

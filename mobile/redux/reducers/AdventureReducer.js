@@ -1,4 +1,5 @@
 import {
+  ADD_ADVENTURE_REVIEW,
   CLEAR_ADVENTURES,
   SET_ADVENTURES,
   SET_ADVENTURES_ERROR,
@@ -33,6 +34,21 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
       return {...state, isLoading: payload};
     case SET_ADVENTURES_ERROR:
       return {...state, error: payload};
+    case ADD_ADVENTURE_REVIEW: {
+      const adventureIndex = state.adventures.findIndex(adventure => {
+        return adventure._id === payload.adventureID;
+      });
+      const adventuresCopy = [...state.adventures];
+      adventuresCopy[adventureIndex].reviews = [
+        ...adventuresCopy[adventureIndex].reviews,
+        payload.review,
+      ];
+      return {
+        ...state,
+        adventures: [...adventuresCopy],
+      };
+    }
+
     default:
       return state;
   }

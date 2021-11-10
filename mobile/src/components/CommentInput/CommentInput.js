@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
-import {TouchableWithoutFeedback} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {TouchableWithoutFeedback, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {userSelector} from '../../../redux/selectors/UserSelector';
 
 import {dateParser} from '../../services/dataParser';
 import colors from '../../constants/colors';
 import {showMessage} from 'react-native-flash-message';
 
-import {Section} from '../Section/Section';
 import {DynamicText} from '../../screens/AdventureScreen/AdventureScreen';
 import {Stars as Rating} from '../Stars/Stars';
 import {ButtonItem} from '../Buttons/ButtonItem';
@@ -41,9 +40,10 @@ import {
 import star from '../../../assets/images/star.png';
 import activeStar from '../../../assets/images/activeStar.png';
 
+import {getAdventureReview} from '../../../redux/actions/AdventureActions';
+
 export const Comment = ({item}) => {
   const date = new Date(item?.date);
-
   return (
     <CommentContainer>
       <UserContainer>
@@ -119,7 +119,8 @@ export const StarsRating = ({setStarRating}) => {
     </StarsWrapper>
   );
 };
-export const CommentInput = ({initComments, onSubmit}) => {
+
+export const CommentInput = ({commentSelector, onSubmit}) => {
   const [commentText, setCommentText] = useState('');
   const [showRating, setShowRating] = useState(true);
   const [interestingRatingValue, setInterestingRatingValue] = useState(0);
@@ -127,12 +128,13 @@ export const CommentInput = ({initComments, onSubmit}) => {
   const [serviceRatingValue, setServiceRatingValue] = useState(0);
   const [priceRatingValue, setPriceRatingValue] = useState(0);
   const [starsRatingValue, setStarsRatingValue] = useState(0);
-  const [comments, setComments] = useState(initComments);
-  const user = useSelector(userSelector);
+  const comments = useSelector(commentSelector);
 
+  const user = useSelector(userSelector);
+  const dispatch = useDispatch();
   const onSubmitHandler = async () => {
     try {
-      const response = await onSubmit(
+      await onSubmit(
         starsRatingValue,
         interestingRatingValue,
         guideRatingValue,
@@ -140,7 +142,6 @@ export const CommentInput = ({initComments, onSubmit}) => {
         priceRatingValue,
         commentText,
       );
-      setComments([...comments, response.data]);
       setCommentText(' ');
       setShowRating(false);
     } catch (error) {
@@ -150,48 +151,53 @@ export const CommentInput = ({initComments, onSubmit}) => {
       });
     }
   };
+
+  useEffect(() => {
+    console.log('useEffect');
+    dispatch(getAdventureReview());
+  }, []);
+
   return (
     <CommentInputContainer>
-      <Section
-        title={`Reviews (${comments.length})`}
-        showRightButton={true}
-        data={comments}
-        renderItem={({item}) => <Comment item={item} />}
-      />
+      <View>
+        {comments.map(item => (
+          <Comment item={item} />
+        ))}
+      </View>
       <CommentInputWrapper>
         <UserInfoWrapper>
           <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
           <UserFirstNameTitle>{`${user?.profileInfo?.firstName} ${user?.profileInfo?.lastName}`}</UserFirstNameTitle>
         </UserInfoWrapper>
-        {showRating && (
-          <>
-            <CriterionRatingContainer>
-              <CriterionRating
-                title={'Interesting'}
-                ratingValue={interestingRatingValue}
-                onValueChangeHandler={value => setInterestingRatingValue(value)}
-              />
-              <CriterionRating
-                title={'Guide'}
-                ratingValue={guideRatingValue}
-                onValueChangeHandler={value => setGuideRatingValue(value)}
-              />
-              <CriterionRating
-                title={'Service'}
-                ratingValue={serviceRatingValue}
-                onValueChangeHandler={value => setServiceRatingValue(value)}
-              />
-              <CriterionRating
-                title={'Price'}
-                ratingValue={priceRatingValue}
-                onValueChangeHandler={value => setPriceRatingValue(value)}
-              />
-            </CriterionRatingContainer>
-            <StarsRatingContainer>
-              <StarsRating setStarRating={setStarsRatingValue} />
-            </StarsRatingContainer>
-          </>
-        )}
+
+        <>
+          <CriterionRatingContainer>
+            <CriterionRating
+              title={'Interesting'}
+              ratingValue={interestingRatingValue}
+              onValueChangeHandler={value => setInterestingRatingValue(value)}
+            />
+            <CriterionRating
+              title={'Guide'}
+              ratingValue={guideRatingValue}
+              onValueChangeHandler={value => setGuideRatingValue(value)}
+            />
+            <CriterionRating
+              title={'Service'}
+              ratingValue={serviceRatingValue}
+              onValueChangeHandler={value => setServiceRatingValue(value)}
+            />
+            <CriterionRating
+              title={'Price'}
+              ratingValue={priceRatingValue}
+              onValueChangeHandler={value => setPriceRatingValue(value)}
+            />
+          </CriterionRatingContainer>
+          <StarsRatingContainer>
+            <StarsRating setStarRating={setStarsRatingValue} />
+          </StarsRatingContainer>
+        </>
+
         <CommentTextInput
           multiline={true}
           placeholderTextColor={colors.gray}
