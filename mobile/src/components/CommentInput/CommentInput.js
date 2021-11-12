@@ -153,23 +153,19 @@ export const CommentInput = ({commentSelector, onSubmit}) => {
   };
 
   useEffect(() => {
-    console.log('useEffect');
     dispatch(getAdventureReview());
   }, []);
 
   return (
     <CommentInputContainer>
-      <View>
-        {comments.map(item => (
-          <Comment item={item} />
-        ))}
-      </View>
+      {comments.map(item => (
+        <Comment item={item} />
+      ))}
       <CommentInputWrapper>
         <UserInfoWrapper>
           <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
           <UserFirstNameTitle>{`${user?.profileInfo?.firstName} ${user?.profileInfo?.lastName}`}</UserFirstNameTitle>
         </UserInfoWrapper>
-
         <>
           <CriterionRatingContainer>
             <CriterionRating

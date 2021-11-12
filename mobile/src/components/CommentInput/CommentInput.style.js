@@ -4,8 +4,9 @@ import fonts from '../../constants/fonts';
 export const CommentInputWrapper = styled.View`
   padding: 24px;
 `;
-export const CommentInputContainer = styled.View`
+export const CommentInputContainer = styled.ScrollView`
   flex: 1;
+  height: 400px;
 `;
 export const CriterionRatingContainer = styled.View`
   flex: 1;
@@ -58,6 +59,7 @@ export const UserInfoContainer = styled.View`
 export const UserInfoWrapper = styled.View`
   flex-direction: row;
   align-items: center;
+  background-color: blue;
 `;
 export const UserInfoFirstLineWrapper = styled.View`
   flex-direction: row;

@@ -87,8 +87,7 @@ export const Criterion = ({title = 'criterion', value = 100}) => {
   );
 };
 
-export const AdventureScreen = ({route}) => {
-  const adventure = route.params.adventure;
+export const AdventureScreen = ({adventure, navigation}) => {
   const commentSelector = getAdventureReviewsSelector(adventure._id);
   const dispatch = useDispatch();
   const token = useSelector(tokenSelector);
@@ -170,6 +169,17 @@ export const AdventureScreen = ({route}) => {
         <Criterion title="Price" value={adventure?.rating?.priceRating * 10} />
       </RatingContainer>
       <ReviewsContainer>
+        <SectionHeader
+          showRightButton
+          title={'Reviews'}
+          passHandler={() => {
+            navigation.navigate('Reviews', {
+              comments: adventure?.reviews,
+              commentSelector: commentSelector,
+              onSubmit: saveReview,
+            });
+          }}
+        />
         <CommentInput
           commentSelector={commentSelector}
           comments={adventure?.reviews}

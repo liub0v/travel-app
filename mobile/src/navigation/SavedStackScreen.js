@@ -3,6 +3,7 @@ import {AdventureScreen} from '../screens/AdventureScreen/AdventureScreen';
 import {HotelScreen} from '../screens/HotelScreen/HotelScreen';
 import React from 'react';
 import {SavedScreen} from '../screens/SavedScreen/SavedScreen';
+import {AdventureStackScreen} from './AdventureStackScreen';
 
 const SavedStack = createNativeStackNavigator();
 
@@ -23,7 +24,7 @@ export function SavedStackScreen() {
           headerTitle: '',
         }}
         name="AdventureScreen"
-        component={AdventureScreen}
+        component={AdventureStackScreen}
       />
       <SavedStack.Screen
         options={{
