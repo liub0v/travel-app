@@ -36,10 +36,19 @@ export function ExploreStackScreen() {
         component={HotelsCatalogByDestination}
       />
       <ExploreStack.Screen
+        options={{
+          headerTitle: 'Adventures',
+        }}
         name="AdventuresCatalog"
         component={AdventuresCatalog}
       />
-      <ExploreStack.Screen name="HotelsCatalog" component={HotelsCatalog} />
+      <ExploreStack.Screen
+        options={{
+          headerTitle: 'Hotels',
+        }}
+        name="HotelsCatalog"
+        component={HotelsCatalog}
+      />
       <ExploreStack.Screen
         options={{
           headerTransparent: true,

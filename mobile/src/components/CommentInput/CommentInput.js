@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {TouchableWithoutFeedback, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 
@@ -46,11 +46,12 @@ export const Comment = ({item}) => {
   const date = new Date(item?.date);
   return (
     <CommentContainer>
-      <UserContainer>
-        <UserAvatar source={{uri: item.clientID?.profileInfo?.imageURL}} />
-        <UserInfoContainer>
-          <UserInfoFirstLineWrapper>
-            <UserFirstNameTitle>{`${item.clientID?.profileInfo?.firstName} ${item.clientID?.profileInfo?.lastName}`}</UserFirstNameTitle>
+      <UserContainer style={{flexDirection: 'row', flex: 1}}>
+        <UserAvatar source={{uri: item.clientID.profileInfo.imageURL}} />
+        <UserInfoContainer style={{justifyContent: 'space-between', flex: 1}}>
+          <UserInfoFirstLineWrapper
+            style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <UserFirstNameTitle>{`${item.clientID.profileInfo.firstName} ${item.clientID?.profileInfo?.lastName}`}</UserFirstNameTitle>
             <DateTitle>{dateParser(date)}</DateTitle>
           </UserInfoFirstLineWrapper>
           <UserInfoWrapper>
@@ -122,14 +123,12 @@ export const StarsRating = ({setStarRating}) => {
 
 export const CommentInput = ({commentSelector, onSubmit}) => {
   const [commentText, setCommentText] = useState('');
-  const [showRating, setShowRating] = useState(true);
   const [interestingRatingValue, setInterestingRatingValue] = useState(0);
   const [guideRatingValue, setGuideRatingValue] = useState(0);
   const [serviceRatingValue, setServiceRatingValue] = useState(0);
   const [priceRatingValue, setPriceRatingValue] = useState(0);
   const [starsRatingValue, setStarsRatingValue] = useState(0);
   const comments = useSelector(commentSelector);
-
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
   const onSubmitHandler = async () => {
@@ -143,7 +142,6 @@ export const CommentInput = ({commentSelector, onSubmit}) => {
         commentText,
       );
       setCommentText(' ');
-      setShowRating(false);
     } catch (error) {
       showMessage({
         message: error.response?.data,

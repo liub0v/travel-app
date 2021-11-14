@@ -17,7 +17,10 @@ import {SectionHeader} from '../../components/Section/Section';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {Stars} from '../../components/Stars/Stars';
 import {Like} from '../../components/Like/Like';
-import {CommentInput} from '../../components/CommentInput/CommentInput';
+import {
+  Comment,
+  CommentInput,
+} from '../../components/CommentInput/CommentInput';
 
 import {
   ButtonWrapper,
@@ -45,6 +48,7 @@ import {
   SummaryContainer,
   SummaryText,
   SummaryWrapper,
+  IntroReviews,
 } from './AdventureScreen.style';
 import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
 
@@ -182,11 +186,11 @@ export const AdventureScreen = ({adventure}) => {
             });
           }}
         />
-        <CommentInput
-          commentSelector={commentSelector}
-          comments={adventure?.reviews}
-          onSubmit={saveReview}
-        />
+        <IntroReviews>
+          {adventure?.reviews.slice(0, 3).map(item => (
+            <Comment item={item} />
+          ))}
+        </IntroReviews>
       </ReviewsContainer>
       <LocationContainer>
         <SectionHeader showRightButton={false} title={'Location'} />

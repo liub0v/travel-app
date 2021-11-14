@@ -119,9 +119,7 @@ export const ReviewsContainer = styled.View`
   padding-top: 24px;
 `;
 
-export const LocationContainer = styled.View`
-  padding-top: 24px;
-`;
+export const LocationContainer = styled.View``;
 export const ButtonWrapper = styled.View`
   padding-top: 24px;
   align-items: center;
@@ -132,4 +130,8 @@ export const Map = styled.View`
   height: 170px;
   width: 100%;
   background-color: rgba(15, 20, 52, 0.38);
+`;
+
+export const IntroReviews = styled.View`
+  padding-top: 24px;
 `;

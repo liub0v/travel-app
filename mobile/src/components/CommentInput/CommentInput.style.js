@@ -36,10 +36,8 @@ export const CommentTextInput = styled.TextInput`
 
 export const CommentContainer = styled.View``;
 export const UserContainer = styled.View`
-  flex-direction: row;
   padding-left: 24px;
   padding-right: 24px;
-  flex: 1;
 `;
 export const UserAvatar = styled.Image`
   width: 40px;
@@ -51,20 +49,12 @@ export const ButtonWrapper = styled.View`
   margin-top: 24px;
   width: 30%;
 `;
-export const UserInfoContainer = styled.View`
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
-`;
+export const UserInfoContainer = styled.View``;
 export const UserInfoWrapper = styled.View`
   flex-direction: row;
   align-items: center;
-  background-color: blue;
 `;
-export const UserInfoFirstLineWrapper = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-`;
+export const UserInfoFirstLineWrapper = styled.View``;
 export const CommentTextWrapper = styled.View`
   padding-left: 48px;
 `;

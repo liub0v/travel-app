@@ -22,7 +22,6 @@ export function AdventureStackScreen({route}) {
       <AdventureStack.Screen
         options={{
           headerShown: false,
-          // headerTitle: 'Adventures',
         }}
         name="ReviewsScreen"
         component={ReviewsScreen}

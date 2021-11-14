@@ -8,32 +8,6 @@ const { Review } = require("../models/review");
 const { calculateAverageRating } = require("../utils/averageRating");
 module.exports = (Model) => {
   const router = express.Router();
-  // router.ws("/comments", async (ws, req) => {
-  //   ws.url = req.originalUrl;
-  //
-  //   ws.on("message", (message) => {
-  //     ws.broadcast(message);
-  //   });
-  //
-  //   ws.broadcast = (data) => {
-  //     wsInstance.getWss(req.originalUrl).clients.forEach((client) => {
-  //       if (client.url === req.originalUrl) client.send(data);
-  //     });
-  //   };
-  // });
-  router.get("/comments", (req, res) => {
-    res.send({ success: true });
-    // const io = req.app.get("socketio");
-    // io.on("connection", (socket) => {
-    //   console.log("a user connected :D");
-    //   socket.on("chat message", (msg) => {
-    //     console.log(msg);
-    //     io.emit("chat message", msg);
-    //   });
-    // });
-    //
-    // res.send({ success: true });
-  });
 
   router.post("/review", auth, async (req, res) => {
     const io = req.app.get("socketio");
