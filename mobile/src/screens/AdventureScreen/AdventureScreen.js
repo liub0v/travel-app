@@ -50,6 +50,7 @@ import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
 
 import guideAvatar from '../../../assets/images/avatarBig.png';
 import {getAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
+import {useNavigation} from '@react-navigation/native';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -87,8 +88,9 @@ export const Criterion = ({title = 'criterion', value = 100}) => {
   );
 };
 
-export const AdventureScreen = ({adventure, navigation}) => {
+export const AdventureScreen = ({adventure}) => {
   const commentSelector = getAdventureReviewsSelector(adventure._id);
+  const navigation = useNavigation();
   const dispatch = useDispatch();
   const token = useSelector(tokenSelector);
   const savedAdventures = useSelector(savedAdventuresSelector);
@@ -173,7 +175,7 @@ export const AdventureScreen = ({adventure, navigation}) => {
           showRightButton
           title={'Reviews'}
           passHandler={() => {
-            navigation.navigate('Reviews', {
+            navigation.navigate('ReviewsScreen', {
               comments: adventure?.reviews,
               commentSelector: commentSelector,
               onSubmit: saveReview,

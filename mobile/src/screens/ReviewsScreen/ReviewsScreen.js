@@ -1,6 +1,19 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {View} from 'react-native';
+import {CommentInput} from '../../components/CommentInput/CommentInput';
 
-export const ReviewsScreen = () => {
-  return <Text>REVIEWS</Text>;
+export const ReviewsScreen = ({route}) => {
+  const comments = route.params?.comments;
+  const commentSelector = route.params?.commentSelector;
+  const onSubmit = route.params?.onSubmit;
+
+  return (
+    <View style={{flex: 1}}>
+      <CommentInput
+        commentSelector={commentSelector}
+        comments={comments}
+        onSubmit={onSubmit}
+      />
+    </View>
+  );
 };
