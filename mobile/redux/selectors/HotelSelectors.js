@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import {adventuresSelector} from './AdventureSelectors';
 
 const hotelSelector = state => state.hotel;
 export const hotelsSelector = createSelector(
@@ -21,3 +22,9 @@ export const popularHotelsSelector = createSelector(
   hotelSelector,
   item => item.popularHotels,
 );
+export const getHotelReviewsSelector = hotelID => {
+  return createSelector(
+    hotelsSelector,
+    hotels => hotels.find(hotel => hotel._id === hotelID).reviews,
+  );
+};

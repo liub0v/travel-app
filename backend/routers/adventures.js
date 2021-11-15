@@ -4,12 +4,7 @@ const {
   removeFromCloud,
   updateCloudImage,
 } = require("../utils/cloudinary");
-const { Client } = require("../models/client");
-const { Review } = require("../models/review");
-const { Rating } = require("../models/rating");
-const { _ } = require("lodash");
 const auth = require("../middleware/auth");
-const { calculateAverageRating } = require("../utils/averageRating");
 const router = require("express").Router();
 const comments = require("../routers/comments");
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;

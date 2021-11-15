@@ -9,6 +9,66 @@ const { calculateAverageRating } = require("../utils/averageRating");
 module.exports = (Model) => {
   const router = express.Router();
 
+  router.post("/comment", auth, async (req, res) => {
+    const io = req.app.get("socketio");
+
+    const hotel = await Model.findById(req.body.hotelID)
+      .populate("reviews")
+      .populate("rating")
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "clientID",
+          select:
+            "profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
+        },
+      });
+    if (!hotel) return res.status(404).send("Hotel doesn't exist");
+
+    const rating = new Rating({
+      starsNumber: req.body.starsNumber,
+    });
+
+    await rating.save();
+
+    const client = await Client.findOne({ userID: req.user._id }).select(
+      "profileInfo.imageURL profileInfo.firstName profileInfo.lastName"
+    );
+    if (!client) return res.status(404).send("Client doesn't exist");
+
+    const review = new Review({
+      clientID: client,
+      comment: req.body.comment,
+      rating: rating,
+    });
+    await review.save();
+
+    const count = hotel.reviews.length;
+
+    const generalRating = new Rating({
+      starsNumber: _.round(
+        calculateAverageRating(
+          hotel.rating?.starsNumber ?? 0,
+          count,
+          Number(req.body.starsNumber)
+        )
+      ),
+      generalRating: calculateAverageRating(
+        hotel.rating?.starsNumber ?? 0,
+        count,
+        Number(req.body.starsNumber)
+      ),
+    });
+
+    await generalRating.save();
+    hotel.reviews.push(review);
+    hotel.rating = generalRating;
+    await hotel.save();
+
+    io.emit("comment", { review, hotelID: req.body.hotelID });
+    res.send({ review, hotelID: req.body.hotelID });
+  });
+
   router.post("/review", auth, async (req, res) => {
     const io = req.app.get("socketio");
     const adventure = await Model.findById(req.body.adventureID)
@@ -43,6 +103,7 @@ module.exports = (Model) => {
     });
 
     await rating.save();
+
     const client = await Client.findOne({ userID: req.user._id });
     if (!client) return res.status(404).send("Client doesn't exist");
 
@@ -97,7 +158,7 @@ module.exports = (Model) => {
 
     await adventure.save();
 
-    io.emit("comment", { review, adventureID: req.body.adventureID });
+    io.emit("review", { review, adventureID: req.body.adventureID });
     res.send({ review, adventureID: req.body.adventureID });
   });
 

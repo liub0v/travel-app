@@ -24,7 +24,7 @@ function* read(socket) {
 }
 export function* subscribe(socket) {
   return new eventChannel(emit => {
-    socket.on('comment', ({review, adventureID}) => {
+    socket.on('review', ({review, adventureID}) => {
       emit(addAdventureReview({review, adventureID}));
     });
     return () => {

@@ -5,6 +5,7 @@ const {
   updateCloudImage,
 } = require("../utils/cloudinary");
 const router = require("express").Router();
+const comments = require("../routers/comments");
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
@@ -28,7 +29,17 @@ router.get("/ByDestination", async (req, res) => {
   const hotels = await Hotel.find({ $text: { $search: destination } })
     .sort({ _id: 1 })
     .skip(startIndex)
-    .limit(limit);
+    .limit(limit)
+    .populate("reviews")
+    .populate("rating")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "rating clientID",
+        select:
+          "starsNumber profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
+      },
+    });
 
   res.send(hotels);
 });
@@ -124,4 +135,6 @@ router.delete("/", async (req, res) => {
 
   res.send(hotel);
 });
+
+router.use("/", comments(Hotel));
 module.exports = router;

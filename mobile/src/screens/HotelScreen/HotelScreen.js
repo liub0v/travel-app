@@ -38,6 +38,9 @@ import {Like} from '../../components/Like/Like';
 import {useDispatch, useSelector} from 'react-redux';
 import {deleteSavedHotel, saveHotel} from '../../../redux/actions/HotelActions';
 import {savedHotelsSelector} from '../../../redux/selectors/UserSelector';
+import {useNavigation} from '@react-navigation/native';
+import {getAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
+import {getHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
 const Option = ({title, icon}) => {
   return (
     <OptionWrapper>
@@ -46,10 +49,11 @@ const Option = ({title, icon}) => {
     </OptionWrapper>
   );
 };
-export const HotelScreen = ({route}) => {
-  const hotel = route.params.hotel;
+export const HotelScreen = ({hotel}) => {
   const dispatch = useDispatch();
   const savedHotels = useSelector(savedHotelsSelector);
+  const navigation = useNavigation();
+  const commentSelector = getHotelReviewsSelector(hotel._id);
   const like = savedHotels.filter(item => item._id === hotel._id).length > 0;
   const setLikeOnHotel = () => {
     like && dispatch(deleteSavedHotel(hotel._id));
@@ -74,11 +78,20 @@ export const HotelScreen = ({route}) => {
       <InfoContainer>
         <InfoWrapper>
           <BoldText>{`$ ${hotel.price}`}</BoldText>
-          <RatingTitle>{'4.9'}</RatingTitle>
+          <RatingTitle>{`${hotel?.rating?.generalRating}`}</RatingTitle>
         </InfoWrapper>
         <InfoWrapper>
           <NormalText>{'06 July - 14 July, 2 guest'}</NormalText>
-          <ReviewsTitle>{'54 Reviews'}</ReviewsTitle>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigation.navigate('ReviewsScreen', {
+                comments: hotel?.reviews,
+                commentSelector: commentSelector,
+                onSubmit: () => {},
+              });
+            }}>
+            <ReviewsTitle>{`${hotel.reviews.length} Reviews`}</ReviewsTitle>
+          </TouchableWithoutFeedback>
         </InfoWrapper>
       </InfoContainer>
       <OptionsContainer>

@@ -41,6 +41,7 @@ import star from '../../../assets/images/star.png';
 import activeStar from '../../../assets/images/activeStar.png';
 
 import {getAdventureReview} from '../../../redux/actions/AdventureActions';
+import {SectionHeader} from '../Section/Section';
 
 export const Comment = ({item}) => {
   const date = new Date(item?.date);
@@ -156,6 +157,9 @@ export const CommentInput = ({commentSelector, onSubmit}) => {
 
   return (
     <CommentInputContainer>
+      <View style={{paddingBottom: 24, paddingTop: 24}}>
+        <SectionHeader title={'Reviews'} showRightButton={false} />
+      </View>
       {comments.map(item => (
         <Comment item={item} />
       ))}

@@ -9,9 +9,8 @@ export const ReviewsScreen = ({route}) => {
   const onSubmit = route.params?.onSubmit;
 
   return (
-    <View style={{flex: 1, paddingTop: 48}}>
-      <SectionHeader title={'Reviews'} showRightButton={false} />
-      <View style={{flex: 1, paddingTop: 24}}>
+    <View style={{flex: 1}}>
+      <View style={{flex: 1}}>
         <CommentInput
           commentSelector={commentSelector}
           comments={comments}
