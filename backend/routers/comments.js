@@ -65,8 +65,12 @@ module.exports = (Model) => {
     hotel.rating = generalRating;
     await hotel.save();
 
-    io.emit("comment", { review, hotelID: req.body.hotelID });
-    res.send({ review, hotelID: req.body.hotelID });
+    io.emit("comment", {
+      review,
+      hotelID: req.body.hotelID,
+      rating: generalRating,
+    });
+    res.send({ review, hotelID: req.body.hotelID, rating: generalRating });
   });
 
   router.post("/review", auth, async (req, res) => {

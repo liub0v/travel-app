@@ -17,10 +17,7 @@ import {SectionHeader} from '../../components/Section/Section';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {Stars} from '../../components/Stars/Stars';
 import {Like} from '../../components/Like/Like';
-import {
-  Comment,
-  CommentInput,
-} from '../../components/CommentInput/CommentInput';
+import {Comment} from '../../components/CommentInput/CommentInput';
 
 import {
   ButtonWrapper,
@@ -183,6 +180,7 @@ export const AdventureScreen = ({adventure}) => {
               comments: adventure?.reviews,
               commentSelector: commentSelector,
               onSubmit: saveReview,
+              showCriterionRating: true,
             });
           }}
         />

@@ -1,6 +1,8 @@
 import {
+  ADD_HOTEL_REVIEW,
   CLEAR_HOTELS,
   DELETE_SAVED_HOTEL,
+  GET_HOTEL_REVIEW,
   GET_HOTELS,
   GET_POPULAR_HOTELS,
   REMOVE_SAVED_HOTEL,
@@ -75,5 +77,18 @@ export const removeSavedHotel = hotelID => {
   return {
     type: REMOVE_SAVED_HOTEL,
     payload: hotelID,
+  };
+};
+
+export const addHotelReview = ({review, rating, hotelID}) => {
+  return {
+    type: ADD_HOTEL_REVIEW,
+    payload: {review, rating, hotelID},
+  };
+};
+export const getHotelReview = socket => {
+  return {
+    type: GET_HOTEL_REVIEW,
+    payload: socket,
   };
 };

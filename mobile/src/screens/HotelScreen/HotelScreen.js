@@ -37,10 +37,13 @@ import {Map} from '../AdventureScreen/AdventureScreen.style';
 import {Like} from '../../components/Like/Like';
 import {useDispatch, useSelector} from 'react-redux';
 import {deleteSavedHotel, saveHotel} from '../../../redux/actions/HotelActions';
-import {savedHotelsSelector} from '../../../redux/selectors/UserSelector';
+import {
+  savedHotelsSelector,
+  tokenSelector,
+} from '../../../redux/selectors/UserSelector';
 import {useNavigation} from '@react-navigation/native';
-import {getAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
 import {getHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
+import {hotelAPI} from '../../api/hotelAPI';
 const Option = ({title, icon}) => {
   return (
     <OptionWrapper>
@@ -51,14 +54,25 @@ const Option = ({title, icon}) => {
 };
 export const HotelScreen = ({hotel}) => {
   const dispatch = useDispatch();
-  const savedHotels = useSelector(savedHotelsSelector);
   const navigation = useNavigation();
+  const savedHotels = useSelector(savedHotelsSelector);
   const commentSelector = getHotelReviewsSelector(hotel._id);
+  const token = useSelector(tokenSelector);
   const like = savedHotels.filter(item => item._id === hotel._id).length > 0;
   const setLikeOnHotel = () => {
     like && dispatch(deleteSavedHotel(hotel._id));
     !like && dispatch(saveHotel(hotel._id));
   };
+
+  const saveReview = async (starsNumber, comment) => {
+    return await hotelAPI.saveHotelReview(
+      token,
+      hotel._id,
+      starsNumber,
+      comment,
+    );
+  };
+
   return (
     <MainContainer
       showsVerticalScrollIndicator={false}
@@ -87,7 +101,7 @@ export const HotelScreen = ({hotel}) => {
               navigation.navigate('ReviewsScreen', {
                 comments: hotel?.reviews,
                 commentSelector: commentSelector,
-                onSubmit: () => {},
+                onSubmit: saveReview,
               });
             }}>
             <ReviewsTitle>{`${hotel.reviews.length} Reviews`}</ReviewsTitle>

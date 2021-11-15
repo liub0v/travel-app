@@ -20,7 +20,7 @@ export function HotelStackScreen({route}) {
       </HotelStack.Screen>
       <HotelStack.Screen
         options={{
-          headerShown: true,
+          headerShown: false,
           headerTitle: '',
         }}
         name="ReviewsScreen"
