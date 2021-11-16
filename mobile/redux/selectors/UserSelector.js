@@ -4,6 +4,9 @@ const authSelector = state => state.auth;
 
 export const tokenSelector = createSelector(authSelector, item => item.token);
 export const userSelector = createSelector(authSelector, item => item.user);
+
+export const roleSelector = createSelector(userSelector, item => item.role);
+
 export const profileInfoSelector = createSelector(
   userSelector,
   user => user.profileInfo,

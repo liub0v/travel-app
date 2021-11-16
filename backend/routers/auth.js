@@ -41,10 +41,11 @@ router.post("/", async (req, res) => {
       if (!userRole) return res.status(400).send("User isn't a guide");
       break;
     case "admin":
+      userRole = null;
       break;
   }
 
-  res.header("x-auth-token", token).send({ ...user._doc, ...userRole._doc });
+  res.header("x-auth-token", token).send({ ...user._doc, ...userRole?._doc });
 });
 function validate(req) {
   const schema = Joi.object({
