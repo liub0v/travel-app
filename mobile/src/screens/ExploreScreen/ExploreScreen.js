@@ -1,12 +1,12 @@
-import React from 'react';
-import {Image, TouchableWithoutFeedback} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Image, TouchableWithoutFeedback, View} from 'react-native';
 
 import {useSelector} from 'react-redux';
 import {popularDestinationsSelector} from '../../../redux/selectors/DestinationSelector';
 import {popularAdventuresSelector} from '../../../redux/selectors/AdventureSelectors';
 import {popularHotelsSelector} from '../../../redux/selectors/HotelSelectors';
 
-import {Section} from '../../components/Section/Section';
+import {Section, SectionHeader} from '../../components/Section/Section';
 import {Destination} from './components/Destination';
 import {Adventure} from './components/Adventure';
 import {Hotel} from './components/Hotel';
@@ -23,6 +23,7 @@ import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
+import {HotelContainer} from '../SavedScreen/SavedScreen.style';
 
 const Category = ({image, title, passHandler = () => {}}) => {
   return (
@@ -39,15 +40,36 @@ export const ExploreScreen = ({navigation}) => {
   const goAdventureCatalog = () => {
     navigation.navigate('DestinationsCatalog');
   };
-
+  const [adventureX, setAdventureX] = useState(0);
   const goHotelsCatalog = () => {
     navigation.navigate('HotelsCatalogByDestination');
+  };
+  const scrollRef = useRef();
+  const adventuresRef = useRef(null);
+
+  useEffect(() => {
+    adventuresRef.current?.measure((width, height, px, py, fx, fy) => {
+      setAdventureX(fy);
+      console.log(width);
+      console.log(height);
+      console.log(py);
+      console.log(fy);
+    });
+    console.log(adventureX);
+  }, []);
+
+  const onPressTouch = () => {
+    scrollRef.current?.scrollTo({
+      y: adventureX,
+      animated: true,
+    });
   };
   const destinations = useSelector(popularDestinationsSelector);
   const adventures = useSelector(popularAdventuresSelector);
   const hotels = useSelector(popularHotelsSelector);
   return (
     <MainContainer
+      ref={scrollRef}
       nestedScrollEnabled
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
@@ -72,7 +94,11 @@ export const ExploreScreen = ({navigation}) => {
           title={'Adventures'}
           passHandler={goAdventureCatalog}
         />
-        <Category image={guidesIcon} title={'Giudes'} />
+        <Category
+          image={guidesIcon}
+          title={'Giudes'}
+          passHandler={onPressTouch}
+        />
       </CategoriesContainer>
       <Section
         title={'Popular destination'}
@@ -82,6 +108,7 @@ export const ExploreScreen = ({navigation}) => {
         showRightButton={false}
       />
       <Section
+        ref={adventuresRef}
         title={'Adventures'}
         isHorizontal={true}
         data={adventures}
@@ -90,13 +117,18 @@ export const ExploreScreen = ({navigation}) => {
         )}
         passHandler={goAdventureCatalog}
       />
-      <Section
-        title={'Hotel Best deals'}
-        isHorizontal={false}
-        data={hotels}
-        renderItem={({item}) => <Hotel item={item} navigation={navigation} />}
-        passHandler={goHotelsCatalog}
-      />
+      <View style={{width: '100%', flex: 1}}>
+        <SectionHeader
+          passHandler={goHotelsCatalog}
+          title={'Hotel Best deals'}
+          showRightButton={false}
+        />
+        <HotelContainer>
+          {hotels?.map(item => (
+            <Hotel item={item} key={item._id} navigation={navigation} />
+          ))}
+        </HotelContainer>
+      </View>
     </MainContainer>
   );
 };

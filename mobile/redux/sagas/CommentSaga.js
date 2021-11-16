@@ -3,6 +3,7 @@ import {eventChannel} from 'redux-saga';
 import io from 'socket.io-client';
 import {addAdventureReview} from '../actions/AdventureActions';
 import {GET_ADVENTURE_REVIEW} from '../types/AdventureTypes';
+import {addHotelReview} from '../actions/HotelActions';
 
 export const commentsSagas = [takeEvery(GET_ADVENTURE_REVIEW, flow)];
 function connect() {
@@ -26,6 +27,10 @@ export function* subscribe(socket) {
   return new eventChannel(emit => {
     socket.on('review', ({review, adventureID}) => {
       emit(addAdventureReview({review, adventureID}));
+    });
+
+    socket.on('comment', ({review, rating, hotelID}) => {
+      emit(addHotelReview({review, rating, hotelID}));
     });
     return () => {
       socket.close();

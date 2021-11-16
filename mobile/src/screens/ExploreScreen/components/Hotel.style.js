@@ -3,7 +3,6 @@ import colors from '../../../constants/colors';
 import fonts from '../../../constants/fonts';
 
 export const HotelItem = styled.View`
-  flex: 1;
   flex-direction: row;
   margin-left: 16px;
   margin-bottom: 20px;

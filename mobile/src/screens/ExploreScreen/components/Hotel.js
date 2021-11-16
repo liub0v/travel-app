@@ -24,7 +24,7 @@ export const Hotel = ({item, navigation}) => {
       <HotelItem>
         <HotelImage source={{uri: item.imageURL}} />
         <HotelInfoWrapper>
-          <HotelName>{`${item.name} ${item?.rating}*`}</HotelName>
+          <HotelName>{`${item.name} ${item?.starsNumber}*`}</HotelName>
           <StarsContainer>
             {[...Array(item.starsNumber)].map((item, index) => {
               return <Star key={index} source={star} />;

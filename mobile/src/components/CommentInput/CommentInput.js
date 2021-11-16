@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TouchableWithoutFeedback, View} from 'react-native';
 import Slider from '@react-native-community/slider';
 
@@ -122,7 +122,11 @@ export const StarsRating = ({setStarRating}) => {
   );
 };
 
-export const CommentInput = ({commentSelector, onSubmit}) => {
+export const CommentInput = ({
+  commentSelector,
+  onSubmit,
+  showCriterionRating = false,
+}) => {
   const [commentText, setCommentText] = useState('');
   const [interestingRatingValue, setInterestingRatingValue] = useState(0);
   const [guideRatingValue, setGuideRatingValue] = useState(0);
@@ -136,11 +140,11 @@ export const CommentInput = ({commentSelector, onSubmit}) => {
     try {
       await onSubmit(
         starsRatingValue,
+        commentText,
         interestingRatingValue,
         guideRatingValue,
         serviceRatingValue,
         priceRatingValue,
-        commentText,
       );
       setCommentText(' ');
     } catch (error) {
@@ -168,33 +172,36 @@ export const CommentInput = ({commentSelector, onSubmit}) => {
           <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
           <UserFirstNameTitle>{`${user?.profileInfo?.firstName} ${user?.profileInfo?.lastName}`}</UserFirstNameTitle>
         </UserInfoWrapper>
-        <>
-          <CriterionRatingContainer>
-            <CriterionRating
-              title={'Interesting'}
-              ratingValue={interestingRatingValue}
-              onValueChangeHandler={value => setInterestingRatingValue(value)}
-            />
-            <CriterionRating
-              title={'Guide'}
-              ratingValue={guideRatingValue}
-              onValueChangeHandler={value => setGuideRatingValue(value)}
-            />
-            <CriterionRating
-              title={'Service'}
-              ratingValue={serviceRatingValue}
-              onValueChangeHandler={value => setServiceRatingValue(value)}
-            />
-            <CriterionRating
-              title={'Price'}
-              ratingValue={priceRatingValue}
-              onValueChangeHandler={value => setPriceRatingValue(value)}
-            />
-          </CriterionRatingContainer>
-          <StarsRatingContainer>
-            <StarsRating setStarRating={setStarsRatingValue} />
-          </StarsRatingContainer>
-        </>
+        {showCriterionRating && (
+          <>
+            <CriterionRatingContainer>
+              <CriterionRating
+                title={'Interesting'}
+                ratingValue={interestingRatingValue}
+                onValueChangeHandler={value => setInterestingRatingValue(value)}
+              />
+              <CriterionRating
+                title={'Guide'}
+                ratingValue={guideRatingValue}
+                onValueChangeHandler={value => setGuideRatingValue(value)}
+              />
+              <CriterionRating
+                title={'Service'}
+                ratingValue={serviceRatingValue}
+                onValueChangeHandler={value => setServiceRatingValue(value)}
+              />
+              <CriterionRating
+                title={'Price'}
+                ratingValue={priceRatingValue}
+                onValueChangeHandler={value => setPriceRatingValue(value)}
+              />
+            </CriterionRatingContainer>
+          </>
+        )}
+
+        <StarsRatingContainer>
+          <StarsRating setStarRating={setStarsRatingValue} />
+        </StarsRatingContainer>
 
         <CommentTextInput
           multiline={true}
