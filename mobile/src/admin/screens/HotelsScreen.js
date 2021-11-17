@@ -1,28 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import {MainContainer} from './HotelsCatalog.style';
-import {ActivityIndicator, FlatList} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   hasMoreHotelsSelector,
   hotelsSelector,
   isLoadingHotelSelector,
 } from '../../../redux/selectors/HotelSelectors';
-import {useDispatch, useSelector} from 'react-redux';
-import {getHotelsByDestination} from '../../../redux/actions/HotelActions';
 import colors from '../../constants/colors';
-import {Hotel} from '../ExploreScreen/components/Hotel';
+import {FlatList, ActivityIndicator, View} from 'react-native';
+import {getHotels} from '../../../redux/actions/HotelActions';
+import {Hotel} from '../../screens/ExploreScreen/components/Hotel';
 
-export const HotelsCatalog = ({navigation, route}) => {
-  const destination = route.params.destination;
+export const HotelsScreen = ({navigation}) => {
   const hotels = useSelector(hotelsSelector);
   const hasMore = useSelector(hasMoreHotelsSelector);
   const isLoading = useSelector(isLoadingHotelSelector);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   useEffect(() => {
-    dispatch(getHotelsByDestination({page, limit: 8, destination}));
+    dispatch(getHotels({page, limit: 8}));
   }, [page]);
+
   return (
-    <MainContainer>
+    <View>
       {isLoading ? (
         <ActivityIndicator
           style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
@@ -40,9 +39,8 @@ export const HotelsCatalog = ({navigation, route}) => {
           }}
           renderItem={({item}) => <Hotel item={item} navigation={navigation} />}
           keyExtractor={item => item._id}
-          // ListFooterComponent={hasMore ? Loader : Footer}
         />
       )}
-    </MainContainer>
+    </View>
   );
 };

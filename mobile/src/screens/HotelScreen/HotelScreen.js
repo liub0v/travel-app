@@ -38,12 +38,14 @@ import {Like} from '../../components/Like/Like';
 import {useDispatch, useSelector} from 'react-redux';
 import {deleteSavedHotel, saveHotel} from '../../../redux/actions/HotelActions';
 import {
+  roleSelector,
   savedHotelsSelector,
   tokenSelector,
 } from '../../../redux/selectors/UserSelector';
 import {useNavigation} from '@react-navigation/native';
 import {getHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
 import {hotelAPI} from '../../api/hotelAPI';
+import {Edit} from '../../components/Edit/Edit';
 const Option = ({title, icon}) => {
   return (
     <OptionWrapper>
@@ -58,10 +60,14 @@ export const HotelScreen = ({hotel}) => {
   const savedHotels = useSelector(savedHotelsSelector);
   const commentSelector = getHotelReviewsSelector(hotel._id);
   const token = useSelector(tokenSelector);
-  const like = savedHotels.filter(item => item._id === hotel._id).length > 0;
+  const role = useSelector(roleSelector);
+  const like = savedHotels?.filter(item => item._id === hotel._id).length > 0;
   const setLikeOnHotel = () => {
     like && dispatch(deleteSavedHotel(hotel._id));
     !like && dispatch(saveHotel(hotel._id));
+  };
+  const goEditScreen = () => {
+    navigation.navigate('HotelEditScreen', {hotelInfo: hotel});
   };
 
   const saveReview = async (starsNumber, comment) => {
@@ -82,7 +88,11 @@ export const HotelScreen = ({hotel}) => {
       }}>
       <ImageContainer source={{uri: hotel.imageURL}}>
         <LikeWrapper>
-          <Like handler={setLikeOnHotel} likeInit={like} />
+          {role === 'admin' ? (
+            <Edit handler={goEditScreen} />
+          ) : (
+            <Like handler={setLikeOnHotel} likeInit={like} />
+          )}
         </LikeWrapper>
         <NameContainer>
           <BoldText>{hotel.name}</BoldText>

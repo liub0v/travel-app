@@ -15,9 +15,18 @@ router.get("/", async (req, res) => {
   const hotels = await Hotel.find()
     .sort({ _id: 1 })
     .skip(startIndex)
-    .limit(limit);
+    .limit(limit)
+    .populate("reviews")
+    .populate("rating")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "rating clientID",
+        select:
+          "starsNumber profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
+      },
+    });
 
-  if (!hotels.length) return res.status(404).send("Hotel is empty");
   res.send(hotels);
 });
 router.get("/ByDestination", async (req, res) => {
@@ -97,7 +106,7 @@ router.put("/", async (req, res) => {
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
-  const hotel = await Hotel.findById(req.body.id);
+  const hotel = await Hotel.findById(req.body.hotelID);
   if (!hotel) return res.status(404).send("Hotel doesn't exist");
 
   const newImage = req.body.image;
@@ -114,7 +123,6 @@ router.put("/", async (req, res) => {
   hotel.summary = req.body?.summary ?? hotel.summary;
   hotel.price = req.body?.price ?? hotel.price;
   hotel.address = req.body?.address ?? hotel.address;
-  hotel.reviews = req.body?.reviews ?? hotel.reviews;
   hotel.hotelOptions = req.body?.hotelOptions ?? hotel.hotelOptions;
   hotel.beds = req.body?.beds ?? hotel.beds;
   hotel.starsNumber = req.body?.starsNumber ?? hotel.starsNumber;

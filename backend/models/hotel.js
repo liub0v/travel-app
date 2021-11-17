@@ -34,7 +34,6 @@ const Hotel = mongoose.model("Hotel", hotelSchema);
 
 function validateHotel(hotel) {
   const schema = Joi.object({
-    id: Joi.string(),
     name: Joi.string(),
     imageURL: Joi.string(),
     image: Joi.object().optional(),
@@ -46,6 +45,7 @@ function validateHotel(hotel) {
     beds: Joi.number(),
     gallery: Joi.string(),
     starsNumber: Joi.string(),
+    hotelID: Joi.string(),
   });
   return schema.validate(hotel);
 }

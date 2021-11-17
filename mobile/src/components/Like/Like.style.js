@@ -2,7 +2,7 @@ import styled from 'styled-components/native/dist/styled-components.native.esm';
 import fonts from '../../constants/fonts';
 import colors from '../../constants/colors';
 
-export const LikeContainer = styled.View`
+export const Container = styled.View`
   background-color: ${colors.white};
   border-radius: 14px;
   height: 28px;
@@ -12,11 +12,11 @@ export const LikeContainer = styled.View`
 `;
 
 export const LikeWrapper = styled.View``;
-export const LikeImage = styled.Image`
+export const InitImage = styled.Image`
   height: 14px;
   width: 14px;
 `;
-export const LikedImage = styled.Image`
+export const FillImage = styled.Image`
   height: 14px;
   width: 14px;
 `;

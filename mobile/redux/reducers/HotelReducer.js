@@ -2,6 +2,7 @@ import {
   ADD_HOTEL_REVIEW,
   CLEAR_HOTELS,
   SET_HAS_MORE_HOTELS,
+  SET_HOTEL,
   SET_HOTELS,
   SET_HOTELS_ERROR,
   SET_HOTELS_IS_LOADING,
@@ -46,6 +47,17 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
       hotelsCopy[hotelIndex].rating = {
         ...payload.rating,
       };
+      return {
+        ...state,
+        hotels: [...hotelsCopy],
+      };
+    }
+    case SET_HOTEL: {
+      const hotelIndex = state.hotels.findIndex(hotel => {
+        return hotel._id === payload._id;
+      });
+      const hotelsCopy = [...state.hotels];
+      hotelsCopy[hotelIndex] = payload;
       return {
         ...state,
         hotels: [...hotelsCopy],

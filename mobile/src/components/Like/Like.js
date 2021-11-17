@@ -1,6 +1,6 @@
 import {TouchableWithoutFeedback} from 'react-native';
 import React, {useState} from 'react';
-import {LikeContainer, LikedImage, LikeImage} from './Like.style';
+import {Container, FillImage, InitImage} from './Like.style';
 import likeIcon from '../../../assets/images/like.png';
 import likedIcon from '../../../assets/images/savedActiveIcon.png';
 export const Like = ({handler = () => {}, likeInit = false}) => {
@@ -11,13 +11,13 @@ export const Like = ({handler = () => {}, likeInit = false}) => {
         setLike(!like);
         handler();
       }}>
-      <LikeContainer>
+      <Container>
         {like ? (
-          <LikedImage source={likedIcon} />
+          <FillImage source={likedIcon} />
         ) : (
-          <LikeImage source={likeIcon} />
+          <InitImage source={likeIcon} />
         )}
-      </LikeContainer>
+      </Container>
     </TouchableWithoutFeedback>
   );
 };

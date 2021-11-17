@@ -48,11 +48,11 @@ export const Comment = ({item}) => {
   return (
     <CommentContainer>
       <UserContainer style={{flexDirection: 'row', flex: 1}}>
-        <UserAvatar source={{uri: item.clientID.profileInfo.imageURL}} />
+        <UserAvatar source={{uri: item?.clientID?.profileInfo?.imageURL}} />
         <UserInfoContainer style={{justifyContent: 'space-between', flex: 1}}>
           <UserInfoFirstLineWrapper
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <UserFirstNameTitle>{`${item.clientID.profileInfo.firstName} ${item.clientID?.profileInfo?.lastName}`}</UserFirstNameTitle>
+            <UserFirstNameTitle>{`${item?.clientID?.profileInfo?.firstName} ${item.clientID?.profileInfo?.lastName}`}</UserFirstNameTitle>
             <DateTitle>{dateParser(date)}</DateTitle>
           </UserInfoFirstLineWrapper>
           <UserInfoWrapper>

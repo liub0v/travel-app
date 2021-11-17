@@ -2,16 +2,18 @@ import {
   ADD_HOTEL_REVIEW,
   CLEAR_HOTELS,
   DELETE_SAVED_HOTEL,
-  GET_HOTEL_REVIEW,
   GET_HOTELS,
+  GET_HOTELS_BY_DESTINATION,
   GET_POPULAR_HOTELS,
   REMOVE_SAVED_HOTEL,
   SAVE_HOTEL,
   SET_HAS_MORE_HOTELS,
+  SET_HOTEL,
   SET_HOTELS,
   SET_HOTELS_ERROR,
   SET_HOTELS_IS_LOADING,
   SET_POPULAR_HOTELS,
+  UPDATE_HOTEL,
 } from '../types/HotelTypes';
 
 export const setHotels = hotels => {
@@ -20,10 +22,28 @@ export const setHotels = hotels => {
     payload: hotels,
   };
 };
+export const getHotelsByDestination = options => {
+  return {
+    type: GET_HOTELS_BY_DESTINATION,
+    payload: options,
+  };
+};
 export const getHotels = options => {
   return {
     type: GET_HOTELS,
     payload: options,
+  };
+};
+export const setHotel = hotel => {
+  return {
+    type: SET_HOTEL,
+    payload: hotel,
+  };
+};
+export const updateHotel = hotelData => {
+  return {
+    type: UPDATE_HOTEL,
+    payload: hotelData,
   };
 };
 export const getPopularHotels = () => {
@@ -84,11 +104,5 @@ export const addHotelReview = ({review, rating, hotelID}) => {
   return {
     type: ADD_HOTEL_REVIEW,
     payload: {review, rating, hotelID},
-  };
-};
-export const getHotelReview = socket => {
-  return {
-    type: GET_HOTEL_REVIEW,
-    payload: socket,
   };
 };

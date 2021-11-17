@@ -14,8 +14,10 @@ import {
 } from './Hotel.style';
 
 import star from '../../../../assets/images/start.png';
+import {useNavigation} from '@react-navigation/native';
 
-export const Hotel = ({item, navigation}) => {
+export const Hotel = ({item}) => {
+  const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback
       onPress={() => {
