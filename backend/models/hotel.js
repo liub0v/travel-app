@@ -44,7 +44,7 @@ function validateHotel(hotel) {
     hotelOptions: Joi.string(),
     beds: Joi.number(),
     gallery: Joi.string(),
-    starsNumber: Joi.string(),
+    starsNumber: Joi.number(),
     hotelID: Joi.string(),
   });
   return schema.validate(hotel);

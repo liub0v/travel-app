@@ -73,6 +73,7 @@ router.post("/gallery", async (req, res) => {
       gallery.push(imageURL);
     }
   }
+
   hotel.gallery.push(...gallery);
   await hotel.save();
   res.send(hotel);

@@ -41,16 +41,16 @@ async function updateHotel(
   const formData = new FormData();
   formData.append('hotelID', hotelID);
   formData.append('name', name);
-
-  formData.append('image', {
-    name: image.fileName,
-    type: image.type,
-    uri: image.uri,
-  });
-  // formData.append('image', image);
+  image &&
+    formData.append('image', {
+      name: image.fileName,
+      type: image.type,
+      uri: image.uri,
+    });
   formData.append('summary', summary);
-  // formData.append('price', JSON.stringify(price));
-  // formData.append('address', JSON.stringify(address));
+  formData.append('price', price);
+  formData.append('address', address);
+  formData.append('starsNumber', starsNumber);
   return await instance.put('/hotels', formData, {
     headers: {
       'x-auth-token': token,
