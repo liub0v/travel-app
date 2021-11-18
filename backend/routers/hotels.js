@@ -118,6 +118,7 @@ router.put("/", async (req, res) => {
       imageURL = await updateCloudImage(hotel.imageURL, newImage, "hotels");
     }
   }
+
   hotel.name = req.body?.name ?? hotel.name;
   hotel.imageURL = imageURL ?? hotel.imageURL;
   hotel.summary = req.body?.summary ?? hotel.summary;

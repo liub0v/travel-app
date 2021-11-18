@@ -9,6 +9,7 @@ export const Container = styled.View`
   width: 28px;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
 `;
 
 export const LikeWrapper = styled.View``;

@@ -38,23 +38,26 @@ async function updateHotel(
     starsNumber,
   },
 ) {
-  return await instance.put(
-    '/hotels',
-    {
-      hotelID,
-      name,
-      image,
-      summary,
-      price,
-      address,
-      hotelOptions,
-      beds,
-      starsNumber,
+  const formData = new FormData();
+  formData.append('hotelID', hotelID);
+  formData.append('name', name);
+
+  formData.append('image', {
+    name: image.fileName,
+    type: image.type,
+    uri: image.uri,
+  });
+  // formData.append('image', image);
+  formData.append('summary', summary);
+  // formData.append('price', JSON.stringify(price));
+  // formData.append('address', JSON.stringify(address));
+  return await instance.put('/hotels', formData, {
+    headers: {
+      'x-auth-token': token,
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
     },
-    {
-      headers: {'x-auth-token': token},
-    },
-  );
+  });
 }
 export const hotelAPI = {
   updateHotel,
