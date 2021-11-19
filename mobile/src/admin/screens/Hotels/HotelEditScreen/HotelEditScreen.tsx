@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 import {useDispatch} from 'react-redux';
 import {updateHotel} from '../../../../../redux/actions/HotelActions';
 import {InputItem} from '../../../../screens/AuthScreens/LoginScreen/LoginScreen.style';
@@ -26,12 +27,16 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
     summary,
     price,
     address,
+    hotelOptions,
   }: {
     name: string;
     summary: string;
     price: number;
     address: string;
+    hotelOptions: object;
   }) => {
+    const hotelOptionsStr = '';
+    console.log(hotelOptions);
     dispatch(
       updateHotel({
         hotelID: hotel._id,
@@ -45,20 +50,26 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
     );
   };
   return (
-    <View style={{marginTop: 50}}>
+    <ScrollView style={{marginTop: 50}}>
       <Formik
         initialValues={{
-          name: hotel.name || 'no name',
-          summary: hotel.summary || 'no summary',
-          price: hotel.price.toString() || '0.0',
-          address: hotel.address || 'no address',
+          name: hotel.name ?? 'no name',
+          summary: hotel.summary ?? 'no summary',
+          price: hotel.price.toString() ?? '0.0',
+          address: hotel.address ?? 'no address',
           beds: '',
-          hotelOptions: '',
-          starsNumber: '',
+          hotelOptions: {
+            digitalTV: false,
+            coffee: false,
+            wifi: false,
+            pets: false,
+            pool: false,
+          },
+          starsNumber: hotel.starsNumber ?? 0,
           image: '',
         }}
         onSubmit={editHandler}>
-        {({handleChange, handleBlur, handleSubmit, values}) => (
+        {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
           <>
             <Text>NAME</Text>
             <InputItem
@@ -92,6 +103,32 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
               title={'Select image'}
               handler={selectFile}
             />
+            <Text>{`DigitalTV`}</Text>
+            <CheckBox
+              value={values.hotelOptions.digitalTV}
+              onValueChange={nextValue =>
+                setFieldValue('hotelOptions.digitalTV', nextValue)
+              }
+            />
+            <Text>{`Coffee`}</Text>
+            <CheckBox
+              value={values.hotelOptions.coffee}
+              onValueChange={nextValue =>
+                setFieldValue('hotelOptions.coffee', nextValue)
+              }
+            />
+            <CheckBox
+              value={values.hotelOptions.coffee}
+              onValueChange={nextValue =>
+                setFieldValue('hotelOptions.coffee', nextValue)
+              }
+            />
+            <CheckBox
+              value={values.hotelOptions.coffee}
+              onValueChange={nextValue =>
+                setFieldValue('hotelOptions.coffee', nextValue)
+              }
+            />
             <ButtonItem
               isLoading={false}
               title={'Save changes'}
@@ -100,7 +137,7 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
           </>
         )}
       </Formik>
-    </View>
+    </ScrollView>
   );
 };
 export default HotelEditScreen;
