@@ -374,6 +374,8 @@ PODS:
     - React-perflogger (= 0.65.1)
   - RNCAsyncStorage (1.15.8):
     - React-Core
+  - RNCCheckbox (0.5.9):
+    - React-Core
   - RNFastImage (8.5.11):
     - React-Core
     - SDWebImage (~> 5.11.1)
@@ -491,6 +493,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -597,6 +600,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCCheckbox:
+    :path: "../node_modules/@react-native-community/checkbox"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
@@ -669,6 +674,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 85187f19dd9c47a7c102f9994f9d14e4dc2110de
   ReactCommon: eafed38eec7b591c31751bfa7494801618460459
   RNCAsyncStorage: e8b8d6320a0dd90eb610fb0d0b1ef90596697c69
+  RNCCheckbox: 6369808337432cdbd5025d62ceced2480b4c51df
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNReanimated: f58d4f027fcea2197b63588138decdf5f8ac5e89

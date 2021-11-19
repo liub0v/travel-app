@@ -24,6 +24,20 @@ async function saveHotelReview(token, hotelID, starsNumber, comment) {
     },
   );
 }
+async function updateGallery(token, hotelID, images) {
+  const formData = new FormData();
+  formData.append('hotelID', hotelID);
+  images.map((image, index) => {
+    formData.append(`image_${index}`, {
+      name: image.fileName,
+      type: image.type,
+      uri: image.uri,
+    });
+  });
+  return await instance.post('/hotels/gallery', formData, {
+    headers: {'x-auth-token': token},
+  });
+}
 async function updateHotel(
   token,
   {
@@ -51,6 +65,7 @@ async function updateHotel(
   formData.append('price', price);
   formData.append('address', address);
   formData.append('starsNumber', starsNumber);
+  formData.append('hotelOptions', hotelOptions);
   return await instance.put('/hotels', formData, {
     headers: {
       'x-auth-token': token,
@@ -65,4 +80,5 @@ export const hotelAPI = {
   getHotelsByDestination,
   saveHotelReview,
   getHotels,
+  updateGallery,
 };

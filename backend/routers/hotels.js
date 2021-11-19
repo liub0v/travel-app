@@ -64,7 +64,7 @@ router.delete("/gallery", async (req, res) => {
   res.send(hotel);
 });
 router.post("/gallery", async (req, res) => {
-  const hotel = await Hotel.findById(req.body.id);
+  const hotel = await Hotel.findById(req.body.hotelID);
   if (!hotel) return res.status(404).send("Hotel doesn't exist");
   const gallery = [];
   for (let prop in req.body) {

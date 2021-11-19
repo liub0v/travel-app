@@ -2,7 +2,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {ReviewsScreen} from '../screens/ReviewsScreen/ReviewsScreen';
 import {HotelScreen} from '../screens/HotelScreen/HotelScreen';
-import HotelEditScreen from '../admin/screens/Hotels/HotelEditScreen/HotelEditScreen';
+import EditHotelScreen from '../admin/screens/Hotels/HotelEditScreen/EditHotelScreen';
+import {EditGalleryScreen} from '../admin/screens/Hotels/HotelEditScreen/EditGalleryScreen';
 
 const HotelStack = createNativeStackNavigator();
 
@@ -31,8 +32,19 @@ export function HotelStackScreen({route}) {
           // headerBackTitle: '',
           // headerTitle: '',
         }}
-        name="HotelEditScreen"
-        component={HotelEditScreen}
+        name="EditHotelScreen"
+        component={EditHotelScreen}
+      />
+      <HotelStack.Screen
+        options={{
+          headerShown: false,
+          // headerTransparent: true,
+          // headerShadowVisible: false,
+          // headerBackTitle: '',
+          // headerTitle: '',
+        }}
+        name="EditGalleryScreen"
+        component={EditGalleryScreen}
       />
     </HotelStack.Navigator>
   );

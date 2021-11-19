@@ -14,6 +14,7 @@ import {
   SET_HOTELS_IS_LOADING,
   SET_POPULAR_HOTELS,
   UPDATE_HOTEL,
+  UPDATE_HOTEL_GALLERY,
 } from '../types/HotelTypes';
 
 export const setHotels = hotels => {
@@ -44,6 +45,12 @@ export const updateHotel = hotelData => {
   return {
     type: UPDATE_HOTEL,
     payload: hotelData,
+  };
+};
+export const updateHotelGallery = ({hotelID, images}) => {
+  return {
+    type: UPDATE_HOTEL_GALLERY,
+    payload: {hotelID, images},
   };
 };
 export const getPopularHotels = () => {

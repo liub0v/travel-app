@@ -7,6 +7,7 @@ import {
   GET_POPULAR_HOTELS,
   SAVE_HOTEL,
   UPDATE_HOTEL,
+  UPDATE_HOTEL_GALLERY,
 } from '../types/HotelTypes';
 import {hotelAPI} from '../../src/api/hotelAPI';
 import {
@@ -29,6 +30,7 @@ export const hotelSagas = [
   takeEvery(SAVE_HOTEL, saveHotelSaga),
   takeEvery(DELETE_SAVED_HOTEL, deleteSavedHotelSaga),
   takeEvery(UPDATE_HOTEL, updateHotelSaga),
+  takeEvery(UPDATE_HOTEL_GALLERY, updateHotelGallerySaga),
 ];
 function* getHotelsByDestinationSaga(action) {
   try {
@@ -113,6 +115,25 @@ function* updateHotelSaga(action) {
     const token = yield select(tokenSelector);
     const hotelData = action.payload;
     const response = yield call(hotelAPI.updateHotel, token, hotelData);
+    const hotel = response.data;
+    yield put(setHotel(hotel));
+    // yield put(setPopularHotels(hotels));
+    // yield put(setHotelsIsLoading(false));
+  } catch (error) {
+    // yield put(setHotelsIsLoading(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data,
+      type: 'error',
+    });
+  }
+}
+function* updateHotelGallerySaga(action) {
+  try {
+    // yield put(setHotelsIsLoading(true));
+    const token = yield select(tokenSelector);
+    const {hotelID, images} = action.payload;
+    const response = yield call(hotelAPI.updateGallery, token, hotelID, images);
     const hotel = response.data;
     yield put(setHotel(hotel));
     // yield put(setPopularHotels(hotels));

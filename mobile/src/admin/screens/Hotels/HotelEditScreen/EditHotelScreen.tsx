@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView, Text, View, TouchableOpacity} from 'react-native';
+import {ScrollView, Text} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {useDispatch} from 'react-redux';
 import {updateHotel} from '../../../../../redux/actions/HotelActions';
@@ -7,14 +7,45 @@ import {InputItem} from '../../../../screens/AuthScreens/LoginScreen/LoginScreen
 import {ButtonItem} from '../../../../components/Buttons/ButtonItem';
 import {Formik} from 'formik';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {Stars} from '../../../../components/Stars/Stars';
 import {StarsRating} from '../../../../components/CommentInput/CommentInput';
+
 export type Props = {
   route: any;
 };
+type HotelsOptionsProps = {
+  hotelOptions?: string;
+};
+class HotelsOptions<HotelsOptionsProps> {
+  digitalTV: boolean;
+  coffee: boolean;
+  wifi: boolean;
+  pets: boolean;
+  pool: boolean;
+  //i am not sure about this code
+  constructor(hotelOptions = '') {
+    this.digitalTV = false;
+    this.coffee = false;
+    this.wifi = false;
+    this.pets = false;
+    this.pool = false;
+    hotelOptions &&
+      hotelOptions.split(',').forEach((item: string) => {
+        console.log(item);
+        this[item] = true;
+      });
+  }
+  toString(): string {
+    const hotelOptionsArray: string[] = [];
+    for (let prop in this) {
+      this[prop] && hotelOptionsArray.push(prop);
+    }
+    return hotelOptionsArray.join(',');
+  }
+}
 
-export const HotelEditScreen: React.FC<Props> = ({route}) => {
-  const hotel = route.params.hotelInfo;
+export const EditHotelScreen: React.FC<Props> = ({route}) => {
+  const hotel = route.params.hotel;
+  const hotelOptions = new HotelsOptions(hotel?.hotelOptions);
   const dispatch = useDispatch();
   const [image, setImage] = useState(undefined);
   const [starsNumber, setStarsNumber] = useState(0);
@@ -22,6 +53,7 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
     const res = await launchImageLibrary({maxHeight: 320, maxWidth: 500});
     setImage(res?.assets[0]);
   };
+
   const editHandler = ({
     name,
     summary,
@@ -35,8 +67,6 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
     address: string;
     hotelOptions: object;
   }) => {
-    const hotelOptionsStr = '';
-    console.log(hotelOptions);
     dispatch(
       updateHotel({
         hotelID: hotel._id,
@@ -46,9 +76,11 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
         price: Number(price),
         address,
         starsNumber,
+        hotelOptions: hotelOptions.toString(),
       }),
     );
   };
+
   return (
     <ScrollView style={{marginTop: 50}}>
       <Formik
@@ -58,13 +90,7 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
           price: hotel.price.toString() ?? '0.0',
           address: hotel.address ?? 'no address',
           beds: '',
-          hotelOptions: {
-            digitalTV: false,
-            coffee: false,
-            wifi: false,
-            pets: false,
-            pool: false,
-          },
+          hotelOptions: hotelOptions,
           starsNumber: hotel.starsNumber ?? 0,
           image: '',
         }}
@@ -97,7 +123,10 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
               value={values.address}
               keyboardType="numeric"
             />
-            <StarsRating setStarRating={setStarsNumber} />
+            <StarsRating
+              initStarsNumber={hotel.starsNumber}
+              setStarRating={setStarsNumber}
+            />
             <ButtonItem
               isLoading={false}
               title={'Select image'}
@@ -117,16 +146,25 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
                 setFieldValue('hotelOptions.coffee', nextValue)
               }
             />
+            <Text>{`Wifi`}</Text>
             <CheckBox
-              value={values.hotelOptions.coffee}
+              value={values.hotelOptions.wifi}
               onValueChange={nextValue =>
-                setFieldValue('hotelOptions.coffee', nextValue)
+                setFieldValue('hotelOptions.wifi', nextValue)
               }
             />
+            <Text>{`Pets`}</Text>
             <CheckBox
-              value={values.hotelOptions.coffee}
+              value={values.hotelOptions.pets}
               onValueChange={nextValue =>
-                setFieldValue('hotelOptions.coffee', nextValue)
+                setFieldValue('hotelOptions.pets', nextValue)
+              }
+            />
+            <Text>{`Pool`}</Text>
+            <CheckBox
+              value={values.hotelOptions.pool}
+              onValueChange={nextValue =>
+                setFieldValue('hotelOptions.pool', nextValue)
               }
             />
             <ButtonItem
@@ -140,4 +178,4 @@ export const HotelEditScreen: React.FC<Props> = ({route}) => {
     </ScrollView>
   );
 };
-export default HotelEditScreen;
+export default EditHotelScreen;

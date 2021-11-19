@@ -67,9 +67,11 @@ export const HotelScreen = ({hotel}) => {
     !like && dispatch(saveHotel(hotel._id));
   };
   const goEditScreen = () => {
-    navigation.navigate('HotelEditScreen', {hotelInfo: hotel});
+    navigation.navigate('EditHotelScreen', {hotel: hotel});
   };
-
+  const goEditGalleryScreen = () => {
+    navigation.navigate('EditGalleryScreen', {hotel: hotel});
+  };
   const saveReview = async (starsNumber, comment) => {
     return await hotelAPI.saveHotelReview(
       token,
@@ -157,7 +159,11 @@ export const HotelScreen = ({hotel}) => {
         </GalleryWrapper>
       </GalleryContainer>
       <ButtonWrapper>
-        <ButtonItem title={'Book now'} />
+        {role === 'admin' ? (
+          <ButtonItem title={'Edit Gallery'} handler={goEditGalleryScreen} />
+        ) : (
+          <ButtonItem title={'Book now'} />
+        )}
       </ButtonWrapper>
     </MainContainer>
   );

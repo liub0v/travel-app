@@ -88,8 +88,8 @@ const CriterionRating = ({ratingValue, title, onValueChangeHandler}) => {
     </>
   );
 };
-export const StarsRating = ({setStarRating}) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export const StarsRating = ({initStarsNumber = 0, setStarRating}) => {
+  const [currentIndex, setCurrentIndex] = useState(initStarsNumber);
 
   const Star = ({isActive = false, index}) => {
     return (
