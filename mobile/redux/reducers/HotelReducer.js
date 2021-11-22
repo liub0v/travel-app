@@ -1,6 +1,7 @@
 import {
   ADD_HOTEL_REVIEW,
   CLEAR_HOTELS,
+  DELETE_GALLERY_IMAGE_COMPLETED,
   SET_HAS_MORE_HOTELS,
   SET_HOTEL,
   SET_HOTELS,
@@ -58,6 +59,19 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
       });
       const hotelsCopy = [...state.hotels];
       hotelsCopy[hotelIndex] = payload;
+      return {
+        ...state,
+        hotels: [...hotelsCopy],
+      };
+    }
+    case DELETE_GALLERY_IMAGE_COMPLETED: {
+      const hotelIndex = state.hotels.findIndex(hotel => {
+        return hotel._id === payload.hotelID;
+      });
+      const hotelsCopy = [...state.hotels];
+      hotelsCopy[hotelIndex].gallery = hotelsCopy[hotelIndex]?.gallery?.filter(
+        imageURl => imageURl !== payload.imageURL,
+      );
       return {
         ...state,
         hotels: [...hotelsCopy],

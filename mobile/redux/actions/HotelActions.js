@@ -1,6 +1,8 @@
 import {
   ADD_HOTEL_REVIEW,
   CLEAR_HOTELS,
+  DELETE_GALLERY_IMAGE,
+  DELETE_GALLERY_IMAGE_COMPLETED,
   DELETE_SAVED_HOTEL,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
@@ -111,5 +113,17 @@ export const addHotelReview = ({review, rating, hotelID}) => {
   return {
     type: ADD_HOTEL_REVIEW,
     payload: {review, rating, hotelID},
+  };
+};
+export const deleteGalleryImageCompleted = ({hotelID, imageURL}) => {
+  return {
+    type: DELETE_GALLERY_IMAGE_COMPLETED,
+    payload: {hotelID, imageURL},
+  };
+};
+export const deleteGalleryImage = ({hotelID, imageURL}) => {
+  return {
+    type: DELETE_GALLERY_IMAGE,
+    payload: {hotelID, imageURL},
   };
 };

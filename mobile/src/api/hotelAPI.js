@@ -38,6 +38,12 @@ async function updateGallery(token, hotelID, images) {
     headers: {'x-auth-token': token},
   });
 }
+async function deleteGalleryImage(token, hotelID, imageURL) {
+  return await instance.delete('/hotels/gallery', {
+    headers: {'x-auth-token': token},
+    data: {hotelID, imageURL},
+  });
+}
 async function updateHotel(
   token,
   {
@@ -81,4 +87,5 @@ export const hotelAPI = {
   saveHotelReview,
   getHotels,
   updateGallery,
+  deleteGalleryImage,
 };

@@ -1,6 +1,7 @@
 import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {showMessage} from 'react-native-flash-message';
 import {
+  DELETE_GALLERY_IMAGE,
   DELETE_SAVED_HOTEL,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
@@ -11,6 +12,7 @@ import {
 } from '../types/HotelTypes';
 import {hotelAPI} from '../../src/api/hotelAPI';
 import {
+  deleteGalleryImageCompleted,
   removeSavedHotel,
   setHasMoreHotels,
   setHotel,
@@ -31,6 +33,7 @@ export const hotelSagas = [
   takeEvery(DELETE_SAVED_HOTEL, deleteSavedHotelSaga),
   takeEvery(UPDATE_HOTEL, updateHotelSaga),
   takeEvery(UPDATE_HOTEL_GALLERY, updateHotelGallerySaga),
+  takeEvery(DELETE_GALLERY_IMAGE, deleteGalleryImageSaga),
 ];
 function* getHotelsByDestinationSaga(action) {
   try {
@@ -151,8 +154,8 @@ function* deleteSavedHotelSaga(action) {
   try {
     // yield put(setHotelsIsLoading(true));
     const token = yield select(tokenSelector);
-    const hotelID = action.payload;
-    const response = yield call(userAPI.deleteSavedHotel, hotelID, token);
+    const {hotelID} = action.payload;
+    const response = yield call(userAPI.deleteSavedHotel, token, hotelID);
     yield put(removeSavedHotel(hotelID));
     // yield put(setPopularHotels(hotels));
     // yield put(setHotelsIsLoading(false));
@@ -163,5 +166,28 @@ function* deleteSavedHotelSaga(action) {
     //   message: error.response?.data,
     //   type: 'error',
     // });
+  }
+}
+function* deleteGalleryImageSaga(action) {
+  try {
+    // yield put(setHotelsIsLoading(true));
+    const token = yield select(tokenSelector);
+    const {hotelID, imageURL} = action.payload;
+    const response = yield call(
+      hotelAPI.deleteGalleryImage,
+      token,
+      hotelID,
+      imageURL,
+    );
+    yield put(deleteGalleryImageCompleted({hotelID, imageURL}));
+    // yield put(setPopularHotels(hotels));
+    // yield put(setHotelsIsLoading(false));
+  } catch (error) {
+    // yield put(setHotelsIsLoading(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data,
+      type: 'error',
+    });
   }
 }

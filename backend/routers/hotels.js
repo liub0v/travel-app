@@ -6,6 +6,9 @@ const {
 } = require("../utils/cloudinary");
 const router = require("express").Router();
 const comments = require("../routers/comments");
+const admin = require("../middleware/admin");
+const auth = require("../middleware/auth");
+
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
@@ -52,18 +55,19 @@ router.get("/ByDestination", async (req, res) => {
 
   res.send(hotels);
 });
-router.delete("/gallery", async (req, res) => {
-  const hotel = await Hotel.findById(req.body.id);
+router.delete("/gallery", auth, admin, async (req, res) => {
+  const hotel = await Hotel.findById(req.body.hotelID);
   if (!hotel) return res.status(404).send("Hotel doesn't exist");
-
+  console.log("HI");
   const index = hotel.gallery.indexOf(req.body.imageURL);
   index > -1 && hotel.gallery.splice(index, 1);
   req.body.imageURL &&
     (await removeFromCloud(req.body.imageURL, "hotelsGallery"));
   await hotel.save();
-  res.send(hotel);
+  res.send({ imageURL: req.body.imageURL });
 });
-router.post("/gallery", async (req, res) => {
+
+router.post("/gallery", auth, admin, async (req, res) => {
   const hotel = await Hotel.findById(req.body.hotelID);
   if (!hotel) return res.status(404).send("Hotel doesn't exist");
   const gallery = [];
@@ -78,6 +82,7 @@ router.post("/gallery", async (req, res) => {
   await hotel.save();
   res.send(hotel);
 });
+
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {

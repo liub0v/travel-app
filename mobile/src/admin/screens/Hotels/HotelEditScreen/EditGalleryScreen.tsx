@@ -1,9 +1,23 @@
 import React, {useState} from 'react';
-import {ScrollView, Text, Image} from 'react-native';
+import {ScrollView, Image, TouchableWithoutFeedback} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {ButtonItem} from '../../../../components/Buttons/ButtonItem';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {updateHotelGallery} from '../../../../../redux/actions/HotelActions';
-import {useDispatch} from 'react-redux';
+import {
+  updateHotelGallery,
+  deleteGalleryImage,
+} from '../../../../../redux/actions/HotelActions';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  AddButton,
+  DeleteWrapper,
+  GalleryContainer,
+  ImageItem,
+  ImageWrapper,
+} from './EditGalleryScreen.style';
+import addIcon from '../../../../../assets/images/addIcon.png';
+import {Delete} from '../../../../components/Delete/Delete';
+import {getHotelGallerySelector} from '../../../../../redux/selectors/HotelSelectors';
 export type Props = {
   route: any;
 };
@@ -11,6 +25,8 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
   const hotel = route.params.hotel;
   const [images, setImages] = useState(undefined);
   const dispatch = useDispatch();
+  const galleySelector = getHotelGallerySelector(hotel._id);
+  const gallery = useSelector(galleySelector);
   const selectFile = async () => {
     const res = await launchImageLibrary({
       maxHeight: 320,
@@ -23,18 +39,50 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
   const saveHandler = () => {
     dispatch(updateHotelGallery({hotelID: hotel._id, images}));
   };
+  const deleteImageHandler = (imageURL: string) => {
+    dispatch(deleteGalleryImage({hotelID: hotel._id, imageURL}));
+  };
   return (
     <ScrollView>
-      {images?.map(img => (
-        <Image style={{width: 100, height: 100}} source={{uri: img.uri}} />
-      ))}
-      <Text>GALLERY</Text>
+      <GalleryContainer>
+        {gallery.map(imgURL => (
+          <ImageWrapper>
+            <ImageItem>
+              <FastImage
+                style={{width: 100, height: 100}}
+                source={{uri: imgURL}}
+              />
+            </ImageItem>
+            <DeleteWrapper>
+              <Delete handler={() => deleteImageHandler(imgURL)} />
+            </DeleteWrapper>
+          </ImageWrapper>
+        ))}
+        {images?.map(img => (
+          <ImageWrapper>
+            <ImageItem>
+              <FastImage
+                style={{width: 100, height: 100}}
+                source={{uri: img.uri}}
+              />
+            </ImageItem>
+          </ImageWrapper>
+        ))}
+        <ImageWrapper>
+          <ImageItem>
+            <TouchableWithoutFeedback onPress={selectFile}>
+              <AddButton>
+                <Image style={{width: 50, height: 50}} source={addIcon} />
+              </AddButton>
+            </TouchableWithoutFeedback>
+          </ImageItem>
+        </ImageWrapper>
+      </GalleryContainer>
       <ButtonItem
         isLoading={false}
-        title={'Select image'}
-        handler={selectFile}
+        title={'Save changes'}
+        handler={saveHandler}
       />
-      <ButtonItem isLoading={false} title={'Save'} handler={saveHandler} />
     </ScrollView>
   );
 };

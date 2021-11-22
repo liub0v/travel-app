@@ -6,13 +6,14 @@ export const Title = styled.Text`
   font-size: 16px;
   font-family: ${fonts.normal};
   color: ${colors.grey};
-  margin-top: 12px;
+  margin-top: 24px;
   margin-bottom: 12px;
 `;
 export const CheckBoxTitle = styled.Text`
   font-size: 16px;
   font-family: ${fonts.normal};
   color: ${colors.white};
+  padding-left: 12px;
 `;
 export const NameInput = styled.TextInput`
   height: 50px;
@@ -72,6 +73,7 @@ export const Container = styled.ScrollView`
   padding-right: 24px;
 `;
 export const ButtonWrapper = styled.View`
+  margin-top: 12px;
   margin-bottom: 48px;
   width: 100%;
 `;

@@ -28,3 +28,9 @@ export const getHotelReviewsSelector = hotelID => {
     hotels => hotels.find(hotel => hotel._id === hotelID).reviews,
   );
 };
+export const getHotelGallerySelector = hotelID => {
+  return createSelector(
+    hotelsSelector,
+    hotels => hotels.find(hotel => hotel._id === hotelID)?.gallery,
+  );
+};
