@@ -8,6 +8,21 @@ import {ButtonItem} from '../../../../components/Buttons/ButtonItem';
 import {Formik} from 'formik';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {StarsRating} from '../../../../components/CommentInput/CommentInput';
+import {
+  AddressInput,
+  CheckBoxContainer,
+  CheckBoxTitle,
+  CheckBoxWrapper,
+  CheckBoxWrapperChild,
+  Container,
+  NameInput,
+  PriceInput,
+  SummaryInput,
+  Title,
+  ButtonWrapper,
+  Wrapper,
+  InputWrapper,
+} from './EditHotelScreen.style';
 
 export type Props = {
   route: any;
@@ -15,6 +30,7 @@ export type Props = {
 type HotelsOptionsProps = {
   hotelOptions?: string;
 };
+
 class HotelsOptions<HotelsOptionsProps> {
   digitalTV: boolean;
   coffee: boolean;
@@ -82,7 +98,10 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
   };
 
   return (
-    <ScrollView style={{marginTop: 50}}>
+    <Container
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
       <Formik
         initialValues={{
           name: hotel.name ?? 'no name',
@@ -97,85 +116,122 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
         onSubmit={editHandler}>
         {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
           <>
-            <Text>NAME</Text>
-            <InputItem
-              onChangeText={handleChange('name')}
-              onBlur={handleBlur('name')}
-              value={values.name}
-            />
-            <Text>SUMMARY</Text>
-            <InputItem
-              onChangeText={handleChange('summary')}
-              onBlur={handleBlur('summary')}
-              value={values.summary}
-            />
-            <Text>PRICE</Text>
-            <InputItem
-              onChangeText={handleChange('price')}
-              onBlur={handleBlur('price')}
-              value={values.price}
-              keyboardType="numeric"
-            />
-            <Text>ADDRESS</Text>
-            <InputItem
-              onChangeText={handleChange('address')}
-              onBlur={handleBlur('address')}
-              value={values.address}
-              keyboardType="numeric"
-            />
-            <StarsRating
-              initStarsNumber={hotel.starsNumber}
-              setStarRating={setStarsNumber}
-            />
             <ButtonItem
               isLoading={false}
               title={'Select image'}
               handler={selectFile}
             />
-            <Text>{`DigitalTV`}</Text>
-            <CheckBox
-              value={values.hotelOptions.digitalTV}
-              onValueChange={nextValue =>
-                setFieldValue('hotelOptions.digitalTV', nextValue)
-              }
-            />
-            <Text>{`Coffee`}</Text>
-            <CheckBox
-              value={values.hotelOptions.coffee}
-              onValueChange={nextValue =>
-                setFieldValue('hotelOptions.coffee', nextValue)
-              }
-            />
-            <Text>{`Wifi`}</Text>
-            <CheckBox
-              value={values.hotelOptions.wifi}
-              onValueChange={nextValue =>
-                setFieldValue('hotelOptions.wifi', nextValue)
-              }
-            />
-            <Text>{`Pets`}</Text>
-            <CheckBox
-              value={values.hotelOptions.pets}
-              onValueChange={nextValue =>
-                setFieldValue('hotelOptions.pets', nextValue)
-              }
-            />
-            <Text>{`Pool`}</Text>
-            <CheckBox
-              value={values.hotelOptions.pool}
-              onValueChange={nextValue =>
-                setFieldValue('hotelOptions.pool', nextValue)
-              }
-            />
-            <ButtonItem
-              isLoading={false}
-              title={'Save changes'}
-              handler={handleSubmit}
-            />
+            <InputWrapper>
+              <Title>Name</Title>
+              <NameInput
+                onChangeText={handleChange('name')}
+                onBlur={handleBlur('name')}
+                value={values.name}
+              />
+            </InputWrapper>
+
+            <InputWrapper>
+              <Title>Summary</Title>
+              <SummaryInput
+                multiline={true}
+                onChangeText={handleChange('summary')}
+                onBlur={handleBlur('summary')}
+                value={values.summary}
+              />
+            </InputWrapper>
+
+            <InputWrapper>
+              <Title>Price</Title>
+              <PriceInput
+                onChangeText={handleChange('price')}
+                onBlur={handleBlur('price')}
+                value={values.price}
+                keyboardType="numeric"
+              />
+            </InputWrapper>
+
+            <InputWrapper>
+              <Title>Address</Title>
+              <AddressInput
+                onChangeText={handleChange('address')}
+                onBlur={handleBlur('address')}
+                value={values.address}
+                keyboardType="numeric"
+              />
+            </InputWrapper>
+            <InputWrapper>
+              <Title>Stars number</Title>
+              <StarsRating
+                initStarsNumber={hotel.starsNumber}
+                setStarRating={setStarsNumber}
+              />
+            </InputWrapper>
+
+            <InputWrapper>
+              <Title>Hotel options</Title>
+              <CheckBoxContainer>
+                <CheckBoxWrapperChild>
+                  <CheckBoxWrapper>
+                    <CheckBox
+                      value={values.hotelOptions.digitalTV}
+                      onValueChange={nextValue =>
+                        setFieldValue('hotelOptions.digitalTV', nextValue)
+                      }
+                    />
+                    <CheckBoxTitle>{`DigitalTV`}</CheckBoxTitle>
+                  </CheckBoxWrapper>
+                  <CheckBoxWrapper>
+                    <CheckBox
+                      value={values.hotelOptions.coffee}
+                      onValueChange={nextValue =>
+                        setFieldValue('hotelOptions.coffee', nextValue)
+                      }
+                    />
+                    <CheckBoxTitle>{`Coffee`}</CheckBoxTitle>
+                  </CheckBoxWrapper>
+                  <CheckBoxWrapper>
+                    <CheckBox
+                      value={values.hotelOptions.wifi}
+                      onValueChange={nextValue =>
+                        setFieldValue('hotelOptions.wifi', nextValue)
+                      }
+                    />
+                    <CheckBoxTitle>{`Wifi`}</CheckBoxTitle>
+                  </CheckBoxWrapper>
+                </CheckBoxWrapperChild>
+                <CheckBoxWrapperChild>
+                  <CheckBoxWrapper>
+                    <CheckBox
+                      value={values.hotelOptions.pets}
+                      onValueChange={nextValue =>
+                        setFieldValue('hotelOptions.pets', nextValue)
+                      }
+                    />
+                    <CheckBoxTitle>{`Pets`}</CheckBoxTitle>
+                  </CheckBoxWrapper>
+                  <CheckBoxWrapper>
+                    <CheckBox
+                      value={values.hotelOptions.pool}
+                      onValueChange={nextValue =>
+                        setFieldValue('hotelOptions.pool', nextValue)
+                      }
+                    />
+                    <CheckBoxTitle>{`Pool`}</CheckBoxTitle>
+                  </CheckBoxWrapper>
+                </CheckBoxWrapperChild>
+              </CheckBoxContainer>
+            </InputWrapper>
+            <ButtonWrapper>
+              <ButtonItem
+                isLoading={false}
+                title={'Save changes'}
+                handler={handleSubmit}
+              />
+            </ButtonWrapper>
           </>
         )}
       </Formik>
-    </ScrollView>
+    </Container>
   );
 };
 export default EditHotelScreen;
