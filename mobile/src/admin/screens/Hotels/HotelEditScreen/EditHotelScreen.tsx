@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
-import {ScrollView, Text} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {useDispatch} from 'react-redux';
 import {updateHotel} from '../../../../../redux/actions/HotelActions';
-import {InputItem} from '../../../../screens/AuthScreens/LoginScreen/LoginScreen.style';
 import {ButtonItem} from '../../../../components/Buttons/ButtonItem';
 import {Formik} from 'formik';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {StarsRating} from '../../../../components/CommentInput/CommentInput';
 import {
   AddressInput,
@@ -20,9 +18,14 @@ import {
   SummaryInput,
   Title,
   ButtonWrapper,
-  Wrapper,
   InputWrapper,
 } from './EditHotelScreen.style';
+
+import pool from '../../../../../assets/images/pool.png';
+import pets from '../../../../../assets/images/pets.png';
+import tv from '../../../../../assets/images/tv.png';
+import wifi from '../../../../../assets/images/wifi.png';
+import coffee from '../../../../../assets/images/coffee.png';
 
 export type Props = {
   route: any;
@@ -31,13 +34,14 @@ type HotelsOptionsProps = {
   hotelOptions?: string;
 };
 
-class HotelsOptions<HotelsOptionsProps> {
+export class HotelsOptions<HotelsOptionsProps> {
+  [name: string | symbol]: (() => string) | boolean;
   digitalTV: boolean;
   coffee: boolean;
   wifi: boolean;
   pets: boolean;
   pool: boolean;
-  //i am not sure about this code
+
   constructor(hotelOptions = '') {
     this.digitalTV = false;
     this.coffee = false;
@@ -46,7 +50,6 @@ class HotelsOptions<HotelsOptionsProps> {
     this.pool = false;
     hotelOptions &&
       hotelOptions.split(',').forEach((item: string) => {
-        console.log(item);
         this[item] = true;
       });
   }
@@ -57,17 +60,46 @@ class HotelsOptions<HotelsOptionsProps> {
     }
     return hotelOptionsArray.join(',');
   }
+  show(): any {
+    const hotelOptionsArray: object[] = [];
+    for (let prop in this) {
+      if (this[prop]) {
+        switch (prop) {
+          case 'pool':
+            hotelOptionsArray.push({title: 'Pool', image: pool});
+            break;
+          case 'digitalTV':
+            hotelOptionsArray.push({title: 'DigitalTV', image: tv});
+            break;
+          case 'coffee':
+            hotelOptionsArray.push({title: 'Coffee', image: coffee});
+            break;
+          case 'wifi':
+            hotelOptionsArray.push({title: 'Wifi', image: wifi});
+            break;
+          case 'pets':
+            hotelOptionsArray.push({title: 'Pets', image: pets});
+            break;
+        }
+      }
+    }
+    return hotelOptionsArray;
+  }
 }
 
 export const EditHotelScreen: React.FC<Props> = ({route}) => {
   const hotel = route.params.hotel;
   const hotelOptions = new HotelsOptions(hotel?.hotelOptions);
   const dispatch = useDispatch();
-  const [image, setImage] = useState(undefined);
+  const [image, setImage] = useState<Asset>();
   const [starsNumber, setStarsNumber] = useState(0);
   const selectFile = async () => {
-    const res = await launchImageLibrary({maxHeight: 320, maxWidth: 500});
-    setImage(res?.assets[0]);
+    const res = await launchImageLibrary({
+      maxHeight: 320,
+      maxWidth: 500,
+      mediaType: 'photo',
+    });
+    setImage(res?.assets?.[0]);
   };
 
   const editHandler = ({
@@ -81,7 +113,7 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
     summary: string;
     price: number;
     address: string;
-    hotelOptions: object;
+    hotelOptions: HotelsOptions<HotelsOptionsProps>;
   }) => {
     dispatch(
       updateHotel({

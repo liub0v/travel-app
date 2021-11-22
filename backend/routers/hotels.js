@@ -58,7 +58,6 @@ router.get("/ByDestination", async (req, res) => {
 router.delete("/gallery", auth, admin, async (req, res) => {
   const hotel = await Hotel.findById(req.body.hotelID);
   if (!hotel) return res.status(404).send("Hotel doesn't exist");
-  console.log("HI");
   const index = hotel.gallery.indexOf(req.body.imageURL);
   index > -1 && hotel.gallery.splice(index, 1);
   req.body.imageURL &&

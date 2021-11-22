@@ -12,21 +12,11 @@ export function HotelsStackScreen() {
         options={{
           headerTitle: '',
           headerBackTitle: '',
-          headerShown: false,
         }}
         name="HotelsScreen"
         component={HotelsScreen}
       />
-      <HotelsStack.Screen
-        options={{
-          headerTransparent: true,
-          headerShadowVisible: false,
-          headerBackTitle: '',
-          headerTitle: '',
-        }}
-        name="HotelScreen"
-        component={HotelStackScreen}
-      />
+      {HotelStackScreen(HotelsStack)}
     </HotelsStack.Navigator>
   );
 }

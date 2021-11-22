@@ -21,6 +21,7 @@ router.get("/me", validateObjectID, auth, async (req, res) => {
   if (!user) return res.status(404).send("User doesn't exist");
   res.send(user);
 });
+
 //set isOnboarding
 router.put("/onboarding", auth, async (req, res) => {
   const user = await User.findById(req.user._id);

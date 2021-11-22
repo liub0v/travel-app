@@ -30,7 +30,6 @@ import {
   RowWrapper,
   SummeryContainer,
 } from './HotelScreen.style';
-import optionIcon from '../../../assets/images/coffeOption.png';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {DynamicText} from '../AdventureScreen/AdventureScreen';
 import {Map} from '../AdventureScreen/AdventureScreen.style';
@@ -42,10 +41,11 @@ import {
   savedHotelsSelector,
   tokenSelector,
 } from '../../../redux/selectors/UserSelector';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {getHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
 import {hotelAPI} from '../../api/hotelAPI';
 import {Edit} from '../../components/Edit/Edit';
+import {HotelsOptions} from '../../admin/screens/Hotels/HotelEditScreen/EditHotelScreen';
 const Option = ({title, icon}) => {
   return (
     <OptionWrapper>
@@ -54,7 +54,9 @@ const Option = ({title, icon}) => {
     </OptionWrapper>
   );
 };
-export const HotelScreen = ({hotel}) => {
+export const HotelScreen = () => {
+  const route = useRoute();
+  const hotel = route.params.hotel;
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const savedHotels = useSelector(savedHotelsSelector);
@@ -66,11 +68,16 @@ export const HotelScreen = ({hotel}) => {
     like && dispatch(deleteSavedHotel(hotel._id));
     !like && dispatch(saveHotel(hotel._id));
   };
+  const hotelOptions = new HotelsOptions(hotel?.hotelOptions);
+
   const goEditScreen = () => {
     navigation.navigate('EditHotelScreen', {hotel: hotel});
   };
   const goEditGalleryScreen = () => {
     navigation.navigate('EditGalleryScreen', {hotel: hotel});
+  };
+  const goHotelGalleryScreen = () => {
+    navigation.navigate('HotelGalleryScreen', {hotelID: hotel._id});
   };
   const saveReview = async (starsNumber, comment) => {
     return await hotelAPI.saveHotelReview(
@@ -121,8 +128,8 @@ export const HotelScreen = ({hotel}) => {
         </InfoWrapper>
       </InfoContainer>
       <OptionsContainer>
-        {hotel?.hotelOptions?.split(',').map(item => (
-          <Option title={item.trim()} icon={optionIcon} />
+        {hotelOptions.show().map(item => (
+          <Option title={item.title} icon={item.image} />
         ))}
         <ButtonSeeMoreWrapper>
           <ButtonItem
@@ -146,7 +153,7 @@ export const HotelScreen = ({hotel}) => {
             <GallerySecondImage source={{uri: hotel.gallery[0]}} />
             <RowWrapper>
               <GalleryThirdImage source={{uri: hotel.gallery[1]}} />
-              <TouchableWithoutFeedback onPress={() => {}}>
+              <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
                 <GalleryMoreImage
                   blurRadius={3}
                   imageStyle={{borderRadius: 8}}

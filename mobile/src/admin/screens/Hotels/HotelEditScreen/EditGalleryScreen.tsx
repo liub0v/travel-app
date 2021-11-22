@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {ScrollView, Image, TouchableWithoutFeedback} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {ButtonItem} from '../../../../components/Buttons/ButtonItem';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {
   updateHotelGallery,
   deleteGalleryImage,
@@ -15,15 +15,17 @@ import {
   ImageItem,
   ImageWrapper,
 } from './EditGalleryScreen.style';
+
 import addIcon from '../../../../../assets/images/addIcon.png';
 import {Delete} from '../../../../components/Delete/Delete';
 import {getHotelGallerySelector} from '../../../../../redux/selectors/HotelSelectors';
+
 export type Props = {
   route: any;
 };
 export const EditGalleryScreen: React.FC<Props> = ({route}) => {
   const hotel = route.params.hotel;
-  const [images, setImages] = useState(undefined);
+  const [images, setImages] = useState<Array<Asset>>();
   const dispatch = useDispatch();
   const galleySelector = getHotelGallerySelector(hotel._id);
   const gallery = useSelector(galleySelector);
@@ -32,8 +34,8 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
       maxHeight: 320,
       maxWidth: 500,
       selectionLimit: 6,
+      mediaType: 'photo',
     });
-    console.log(res.assets);
     setImages(res?.assets);
   };
   const saveHandler = () => {
@@ -45,7 +47,7 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
   return (
     <ScrollView>
       <GalleryContainer>
-        {gallery.map(imgURL => (
+        {gallery.map((imgURL: string) => (
           <ImageWrapper>
             <ImageItem>
               <FastImage
