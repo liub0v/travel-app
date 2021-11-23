@@ -26,6 +26,7 @@ import {
   setHotelsIsLoading,
   setPopularHotels,
 } from '../actions/HotelActions';
+import * as RootNavigation from '../../src/navigation/RootNavigation';
 import {tokenSelector} from '../selectors/UserSelector';
 import {userAPI} from '../../src/api/userAPI';
 import {setSavedHotel} from '../actions/AuthActions';
@@ -165,6 +166,7 @@ function* deleteHotelSaga(action) {
     const hotel = response.data;
     yield put(deleteHotelCompleted(hotel._id));
     yield put(deleteHotelStarted(false));
+    RootNavigation.navigate('HotelsScreen');
   } catch (error) {
     yield put(deleteHotelStarted(false));
     yield put(setHotelsError(error));

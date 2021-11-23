@@ -41,7 +41,6 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const [image, setImage] = useState<Asset>();
   const [starsNumber, setStarsNumber] = useState(0);
-  const navigation = useNavigation();
   const selectFile = async () => {
     const res = await launchImageLibrary({
       maxHeight: 320,
@@ -79,7 +78,6 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
   };
   const deleteHotelHandler = () => {
     dispatch(deleteHotel(hotel._id));
-    navigation.navigate('HotelsScreen');
   };
 
   return (

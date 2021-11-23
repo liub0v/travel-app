@@ -10,6 +10,7 @@ import colors from '../constants/colors';
 import {TabNavigation} from './TabNavigation';
 import {LoginNavigation} from './LoginNavigation';
 import {DrawerNavigation} from '../admin/navigation/DrawerNavigation';
+import {navigationRef} from './RootNavigation';
 
 const DefaultTheme = {
   dark: false,
@@ -22,13 +23,8 @@ const DefaultTheme = {
 export const Navigation = () => {
   const token = useSelector(tokenSelector);
   const role = useSelector(roleSelector);
-  console.log(role);
   return (
-    <NavigationContainer
-      theme={DefaultTheme}
-      ref={nav => {
-        navigator = nav;
-      }}>
+    <NavigationContainer theme={DefaultTheme} ref={navigationRef}>
       <SafeAreaView style={{backgroundColor: colors.screenBackground, flex: 1}}>
         {token ? (
           role === 'admin' ? (
