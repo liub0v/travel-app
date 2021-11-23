@@ -4,6 +4,7 @@ import {
   DELETE_SAVED_ADVENTURE,
   GET_ADVENTURE_REVIEW,
   GET_ADVENTURES,
+  GET_ADVENTURES_BY_DESTINATION,
   GET_POPULAR_ADVENTURES,
   REMOVE_SAVED_ADVENTURE,
   SAVE_ADVENTURE,
@@ -18,6 +19,12 @@ export const setAdventures = adventures => {
   return {
     type: SET_ADVENTURES,
     payload: adventures,
+  };
+};
+export const getAdventuresByDestination = options => {
+  return {
+    type: GET_ADVENTURES_BY_DESTINATION,
+    payload: options,
   };
 };
 export const getAdventures = options => {

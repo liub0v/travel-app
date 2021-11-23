@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {ScrollView, Image, TouchableWithoutFeedback} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {ButtonItem} from '../../../../components/Buttons/ButtonItem';
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {
   updateHotelGallery,
   deleteGalleryImage,
-} from '../../../../../redux/actions/HotelActions';
+} from '../../../../redux/actions/HotelActions';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   AddButton,
@@ -16,9 +16,9 @@ import {
   ImageWrapper,
 } from './EditGalleryScreen.style';
 
-import addIcon from '../../../../../assets/images/addIcon.png';
-import {Delete} from '../../../../components/Delete/Delete';
-import {getHotelGallerySelector} from '../../../../../redux/selectors/HotelSelectors';
+import addIcon from '../../../../assets/images/addIcon.png';
+import {Delete} from '../../../components/Delete/Delete';
+import {getHotelGallerySelector} from '../../../../redux/selectors/HotelSelectors';
 
 export type Props = {
   route: any;

@@ -13,7 +13,7 @@ import {
   StarsWrapper,
   SummaryInput,
   Title,
-} from '../Hotels/HotelEditScreen/EditHotelScreen.style';
+} from '../EditHotelScreen/EditHotelScreen.style';
 import {Formik} from 'formik';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {StarsRating} from '../../../components/CommentInput/CommentInput';
@@ -30,7 +30,7 @@ import {
   GalleryContainer,
   ImageItem,
   ImageWrapper,
-} from '../Hotels/HotelEditScreen/EditGalleryScreen.style';
+} from '../EditGalleryScreen/EditGalleryScreen.style';
 import FastImage from 'react-native-fast-image';
 import {Delete} from '../../../components/Delete/Delete';
 import {Image, TouchableWithoutFeedback} from 'react-native';

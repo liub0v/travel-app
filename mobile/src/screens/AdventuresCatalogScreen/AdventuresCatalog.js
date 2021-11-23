@@ -13,7 +13,7 @@ import {
 } from '../DestinationsCatalogScreen/DestinationsCatalog.style';
 import {Search} from '../../components/Seacrh/Search';
 import {Adventure} from '../ExploreScreen/components/Adventure';
-import {getAdventures} from '../../../redux/actions/AdventureActions';
+import {getAdventuresByDestination} from '../../../redux/actions/AdventureActions';
 import colors from '../../constants/colors';
 
 export const AdventuresCatalog = ({navigation, route}) => {
@@ -24,7 +24,7 @@ export const AdventuresCatalog = ({navigation, route}) => {
   const isLoading = useSelector(isLoadingAdventureSelector);
   const hasMore = useSelector(hasMoreAdventuresSelector);
   useEffect(() => {
-    dispatch(getAdventures({page, limit: 8, destination}));
+    dispatch(getAdventuresByDestination({page, limit: 8, destination}));
   }, [page]);
 
   return (

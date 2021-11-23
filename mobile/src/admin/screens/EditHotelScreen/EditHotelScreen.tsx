@@ -1,16 +1,13 @@
 import React, {useState} from 'react';
 import CheckBox from '@react-native-community/checkbox';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  deleteHotel,
-  updateHotel,
-} from '../../../../../redux/actions/HotelActions';
-import {ButtonItem} from '../../../../components/Buttons/ButtonItem';
-import {HotelsOptions} from '../../../../services/HotelOptions';
-import type {HotelsOptionsProps} from '../../../../services/HotelOptions';
+import {deleteHotel, updateHotel} from '../../../../redux/actions/HotelActions';
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
+import {HotelsOptions} from '../../../services/HotelOptions';
+import type {HotelsOptionsProps} from '../../../services/HotelOptions';
 import {Formik} from 'formik';
 import {Asset, launchImageLibrary} from 'react-native-image-picker';
-import {StarsRating} from '../../../../components/CommentInput/CommentInput';
+import {StarsRating} from '../../../components/CommentInput/CommentInput';
 import {
   AddressInput,
   CheckBoxContainer,
@@ -26,9 +23,8 @@ import {
   InputWrapper,
   StarsWrapper,
 } from './EditHotelScreen.style';
-import {deleteHotelStartedSelector} from '../../../../../redux/selectors/HotelSelectors';
-import colors from '../../../../constants/colors';
-import {useNavigation} from '@react-navigation/native';
+import {deleteHotelStartedSelector} from '../../../../redux/selectors/HotelSelectors';
+import colors from '../../../constants/colors';
 
 export type Props = {
   route: any;

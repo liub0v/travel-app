@@ -1,8 +1,8 @@
 import React from 'react';
 import {ReviewsScreen} from '../screens/ReviewsScreen/ReviewsScreen';
 import {HotelScreen} from '../screens/HotelScreen/HotelScreen';
-import EditHotelScreen from '../admin/screens/Hotels/HotelEditScreen/EditHotelScreen';
-import {EditGalleryScreen} from '../admin/screens/Hotels/HotelEditScreen/EditGalleryScreen';
+import EditHotelScreen from '../admin/screens/EditHotelScreen/EditHotelScreen';
+import {EditGalleryScreen} from '../admin/screens/EditGalleryScreen/EditGalleryScreen';
 import {HotelGalleryScreen} from '../screens/HotelGalleryScreen/HotelGalleryScreen';
 
 export function HotelStackScreen(Stack) {

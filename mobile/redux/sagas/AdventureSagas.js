@@ -3,6 +3,7 @@ import {showMessage} from 'react-native-flash-message';
 import {
   DELETE_SAVED_ADVENTURE,
   GET_ADVENTURES,
+  GET_ADVENTURES_BY_DESTINATION,
   GET_POPULAR_ADVENTURES,
   SAVE_ADVENTURE,
 } from '../types/AdventureTypes';
@@ -20,6 +21,7 @@ import {userAPI} from '../../src/api/userAPI';
 import {setAdventureHotel} from '../actions/AuthActions';
 
 export const adventureSagas = [
+  takeEvery(GET_ADVENTURES_BY_DESTINATION, getAdventuresSagaByDestination),
   takeEvery(GET_ADVENTURES, getAdventuresSaga),
   takeEvery(GET_POPULAR_ADVENTURES, getPopularAdventuresSaga),
   takeEvery(SAVE_ADVENTURE, saveAdventureSaga),
@@ -42,6 +44,22 @@ function* getPopularAdventuresSaga(action) {
   }
 }
 function* getAdventuresSaga(action) {
+  try {
+    yield put(setAdventuresIsLoading(true));
+    const response = yield call(adventureAPI.getAdventures, 1, 5);
+    const adventures = response.data;
+    yield put(setAdventures(adventures));
+    yield put(setAdventuresIsLoading(false));
+  } catch (error) {
+    // yield put(setAdventuresIsLoading(false));
+    // yield put(setAdventuresError(error));
+    // yield call(showMessage, {
+    //   message: error.response?.data,
+    //   type: 'error',
+    // });
+  }
+}
+function* getAdventuresSagaByDestination(action) {
   try {
     const {page, limit, destination} = action.payload;
     yield put(setAdventuresIsLoading(true));
