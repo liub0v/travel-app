@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect';
-import {adventuresSelector} from './AdventureSelectors';
 
 const hotelSelector = state => state.hotel;
 export const hotelsSelector = createSelector(
@@ -9,6 +8,10 @@ export const hotelsSelector = createSelector(
 export const isLoadingHotelSelector = createSelector(
   hotelSelector,
   item => item.isLoading,
+);
+export const deleteHotelStartedSelector = createSelector(
+  hotelSelector,
+  item => item.deleteHotelLoader,
 );
 export const errorHotelSelector = createSelector(
   hotelSelector,

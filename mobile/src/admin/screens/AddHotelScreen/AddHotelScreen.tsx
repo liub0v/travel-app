@@ -10,6 +10,7 @@ import {
   InputWrapper,
   NameInput,
   PriceInput,
+  StarsWrapper,
   SummaryInput,
   Title,
 } from '../Hotels/HotelEditScreen/EditHotelScreen.style';
@@ -17,7 +18,10 @@ import {Formik} from 'formik';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {StarsRating} from '../../../components/CommentInput/CommentInput';
 import CheckBox from '@react-native-community/checkbox';
-import {HotelsOptions} from '../../../services/HotelOptions';
+import {
+  HotelsOptions,
+  HotelsOptionsProps,
+} from '../../../services/HotelOptions';
 import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import colors from '../../../constants/colors';
 import {
@@ -31,6 +35,9 @@ import FastImage from 'react-native-fast-image';
 import {Delete} from '../../../components/Delete/Delete';
 import {Image, TouchableWithoutFeedback} from 'react-native';
 import addIcon from '../../../../assets/images/addIcon.png';
+import {useDispatch, useSelector} from 'react-redux';
+import {isLoadingHotelSelector} from '../../../../redux/selectors/HotelSelectors';
+import {addHotel} from '../../../../redux/actions/HotelActions';
 export type Props = {};
 
 export const AddHotelScreen: React.FC<Props> = () => {
@@ -38,8 +45,35 @@ export const AddHotelScreen: React.FC<Props> = () => {
   const [image, setImage] = useState<Asset>();
   const [starsNumber, setStarsNumber] = useState(0);
   const [gallery, setGallery] = useState<Array<Asset>>([]);
+  const dispatch = useDispatch();
+  const isLoading = useSelector(isLoadingHotelSelector);
 
-  const createHandler = () => {};
+  const createHandler = ({
+    name,
+    summary,
+    price,
+    address,
+    hotelOptions,
+  }: {
+    name: string;
+    summary: string;
+    price: number;
+    address: string;
+    hotelOptions: HotelsOptions<HotelsOptionsProps>;
+  }) => {
+    dispatch(
+      addHotel({
+        name,
+        summary,
+        image,
+        price: Number(price),
+        address,
+        starsNumber,
+        hotelOptions: hotelOptions.toString(),
+        gallery,
+      }),
+    );
+  };
   const selectFile = async () => {
     const res = await launchImageLibrary({
       maxHeight: 320,
@@ -85,7 +119,7 @@ export const AddHotelScreen: React.FC<Props> = () => {
               handler={selectFile}
             />
             <InputWrapper>
-              <Title style={{color: colors.white}}>Name</Title>
+              <Title>Name</Title>
               <NameInput
                 placeholder="Enter name"
                 placeholderTextColor={colors.grey}
@@ -132,7 +166,12 @@ export const AddHotelScreen: React.FC<Props> = () => {
             </InputWrapper>
             <InputWrapper>
               <Title>Stars number</Title>
-              <StarsRating initStarsNumber={0} setStarRating={setStarsNumber} />
+              <StarsWrapper>
+                <StarsRating
+                  initStarsNumber={0}
+                  setStarRating={setStarsNumber}
+                />
+              </StarsWrapper>
             </InputWrapper>
             <InputWrapper>
               <Title>Hotel options</Title>
@@ -220,7 +259,7 @@ export const AddHotelScreen: React.FC<Props> = () => {
             </InputWrapper>
             <ButtonWrapper>
               <ButtonItem
-                isLoading={false}
+                isLoading={isLoading}
                 title={'Save changes'}
                 handler={handleSubmit}
               />

@@ -44,6 +44,51 @@ async function deleteGalleryImage(token, hotelID, imageURL) {
     data: {hotelID, imageURL},
   });
 }
+async function deleteHotel(token, hotelID) {
+  return await instance.delete('/hotels', {
+    headers: {'x-auth-token': token},
+    data: {hotelID},
+  });
+}
+async function addHotel(
+  token,
+  {
+    name,
+    image,
+    summary,
+    price,
+    address,
+    hotelOptions,
+    beds,
+    starsNumber,
+    gallery,
+  },
+) {
+  const formData = new FormData();
+  formData.append('name', name);
+  image &&
+    formData.append('image', {
+      name: image.fileName,
+      type: image.type,
+      uri: image.uri,
+    });
+  formData.append('summary', summary);
+  formData.append('price', price);
+  formData.append('address', address);
+  formData.append('starsNumber', starsNumber);
+  formData.append('hotelOptions', hotelOptions);
+  const response = await instance.post('/hotels', formData, {
+    headers: {
+      'x-auth-token': token,
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  const hotelID = response.data.hotelID;
+  console.log(typeof hotelID);
+  console.log(hotelID);
+  return await updateGallery(token, hotelID, gallery);
+}
 async function updateHotel(
   token,
   {
@@ -88,4 +133,6 @@ export const hotelAPI = {
   getHotels,
   updateGallery,
   deleteGalleryImage,
+  addHotel,
+  deleteHotel,
 };

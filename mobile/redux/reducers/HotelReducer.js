@@ -1,7 +1,10 @@
 import {
+  ADD_HOTEL_COMPLETED,
   ADD_HOTEL_REVIEW,
   CLEAR_HOTELS,
   DELETE_GALLERY_IMAGE_COMPLETED,
+  DELETE_HOTEL_COMPLETED,
+  DELETE_HOTEL_STARTED,
   SET_HAS_MORE_HOTELS,
   SET_HOTEL,
   SET_HOTELS,
@@ -16,6 +19,7 @@ const initialState = {
   isLoading: false,
   error: undefined,
   hasMore: true,
+  deleteHotelLoader: false,
 };
 
 export const hotelReducer = (state = initialState, {type, payload}) => {
@@ -75,6 +79,30 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         hotels: [...hotelsCopy],
+      };
+    }
+    case ADD_HOTEL_COMPLETED: {
+      if (state.hotels) {
+        return {
+          ...state,
+          hotels: [...state.hotels, payload],
+        };
+      }
+      return {
+        ...state,
+        hotels: [payload],
+      };
+    }
+    case DELETE_HOTEL_COMPLETED: {
+      return {
+        ...state,
+        hotels: [...state.hotels.filter(hotel => hotel._id !== payload)],
+      };
+    }
+    case DELETE_HOTEL_STARTED: {
+      return {
+        ...state,
+        deleteHotelLoader: payload,
       };
     }
     default:

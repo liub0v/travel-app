@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
 import CheckBox from '@react-native-community/checkbox';
-import {useDispatch} from 'react-redux';
-import {updateHotel} from '../../../../../redux/actions/HotelActions';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  deleteHotel,
+  updateHotel,
+} from '../../../../../redux/actions/HotelActions';
 import {ButtonItem} from '../../../../components/Buttons/ButtonItem';
 import {HotelsOptions} from '../../../../services/HotelOptions';
 import type {HotelsOptionsProps} from '../../../../services/HotelOptions';
@@ -21,7 +24,11 @@ import {
   Title,
   ButtonWrapper,
   InputWrapper,
+  StarsWrapper,
 } from './EditHotelScreen.style';
+import {deleteHotelStartedSelector} from '../../../../../redux/selectors/HotelSelectors';
+import colors from '../../../../constants/colors';
+import {useNavigation} from '@react-navigation/native';
 
 export type Props = {
   route: any;
@@ -30,9 +37,11 @@ export type Props = {
 export const EditHotelScreen: React.FC<Props> = ({route}) => {
   const hotel = route.params.hotel;
   const hotelOptions = new HotelsOptions(hotel?.hotelOptions);
+  const deleteLoading = useSelector(deleteHotelStartedSelector);
   const dispatch = useDispatch();
   const [image, setImage] = useState<Asset>();
   const [starsNumber, setStarsNumber] = useState(0);
+  const navigation = useNavigation();
   const selectFile = async () => {
     const res = await launchImageLibrary({
       maxHeight: 320,
@@ -67,6 +76,10 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
         hotelOptions: hotelOptions.toString(),
       }),
     );
+  };
+  const deleteHotelHandler = () => {
+    dispatch(deleteHotel(hotel._id));
+    navigation.navigate('HotelsScreen');
   };
 
   return (
@@ -133,10 +146,12 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
             </InputWrapper>
             <InputWrapper>
               <Title>Stars number</Title>
-              <StarsRating
-                initStarsNumber={hotel.starsNumber}
-                setStarRating={setStarsNumber}
-              />
+              <StarsWrapper>
+                <StarsRating
+                  initStarsNumber={hotel.starsNumber}
+                  setStarRating={setStarsNumber}
+                />
+              </StarsWrapper>
             </InputWrapper>
 
             <InputWrapper>
@@ -198,6 +213,14 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
                 isLoading={false}
                 title={'Save changes'}
                 handler={handleSubmit}
+              />
+            </ButtonWrapper>
+            <ButtonWrapper>
+              <ButtonItem
+                isLoading={deleteLoading}
+                title={'Delete hotel'}
+                handler={deleteHotelHandler}
+                theme={{backgroundColor: colors.red, textColor: colors.white}}
               />
             </ButtonWrapper>
           </>

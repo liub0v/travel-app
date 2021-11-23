@@ -60,6 +60,7 @@ router.delete("/gallery", auth, admin, async (req, res) => {
   if (!hotel) return res.status(404).send("Hotel doesn't exist");
   const index = hotel.gallery.indexOf(req.body.imageURL);
   index > -1 && hotel.gallery.splice(index, 1);
+
   req.body.imageURL &&
     (await removeFromCloud(req.body.imageURL, "hotelsGallery"));
   await hotel.save();
@@ -82,7 +83,7 @@ router.post("/gallery", auth, admin, async (req, res) => {
   res.send(hotel);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, admin, async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
@@ -104,9 +105,9 @@ router.post("/", async (req, res) => {
     starsNumber: req.body?.starsNumber,
   });
   await hotel.save();
-  res.send(hotel);
+  res.send({ hotelID: hotel._id });
 });
-router.put("/", async (req, res) => {
+router.put("/", auth, admin, async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
@@ -136,8 +137,8 @@ router.put("/", async (req, res) => {
   await hotel.save();
   res.send(hotel);
 });
-router.delete("/", async (req, res) => {
-  const hotel = await Hotel.findByIdAndDelete(req.body.id);
+router.delete("/", auth, admin, async (req, res) => {
+  const hotel = await Hotel.findByIdAndDelete(req.body.hotelID);
   if (!hotel) return res.status(404).send("Hotel doesn't exist");
 
   if (hotel.imageURL !== DEFAULT_COVER_IMAGE_URL) {

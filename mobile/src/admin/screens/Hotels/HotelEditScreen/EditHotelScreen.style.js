@@ -54,7 +54,11 @@ export const AddressInput = styled.TextInput`
 export const CheckBoxWrapper = styled.View`
   flex-direction: row;
   margin-bottom: 12px;
+  margin-top: 12px;
   align-items: center;
+`;
+export const StarsWrapper = styled.View`
+  margin-top: 12px;
 `;
 export const CheckBoxWrapperChild = styled.View`
   flex-direction: column;
@@ -68,9 +72,9 @@ export const InputWrapper = styled.View`
 `;
 
 export const Container = styled.ScrollView`
-  padding-top: 32px;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-top: 24px;
+  padding-left: 12px;
+  padding-right: 12px;
 `;
 export const ButtonWrapper = styled.View`
   margin-top: 12px;

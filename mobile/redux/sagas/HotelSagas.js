@@ -1,7 +1,9 @@
 import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {showMessage} from 'react-native-flash-message';
 import {
+  ADD_HOTEL,
   DELETE_GALLERY_IMAGE,
+  DELETE_HOTEL,
   DELETE_SAVED_HOTEL,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
@@ -12,7 +14,10 @@ import {
 } from '../types/HotelTypes';
 import {hotelAPI} from '../../src/api/hotelAPI';
 import {
+  addHotelCompleted,
   deleteGalleryImageCompleted,
+  deleteHotelCompleted,
+  deleteHotelStarted,
   removeSavedHotel,
   setHasMoreHotels,
   setHotel,
@@ -34,6 +39,8 @@ export const hotelSagas = [
   takeEvery(UPDATE_HOTEL, updateHotelSaga),
   takeEvery(UPDATE_HOTEL_GALLERY, updateHotelGallerySaga),
   takeEvery(DELETE_GALLERY_IMAGE, deleteGalleryImageSaga),
+  takeEvery(ADD_HOTEL, addHotelSaga),
+  takeEvery(DELETE_HOTEL, deleteHotelSaga),
 ];
 function* getHotelsByDestinationSaga(action) {
   try {
@@ -127,6 +134,42 @@ function* updateHotelSaga(action) {
     yield put(setHotelsError(error));
     yield call(showMessage, {
       message: error.response?.data,
+      type: 'error',
+    });
+  }
+}
+function* addHotelSaga(action) {
+  try {
+    yield put(setHotelsIsLoading(true));
+    const token = yield select(tokenSelector);
+    const hotelData = action.payload;
+    const response = yield call(hotelAPI.addHotel, token, hotelData);
+    const hotel = response.data;
+    yield put(addHotelCompleted(hotel));
+    yield put(setHotelsIsLoading(false));
+  } catch (error) {
+    yield put(setHotelsIsLoading(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+function* deleteHotelSaga(action) {
+  try {
+    yield put(deleteHotelStarted(true));
+    const token = yield select(tokenSelector);
+    const hotelID = action.payload;
+    const response = yield call(hotelAPI.deleteHotel, token, hotelID);
+    const hotel = response.data;
+    yield put(deleteHotelCompleted(hotel._id));
+    yield put(deleteHotelStarted(false));
+  } catch (error) {
+    yield put(deleteHotelStarted(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }
