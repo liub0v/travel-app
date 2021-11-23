@@ -1,4 +1,3 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {ReviewsScreen} from '../screens/ReviewsScreen/ReviewsScreen';
 import {HotelScreen} from '../screens/HotelScreen/HotelScreen';
@@ -9,16 +8,19 @@ import {HotelGalleryScreen} from '../screens/HotelGalleryScreen/HotelGalleryScre
 export function HotelStackScreen(Stack) {
   return [
     <Stack.Screen
-      options={{headerShown: true, headerTitle: ''}}
+      options={{
+        headerTransparent: true,
+        headerShadowVisible: false,
+        headerTitle: '',
+      }}
       name="HotelScreen"
       component={HotelScreen}
     />,
     <Stack.Screen
       options={{
         // headerShown: false,
-        headerTitle: '',
-        headerTransparent: true,
-        headerShadowVisible: false,
+        headerTitle: 'Reviews',
+        headerBackTitle: '',
       }}
       name="ReviewsScreen"
       component={ReviewsScreen}

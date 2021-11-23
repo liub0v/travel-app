@@ -8,7 +8,6 @@ import {getPopularHotels} from '../../../redux/actions/HotelActions';
 import {useDispatch} from 'react-redux';
 import {ProfileScreen} from '../../screens/ProfileScreen/ProfileScreen';
 import {HotelsStackScreen} from './HotelsStackScreen';
-import HelloScreen from '../screens/HelloScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -27,7 +26,6 @@ export const DrawerNavigation = () => {
       <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="Destinations" component={DestinationsCatalog} />
       <Drawer.Screen name="Hotels" component={HotelsStackScreen} />
-      <Drawer.Screen name="Hello" component={HelloScreen} />
     </Drawer.Navigator>
   );
 };

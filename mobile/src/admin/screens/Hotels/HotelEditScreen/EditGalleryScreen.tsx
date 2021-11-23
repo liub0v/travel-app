@@ -25,7 +25,7 @@ export type Props = {
 };
 export const EditGalleryScreen: React.FC<Props> = ({route}) => {
   const hotel = route.params.hotel;
-  const [images, setImages] = useState<Array<Asset>>();
+  const [images, setImages] = useState<Array<Asset>>([]);
   const dispatch = useDispatch();
   const galleySelector = getHotelGallerySelector(hotel._id);
   const gallery = useSelector(galleySelector);
@@ -36,13 +36,16 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
       selectionLimit: 6,
       mediaType: 'photo',
     });
-    setImages(res?.assets);
+    setImages([...images, ...res?.assets]);
   };
   const saveHandler = () => {
     dispatch(updateHotelGallery({hotelID: hotel._id, images}));
   };
   const deleteImageHandler = (imageURL: string) => {
     dispatch(deleteGalleryImage({hotelID: hotel._id, imageURL}));
+  };
+  const deleteImageFromStateHandler = (img: Asset) => {
+    setImages(images.filter(item => item.uri !== img.uri));
   };
   return (
     <ScrollView>
@@ -68,6 +71,9 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
                 source={{uri: img.uri}}
               />
             </ImageItem>
+            <DeleteWrapper>
+              <Delete handler={() => deleteImageFromStateHandler(img)} />
+            </DeleteWrapper>
           </ImageWrapper>
         ))}
         <ImageWrapper>

@@ -45,7 +45,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {getHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
 import {hotelAPI} from '../../api/hotelAPI';
 import {Edit} from '../../components/Edit/Edit';
-import {HotelsOptions} from '../../admin/screens/Hotels/HotelEditScreen/EditHotelScreen';
+import {HotelsOptions} from '../../services/HotelOptions';
 const Option = ({title, icon}) => {
   return (
     <OptionWrapper>

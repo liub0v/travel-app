@@ -1,38 +1,45 @@
 import React, {useState} from 'react';
-import CheckBox from '@react-native-community/checkbox';
-import {useDispatch} from 'react-redux';
-import {updateHotel} from '../../../../../redux/actions/HotelActions';
-import {ButtonItem} from '../../../../components/Buttons/ButtonItem';
-import {HotelsOptions} from '../../../../services/HotelOptions';
-import type {HotelsOptionsProps} from '../../../../services/HotelOptions';
-import {Formik} from 'formik';
-import {Asset, launchImageLibrary} from 'react-native-image-picker';
-import {StarsRating} from '../../../../components/CommentInput/CommentInput';
 import {
   AddressInput,
+  ButtonWrapper,
   CheckBoxContainer,
   CheckBoxTitle,
   CheckBoxWrapper,
   CheckBoxWrapperChild,
   Container,
+  InputWrapper,
   NameInput,
   PriceInput,
   SummaryInput,
   Title,
-  ButtonWrapper,
-  InputWrapper,
-} from './EditHotelScreen.style';
+} from '../Hotels/HotelEditScreen/EditHotelScreen.style';
+import {Formik} from 'formik';
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
+import {StarsRating} from '../../../components/CommentInput/CommentInput';
+import CheckBox from '@react-native-community/checkbox';
+import {HotelsOptions} from '../../../services/HotelOptions';
+import {Asset, launchImageLibrary} from 'react-native-image-picker';
+import colors from '../../../constants/colors';
+import {
+  AddButton,
+  DeleteWrapper,
+  GalleryContainer,
+  ImageItem,
+  ImageWrapper,
+} from '../Hotels/HotelEditScreen/EditGalleryScreen.style';
+import FastImage from 'react-native-fast-image';
+import {Delete} from '../../../components/Delete/Delete';
+import {Image, TouchableWithoutFeedback} from 'react-native';
+import addIcon from '../../../../assets/images/addIcon.png';
+export type Props = {};
 
-export type Props = {
-  route: any;
-};
-
-export const EditHotelScreen: React.FC<Props> = ({route}) => {
-  const hotel = route.params.hotel;
-  const hotelOptions = new HotelsOptions(hotel?.hotelOptions);
-  const dispatch = useDispatch();
+export const AddHotelScreen: React.FC<Props> = () => {
+  const hotelOptions = new HotelsOptions();
   const [image, setImage] = useState<Asset>();
   const [starsNumber, setStarsNumber] = useState(0);
+  const [gallery, setGallery] = useState<Array<Asset>>([]);
+
+  const createHandler = () => {};
   const selectFile = async () => {
     const res = await launchImageLibrary({
       maxHeight: 320,
@@ -41,34 +48,18 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
     });
     setImage(res?.assets?.[0]);
   };
-
-  const editHandler = ({
-    name,
-    summary,
-    price,
-    address,
-    hotelOptions,
-  }: {
-    name: string;
-    summary: string;
-    price: number;
-    address: string;
-    hotelOptions: HotelsOptions<HotelsOptionsProps>;
-  }) => {
-    dispatch(
-      updateHotel({
-        hotelID: hotel._id,
-        name,
-        summary,
-        image,
-        price: Number(price),
-        address,
-        starsNumber,
-        hotelOptions: hotelOptions.toString(),
-      }),
-    );
+  const selectFiles = async () => {
+    const res = await launchImageLibrary({
+      maxHeight: 320,
+      maxWidth: 500,
+      selectionLimit: 6,
+      mediaType: 'photo',
+    });
+    setGallery([...gallery, ...res?.assets]);
   };
-
+  const deleteImageHandler = (img: Asset) => {
+    setGallery(gallery.filter(item => item.uri !== img.uri));
+  };
   return (
     <Container
       showsVerticalScrollIndicator={false}
@@ -76,16 +67,16 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
       contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
       <Formik
         initialValues={{
-          name: hotel.name ?? 'no name',
-          summary: hotel.summary ?? 'no summary',
-          price: hotel.price.toString() ?? '0.0',
-          address: hotel.address ?? 'no address',
+          name: '',
+          summary: '',
+          price: '',
+          address: '',
           beds: '',
           hotelOptions: hotelOptions,
-          starsNumber: hotel.starsNumber ?? 0,
+          starsNumber: 0,
           image: '',
         }}
-        onSubmit={editHandler}>
+        onSubmit={createHandler}>
         {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
           <>
             <ButtonItem
@@ -94,8 +85,10 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
               handler={selectFile}
             />
             <InputWrapper>
-              <Title>Name</Title>
+              <Title style={{color: colors.white}}>Name</Title>
               <NameInput
+                placeholder="Enter name"
+                placeholderTextColor={colors.grey}
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
@@ -105,6 +98,8 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
             <InputWrapper>
               <Title>Summary</Title>
               <SummaryInput
+                placeholder="Enter some words about hotel..."
+                placeholderTextColor={colors.grey}
                 multiline={true}
                 onChangeText={handleChange('summary')}
                 onBlur={handleBlur('summary')}
@@ -115,6 +110,8 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
             <InputWrapper>
               <Title>Price</Title>
               <PriceInput
+                placeholder="0.0"
+                placeholderTextColor={colors.screenBackground}
                 onChangeText={handleChange('price')}
                 onBlur={handleBlur('price')}
                 value={values.price}
@@ -125,6 +122,8 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
             <InputWrapper>
               <Title>Address</Title>
               <AddressInput
+                placeholder="Enter address"
+                placeholderTextColor={colors.grey}
                 onChangeText={handleChange('address')}
                 onBlur={handleBlur('address')}
                 value={values.address}
@@ -133,12 +132,8 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
             </InputWrapper>
             <InputWrapper>
               <Title>Stars number</Title>
-              <StarsRating
-                initStarsNumber={hotel.starsNumber}
-                setStarRating={setStarsNumber}
-              />
+              <StarsRating initStarsNumber={0} setStarRating={setStarsNumber} />
             </InputWrapper>
-
             <InputWrapper>
               <Title>Hotel options</Title>
               <CheckBoxContainer>
@@ -193,6 +188,36 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
                 </CheckBoxWrapperChild>
               </CheckBoxContainer>
             </InputWrapper>
+            <InputWrapper>
+              <Title>Gallery</Title>
+              <GalleryContainer>
+                {gallery?.map(img => (
+                  <ImageWrapper>
+                    <ImageItem>
+                      <FastImage
+                        style={{width: 100, height: 100}}
+                        source={{uri: img.uri}}
+                      />
+                    </ImageItem>
+                    <DeleteWrapper>
+                      <Delete handler={() => deleteImageHandler(img)} />
+                    </DeleteWrapper>
+                  </ImageWrapper>
+                ))}
+                <ImageWrapper>
+                  <ImageItem>
+                    <TouchableWithoutFeedback onPress={selectFiles}>
+                      <AddButton>
+                        <Image
+                          style={{width: 50, height: 50}}
+                          source={addIcon}
+                        />
+                      </AddButton>
+                    </TouchableWithoutFeedback>
+                  </ImageItem>
+                </ImageWrapper>
+              </GalleryContainer>
+            </InputWrapper>
             <ButtonWrapper>
               <ButtonItem
                 isLoading={false}
@@ -206,4 +231,3 @@ export const EditHotelScreen: React.FC<Props> = ({route}) => {
     </Container>
   );
 };
-export default EditHotelScreen;
