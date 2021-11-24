@@ -25,6 +25,7 @@ export function HotelsStackScreen() {
         name="AddHotelScreen"
         component={AddHotelScreen}
       />
+
       {HotelStackScreen(HotelsStack)}
     </HotelsStack.Navigator>
   );

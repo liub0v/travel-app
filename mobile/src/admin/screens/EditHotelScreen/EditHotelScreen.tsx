@@ -25,13 +25,13 @@ import {
 } from './EditHotelScreen.style';
 import {deleteHotelStartedSelector} from '../../../../redux/selectors/HotelSelectors';
 import colors from '../../../constants/colors';
+import {useRoute} from '@react-navigation/native';
 
-export type Props = {
-  route: any;
-};
+export type Props = {};
 
-export const EditHotelScreen: React.FC<Props> = ({route}) => {
-  const hotel = route.params.hotel;
+export const EditHotelScreen: React.FC<Props> = () => {
+  const route = useRoute();
+  const hotel = route.params?.hotel;
   const hotelOptions = new HotelsOptions(hotel?.hotelOptions);
   const deleteLoading = useSelector(deleteHotelStartedSelector);
   const dispatch = useDispatch();

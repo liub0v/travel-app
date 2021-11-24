@@ -1,7 +1,8 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {HotelStackScreen} from '../../navigation/HotelStackScreen';
 import {AdventuresScreen} from '../screens/AdventuresScreen/AdventuresScreen';
+import {AdventureStackScreen} from '../../navigation/AdventureStackScreen';
+import {EditAdventureScreen} from '../screens/EditAdventureScreen/EditAdventureScreen';
 const AdventuresStack = createNativeStackNavigator();
 
 export function AdventuresStackScreen() {
@@ -16,7 +17,15 @@ export function AdventuresStackScreen() {
         name="AdventuresScreen"
         component={AdventuresScreen}
       />
-      {HotelStackScreen(AdventuresStack)}
+      <AdventuresStack.Screen
+        options={{
+          headerTitle: 'Edit information',
+          headerBackTitle: '',
+        }}
+        name="EditAdventureScreen"
+        component={EditAdventureScreen}
+      />
+      {AdventureStackScreen(AdventuresStack)}
     </AdventuresStack.Navigator>
   );
 }

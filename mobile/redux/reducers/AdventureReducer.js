@@ -1,11 +1,14 @@
 import {
   ADD_ADVENTURE_REVIEW,
+  ADD_ADVENTURE_STARTED,
   CLEAR_ADVENTURES,
   SET_ADVENTURES,
   SET_ADVENTURES_ERROR,
   SET_ADVENTURES_IS_LOADING,
   SET_HAS_MORE_ADVENTURES,
   SET_POPULAR_ADVENTURES,
+  UPDATE_ADVENTURE_COMPLETED,
+  UPDATE_ADVENTURE_STARTED,
 } from '../types/AdventureTypes';
 
 const initialState = {
@@ -14,6 +17,8 @@ const initialState = {
   isLoading: false,
   error: undefined,
   hasMore: true,
+  updateLoading: false,
+  addLoading: false,
 };
 
 export const adventureReducer = (state = initialState, {type, payload}) => {
@@ -48,7 +53,21 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
         adventures: [...adventuresCopy],
       };
     }
-
+    case UPDATE_ADVENTURE_STARTED:
+      return {...state, updateLoading: payload};
+    case UPDATE_ADVENTURE_COMPLETED: {
+      const adventureIndex = state.adventures.findIndex(adventure => {
+        return adventure._id === payload._id;
+      });
+      const adventuresCopy = [...state.adventures];
+      adventuresCopy[adventureIndex] = payload;
+      return {
+        ...state,
+        adventures: [...adventuresCopy],
+      };
+    }
+    case ADD_ADVENTURE_STARTED:
+      return {...state, addLoading: payload};
     default:
       return state;
   }

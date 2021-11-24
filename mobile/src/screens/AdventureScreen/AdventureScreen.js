@@ -6,6 +6,7 @@ import {
   saveAdventure,
 } from '../../../redux/actions/AdventureActions';
 import {
+  roleSelector,
   savedAdventuresSelector,
   tokenSelector,
 } from '../../../redux/selectors/UserSelector';
@@ -51,7 +52,8 @@ import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
 
 import guideAvatar from '../../../assets/images/avatarBig.png';
 import {getAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {Edit} from '../../components/Edit/Edit';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -89,18 +91,26 @@ export const Criterion = ({title = 'criterion', value = 100}) => {
   );
 };
 
-export const AdventureScreen = ({adventure}) => {
+export const AdventureScreen = () => {
+  const route = useRoute();
+  const adventure = route.params.adventure;
   const commentSelector = getAdventureReviewsSelector(adventure._id);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const token = useSelector(tokenSelector);
+  const role = useSelector(roleSelector);
   const savedAdventures = useSelector(savedAdventuresSelector);
   const like =
-    savedAdventures.filter(item => item._id === adventure._id).length > 0;
+    savedAdventures?.filter(item => item._id === adventure._id).length > 0;
   const setLikeOnAdventure = () => {
     like && dispatch(deleteSavedAdventure(adventure._id));
     !like && dispatch(saveAdventure(adventure._id));
   };
+
+  const goEditScreen = () => {
+    navigation.navigate('EditAdventureScreen', {adventure: adventure});
+  };
+
   const saveReview = async (
     starsNumber,
     interestingRating,
@@ -129,7 +139,11 @@ export const AdventureScreen = ({adventure}) => {
       }}>
       <ImageContainer source={{uri: adventure.imageURL}}>
         <LikeWrapper>
-          <Like handler={setLikeOnAdventure} likeInit={like} />
+          {role === 'admin' ? (
+            <Edit handler={goEditScreen} />
+          ) : (
+            <Like handler={setLikeOnAdventure} likeInit={like} />
+          )}
         </LikeWrapper>
       </ImageContainer>
       <InfoContainer>
@@ -150,7 +164,6 @@ export const AdventureScreen = ({adventure}) => {
       <GuideContainer>
         <GuideAvatar source={guideAvatar} />
         <DynamicText text={adventure.summary} />
-        <ButtonItem title={'Contact Guide'} />
       </GuideContainer>
       <RatingContainer>
         <SectionHeader showRightButton={false} title={'Rating'} />
@@ -195,7 +208,7 @@ export const AdventureScreen = ({adventure}) => {
         <Map />
       </LocationContainer>
       <ButtonWrapper>
-        <ButtonItem title={'Book now'} />
+        {role !== 'admin' && <ButtonItem title={'Book now'} />}
       </ButtonWrapper>
     </MainContainer>
   );

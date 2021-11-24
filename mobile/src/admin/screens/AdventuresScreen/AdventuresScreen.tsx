@@ -13,7 +13,7 @@ import {
 } from '../../../../redux/selectors/AdventureSelectors';
 
 export const AdventuresScreen = () => {
-  const hotels = useSelector(adventuresSelector);
+  const adventures = useSelector(adventuresSelector);
   const hasMore = useSelector(hasMoreAdventuresSelector);
   const isLoading = useSelector(isLoadingAdventureSelector);
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ export const AdventuresScreen = () => {
     navigation.navigate('AddHotelScreen');
   };
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       {isLoading ? (
         <ActivityIndicator
           style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
@@ -48,8 +48,10 @@ export const AdventuresScreen = () => {
 
           <FlatList
             horizontal={false}
+            numColumns={2}
+            showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
-            data={hotels}
+            data={adventures}
             onEndReachedThreshold={0.5}
             onEndReached={() => {
               hasMore && setPage(page + 1);

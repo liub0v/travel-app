@@ -9,6 +9,10 @@ export const isLoadingAdventureSelector = createSelector(
   adventureSelector,
   item => item.isLoading,
 );
+export const updateAdventureLoaderSelector = createSelector(
+  adventureSelector,
+  item => item.updateStarted,
+);
 export const errorAdventureSelector = createSelector(
   adventureSelector,
   item => item.error,

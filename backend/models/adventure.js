@@ -30,7 +30,7 @@ const Adventure = mongoose.model("Adventure", adventureSchema);
 
 function validateAdventure(adventure) {
   const schema = Joi.object({
-    id: Joi.string(),
+    adventureID: Joi.string(),
     name: Joi.string().required(),
     imageURL: Joi.string(),
     image: Joi.object().optional(),

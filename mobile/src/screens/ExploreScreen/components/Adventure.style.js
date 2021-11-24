@@ -3,9 +3,9 @@ import colors from '../../../constants/colors';
 import fonts from '../../../constants/fonts';
 
 export const AdventureItem = styled.View`
-  margin-right: 10px;
-  margin-left: 10px;
-  margin-top: 10px;
+  margin-top: 24px;
+  padding-right: 12px;
+  padding-left: 12px;
 `;
 export const AdventureImage = styled.Image`
   border-radius: 16px;
@@ -20,6 +20,7 @@ export const AdventureName = styled.Text`
   color: ${colors.white};
 `;
 export const AdventureLocation = styled.Text`
+  width: 140px;
   font-family: ${fonts.normal};
   font-size: 12px;
   color: ${colors.white};

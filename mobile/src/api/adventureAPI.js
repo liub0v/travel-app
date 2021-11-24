@@ -41,9 +41,60 @@ async function saveAdventureReview(
     },
   );
 }
+async function updateAdventure(
+  token,
+  {adventureID, name, image, summary, price, address, guideID},
+) {
+  const formData = new FormData();
+  formData.append('adventureID', adventureID);
+  formData.append('name', name);
+  image &&
+    formData.append('image', {
+      name: image.fileName,
+      type: image.type,
+      uri: image.uri,
+    });
+  formData.append('summary', summary);
+  formData.append('price', price);
+  formData.append('address', address);
+
+  return await instance.put('/adventures', formData, {
+    headers: {
+      'x-auth-token': token,
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
+async function addAdventure(
+  token,
+  {name, image, summary, price, address, guideID},
+) {
+  const formData = new FormData();
+  formData.append('name', name);
+  image &&
+    formData.append('image', {
+      name: image.fileName,
+      type: image.type,
+      uri: image.uri,
+    });
+  formData.append('summary', summary);
+  formData.append('price', price);
+  formData.append('address', address);
+
+  return await instance.post('/adventures', formData, {
+    headers: {
+      'x-auth-token': token,
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
 export const adventureAPI = {
   getAdventuresByDestination,
   getPopularAdventures,
   saveAdventureReview,
   getAdventures,
+  updateAdventure,
+  addAdventure,
 };

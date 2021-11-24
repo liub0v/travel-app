@@ -73,7 +73,6 @@ router.post("/", async (req, res) => {
     summary: req.body?.summary,
     price: req.body?.price,
     address: req.body?.address,
-    reviews: req.body?.reviews,
   });
   await adventure.save();
   res.send(adventure);
@@ -84,7 +83,7 @@ router.put("/", async (req, res) => {
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
-  const adventure = await Adventure.findById(req.body.id);
+  const adventure = await Adventure.findById(req.body.adventureID);
   if (!adventure) return res.status(404).send("Adventures doesn't exist");
 
   const newImage = req.body.image;
@@ -100,13 +99,12 @@ router.put("/", async (req, res) => {
       );
     }
   }
-  adventure.imageURL ||= imageURL;
-  adventure.guideID ||= req.body?.guideID;
-  adventure.name ||= req.body?.name;
-  adventure.summary ||= req.body?.summary;
-  adventure.price ||= req.body?.price;
-  adventure.address ||= req.body?.address;
-  adventure.reviews ||= req.body?.reviews;
+  adventure.imageURL = imageURL ?? adventure.imageURL;
+  adventure.guideID = req.body?.guideID ?? adventure.guideID;
+  adventure.name = req.body?.name ?? adventure.name;
+  adventure.summary = req.body?.summary ?? adventure.summary;
+  adventure.price = req.body?.price ?? adventure.price;
+  adventure.address = req.body?.address ?? adventure.address;
 
   await adventure.save();
   res.send(adventure);

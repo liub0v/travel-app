@@ -1,5 +1,8 @@
 import {
+  ADD_ADVENTURE,
+  ADD_ADVENTURE_COMPLETED,
   ADD_ADVENTURE_REVIEW,
+  ADD_ADVENTURE_STARTED,
   CLEAR_ADVENTURES,
   DELETE_SAVED_ADVENTURE,
   GET_ADVENTURE_REVIEW,
@@ -13,6 +16,9 @@ import {
   SET_ADVENTURES_IS_LOADING,
   SET_HAS_MORE_ADVENTURES,
   SET_POPULAR_ADVENTURES,
+  UPDATE_ADVENTURE,
+  UPDATE_ADVENTURE_COMPLETED,
+  UPDATE_ADVENTURE_STARTED,
 } from '../types/AdventureTypes';
 
 export const setAdventures = adventures => {
@@ -97,5 +103,41 @@ export const getAdventureReview = socket => {
   return {
     type: GET_ADVENTURE_REVIEW,
     payload: socket,
+  };
+};
+export const updateAdventure = adventureData => {
+  return {
+    type: UPDATE_ADVENTURE,
+    payload: adventureData,
+  };
+};
+export const updateAdventureStarted = isLoading => {
+  return {
+    type: UPDATE_ADVENTURE_STARTED,
+    payload: isLoading,
+  };
+};
+export const updateAdventureCompleted = adventure => {
+  return {
+    type: UPDATE_ADVENTURE_COMPLETED,
+    payload: adventure,
+  };
+};
+export const addAdventure = adventureData => {
+  return {
+    type: ADD_ADVENTURE,
+    payload: adventureData,
+  };
+};
+export const addAdventureStarted = isLoading => {
+  return {
+    type: ADD_ADVENTURE_STARTED,
+    payload: isLoading,
+  };
+};
+export const addAdventureCompleted = adventure => {
+  return {
+    type: ADD_ADVENTURE_COMPLETED,
+    payload: adventure,
   };
 };
