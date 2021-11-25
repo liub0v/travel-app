@@ -2,6 +2,7 @@ import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {showMessage} from 'react-native-flash-message';
 import {
   ADD_ADVENTURE,
+  DELETE_ADVENTURE,
   DELETE_SAVED_ADVENTURE,
   GET_ADVENTURES,
   GET_ADVENTURES_BY_DESTINATION,
@@ -21,10 +22,13 @@ import {
   updateAdventureStarted,
   addAdventureStarted,
   addAdventureCompleted,
+  deleteAdventureStarted,
+  deleteAdventureCompleted,
 } from '../actions/AdventureActions';
 import {tokenSelector} from '../selectors/UserSelector';
 import {userAPI} from '../../src/api/userAPI';
 import {setAdventureHotel} from '../actions/AuthActions';
+import * as RootNavigation from '../../src/navigation/RootNavigation';
 
 export const adventureSagas = [
   takeEvery(GET_ADVENTURES_BY_DESTINATION, getAdventuresSagaByDestination),
@@ -34,6 +38,7 @@ export const adventureSagas = [
   takeEvery(DELETE_SAVED_ADVENTURE, deleteSavedAdventureSaga),
   takeEvery(UPDATE_ADVENTURE, updateAdventureSaga),
   takeEvery(ADD_ADVENTURE, addAdventureSaga),
+  takeEvery(DELETE_ADVENTURE, deleteAdventureSaga),
 ];
 function* getPopularAdventuresSaga(action) {
   try {
@@ -53,9 +58,11 @@ function* getPopularAdventuresSaga(action) {
 }
 function* getAdventuresSaga(action) {
   try {
+    const {page, limit} = action.payload;
     yield put(setAdventuresIsLoading(true));
-    const response = yield call(adventureAPI.getAdventures, 1, 5);
+    const response = yield call(adventureAPI.getAdventures, page, limit);
     const adventures = response.data;
+    !adventures.length && (yield put(setHasMoreAdventures(false)));
     yield put(setAdventures(adventures));
     yield put(setAdventuresIsLoading(false));
   } catch (error) {
@@ -171,6 +178,29 @@ function* addAdventureSaga(action) {
     yield put(addAdventureStarted(false));
   } catch (error) {
     yield put(addAdventureStarted(false));
+    yield put(setAdventuresError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+function* deleteAdventureSaga(action) {
+  try {
+    yield put(deleteAdventureStarted(true));
+    const token = yield select(tokenSelector);
+    const adventureID = action.payload;
+    const response = yield call(
+      adventureAPI.deleteAdventure,
+      token,
+      adventureID,
+    );
+    const adventure = response.data;
+    yield put(deleteAdventureCompleted(adventure._id));
+    yield put(deleteAdventureStarted(false));
+    RootNavigation.navigate('AdventuresScreen');
+  } catch (error) {
+    yield put(deleteAdventureStarted(false));
     yield put(setAdventuresError(error));
     yield call(showMessage, {
       message: error.response?.data || error.message,

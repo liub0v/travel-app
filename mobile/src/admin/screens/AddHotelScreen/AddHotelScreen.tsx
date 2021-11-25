@@ -260,7 +260,7 @@ export const AddHotelScreen: React.FC<Props> = () => {
             <ButtonWrapper>
               <ButtonItem
                 isLoading={isLoading}
-                title={'Save changes'}
+                title={'Save'}
                 handler={handleSubmit}
               />
             </ButtonWrapper>

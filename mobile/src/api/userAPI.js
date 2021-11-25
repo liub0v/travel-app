@@ -13,6 +13,9 @@ async function singUpUser(username, email, password) {
     password,
   });
 }
+async function getGuides(page = 1, limit = 8) {
+  return await instance.get('/users/guides', {params: {page, limit}});
+}
 async function getUserByToken(token) {
   return await instance.get('/users/me', {
     headers: {'x-auth-token': token},
@@ -70,4 +73,5 @@ export const userAPI = {
   saveAdventure,
   deleteSavedHotel,
   deleteSavedAdventure,
+  getGuides,
 };

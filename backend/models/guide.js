@@ -6,7 +6,10 @@ const guideSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  profileInfo: profileInfoSchema,
+  profileInfo: {
+    type: profileInfoSchema,
+    default: {},
+  },
   description: String,
 });
 const Guide = mongoose.model("Guide", guideSchema);

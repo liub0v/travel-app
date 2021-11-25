@@ -15,6 +15,12 @@ async function getAdventures(page = 1, limit = 6) {
     params: {page, limit},
   });
 }
+async function deleteAdventure(token, adventureID) {
+  return await instance.delete('/adventures', {
+    headers: {'x-auth-token': token},
+    data: {adventureID},
+  });
+}
 async function saveAdventureReview(
   token,
   adventureID,
@@ -57,6 +63,7 @@ async function updateAdventure(
   formData.append('summary', summary);
   formData.append('price', price);
   formData.append('address', address);
+  formData.append('guideID', guideID);
 
   return await instance.put('/adventures', formData, {
     headers: {
@@ -81,6 +88,7 @@ async function addAdventure(
   formData.append('summary', summary);
   formData.append('price', price);
   formData.append('address', address);
+  formData.append('guideID', guideID);
 
   return await instance.post('/adventures', formData, {
     headers: {
@@ -97,4 +105,5 @@ export const adventureAPI = {
   getAdventures,
   updateAdventure,
   addAdventure,
+  deleteAdventure,
 };

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Formik} from 'formik';
-
+import {Modal} from 'react-native';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {
   AddressInput,
   Container,
@@ -13,19 +13,30 @@ import {
   ButtonWrapper,
   InputWrapper,
 } from '../../screens/EditHotelScreen/EditHotelScreen.style';
+import colors from '../../../constants/colors';
+import {GuidesList} from '../GuidesList/GuidesList';
+import {Dialog} from '../../../screens/InboxScreen/components/Dialog';
 
 type Props = {
   adventure: any;
-  editHandler: any;
-  setImage: any;
+  handler: any;
   isLoading: boolean;
 };
+
 export const AdventureForm: React.FC<Props> = ({
-  adventure,
-  editHandler,
-  setImage,
+  adventure = {},
+  handler,
   isLoading,
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [guide, setGuide] = useState();
+  const initGuide = adventure?.guideID;
+  const [image, setImage] = useState<Asset>();
+
+  const setGuideHandler = (guide: string) => {
+    setGuide(guide);
+    setModalVisible(false);
+  };
   const selectFile = async () => {
     const res = await launchImageLibrary({
       maxHeight: 320,
@@ -34,6 +45,9 @@ export const AdventureForm: React.FC<Props> = ({
     });
     setImage(res?.assets?.[0]);
   };
+  const goGuideList = () => {
+    setModalVisible(true);
+  };
   return (
     <Container
       showsVerticalScrollIndicator={false}
@@ -41,14 +55,13 @@ export const AdventureForm: React.FC<Props> = ({
       contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
       <Formik
         initialValues={{
-          name: adventure.name ?? '',
-          summary: adventure.summary ?? '',
-          price: adventure.price.toString() ?? '0.0',
-          address: adventure.address ?? 'no address',
-          image: '',
+          name: adventure?.name ?? '',
+          summary: adventure?.summary ?? '',
+          price: adventure?.price?.toString() ?? '',
+          address: adventure?.address ?? '',
         }}
-        onSubmit={editHandler}>
-        {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
+        onSubmit={values => handler({...values, guideID: guide?._id, image})}>
+        {({handleChange, handleBlur, handleSubmit, values}) => (
           <>
             <ButtonItem
               isLoading={false}
@@ -58,6 +71,8 @@ export const AdventureForm: React.FC<Props> = ({
             <InputWrapper>
               <Title>Name</Title>
               <NameInput
+                placeholder="Enter name"
+                placeholderTextColor={colors.grey}
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
@@ -67,6 +82,8 @@ export const AdventureForm: React.FC<Props> = ({
             <InputWrapper>
               <Title>Summary</Title>
               <SummaryInput
+                placeholder="Enter some words about adventure..."
+                placeholderTextColor={colors.grey}
                 multiline={true}
                 onChangeText={handleChange('summary')}
                 onBlur={handleBlur('summary')}
@@ -77,6 +94,8 @@ export const AdventureForm: React.FC<Props> = ({
             <InputWrapper>
               <Title>Price</Title>
               <PriceInput
+                placeholder="0.0"
+                placeholderTextColor={colors.screenBackground}
                 onChangeText={handleChange('price')}
                 onBlur={handleBlur('price')}
                 value={values.price}
@@ -87,17 +106,47 @@ export const AdventureForm: React.FC<Props> = ({
             <InputWrapper>
               <Title>Address</Title>
               <AddressInput
+                placeholder="Enter address"
+                placeholderTextColor={colors.grey}
                 onChangeText={handleChange('address')}
                 onBlur={handleBlur('address')}
                 value={values.address}
                 keyboardType="numeric"
               />
             </InputWrapper>
-
+            <InputWrapper>
+              <Title>Guide</Title>
+              {initGuide && !guide && <Dialog item={initGuide} />}
+              {guide && <Dialog item={guide} />}
+              <ButtonWrapper style={{marginBottom: 24, marginTop: 24}}>
+                <ButtonItem
+                  title={'Choose guide'}
+                  handler={goGuideList}
+                  theme={{
+                    backgroundColor: colors.white,
+                    textColor: colors.screenBackground,
+                  }}
+                />
+              </ButtonWrapper>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  setModalVisible(!modalVisible);
+                }}>
+                <GuidesList
+                  closeHandler={() => {
+                    setModalVisible(!modalVisible);
+                  }}
+                  pressHandler={setGuideHandler}
+                />
+              </Modal>
+            </InputWrapper>
             <ButtonWrapper>
               <ButtonItem
                 isLoading={isLoading}
-                title={'Save changes'}
+                title={'Save'}
                 handler={handleSubmit}
               />
             </ButtonWrapper>

@@ -47,10 +47,10 @@ import {
   SummaryText,
   SummaryWrapper,
   IntroReviews,
+  GuideNameWrapper,
+  GuideNameTitle,
 } from './AdventureScreen.style';
 import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
-
-import guideAvatar from '../../../assets/images/avatarBig.png';
 import {getAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Edit} from '../../components/Edit/Edit';
@@ -162,7 +162,14 @@ export const AdventureScreen = () => {
         <DynamicText text={adventure.summary} />
       </SummaryContainer>
       <GuideContainer>
-        <GuideAvatar source={guideAvatar} />
+        <GuideAvatar
+          source={{uri: adventure?.guideID?.profileInfo?.imageURL}}
+        />
+        <GuideNameWrapper>
+          <GuideNameTitle>
+            {adventure?.guideID?.profileInfo?.firstName}
+          </GuideNameTitle>
+        </GuideNameWrapper>
         <DynamicText text={adventure.summary} />
       </GuideContainer>
       <RatingContainer>

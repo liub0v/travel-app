@@ -1,3 +1,4 @@
+import {guideReducer} from './GuidesReducer';
 
 const {combineReducers} = require('redux');
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,4 +18,5 @@ export const reducers = combineReducers({
   destination: destinationReducer,
   adventure: adventureReducer,
   hotel: hotelReducer,
+  guide: guideReducer,
 });

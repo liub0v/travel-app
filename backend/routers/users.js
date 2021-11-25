@@ -15,6 +15,16 @@ router.get("/", async (req, res) => {
   const users = await User.find().select("-password");
   res.send(users);
 });
+
+router.get("/guides", async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 8;
+  const startIndex = (page - 1) * limit;
+  const guides = await Guide.find().skip(startIndex).limit(limit);
+  if (!guides) return res.status(400).send("Guides doesn't exists");
+  res.send(guides);
+});
+
 //current user
 router.get("/me", validateObjectID, auth, async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
@@ -89,7 +99,8 @@ router.put("/saveAdventure", auth, async (req, res) => {
 });
 router.put("/profileInfo", async (req, res) => {
   // let user = await User.findById(req.user._id);
-  let user = await User.findOne({ email: "c10@mail.com" });
+  let user = await User.findById(req.body.userID);
+  // let user = await User.findOne({ email: req.body.email });
   if (!user) return res.status(404).send("User doesn't exist");
 
   switch (user.role) {
@@ -107,12 +118,15 @@ router.put("/profileInfo", async (req, res) => {
       if (!user) return res.status(404).send("User isn't a guide");
       break;
     }
+    default:
+      return res.status(404).send("User doesn't have profile");
   }
   const image = req.body?.image;
 
   const imageURL = image && (await uploadToCloud(image, "avatars"));
+
   user.profileInfo.firstName =
-    req.body?.firstname || user.profileInfo.firstName;
+    req.body?.firstName || user.profileInfo.firstName;
   user.profileInfo.lastName = req.body?.lastName || user.profileInfo.lastName;
   user.profileInfo.phone = req.body?.phone || user.profileInfo.phone;
   user.profileInfo.birthDate =
@@ -184,6 +198,7 @@ router.post("/client", async (req, res) => {
     role: user.role,
   });
 });
+
 router.post("/guide", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {

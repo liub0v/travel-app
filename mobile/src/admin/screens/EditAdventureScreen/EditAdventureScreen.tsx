@@ -1,12 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Asset} from 'react-native-image-picker';
 import {useRoute} from '@react-navigation/native';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {ButtonWrapper} from '../EditHotelScreen/EditHotelScreen.style';
 import colors from '../../../constants/colors';
-import {updateAdventure} from '../../../../redux/actions/AdventureActions';
-import {updateAdventureLoaderSelector} from '../../../../redux/selectors/AdventureSelectors';
+import {
+  deleteAdventure,
+  updateAdventure,
+} from '../../../../redux/actions/AdventureActions';
+import {
+  deleteAdventureLoaderSelector,
+  updateAdventureLoaderSelector,
+} from '../../../../redux/selectors/AdventureSelectors';
 import {AdventureForm} from '../../components/AdventureForm/AdventureForm';
 
 type Props = {};
@@ -15,20 +21,28 @@ export const EditAdventureScreen: React.FC<Props> = () => {
   const route = useRoute();
   const adventure = route.params?.adventure;
   const dispatch = useDispatch();
-  const [image, setImage] = useState<Asset>();
   const isLoadingUpdate = useSelector(updateAdventureLoaderSelector);
+  const isLoadingDelete = useSelector(deleteAdventureLoaderSelector);
 
+  const deleteHandler = () => {
+    dispatch(deleteAdventure(adventure._id));
+  };
   const editHandler = ({
     name,
     summary,
     price,
     address,
+    guideID,
+    image,
   }: {
     name: string;
     summary: string;
     price: number;
     address: string;
+    guideID: string;
+    image: Asset;
   }) => {
+    console.log(name, summary, price, address, guideID, image);
     dispatch(
       updateAdventure({
         adventureID: adventure._id,
@@ -37,6 +51,7 @@ export const EditAdventureScreen: React.FC<Props> = () => {
         image,
         price: Number(price),
         address,
+        guideID,
       }),
     );
   };
@@ -44,14 +59,14 @@ export const EditAdventureScreen: React.FC<Props> = () => {
     <>
       <AdventureForm
         adventure={adventure}
-        editHandler={editHandler}
-        setImage={setImage}
+        handler={editHandler}
         isLoading={isLoadingUpdate}
       />
       <ButtonWrapper>
         <ButtonItem
-          isLoading={false}
-          title={'Delete hotel'}
+          handler={deleteHandler}
+          isLoading={isLoadingDelete}
+          title={'Delete adventure'}
           theme={{backgroundColor: colors.red, textColor: colors.white}}
         />
       </ButtonWrapper>

@@ -11,7 +11,15 @@ export const isLoadingAdventureSelector = createSelector(
 );
 export const updateAdventureLoaderSelector = createSelector(
   adventureSelector,
-  item => item.updateStarted,
+  item => item.updateLoading,
+);
+export const addAdventureLoaderSelector = createSelector(
+  adventureSelector,
+  item => item.addLoading,
+);
+export const deleteAdventureLoaderSelector = createSelector(
+  adventureSelector,
+  item => item.deleteLoading,
 );
 export const errorAdventureSelector = createSelector(
   adventureSelector,

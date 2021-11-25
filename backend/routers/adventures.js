@@ -75,6 +75,7 @@ router.post("/", async (req, res) => {
     address: req.body?.address,
   });
   await adventure.save();
+  await adventure.populate("guideID");
   res.send(adventure);
 });
 
@@ -107,10 +108,22 @@ router.put("/", async (req, res) => {
   adventure.address = req.body?.address ?? adventure.address;
 
   await adventure.save();
+  await adventure.populate("guideID");
+  await adventure.populate("rating");
+  await adventure.populate("reviews");
+  await adventure.populate({
+    path: "reviews",
+    populate: {
+      path: "rating clientID",
+      select:
+        "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
+    },
+  });
+
   res.send(adventure);
 });
 router.delete("/", async (req, res) => {
-  const adventure = await Adventure.findByIdAndDelete(req.body.id);
+  const adventure = await Adventure.findByIdAndDelete(req.body.adventureID);
   if (!adventure) return res.status(404).send("Adventures doesn't exist");
 
   if (adventure.imageURL !== DEFAULT_COVER_IMAGE_URL) {

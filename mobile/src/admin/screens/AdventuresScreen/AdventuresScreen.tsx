@@ -25,7 +25,7 @@ export const AdventuresScreen = () => {
   }, [page]);
 
   const goAddAdventureScreen = () => {
-    navigation.navigate('AddHotelScreen');
+    navigation.navigate('AddAdventureScreen');
   };
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

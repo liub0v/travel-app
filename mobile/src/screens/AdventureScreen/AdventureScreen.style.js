@@ -135,3 +135,12 @@ export const Map = styled.View`
 export const IntroReviews = styled.View`
   padding-top: 24px;
 `;
+
+export const GuideNameWrapper = styled.View`
+  margin-top: 12px;
+`;
+export const GuideNameTitle = styled.Text`
+  font-family: ${fonts.normal};
+  font-size: 16px;
+  color: ${colors.white};
+`;

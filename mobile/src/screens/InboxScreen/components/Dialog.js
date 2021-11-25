@@ -6,30 +6,26 @@ import {
   DialogInfo,
   DialogItem,
   Message,
-  MessageNumber,
-  MessageNumberWrapper,
-  MessageTime,
   TopInfoLine,
   UserName,
 } from './Dialog.style';
 
-export const Dialog = ({item}) => {
-  return (
-    <DialogItem>
-      <DialogAvatar source={item.image} />
-      <DialogInfo>
-        <TopInfoLine>
-          <UserName>{item.name}</UserName>
-          <MessageTime>{item.messageTime}</MessageTime>
-        </TopInfoLine>
-        <BottomInfoLine>
-          <Message>{item.message}</Message>
+import {TouchableWithoutFeedback} from 'react-native';
 
-          <MessageNumberWrapper>
-            <MessageNumber>{item.messageNumber}</MessageNumber>
-          </MessageNumberWrapper>
-        </BottomInfoLine>
-      </DialogInfo>
-    </DialogItem>
+export const Dialog = ({item, handler = () => {}}) => {
+  return (
+    <TouchableWithoutFeedback onPress={() => handler(item)}>
+      <DialogItem>
+        <DialogAvatar source={{uri: item?.profileInfo?.imageURL}} />
+        <DialogInfo>
+          <TopInfoLine>
+            <UserName>{`${item?.profileInfo?.firstName} ${item?.profileInfo?.lastName}`}</UserName>
+          </TopInfoLine>
+          <BottomInfoLine>
+            <Message>{item?.profileInfo?.address}</Message>
+          </BottomInfoLine>
+        </DialogInfo>
+      </DialogItem>
+    </TouchableWithoutFeedback>
   );
 };

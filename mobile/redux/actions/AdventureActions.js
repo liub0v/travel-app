@@ -4,6 +4,9 @@ import {
   ADD_ADVENTURE_REVIEW,
   ADD_ADVENTURE_STARTED,
   CLEAR_ADVENTURES,
+  DELETE_ADVENTURE,
+  DELETE_ADVENTURE_COMPLETED,
+  DELETE_ADVENTURE_STARTED,
   DELETE_SAVED_ADVENTURE,
   GET_ADVENTURE_REVIEW,
   GET_ADVENTURES,
@@ -139,5 +142,23 @@ export const addAdventureCompleted = adventure => {
   return {
     type: ADD_ADVENTURE_COMPLETED,
     payload: adventure,
+  };
+};
+export const deleteAdventure = adventureID => {
+  return {
+    type: DELETE_ADVENTURE,
+    payload: adventureID,
+  };
+};
+export const deleteAdventureStarted = isLoading => {
+  return {
+    type: DELETE_ADVENTURE_STARTED,
+    payload: isLoading,
+  };
+};
+export const deleteAdventureCompleted = adventureID => {
+  return {
+    type: DELETE_ADVENTURE_COMPLETED,
+    payload: adventureID,
   };
 };

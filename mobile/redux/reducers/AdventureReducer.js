@@ -1,7 +1,10 @@
 import {
+  ADD_ADVENTURE_COMPLETED,
   ADD_ADVENTURE_REVIEW,
   ADD_ADVENTURE_STARTED,
   CLEAR_ADVENTURES,
+  DELETE_ADVENTURE_COMPLETED,
+  DELETE_ADVENTURE_STARTED,
   SET_ADVENTURES,
   SET_ADVENTURES_ERROR,
   SET_ADVENTURES_IS_LOADING,
@@ -19,6 +22,7 @@ const initialState = {
   hasMore: true,
   updateLoading: false,
   addLoading: false,
+  deleteLoading: false,
 };
 
 export const adventureReducer = (state = initialState, {type, payload}) => {
@@ -68,6 +72,23 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
     }
     case ADD_ADVENTURE_STARTED:
       return {...state, addLoading: payload};
+    case ADD_ADVENTURE_COMPLETED:
+      {
+        if (state.adventures) {
+          return {...state, adventures: [...state.adventures, payload]};
+        }
+      }
+      return {...state, adventures: [payload]};
+    case DELETE_ADVENTURE_STARTED:
+      return {...state, deleteLoading: payload};
+    case DELETE_ADVENTURE_COMPLETED: {
+      return {
+        ...state,
+        adventures: [
+          ...state.adventures.filter(adventure => adventure._id !== payload),
+        ],
+      };
+    }
     default:
       return state;
   }
