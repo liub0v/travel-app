@@ -15,7 +15,7 @@ import {TouchableWithoutFeedback} from 'react-native';
 export const Guide = ({item, handler = () => {}}) => {
   return (
     <TouchableWithoutFeedback onPress={() => handler(item)}>
-      <DialogItem>
+      <DialogItem style={{flex: 1, flexDirection: 'row'}}>
         <DialogAvatar source={{uri: item?.profileInfo?.imageURL}} />
         <DialogInfo>
           <TopInfoLine>

@@ -2,6 +2,9 @@ import {
   ADD_GUIDE,
   ADD_GUIDE_COMPLETED,
   ADD_GUIDE_STARTED,
+  DELETE_GUIDE,
+  DELETE_GUIDE_COMPLETED,
+  DELETE_GUIDE_STARTED,
   GET_GUIDES,
   SET_GUIDES_COMPLETED,
   SET_GUIDES_ERROR,
@@ -56,5 +59,23 @@ export const addGuideCompleted = guide => {
   return {
     type: ADD_GUIDE_COMPLETED,
     payload: guide,
+  };
+};
+export const deleteGuide = userID => {
+  return {
+    type: DELETE_GUIDE,
+    payload: userID,
+  };
+};
+export const deleteGuideStarted = isLoading => {
+  return {
+    type: DELETE_GUIDE_STARTED,
+    payload: isLoading,
+  };
+};
+export const deleteGuideCompleted = userID => {
+  return {
+    type: DELETE_GUIDE_COMPLETED,
+    payload: userID,
   };
 };

@@ -5,7 +5,7 @@ import {
   logOutIsLoadingSelector,
   roleSelector,
 } from '../../../redux/selectors/UserSelector';
-import {logOutUser} from '../../../redux/actions/AuthActions';
+import {deleteUser, logOutUser} from '../../../redux/actions/AuthActions';
 
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 
@@ -24,6 +24,8 @@ import {
   BoldWhiteText,
 } from './Profile.style';
 import {useRoute} from '@react-navigation/native';
+import {deleteGuide} from '../../../redux/actions/GuideActions';
+import {deleteGuideLoaderSelector} from '../../../redux/selectors/GuideSelectors';
 
 export const ProfileScreen = () => {
   const dispatch = useDispatch();
@@ -31,13 +33,30 @@ export const ProfileScreen = () => {
   const user = route.params.user;
   const role = useSelector(roleSelector);
   const isLoading = useSelector(logOutIsLoadingSelector);
+  const deleteIsLoading = useSelector(deleteGuideLoaderSelector);
   const profileInfo = user?.profileInfo;
   let birthDate = dateParser(profileInfo?.birthDate);
   function logOutButtonHandler() {
     dispatch(logOutUser());
   }
   function deleteAccountHandler() {
-    dispatch(deleteAccount());
+    const userRole = user?.userID?.role;
+    const userID = user?.userID?._id;
+
+    switch (userRole) {
+      case 'guide': {
+        console.log('screen', userID);
+        dispatch(deleteGuide(userID));
+        break;
+      }
+      case 'admin': {
+        break;
+      }
+      case 'client': {
+        dispatch(deleteUser(userID));
+        break;
+      }
+    }
   }
 
   return (
@@ -95,7 +114,7 @@ export const ProfileScreen = () => {
       <ButtonWrapper>
         <ButtonItem
           theme={{backgroundColor: colors.red, textColor: colors.white}}
-          isLoading={false}
+          isLoading={deleteIsLoading}
           handler={deleteAccountHandler}
           title={'Delete account'}
         />

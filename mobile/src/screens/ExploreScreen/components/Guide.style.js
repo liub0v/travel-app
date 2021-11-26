@@ -3,8 +3,6 @@ import colors from '../../../constants/colors';
 import fonts from '../../../constants/fonts';
 
 export const DialogItem = styled.View`
-  flex: 1;
-  flex-direction: row;
   padding-left: 24px;
   padding-right: 24px;
   margin-top: 20px;

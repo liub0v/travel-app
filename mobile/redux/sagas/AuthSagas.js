@@ -1,5 +1,7 @@
 import {takeEvery, call, put, select} from 'redux-saga/effects';
 import {
+  deleteUserCompleted,
+  deleteUserStarted,
   setIsOnboarding,
   setLogInError,
   setLogInIsLoading,
@@ -10,6 +12,7 @@ import {
 } from '../actions/AuthActions';
 import {tokenSelector} from '../selectors/UserSelector';
 import {
+  DELETE_USER,
   LOG_IN_USER,
   SAVE_PROFILE_ONBOARDING,
   SING_UP_USER,
@@ -21,6 +24,7 @@ export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
   takeEvery(SING_UP_USER, singUpUserSaga),
   takeEvery(SAVE_PROFILE_ONBOARDING, saveProfileOnboarding),
+  takeEvery(DELETE_USER, deleteUserSaga),
 ];
 
 function* logInUserSaga(action) {
@@ -86,3 +90,19 @@ function* saveProfileOnboarding(action) {
   }
 }
 
+function* deleteUserSaga(action) {
+  try {
+    const {userID} = action.payload;
+    const token = yield select(tokenSelector);
+    yield put(deleteUserStarted(true));
+    const response = yield call(userAPI.deleteUser, token, userID);
+    yield put(deleteUserCompleted(userID));
+    yield put(deleteUserStarted(false));
+  } catch (error) {
+    yield put(deleteUserStarted(false));
+    yield call(showMessage, {
+      message: error.response?.data,
+      type: 'error',
+    });
+  }
+}

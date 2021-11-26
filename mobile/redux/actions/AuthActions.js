@@ -1,4 +1,7 @@
 import {
+  DELETE_USER,
+  DELETE_USER_COMPLETED,
+  DELETE_USER_STARTED,
   LOG_IN_USER,
   LOG_OUT_USER,
   SAVE_PROFILE_ONBOARDING,
@@ -105,5 +108,24 @@ export const saveProfileOnboarding = isOnboarding => {
   return {
     type: SAVE_PROFILE_ONBOARDING,
     payload: isOnboarding,
+  };
+};
+
+export const deleteUserStarted = isLoading => {
+  return {
+    type: DELETE_USER_STARTED,
+    payload: isLoading,
+  };
+};
+export const deleteUser = userID => {
+  return {
+    type: DELETE_USER,
+    payload: userID,
+  };
+};
+export const deleteUserCompleted = userID => {
+  return {
+    type: DELETE_USER_COMPLETED,
+    payload: userID,
   };
 };

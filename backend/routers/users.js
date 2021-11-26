@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const router = require("express").Router();
 const auth = require("../middleware/auth");
 const validateObjectID = require("../middleware/validateObjectID");
-const { uploadToCloud } = require("../utils/cloudinary");
+const { uploadToCloud, removeFromCloud } = require("../utils/cloudinary");
 const { User, validate } = require("../models/user");
 const { Client } = require("../models/client");
 const { Guide } = require("../models/guide");
@@ -233,27 +233,36 @@ router.post("/guide", async (req, res) => {
   await guide.populate("userID");
   res.send(guide);
 });
-router.delete("/", async (req, res) => {
+router.delete("/", auth, async (req, res) => {
   let user = await User.findById(req.body.userID);
   if (!user) return res.status(400).send("User doesn't exist");
 
-  // switch (user.role) {
-  //   case "client":
-  //     user = await Client.findOne({ userID: user._id })
-  //         .populate("savedHotels")
-  //         .populate("savedAdventures")
-  //         .populate("userID");
-  //     if (!user) return res.status(400).send("User isn't a client");
-  //     break;
-  //   case "guide":
-  //     user = await Guide.findOne({ userID: user._id }).populate("userID");
-  //     if (!user) return res.status(400).send("User isn't a guide");
-  //     break;
-  //   case "admin":
-  //     user = await Admin.findOne({ userID: user._id }).populate("userID");
-  //     if (!user) return res.status(400).send("User isn't a guide");
-  //     break;
-  // }
+  switch (user.role) {
+    case "client":
+      user = await Client.deleteOne({ userID: user._id });
+      if (!user) return res.status(400).send("User isn't a client");
+
+      break;
+    case "guide":
+      user = await Guide.deleteOne({ userID: user._id });
+      if (!user) return res.status(400).send("User isn't a guide");
+
+      break;
+    case "admin":
+      user = await Admin.deleteOne({ userID: user._id });
+      if (!user) return res.status(400).send("User isn't a guide");
+
+      break;
+  }
+  if (
+    user?.profileInfo?.imageURL &&
+    user?.profileInfo?.imageURL !== DEFAULT_COVER_IMAGE_URL
+  ) {
+    await removeFromCloud(user?.profileInfo?.imageURL, "avatars");
+  }
+  await User.findByIdAndDelete(req.body.userID);
+
+  res.send(user);
 });
 
 module.exports = router;

@@ -71,6 +71,13 @@ async function deleteSavedAdventure(adventureID, token) {
     data: {adventureID},
   });
 }
+async function deleteUser(token, userID) {
+  console.log(token, userID);
+  return await instance.delete('/users', {
+    headers: {'x-auth-token': token},
+    data: {userID},
+  });
+}
 export const userAPI = {
   logInUser,
   getUserByToken,
@@ -82,4 +89,5 @@ export const userAPI = {
   deleteSavedAdventure,
   getGuides,
   singUpGuide,
+  deleteUser,
 };
