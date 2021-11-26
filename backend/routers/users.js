@@ -8,6 +8,7 @@ const { Client } = require("../models/client");
 const { Guide } = require("../models/guide");
 const { Hotel } = require("../models/hotel");
 const { Adventure } = require("../models/adventure");
+const { Admin } = require("../models/admin");
 
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -20,7 +21,10 @@ router.get("/guides", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 8;
   const startIndex = (page - 1) * limit;
-  const guides = await Guide.find().skip(startIndex).limit(limit);
+  const guides = await Guide.find()
+    .skip(startIndex)
+    .limit(limit)
+    .populate("userID");
   if (!guides) return res.status(400).send("Guides doesn't exists");
   res.send(guides);
 });
@@ -154,6 +158,10 @@ router.post("/admin", async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
   await user.save();
+  const admin = new Admin({
+    userID: user._id,
+  });
+  await admin.save();
 
   const token = user.generateAuthToken();
   res.header("x-auth-token", token).send({
@@ -222,15 +230,30 @@ router.post("/guide", async (req, res) => {
     userID: user._id,
   });
   await guide.save();
+  await guide.populate("userID");
+  res.send(guide);
+});
+router.delete("/", async (req, res) => {
+  let user = await User.findById(req.body.userID);
+  if (!user) return res.status(400).send("User doesn't exist");
 
-  const token = user.generateAuthToken();
-  res.header("x-auth-token", token).send({
-    _id: user._id,
-    username: user.username,
-    email: user.email,
-    isOnBoarding: user.isOnBoarding,
-    role: user.role,
-  });
+  // switch (user.role) {
+  //   case "client":
+  //     user = await Client.findOne({ userID: user._id })
+  //         .populate("savedHotels")
+  //         .populate("savedAdventures")
+  //         .populate("userID");
+  //     if (!user) return res.status(400).send("User isn't a client");
+  //     break;
+  //   case "guide":
+  //     user = await Guide.findOne({ userID: user._id }).populate("userID");
+  //     if (!user) return res.status(400).send("User isn't a guide");
+  //     break;
+  //   case "admin":
+  //     user = await Admin.findOne({ userID: user._id }).populate("userID");
+  //     if (!user) return res.status(400).send("User isn't a guide");
+  //     break;
+  // }
 });
 
 module.exports = router;

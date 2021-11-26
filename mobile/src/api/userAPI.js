@@ -13,6 +13,13 @@ async function singUpUser(username, email, password) {
     password,
   });
 }
+async function singUpGuide(username, email, password) {
+  return await instance.post('/users/guide', {
+    username,
+    email,
+    password,
+  });
+}
 async function getGuides(page = 1, limit = 8) {
   return await instance.get('/users/guides', {params: {page, limit}});
 }
@@ -74,4 +81,5 @@ export const userAPI = {
   deleteSavedHotel,
   deleteSavedAdventure,
   getGuides,
+  singUpGuide,
 };

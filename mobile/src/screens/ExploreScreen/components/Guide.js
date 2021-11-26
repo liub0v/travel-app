@@ -8,11 +8,11 @@ import {
   Message,
   TopInfoLine,
   UserName,
-} from './Dialog.style';
+} from './Guide.style';
 
 import {TouchableWithoutFeedback} from 'react-native';
 
-export const Dialog = ({item, handler = () => {}}) => {
+export const Guide = ({item, handler = () => {}}) => {
   return (
     <TouchableWithoutFeedback onPress={() => handler(item)}>
       <DialogItem>

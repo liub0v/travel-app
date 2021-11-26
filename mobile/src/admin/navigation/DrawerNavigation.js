@@ -4,18 +4,25 @@ import {DestinationsCatalog} from '../../screens/DestinationsCatalogScreen/Desti
 import {ProfileScreen} from '../../screens/ProfileScreen/ProfileScreen';
 import {HotelsStackScreen} from './HotelsStackScreen';
 import {AdventuresStackScreen} from './AdventuresStackScreen';
-import {GuidesScreen} from '../screens/GuidesScreen/GuidesScreen';
+import {useSelector} from 'react-redux';
+import {userSelector} from '../../../redux/selectors/UserSelector';
+import {GuidesStackScreen} from './GuidesStackScreen';
 
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigation = () => {
+  const user = useSelector(userSelector);
   return (
     <Drawer.Navigator initialRouteName="Destinations">
       <Drawer.Screen name="Adventures" component={AdventuresStackScreen} />
-      <Drawer.Screen name="Profile" component={ProfileScreen} />
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileScreen}
+        initialParams={{user}}
+      />
       <Drawer.Screen name="Destinations" component={DestinationsCatalog} />
       <Drawer.Screen name="Hotels" component={HotelsStackScreen} />
-      <Drawer.Screen name="Guides" component={GuidesScreen} />
+      <Drawer.Screen name="Guides" component={GuidesStackScreen} />
     </Drawer.Navigator>
   );
 };

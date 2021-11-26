@@ -3,7 +3,7 @@ import {View, Image, TouchableWithoutFeedback} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useNavigation} from '@react-navigation/native';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getPopularDestinations} from '../../redux/actions/DestinationActions';
 import {getPopularAdventures} from '../../redux/actions/AdventureActions';
 import {getPopularHotels} from '../../redux/actions/HotelActions';
@@ -25,6 +25,7 @@ import inboxActiveIcon from '../../assets/images/inboxActiveIcon.png';
 import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
+import {userSelector} from '../../redux/selectors/UserSelector';
 
 const Tab = createBottomTabNavigator();
 
@@ -58,7 +59,8 @@ const TabBarIcon = ({focused, icon, activeIcon}) => {
 export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
+  const user = useSelector(userSelector);
+  console.log('tab', user);
   useEffect(() => {
     dispatch(getPopularDestinations());
     dispatch(getPopularAdventures());
@@ -152,6 +154,7 @@ export const TabNavigation = () => {
         }}
         name="Profile"
         component={ProfileScreen}
+        initialParams={{user: user}}
       />
     </Tab.Navigator>
   );

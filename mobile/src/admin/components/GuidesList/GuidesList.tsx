@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
-import {Dialog} from '../../../screens/InboxScreen/components/Dialog';
+import {Guide} from '../../../screens/ExploreScreen/components/Guide';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   guidesSelector,
@@ -41,7 +41,7 @@ export const GuidesList: React.FC<Props> = ({closeHandler, pressHandler}) => {
           onEndReached={() => {
             hasMore && setPage(page + 1);
           }}
-          renderItem={({item}) => <Dialog item={item} handler={pressHandler} />}
+          renderItem={({item}) => <Guide item={item} handler={pressHandler} />}
           keyExtractor={item => item._id}
         />
         <ButtonWrapper>

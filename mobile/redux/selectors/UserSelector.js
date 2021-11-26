@@ -5,7 +5,10 @@ const authSelector = state => state.auth;
 export const tokenSelector = createSelector(authSelector, item => item.token);
 export const userSelector = createSelector(authSelector, item => item.user);
 
-export const roleSelector = createSelector(userSelector, item => item?.role);
+export const roleSelector = createSelector(
+  userSelector,
+  item => item?.userID?.role,
+);
 
 export const profileInfoSelector = createSelector(
   userSelector,

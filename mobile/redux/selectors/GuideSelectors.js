@@ -14,6 +14,10 @@ export const isLoadingGuidesSelector = createSelector(
   guideSelector,
   item => item.isLoading,
 );
+export const addGuideLoaderSelector = createSelector(
+  guideSelector,
+  item => item.addLoading,
+);
 export const getGuideSelector = guideID => {
   return createSelector(guidesSelector, guides =>
     guides?.find(guide => guide.userID === guideID),

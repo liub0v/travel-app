@@ -1,4 +1,7 @@
 import {
+  ADD_GUIDE,
+  ADD_GUIDE_COMPLETED,
+  ADD_GUIDE_STARTED,
   GET_GUIDES,
   SET_GUIDES_COMPLETED,
   SET_GUIDES_ERROR,
@@ -34,5 +37,24 @@ export const setHasMoreGuides = hasMore => {
   return {
     type: SET_HAS_MORE_GUIDES,
     payload: hasMore,
+  };
+};
+
+export const addGuide = ({username, email, password}) => {
+  return {
+    type: ADD_GUIDE,
+    payload: {username, email, password},
+  };
+};
+export const addGuideStarted = isLoading => {
+  return {
+    type: ADD_GUIDE_STARTED,
+    payload: isLoading,
+  };
+};
+export const addGuideCompleted = guide => {
+  return {
+    type: ADD_GUIDE_COMPLETED,
+    payload: guide,
   };
 };

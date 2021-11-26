@@ -11,6 +11,7 @@ import {
   hasMoreAdventuresSelector,
   isLoadingAdventureSelector,
 } from '../../../../redux/selectors/AdventureSelectors';
+import {ButtonWrapper} from '../HotelsListScreen/HotelsScreen.style';
 
 export const AdventuresScreen = () => {
   const adventures = useSelector(adventuresSelector);
@@ -37,14 +38,16 @@ export const AdventuresScreen = () => {
         />
       ) : (
         <>
-          <ButtonItem
-            title={'Add adventure'}
-            theme={{
-              backgroundColor: colors.white,
-              textColor: colors.screenBackground,
-            }}
-            handler={goAddAdventureScreen}
-          />
+          <ButtonWrapper>
+            <ButtonItem
+              title={'Add adventure'}
+              theme={{
+                backgroundColor: colors.white,
+                textColor: colors.screenBackground,
+              }}
+              handler={goAddAdventureScreen}
+            />
+          </ButtonWrapper>
 
           <FlatList
             horizontal={false}

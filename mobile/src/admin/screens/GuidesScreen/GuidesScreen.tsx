@@ -11,7 +11,7 @@ import {getGuides} from '../../../../redux/actions/GuideActions';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {ButtonWrapper} from '../HotelsListScreen/HotelsScreen.style';
 import {useNavigation} from '@react-navigation/native';
-import {Dialog} from '../../../screens/InboxScreen/components/Dialog';
+import {Guide} from '../../../screens/ExploreScreen/components/Guide';
 
 export const GuidesScreen = () => {
   const guides = useSelector(guidesSelector);
@@ -26,9 +26,11 @@ export const GuidesScreen = () => {
   }, [page]);
 
   const goAddGuideScreen = () => {
-    navigation.navigate();
+    navigation.navigate('AddGuideScreen');
   };
-
+  const goGuideProfile = guide => {
+    navigation.navigate('ProfileScreen', {user: guide});
+  };
   return (
     <View style={{flex: 1}}>
       {isLoading ? (
@@ -58,7 +60,7 @@ export const GuidesScreen = () => {
               hasMore && setPage(page + 1);
             }}
             renderItem={({item}) => (
-              <Dialog item={item} navigation={navigation} />
+              <Guide item={item} handler={goGuideProfile} />
             )}
             keyExtractor={item => item._id}
           />

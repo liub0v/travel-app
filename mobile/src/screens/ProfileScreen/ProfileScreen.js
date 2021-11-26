@@ -3,8 +3,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   logOutIsLoadingSelector,
-  profileInfoSelector,
-  userSelector,
+  roleSelector,
 } from '../../../redux/selectors/UserSelector';
 import {logOutUser} from '../../../redux/actions/AuthActions';
 
@@ -24,17 +23,21 @@ import {
   MainInfo,
   BoldWhiteText,
 } from './Profile.style';
+import {useRoute} from '@react-navigation/native';
 
 export const ProfileScreen = () => {
   const dispatch = useDispatch();
+  const route = useRoute();
+  const user = route.params.user;
+  const role = useSelector(roleSelector);
   const isLoading = useSelector(logOutIsLoadingSelector);
-  const user = useSelector(userSelector);
-  const profileInfo = useSelector(profileInfoSelector);
-
+  const profileInfo = user?.profileInfo;
   let birthDate = dateParser(profileInfo?.birthDate);
-
   function logOutButtonHandler() {
     dispatch(logOutUser());
+  }
+  function deleteAccountHandler() {
+    dispatch(deleteAccount());
   }
 
   return (
@@ -44,32 +47,42 @@ export const ProfileScreen = () => {
       contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}}>
       <MainInfo>
         <Avatar source={{uri: profileInfo?.imageURL}} />
-        <BoldWhiteText>
-          {`${profileInfo?.firstName} ${profileInfo?.lastName}`}
-        </BoldWhiteText>
-        <GreyText>{`${profileInfo?.address}`}</GreyText>
+        {profileInfo ? (
+          <>
+            <BoldWhiteText>
+              {`${profileInfo?.firstName} ${profileInfo?.lastName}`}
+            </BoldWhiteText>
+            <GreyText>{`${profileInfo?.address}`}</GreyText>
+          </>
+        ) : (
+          <BoldWhiteText>{`${user?.userID?.username}`}</BoldWhiteText>
+        )}
       </MainInfo>
       <InfoContainer>
         <InfoItem>
           <GreyText>{'Username'}</GreyText>
-          <WhiteText>{`${user?.username}`}</WhiteText>
+          <WhiteText>{`${user?.userID?.username}`}</WhiteText>
         </InfoItem>
         <InfoItem>
           <GreyText>{'Email'}</GreyText>
-          <WhiteText>{`${user?.email}`}</WhiteText>
+          <WhiteText>{`${user?.userID?.email}`}</WhiteText>
         </InfoItem>
-        <InfoItem>
-          <GreyText>{'Phone'}</GreyText>
-          <WhiteText>{`${profileInfo?.phone}`}</WhiteText>
-        </InfoItem>
-        <InfoItem>
-          <GreyText>{'Date of birth'}</GreyText>
-          <WhiteText>{`${birthDate}`}</WhiteText>
-        </InfoItem>
-        <InfoItem>
-          <GreyText>{'Address'}</GreyText>
-          <WhiteText>{`${profileInfo?.address}`}</WhiteText>
-        </InfoItem>
+        {profileInfo && (
+          <>
+            <InfoItem>
+              <GreyText>{'Phone'}</GreyText>
+              <WhiteText>{`${profileInfo?.phone}`}</WhiteText>
+            </InfoItem>
+            <InfoItem>
+              <GreyText>{'Date of birth'}</GreyText>
+              <WhiteText>{`${birthDate}`}</WhiteText>
+            </InfoItem>
+            <InfoItem>
+              <GreyText>{'Address'}</GreyText>
+              <WhiteText>{`${profileInfo?.address}`}</WhiteText>
+            </InfoItem>
+          </>
+        )}
       </InfoContainer>
       <ButtonWrapper>
         <ButtonItem
@@ -77,6 +90,14 @@ export const ProfileScreen = () => {
           isLoading={isLoading}
           handler={logOutButtonHandler}
           title={'Log out'}
+        />
+      </ButtonWrapper>
+      <ButtonWrapper>
+        <ButtonItem
+          theme={{backgroundColor: colors.red, textColor: colors.white}}
+          isLoading={false}
+          handler={deleteAccountHandler}
+          title={'Delete account'}
         />
       </ButtonWrapper>
     </Container>

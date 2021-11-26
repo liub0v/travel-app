@@ -3,7 +3,7 @@ import {ScrollView, FlatList} from 'react-native';
 
 import {dialogs} from '../../api/mock';
 
-import {Dialog} from './components/Dialog';
+import {Guide} from '../ExploreScreen/components/Guide';
 import {Search} from '../../components/Seacrh/Search';
 import {SearchWrapper} from './Inbox.style';
 
@@ -16,7 +16,7 @@ export const InboxScreen = () => {
       <SearchWrapper>
         <Search placeholder={'Find people...'} />
       </SearchWrapper>
-      <FlatList data={dialogs} renderItem={Dialog} />
+      <FlatList data={dialogs} renderItem={Guide} />
     </ScrollView>
   );
 };

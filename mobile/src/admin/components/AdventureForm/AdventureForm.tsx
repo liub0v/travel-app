@@ -15,7 +15,7 @@ import {
 } from '../../screens/EditHotelScreen/EditHotelScreen.style';
 import colors from '../../../constants/colors';
 import {GuidesList} from '../GuidesList/GuidesList';
-import {Dialog} from '../../../screens/InboxScreen/components/Dialog';
+import {Guide} from '../../../screens/ExploreScreen/components/Guide';
 
 type Props = {
   adventure: any;
@@ -116,8 +116,8 @@ export const AdventureForm: React.FC<Props> = ({
             </InputWrapper>
             <InputWrapper>
               <Title>Guide</Title>
-              {initGuide && !guide && <Dialog item={initGuide} />}
-              {guide && <Dialog item={guide} />}
+              {initGuide && !guide && <Guide item={initGuide} />}
+              {guide && <Guide item={guide} />}
               <ButtonWrapper style={{marginBottom: 24, marginTop: 24}}>
                 <ButtonItem
                   title={'Choose guide'}
