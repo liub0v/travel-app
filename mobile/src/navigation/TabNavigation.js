@@ -26,12 +26,13 @@ import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
 import {userSelector} from '../../redux/selectors/UserSelector';
+import {ProfileStackScreen} from './ProfileStackScreen';
 
 const Tab = createBottomTabNavigator();
 
-const EditButton = ({navigation}) => {
+const EditButton = ({handler}) => {
   return (
-    <TouchableWithoutFeedback onPress={() => {}}>
+    <TouchableWithoutFeedback onPress={handler}>
       <View
         style={{
           flex: 1,
@@ -60,7 +61,11 @@ export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
-  console.log('tab', user);
+
+  const goEditProfileScreen = () => {
+    navigation.navigate('EditProfileScreen', {user});
+  };
+
   useEffect(() => {
     dispatch(getPopularDestinations());
     dispatch(getPopularAdventures());
@@ -150,10 +155,10 @@ export const TabNavigation = () => {
               activeIcon={profileActiveIcon}
             />
           ),
-          headerRight: props => <EditButton navigation={navigation} />,
+          headerRight: props => <EditButton handler={goEditProfileScreen} />,
         }}
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStackScreen}
         initialParams={{user: user}}
       />
     </Tab.Navigator>

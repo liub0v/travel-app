@@ -78,7 +78,6 @@ export const AdventureForm: React.FC<Props> = ({
                 value={values.name}
               />
             </InputWrapper>
-
             <InputWrapper>
               <Title>Summary</Title>
               <SummaryInput
