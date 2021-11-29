@@ -29,16 +29,15 @@ export const ProfileScreen = () => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}}>
       <ProfileForm profileInfo={profileInfo} userInfo={userInfo} />
-      {role !== 'guide' && (
-        <ButtonWrapper>
-          <ButtonItem
-            theme={{backgroundColor: colors.white, textColor: 'black'}}
-            isLoading={isLoading}
-            handler={logOutButtonHandler}
-            title={'Log out'}
-          />
-        </ButtonWrapper>
-      )}
+
+      <ButtonWrapper>
+        <ButtonItem
+          theme={{backgroundColor: colors.white, textColor: 'black'}}
+          isLoading={isLoading}
+          handler={logOutButtonHandler}
+          title={'Log out'}
+        />
+      </ButtonWrapper>
     </Container>
   );
 };

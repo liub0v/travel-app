@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const router = require("express").Router();
 const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const validateObjectID = require("../middleware/validateObjectID");
 const { uploadToCloud, removeFromCloud } = require("../utils/cloudinary");
 const { User, validate } = require("../models/user");
@@ -98,10 +99,10 @@ router.put("/saveAdventure", auth, async (req, res) => {
   client.savedAdventures = [...client.savedAdventures, adventure];
 
   await client.save();
-
+  6;
   res.send(adventure);
 });
-router.put("/profileInfo", async (req, res) => {
+router.put("/profileInfo", auth, async (req, res) => {
   // let user = await User.findById(req.user._id);
   let user = await User.findById(req.body.userID);
   // let user = await User.findOne({ email: req.body.email });
@@ -141,6 +142,7 @@ router.put("/profileInfo", async (req, res) => {
   user.profileInfo.address = req.body?.address || user.profileInfo.address;
   user.profileInfo.imageURL = imageURL || user.profileInfo.imageURL;
   await user.save();
+
   await user.populate("userID");
   res.send(user);
 });

@@ -3,10 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Formik} from 'formik';
 import DatePicker from 'react-native-date-picker';
 import {useRoute} from '@react-navigation/native';
-import {deleteGuideLoaderSelector} from '../../../redux/selectors/GuideSelectors';
 import {dateParser} from '../../services/dataParser';
 import {deleteUser, updateUser} from '../../../redux/actions/AuthActions';
-import {deleteGuide} from '../../../redux/actions/GuideActions';
 import {
   Avatar,
   Container,
@@ -24,17 +22,17 @@ import {
 } from './EditProfileScreen.style';
 import {TouchableWithoutFeedback} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {deleteUserIsLoadingSelector} from '../../../redux/selectors/UserSelector';
 export const EditProfileScreen = () => {
-  const route = useRoute();
-  const user = route.params.user;
-  const profileInfo = user?.profileInfo;
+  const route = useRoute().params.route;
+  const profileInfo = route.params?.profileInfo;
+  const userInfo = route.params?.userInfo;
   let initBirthDateString = dateParser(profileInfo?.birthDate);
   const [birthDate, setBirthDate] = useState(new Date(initBirthDateString));
   const [birthDateString, setBirthDateString] = useState(initBirthDateString);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const deleteIsLoading = useSelector(deleteGuideLoaderSelector);
-
+  const deleteIsLoading = useSelector(deleteUserIsLoadingSelector);
   function updateAccountHandler({
     name,
     username,
@@ -46,7 +44,7 @@ export const EditProfileScreen = () => {
     const [firstName, lastName] = name.split(' ');
     dispatch(
       updateUser({
-        userID: user?.userID._id,
+        userID: userInfo._id,
         firstName,
         lastName,
         username,
@@ -58,22 +56,7 @@ export const EditProfileScreen = () => {
     );
   }
   function deleteAccountHandler() {
-    const userRole = user?.userID?.role;
-    const userID = user?.userID?._id;
-
-    switch (userRole) {
-      case 'guide': {
-        dispatch(deleteGuide(userID));
-        break;
-      }
-      case 'admin': {
-        break;
-      }
-      case 'client': {
-        dispatch(deleteUser(userID));
-        break;
-      }
-    }
+    dispatch(deleteUser(userInfo._id));
   }
   const selectFile = async setFieldValue => {
     const res = await launchImageLibrary({
@@ -90,8 +73,8 @@ export const EditProfileScreen = () => {
       contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}}>
       <Formik
         initialValues={{
-          username: user?.userID?.username ?? '',
-          email: user?.userID?.email ?? '',
+          username: userInfo?.username ?? '',
+          email: userInfo?.email ?? '',
           name: `${profileInfo?.firstName} ${profileInfo?.lastName}` ?? '',
           phone: profileInfo?.phone ?? '',
           birthDate: birthDate,

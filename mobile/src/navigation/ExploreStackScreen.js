@@ -2,13 +2,12 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ExploreScreen} from '../screens/ExploreScreen/ExploreScreen';
 import {DestinationsCatalog} from '../screens/DestinationsCatalogScreen/DestinationsCatalog';
 import {AdventuresCatalog} from '../screens/AdventuresCatalogScreen/AdventuresCatalog';
-import {AdventureScreen} from '../screens/AdventureScreen/AdventureScreen';
 import React from 'react';
 import {HotelsCatalogByDestination} from '../screens/HotelsCatalogByDestinations/HotelsCatalogByDestination';
 import {HotelsCatalog} from '../screens/HotelsCatalogScreen/HotelsCatalog';
-import {HotelScreen} from '../screens/HotelScreen/HotelScreen';
 import {AdventureStackScreen} from './AdventureStackScreen';
 import {HotelStackScreen} from './HotelStackScreen';
+import {GuideScreen} from '../screens/GuideScreen/GuideScreen';
 
 const ExploreStack = createNativeStackNavigator();
 
@@ -69,6 +68,16 @@ export function ExploreStackScreen() {
         }}
         name="HotelScreen"
         component={HotelStackScreen}
+      />
+      <ExploreStack.Screen
+        options={{
+          headerTransparent: true,
+          headerShadowVisible: false,
+          headerBackTitle: '',
+          headerTitle: '',
+        }}
+        name="GuideScreen"
+        component={GuideScreen}
       />
     </ExploreStack.Navigator>
   );

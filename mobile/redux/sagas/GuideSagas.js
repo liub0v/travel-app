@@ -1,5 +1,10 @@
 import {call, put, select, takeEvery} from 'redux-saga/effects';
-import {ADD_GUIDE, DELETE_GUIDE, GET_GUIDES} from '../types/GuideTypes';
+import {
+  ADD_GUIDE,
+  DELETE_GUIDE,
+  GET_GUIDES,
+  UPDATE_GUIDE,
+} from '../types/GuideTypes';
 import {showMessage} from 'react-native-flash-message';
 import {
   addGuideCompleted,
@@ -10,6 +15,8 @@ import {
   setGuidesError,
   setGuidesStarted,
   setHasMoreGuides,
+  updateGuideCompleted,
+  updateGuideStarted,
 } from '../actions/GuideActions';
 import {userAPI} from '../../src/api/userAPI';
 import {tokenSelector} from '../selectors/UserSelector';
@@ -19,6 +26,7 @@ export const guideSagas = [
   takeEvery(GET_GUIDES, getGuidesSaga),
   takeEvery(ADD_GUIDE, addGuideSaga),
   takeEvery(DELETE_GUIDE, deleteGuideSaga),
+  takeEvery(UPDATE_GUIDE, updateGuideSaga),
 ];
 
 function* getGuidesSaga(action) {
@@ -57,6 +65,24 @@ function* addGuideSaga(action) {
     yield put(setGuidesError(error));
     yield call(showMessage, {
       message: error.response?.data,
+      type: 'error',
+    });
+  }
+}
+function* updateGuideSaga(action) {
+  try {
+    const guideData = action.payload;
+    const token = yield select(tokenSelector);
+    yield put(updateGuideStarted(true));
+    const response = yield call(userAPI.updateUser, token, guideData);
+    const guide = response.data;
+    yield put(updateGuideCompleted(guide));
+    yield put(updateGuideStarted(false));
+  } catch (error) {
+    yield put(updateGuideStarted(false));
+    yield put(setGuidesError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }

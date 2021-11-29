@@ -27,7 +27,7 @@ export const Guide = ({item}) => {
   const profileInfo = useSelector(guideProfileInfoSelector);
   const userInfo = useSelector(guideInfoSelector);
   const goGuideProfile = () => {
-    navigation.navigate('GuideProfileScreen', {profileInfo, userInfo});
+    navigation.navigate('GuideScreen', {profileInfo, userInfo});
   };
   return (
     <TouchableWithoutFeedback onPress={goGuideProfile}>

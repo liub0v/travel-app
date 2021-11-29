@@ -7,6 +7,8 @@ import {
   SET_GUIDES_ERROR,
   SET_GUIDES_STARTED,
   SET_HAS_MORE_GUIDES,
+  UPDATE_GUIDE_COMPLETED,
+  UPDATE_GUIDE_STARTED,
 } from '../types/GuideTypes';
 
 const initialState = {
@@ -16,6 +18,10 @@ const initialState = {
   hasMore: true,
   addLoading: false,
   deleteLoading: false,
+  update: {
+    isLoading: false,
+    error: undefined,
+  },
 };
 export const guideReducer = (state = initialState, {type, payload}) => {
   switch (type) {
@@ -48,6 +54,19 @@ export const guideReducer = (state = initialState, {type, payload}) => {
           ...state.guides.filter(guide => guide?.userID?._id !== payload),
         ],
       };
+    case UPDATE_GUIDE_STARTED:
+      return {...state, update: {...state.update, isLoading: payload}};
+    case UPDATE_GUIDE_COMPLETED: {
+      const guideIndex = state.guides.findIndex(guide => {
+        return guide._id === payload._id;
+      });
+      const guidesCopy = [...state.guides];
+      guidesCopy[guideIndex] = payload;
+      return {
+        ...state,
+        guides: [...guidesCopy],
+      };
+    }
     default:
       return state;
   }

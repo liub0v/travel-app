@@ -6,6 +6,8 @@ export const WhiteText = styled.TextInput`
   font-size: 14px;
   font-family: ${fonts.normal};
   color: ${colors.white};
+  padding-top: 12px;
+  padding-bottom: 12px;
 `;
 export const InfoItem = styled.View`
   flex-direction: column;
@@ -17,7 +19,7 @@ export const InfoItem = styled.View`
   margin-left: 12px;
 `;
 export const ButtonWrapper = styled.View`
-  padding-top: 24px;
+  margin-top: 24px;
   margin-bottom: 24px;
 `;
 export const BoldWhiteText = styled.TextInput`

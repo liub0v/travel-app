@@ -4,8 +4,9 @@ import {GuidesScreen} from '../screens/GuidesScreen/GuidesScreen';
 import {ProfileScreen} from '../../screens/ProfileScreen/ProfileScreen';
 import {AddGuideScreen} from '../screens/AddGuideScreen/AddGuideScreen';
 import {EditButton} from '../../navigation/TabNavigation';
-import {EditProfileScreen} from '../../screens/EditProfileScreen/EditProfileScreen';
 import {useNavigation} from '@react-navigation/native';
+import {EditGuideScreen} from '../screens/EditGuideScreen/EditGuideScreen';
+import {GuideScreen} from '../../screens/GuideScreen/GuideScreen';
 const GuidesStack = createNativeStackNavigator();
 
 export function GuidesStackScreen() {
@@ -29,29 +30,29 @@ export function GuidesStackScreen() {
         name="AddGuideScreen"
         component={AddGuideScreen}
       />
-      <GuidesStack.Screen
-        options={{
-          headerTitle: '',
-          headerBackTitle: '',
-          headerRight: props => (
-            <EditButton
-              handler={() => {
-                navigation.navigate('EditGuideProfileScreen');
-              }}
-            />
-          ),
-        }}
-        name="GuideProfileScreen"
-        component={ProfileScreen}
-      />
       <GuidesStack.Screen name="ProfileScreen" component={ProfileScreen} />
       <GuidesStack.Screen
         options={{
           headerTitle: 'EditProfile',
           headerBackTitle: '',
         }}
-        name="EditGuideProfileScreen"
-        component={EditProfileScreen}
+        name="EditGuideScreen"
+        component={EditGuideScreen}
+      />
+      <GuidesStack.Screen
+        options={({route}) => ({
+          headerTitle: '',
+          headerBackTitle: '',
+          headerRight: props => (
+            <EditButton
+              handler={() => {
+                navigation.navigate('EditGuideScreen', {route});
+              }}
+            />
+          ),
+        })}
+        name="GuideScreen"
+        component={GuideScreen}
       />
     </GuidesStack.Navigator>
   );

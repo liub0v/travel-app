@@ -97,9 +97,9 @@ async function updateUser(
 ) {
   const formData = new FormData();
   formData.append('userID', userID);
-  formData.append('firstName', firstName);
-  formData.append('lastName', lastName);
-  formData.append('username', username);
+  firstName && formData.append('firstName', firstName);
+  lastName && formData.append('lastName', lastName);
+  username && formData.append('username', username);
   image?.uri &&
     image?.type &&
     image?.fileName &&
@@ -108,9 +108,9 @@ async function updateUser(
       type: image.type,
       uri: image.uri,
     });
-  formData.append('phone', phone);
-  formData.append('birthDate', birthDate.toString());
-  formData.append('address', address);
+  phone && formData.append('phone', phone);
+  birthDate && formData.append('birthDate', birthDate.toString());
+  address && formData.append('address', address);
 
   return await instance.put('/users/profileInfo', formData, {
     headers: {

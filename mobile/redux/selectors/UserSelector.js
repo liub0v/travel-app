@@ -46,3 +46,11 @@ export const isOnboardingSelector = createSelector(
   authSelector,
   item => item.user?.isOnBoarding,
 );
+export const deleteUserIsLoadingSelector = createSelector(
+  authSelector,
+  item => item.delete.isLoading,
+);
+export const updateUserIsLoadingSelector = createSelector(
+  authSelector,
+  item => item.update.isLoading,
+);

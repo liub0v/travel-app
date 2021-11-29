@@ -10,6 +10,9 @@ import {
   SET_GUIDES_ERROR,
   SET_GUIDES_STARTED,
   SET_HAS_MORE_GUIDES,
+  UPDATE_GUIDE,
+  UPDATE_GUIDE_COMPLETED,
+  UPDATE_GUIDE_STARTED,
 } from '../types/GuideTypes';
 
 export const setGuidesCompleted = guides => {
@@ -77,5 +80,24 @@ export const deleteGuideCompleted = userID => {
   return {
     type: DELETE_GUIDE_COMPLETED,
     payload: userID,
+  };
+};
+
+export const updateGuide = guideData => {
+  return {
+    type: UPDATE_GUIDE,
+    payload: guideData,
+  };
+};
+export const updateGuideStarted = isLoading => {
+  return {
+    type: UPDATE_GUIDE_STARTED,
+    payload: isLoading,
+  };
+};
+export const updateGuideCompleted = guide => {
+  return {
+    type: UPDATE_GUIDE_COMPLETED,
+    payload: guide,
   };
 };
