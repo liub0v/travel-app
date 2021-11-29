@@ -12,7 +12,11 @@ export const roleSelector = createSelector(
 
 export const profileInfoSelector = createSelector(
   userSelector,
-  user => user.profileInfo,
+  user => user?.profileInfo,
+);
+export const userInfoSelector = createSelector(
+  userSelector,
+  user => user?.userID,
 );
 export const savedHotelsSelector = createSelector(
   userSelector,

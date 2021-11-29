@@ -28,9 +28,7 @@ export const GuidesScreen = () => {
   const goAddGuideScreen = () => {
     navigation.navigate('AddGuideScreen');
   };
-  const goGuideProfile = guide => {
-    navigation.navigate('ProfileScreen', {user: guide});
-  };
+
   return (
     <View style={{flex: 1}}>
       {isLoading ? (
@@ -59,9 +57,7 @@ export const GuidesScreen = () => {
             onEndReached={() => {
               hasMore && setPage(page + 1);
             }}
-            renderItem={({item}) => (
-              <Guide item={item} handler={goGuideProfile} />
-            )}
+            renderItem={({item}) => <Guide item={item} />}
             keyExtractor={item => item._id}
           />
         </>

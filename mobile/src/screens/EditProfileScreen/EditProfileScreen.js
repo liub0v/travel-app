@@ -5,7 +5,7 @@ import DatePicker from 'react-native-date-picker';
 import {useRoute} from '@react-navigation/native';
 import {deleteGuideLoaderSelector} from '../../../redux/selectors/GuideSelectors';
 import {dateParser} from '../../services/dataParser';
-import {deleteUser, logOutUser} from '../../../redux/actions/AuthActions';
+import {deleteUser, updateUser} from '../../../redux/actions/AuthActions';
 import {deleteGuide} from '../../../redux/actions/GuideActions';
 import {
   Avatar,
@@ -21,7 +21,9 @@ import {
   ButtonWrapper,
   InfoItem,
   WhiteText,
-} from './EditProfileScreen,style';
+} from './EditProfileScreen.style';
+import {TouchableWithoutFeedback} from 'react-native';
+import {launchImageLibrary} from 'react-native-image-picker';
 export const EditProfileScreen = () => {
   const route = useRoute();
   const user = route.params.user;
@@ -33,8 +35,27 @@ export const EditProfileScreen = () => {
   const dispatch = useDispatch();
   const deleteIsLoading = useSelector(deleteGuideLoaderSelector);
 
-  function updateAccountHandler(args) {
-    console.log(args);
+  function updateAccountHandler({
+    name,
+    username,
+    phone,
+    birthDate,
+    address,
+    image,
+  }) {
+    const [firstName, lastName] = name.split(' ');
+    dispatch(
+      updateUser({
+        userID: user?.userID._id,
+        firstName,
+        lastName,
+        username,
+        phone,
+        birthDate,
+        address,
+        image,
+      }),
+    );
   }
   function deleteAccountHandler() {
     const userRole = user?.userID?.role;
@@ -54,7 +75,14 @@ export const EditProfileScreen = () => {
       }
     }
   }
-
+  const selectFile = async setFieldValue => {
+    const res = await launchImageLibrary({
+      maxHeight: 200,
+      maxWidth: 200,
+      mediaType: 'photo',
+    });
+    setFieldValue('image', res?.assets?.[0]);
+  };
   return (
     <Container
       showsVerticalScrollIndicator={false}
@@ -68,12 +96,17 @@ export const EditProfileScreen = () => {
           phone: profileInfo?.phone ?? '',
           birthDate: birthDate,
           address: profileInfo?.address ?? '',
+          image: profileInfo?.imageURL,
         }}
-        onSubmit={values => console.log(values)}>
+        onSubmit={values => updateAccountHandler(values)}>
         {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
           <>
             <MainInfo>
-              <Avatar source={{uri: profileInfo?.imageURL}} />
+              <TouchableWithoutFeedback
+                onPress={() => selectFile(setFieldValue)}>
+                <Avatar source={{uri: values.image?.uri || values.image}} />
+              </TouchableWithoutFeedback>
+
               <BoldWhiteText
                 placeholder="Enter name"
                 placeholderTextColor={colors.grey}

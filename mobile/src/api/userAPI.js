@@ -23,6 +23,7 @@ async function singUpGuide(username, email, password) {
 async function getGuides(page = 1, limit = 8) {
   return await instance.get('/users/guides', {params: {page, limit}});
 }
+
 async function getUserByToken(token) {
   return await instance.get('/users/me', {
     headers: {'x-auth-token': token},
@@ -48,6 +49,7 @@ async function saveHotel(hotelID, token) {
     },
   );
 }
+
 async function deleteSavedHotel(hotelID, token) {
   return await instance.delete('/users/savedHotel', {
     headers: {'x-auth-token': token},
@@ -71,13 +73,54 @@ async function deleteSavedAdventure(adventureID, token) {
     data: {adventureID},
   });
 }
+
 async function deleteUser(token, userID) {
-  console.log(token, userID);
   return await instance.delete('/users', {
     headers: {'x-auth-token': token},
     data: {userID},
   });
 }
+
+async function updateUser(
+  token,
+  {
+    userID,
+    firstName,
+    lastName,
+    username,
+    email,
+    phone,
+    birthDate,
+    address,
+    image,
+  },
+) {
+  const formData = new FormData();
+  formData.append('userID', userID);
+  formData.append('firstName', firstName);
+  formData.append('lastName', lastName);
+  formData.append('username', username);
+  image?.uri &&
+    image?.type &&
+    image?.fileName &&
+    formData.append('image', {
+      name: image.fileName,
+      type: image.type,
+      uri: image.uri,
+    });
+  formData.append('phone', phone);
+  formData.append('birthDate', birthDate.toString());
+  formData.append('address', address);
+
+  return await instance.put('/users/profileInfo', formData, {
+    headers: {
+      'x-auth-token': token,
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+}
+
 export const userAPI = {
   logInUser,
   getUserByToken,
@@ -90,4 +133,5 @@ export const userAPI = {
   getGuides,
   singUpGuide,
   deleteUser,
+  updateUser,
 };

@@ -17,6 +17,9 @@ import {
   SET_USER,
   SET_USER_TOKEN,
   SING_UP_USER,
+  UPDATE_USER,
+  UPDATE_USER_COMPLETED,
+  UPDATE_USER_STARTED,
 } from '../types/AuthTypes';
 
 export const logInUser = user => {
@@ -127,5 +130,26 @@ export const deleteUserCompleted = userID => {
   return {
     type: DELETE_USER_COMPLETED,
     payload: userID,
+  };
+};
+
+export const updateUserStarted = isLoading => {
+  return {
+    type: UPDATE_USER_STARTED,
+    payload: isLoading,
+  };
+};
+
+export const updateUser = userData => {
+  return {
+    type: UPDATE_USER,
+    payload: userData,
+  };
+};
+
+export const updateUserCompleted = user => {
+  return {
+    type: UPDATE_USER_COMPLETED,
+    payload: user,
   };
 };

@@ -45,6 +45,7 @@ export const AdventureForm: React.FC<Props> = ({
     });
     setImage(res?.assets?.[0]);
   };
+
   const goGuideList = () => {
     setModalVisible(true);
   };

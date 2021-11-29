@@ -9,6 +9,8 @@ import {
   setSignUpIsLoading,
   setUser,
   setUserToken,
+  updateUserCompleted,
+  updateUserStarted,
 } from '../actions/AuthActions';
 import {tokenSelector} from '../selectors/UserSelector';
 import {
@@ -16,6 +18,7 @@ import {
   LOG_IN_USER,
   SAVE_PROFILE_ONBOARDING,
   SING_UP_USER,
+  UPDATE_USER,
 } from '../types/AuthTypes';
 import {showMessage} from 'react-native-flash-message';
 import {userAPI} from '../../src/api/userAPI';
@@ -25,6 +28,7 @@ export const authSagas = [
   takeEvery(SING_UP_USER, singUpUserSaga),
   takeEvery(SAVE_PROFILE_ONBOARDING, saveProfileOnboarding),
   takeEvery(DELETE_USER, deleteUserSaga),
+  takeEvery(UPDATE_USER, updateUserSaga),
 ];
 
 function* logInUserSaga(action) {
@@ -102,6 +106,24 @@ function* deleteUserSaga(action) {
     yield put(deleteUserStarted(false));
     yield call(showMessage, {
       message: error.response?.data,
+      type: 'error',
+    });
+  }
+}
+
+function* updateUserSaga(action) {
+  try {
+    const userData = action.payload;
+    const token = yield select(tokenSelector);
+    yield put(updateUserStarted(true));
+    const response = yield call(userAPI.updateUser, token, userData);
+    const user = response.data;
+    yield put(updateUserCompleted(user));
+    yield put(updateUserStarted(false));
+  } catch (error) {
+    yield put(updateUserStarted(false));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }

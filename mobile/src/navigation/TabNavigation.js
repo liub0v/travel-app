@@ -10,7 +10,6 @@ import {getPopularHotels} from '../../redux/actions/HotelActions';
 
 import {InboxScreen} from '../screens/InboxScreen/InboxScreen';
 import {TripsScreen} from '../screens/TripsScreen/TripsScreen';
-import {ProfileScreen} from '../screens/ProfileScreen/ProfileScreen';
 import {ExploreStackScreen} from './ExploreStackScreen';
 import {SavedStackScreen} from './SavedStackScreen';
 
@@ -25,20 +24,23 @@ import inboxActiveIcon from '../../assets/images/inboxActiveIcon.png';
 import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
-import {userSelector} from '../../redux/selectors/UserSelector';
+import {
+  profileInfoSelector,
+  userInfoSelector,
+  userSelector,
+} from '../../redux/selectors/UserSelector';
 import {ProfileStackScreen} from './ProfileStackScreen';
 
 const Tab = createBottomTabNavigator();
 
-const EditButton = ({handler}) => {
+export const EditButton = ({handler}) => {
   return (
     <TouchableWithoutFeedback onPress={handler}>
       <View
         style={{
-          flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          marginRight: 20,
+          marginRight: 0,
           width: 20,
         }}>
         <Image source={editIcon} />
@@ -61,6 +63,8 @@ export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
+  const profileInfo = useSelector(profileInfoSelector);
+  const userInfo = useSelector(userInfoSelector);
 
   const goEditProfileScreen = () => {
     navigation.navigate('EditProfileScreen', {user});
@@ -159,7 +163,7 @@ export const TabNavigation = () => {
         }}
         name="Profile"
         component={ProfileStackScreen}
-        initialParams={{user: user}}
+        initialParams={{profileInfo, userInfo}}
       />
     </Tab.Navigator>
   );

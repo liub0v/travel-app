@@ -12,6 +12,8 @@ import {
   SET_SAVED_HOTEL,
   SET_SAVED_ADVENTURE,
   DELETE_USER_STARTED,
+  UPDATE_USER_STARTED,
+  UPDATE_USER_COMPLETED,
 } from '../types/AuthTypes';
 import {REMOVE_SAVED_HOTEL} from '../types/HotelTypes';
 import {REMOVE_SAVED_ADVENTURE} from '../types/AdventureTypes';
@@ -32,6 +34,10 @@ const initialState = {
     error: undefined,
   },
   delete: {
+    isLoading: false,
+    error: undefined,
+  },
+  update: {
     isLoading: false,
     error: undefined,
   },
@@ -148,11 +154,26 @@ export const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         delete: {
           ...state.delete,
-          error: undefined,
           isLoading: payload,
         },
       };
-
+    case UPDATE_USER_STARTED:
+      return {
+        ...state,
+        update: {
+          ...state.delete,
+          isLoading: payload,
+        },
+      };
+    case UPDATE_USER_COMPLETED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          userID: payload.userID,
+          profileInfo: payload.profileInfo,
+        },
+      };
     default:
       return state;
   }

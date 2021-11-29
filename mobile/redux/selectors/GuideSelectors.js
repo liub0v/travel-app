@@ -24,6 +24,18 @@ export const deleteGuideLoaderSelector = createSelector(
 );
 export const getGuideSelector = guideID => {
   return createSelector(guidesSelector, guides =>
-    guides?.find(guide => guide.userID === guideID),
+    guides?.find(guide => guide.userID._id === guideID),
   );
+};
+export const getGuideProfileInfoSelector = guideID => {
+  return createSelector(guidesSelector, guides => {
+    const guide = guides?.find(guide => guide.userID._id === guideID);
+    return guide?.profileInfo;
+  });
+};
+export const getGuideInfoSelector = guideID => {
+  return createSelector(guidesSelector, guides => {
+    const guide = guides?.find(guide => guide.userID._id === guideID);
+    return guide?.userID;
+  });
 };

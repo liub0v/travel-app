@@ -107,6 +107,9 @@ router.put("/profileInfo", async (req, res) => {
   // let user = await User.findOne({ email: req.body.email });
   if (!user) return res.status(404).send("User doesn't exist");
 
+  user.username = req.body?.username || user.username;
+  await user.save();
+
   switch (user.role) {
     case "client": {
       user = await Client.findOne({
@@ -129,17 +132,19 @@ router.put("/profileInfo", async (req, res) => {
 
   const imageURL = image && (await uploadToCloud(image, "avatars"));
 
+  const birthDate = req.body?.birthDate && new Date(req.body?.birthDate);
   user.profileInfo.firstName =
     req.body?.firstName || user.profileInfo.firstName;
   user.profileInfo.lastName = req.body?.lastName || user.profileInfo.lastName;
   user.profileInfo.phone = req.body?.phone || user.profileInfo.phone;
-  user.profileInfo.birthDate =
-    req.body?.birthDate || user.profileInfo.birthDate;
+  user.profileInfo.birthDate = birthDate || user.profileInfo.birthDate;
   user.profileInfo.address = req.body?.address || user.profileInfo.address;
   user.profileInfo.imageURL = imageURL || user.profileInfo.imageURL;
   await user.save();
-  res.send(user.profileInfo);
+  await user.populate("userID");
+  res.send(user);
 });
+
 router.post("/admin", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
@@ -250,7 +255,7 @@ router.delete("/", auth, async (req, res) => {
       break;
     case "admin":
       user = await Admin.deleteOne({ userID: user._id });
-      if (!user) return res.status(400).send("User isn't a guide");
+      if (!user) return res.status(400).send("User isn't a admin");
 
       break;
   }
