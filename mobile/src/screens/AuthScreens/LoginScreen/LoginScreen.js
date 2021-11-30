@@ -26,6 +26,7 @@ import {
   SingupWrapper,
   HeaderWrapper,
   FieldsContainer,
+  ButtonWrapper,
 } from './LoginScreen.style';
 
 export const LoginScreen = ({navigation}) => {
@@ -92,11 +93,13 @@ export const LoginScreen = ({navigation}) => {
               <LeftPosition>
                 <NormalText>Forgot password?</NormalText>
               </LeftPosition>
-              <ButtonItem
-                isLoading={isLoading}
-                title={'Log in'}
-                handler={handleSubmit}
-              />
+              <ButtonWrapper>
+                <ButtonItem
+                  isLoading={isLoading}
+                  title={'Log in'}
+                  handler={handleSubmit}
+                />
+              </ButtonWrapper>
             </>
           )}
         </Formik>

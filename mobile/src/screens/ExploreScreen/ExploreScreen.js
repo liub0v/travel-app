@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Image, TouchableWithoutFeedback, View} from 'react-native';
 
 import {useSelector} from 'react-redux';
@@ -37,30 +37,35 @@ const Category = ({image, title, passHandler = () => {}}) => {
 };
 
 export const ExploreScreen = ({navigation}) => {
+  const [adventuresY, setAdventuresY] = useState(0);
+  const [hotelsY, setHotelsY] = useState(0);
+  const [destinationsY, setDestinationsY] = useState(0);
   const goAdventureCatalog = () => {
     navigation.navigate('DestinationsCatalog');
   };
-  const [adventureX, setAdventureX] = useState(0);
   const goHotelsCatalog = () => {
     navigation.navigate('HotelsCatalogByDestination');
   };
+  const goGuidesCatalog = () => {
+    navigation.navigate('GuidesCatalogScreen');
+  };
   const scrollRef = useRef();
-  const adventuresRef = useRef(null);
 
-  useEffect(() => {
-    adventuresRef.current?.measure((width, height, px, py, fx, fy) => {
-      setAdventureX(fy);
-      console.log(width);
-      console.log(height);
-      console.log(py);
-      console.log(fy);
-    });
-    console.log(adventureX);
-  }, []);
-
-  const onPressTouch = () => {
+  const goToAdventureSection = () => {
     scrollRef.current?.scrollTo({
-      y: adventureX,
+      y: adventuresY,
+      animated: true,
+    });
+  };
+  const goToHotelSection = () => {
+    scrollRef.current?.scrollTo({
+      y: hotelsY,
+      animated: true,
+    });
+  };
+  const goToDestinationSection = () => {
+    scrollRef.current?.scrollTo({
+      y: destinationsY,
       animated: true,
     });
   };
@@ -81,47 +86,55 @@ export const ExploreScreen = ({navigation}) => {
       <CategoriesContainer>
         <Category
           image={hotelsIcon}
-          passHandler={goHotelsCatalog}
+          passHandler={goToHotelSection}
           title={'Hotels'}
         />
         <Category
           image={destinationsIcon}
           title={'Destinations'}
-          passHandler={goAdventureCatalog}
+          passHandler={goToDestinationSection}
         />
         <Category
           image={adventuresIcon}
           title={'Adventures'}
-          passHandler={goAdventureCatalog}
+          // passHandler={goAdventureCatalog}
+          passHandler={goToAdventureSection}
         />
         <Category
           image={guidesIcon}
-          title={'Giudes'}
-          passHandler={onPressTouch}
+          title={'Guides'}
+          passHandler={goGuidesCatalog}
         />
       </CategoriesContainer>
-      <Section
-        title={'Popular destination'}
-        isHorizontal={true}
-        data={destinations}
-        renderItem={Destination}
-        showRightButton={false}
-      />
-      <Section
-        ref={adventuresRef}
-        title={'Adventures'}
-        isHorizontal={true}
-        data={adventures}
-        renderItem={({item}) => (
-          <Adventure item={item} navigation={navigation} />
-        )}
-        passHandler={goAdventureCatalog}
-      />
-      <View style={{width: '100%', flex: 1}}>
+      <View onLayout={event => setDestinationsY(event.nativeEvent.layout.y)}>
+        <Section
+          title={'Popular destination'}
+          isHorizontal={true}
+          data={destinations}
+          renderItem={Destination}
+          showRightButton={false}
+        />
+      </View>
+
+      <View onLayout={event => setAdventuresY(event.nativeEvent.layout.y)}>
+        <Section
+          title={'Adventures'}
+          isHorizontal={true}
+          data={adventures}
+          renderItem={({item}) => (
+            <Adventure item={item} navigation={navigation} />
+          )}
+          passHandler={goAdventureCatalog}
+        />
+      </View>
+
+      <View
+        style={{width: '100%', flex: 1}}
+        onLayout={event => setHotelsY(event.nativeEvent.layout.y)}>
         <SectionHeader
           passHandler={goHotelsCatalog}
           title={'Hotel Best deals'}
-          showRightButton={false}
+          showRightButton={true}
         />
         <HotelContainer>
           {hotels?.map(item => (

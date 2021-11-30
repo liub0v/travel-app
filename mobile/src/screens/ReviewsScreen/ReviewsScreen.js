@@ -1,8 +1,10 @@
 import React from 'react';
 import {View} from 'react-native';
 import {CommentInput} from '../../components/CommentInput/CommentInput';
+import {useRoute} from '@react-navigation/native';
 
-export const ReviewsScreen = ({route}) => {
+export const ReviewsScreen = () => {
+  const route = useRoute();
   const comments = route.params?.comments;
   const commentSelector = route.params?.commentSelector;
   const onSubmit = route.params?.onSubmit;

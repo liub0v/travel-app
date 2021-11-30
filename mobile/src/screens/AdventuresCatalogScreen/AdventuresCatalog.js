@@ -24,7 +24,8 @@ export const AdventuresCatalog = ({navigation, route}) => {
   const isLoading = useSelector(isLoadingAdventureSelector);
   const hasMore = useSelector(hasMoreAdventuresSelector);
   useEffect(() => {
-    dispatch(getAdventuresByDestination({page, limit: 8, destination}));
+    hasMore &&
+      dispatch(getAdventuresByDestination({page, limit: 8, destination}));
   }, [page]);
 
   return (

@@ -8,6 +8,7 @@ import {HotelsCatalog} from '../screens/HotelsCatalogScreen/HotelsCatalog';
 import {AdventureStackScreen} from './AdventureStackScreen';
 import {HotelStackScreen} from './HotelStackScreen';
 import {GuideScreen} from '../screens/GuideScreen/GuideScreen';
+import {GuidesCatalogScreen} from '../screens/GuidesCatalogScreen/GuidesCatalogScreen';
 
 const ExploreStack = createNativeStackNavigator();
 
@@ -49,35 +50,22 @@ export function ExploreStackScreen() {
         name="HotelsCatalog"
         component={HotelsCatalog}
       />
+      {HotelStackScreen(ExploreStack)}
+      {AdventureStackScreen(ExploreStack)}
       <ExploreStack.Screen
         options={{
-          headerTransparent: true,
-          headerShadowVisible: false,
-          headerTitle: '',
-          headerBackTitle: '',
-        }}
-        name="AdventureScreen"
-        component={AdventureStackScreen}
-      />
-      <ExploreStack.Screen
-        options={{
-          headerTransparent: true,
-          headerShadowVisible: false,
-          headerBackTitle: '',
-          headerTitle: '',
-        }}
-        name="HotelScreen"
-        component={HotelStackScreen}
-      />
-      <ExploreStack.Screen
-        options={{
-          headerTransparent: true,
-          headerShadowVisible: false,
           headerBackTitle: '',
           headerTitle: '',
         }}
         name="GuideScreen"
         component={GuideScreen}
+      />
+      <ExploreStack.Screen
+        options={{
+          headerTitle: 'Guides',
+        }}
+        name="GuidesCatalogScreen"
+        component={GuidesCatalogScreen}
       />
     </ExploreStack.Navigator>
   );
