@@ -60,7 +60,7 @@ export const HotelScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const savedHotels = useSelector(savedHotelsSelector);
-  const commentSelector = getHotelReviewsSelector(hotel._id);
+  const reviewsSelector = route.params.reviewsSelector;
   const token = useSelector(tokenSelector);
   const role = useSelector(roleSelector);
   const like = savedHotels?.filter(item => item._id === hotel._id).length > 0;
@@ -119,7 +119,7 @@ export const HotelScreen = () => {
             onPress={() => {
               navigation.navigate('ReviewsScreen', {
                 comments: hotel?.reviews,
-                commentSelector: commentSelector,
+                commentSelector: reviewsSelector,
                 onSubmit: saveReview,
               });
             }}>

@@ -22,11 +22,14 @@ import {
 } from './EditProfileScreen.style';
 import {TouchableWithoutFeedback} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {deleteUserIsLoadingSelector} from '../../../redux/selectors/UserSelector';
+import {
+  deleteUserIsLoadingSelector,
+  profileInfoSelector,
+  userInfoSelector,
+} from '../../../redux/selectors/UserSelector';
 export const EditProfileScreen = () => {
-  const route = useRoute().params.route;
-  const profileInfo = route.params?.profileInfo;
-  const userInfo = route.params?.userInfo;
+  const profileInfo = useSelector(profileInfoSelector);
+  const userInfo = useSelector(userInfoSelector);
   let initBirthDateString = dateParser(profileInfo?.birthDate);
   const [birthDate, setBirthDate] = useState(new Date(initBirthDateString));
   const [birthDateString, setBirthDateString] = useState(initBirthDateString);

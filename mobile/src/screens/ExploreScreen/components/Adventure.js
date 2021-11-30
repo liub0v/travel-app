@@ -8,12 +8,22 @@ import {
   AdventureTitleWrapper,
 } from './Adventure.style';
 import {TouchableWithoutFeedback} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {getPopularHotelReviewsSelector} from '../../../../redux/selectors/HotelSelectors';
+import {getPopularAdventureReviewsSelector} from '../../../../redux/selectors/AdventureSelectors';
 
-export const Adventure = ({item, navigation}) => {
+export const Adventure = ({item}) => {
+  const navigation = useNavigation();
+  const popularAdventureReviewsSelector = getPopularAdventureReviewsSelector(
+    item._id,
+  );
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        navigation.navigate('AdventureScreen', {adventure: item});
+        navigation.navigate('AdventureScreen', {
+          adventure: item,
+          reviewsSelector: popularAdventureReviewsSelector,
+        });
       }}>
       <AdventureItem>
         <AdventureImage source={{uri: item.imageURL}} />

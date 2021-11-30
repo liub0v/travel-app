@@ -1,4 +1,6 @@
 import {createSelector} from 'reselect';
+import {popularHotelsSelector} from './HotelSelectors';
+import {popularAdventuresSelector} from './AdventureSelectors';
 
 const authSelector = state => state.auth;
 
@@ -54,3 +56,16 @@ export const updateUserIsLoadingSelector = createSelector(
   authSelector,
   item => item.update.isLoading,
 );
+export const getSavedHotelReviewsSelector = hotelID => {
+  return createSelector(
+    savedHotelsSelector,
+    hotels => hotels.find(hotel => hotel._id === hotelID).reviews,
+  );
+};
+export const getSavedAdventureReviewsSelector = adventureID => {
+  return createSelector(
+    popularAdventuresSelector,
+    adventures =>
+      adventures.find(adventure => adventure._id === adventureID).reviews,
+  );
+};

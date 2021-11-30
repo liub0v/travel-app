@@ -126,6 +126,10 @@ export const AdventureForm: React.FC<Props> = ({
                     backgroundColor: colors.white,
                     textColor: colors.screenBackground,
                   }}
+                  size={{
+                    height: 50,
+                    width: 90,
+                  }}
                 />
               </ButtonWrapper>
               <Modal

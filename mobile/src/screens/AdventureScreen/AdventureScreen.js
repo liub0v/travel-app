@@ -94,7 +94,7 @@ export const Criterion = ({title = 'criterion', value = 100}) => {
 export const AdventureScreen = () => {
   const route = useRoute();
   const adventure = route.params.adventure;
-  const commentSelector = getAdventureReviewsSelector(adventure._id);
+  const reviewsSelector = route.params.reviewsSelector;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const token = useSelector(tokenSelector);
@@ -176,7 +176,7 @@ export const AdventureScreen = () => {
         <SectionHeader showRightButton={false} title={'Rating'} />
         <GeneralRatingWrapper>
           <GeneralRatingTitle>
-            {adventure?.rating?.generalRating.toFixed(1)}
+            {adventure?.rating?.generalRating?.toFixed(1)}
           </GeneralRatingTitle>
           <Stars starsNumber={adventure?.rating?.starsNumber} />
         </GeneralRatingWrapper>
@@ -198,7 +198,7 @@ export const AdventureScreen = () => {
           passHandler={() => {
             navigation.navigate('ReviewsScreen', {
               comments: adventure?.reviews,
-              commentSelector: commentSelector,
+              commentSelector: reviewsSelector,
               onSubmit: saveReview,
               showCriterionRating: true,
             });

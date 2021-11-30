@@ -1,7 +1,11 @@
 import React from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {logOutIsLoadingSelector} from '../../../redux/selectors/UserSelector';
+import {
+  logOutIsLoadingSelector,
+  profileInfoSelector,
+  userInfoSelector,
+} from '../../../redux/selectors/UserSelector';
 import {logOutUser} from '../../../redux/actions/AuthActions';
 
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
@@ -15,8 +19,8 @@ import {ProfileForm} from '../../components/ProfileForm/ProfileForm';
 export const ProfileScreen = () => {
   const dispatch = useDispatch();
   const route = useRoute();
-  const userInfo = route.params.userInfo;
-  const profileInfo = route.params.profileInfo;
+  const profileInfo = useSelector(profileInfoSelector);
+  const userInfo = useSelector(userInfoSelector);
   const role = userInfo?.role;
   const isLoading = useSelector(logOutIsLoadingSelector);
   function logOutButtonHandler() {

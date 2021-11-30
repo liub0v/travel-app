@@ -30,7 +30,6 @@ export function GuidesStackScreen() {
         name="AddGuideScreen"
         component={AddGuideScreen}
       />
-      <GuidesStack.Screen name="ProfileScreen" component={ProfileScreen} />
       <GuidesStack.Screen
         options={{
           headerTitle: 'EditProfile',

@@ -5,7 +5,7 @@ import {
   getValidationStyles,
   singUpValidationSchema,
 } from '../../../services/validation';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {GreyText} from '../../../screens/ProfileScreen/Profile.style';
 import {
@@ -41,7 +41,7 @@ export const GuideForm: React.FC<Props> = ({submitHandler, isLoading}) => {
           touched,
           isValid,
         }) => (
-          <>
+          <View style={{width: '100%'}}>
             <InfoItem>
               <GreyText styte={{color: colors.white}}>{'Username'}</GreyText>
               <WhiteText
@@ -120,7 +120,7 @@ export const GuideForm: React.FC<Props> = ({submitHandler, isLoading}) => {
                 handler={handleSubmit}
               />
             </ButtonWrapper>
-          </>
+          </View>
         )}
       </Formik>
     </FieldsContainer>

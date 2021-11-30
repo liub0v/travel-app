@@ -8,9 +8,7 @@ import {EditButton} from './TabNavigation';
 const ProfileStack = createNativeStackNavigator();
 
 export function ProfileStackScreen() {
-  const route = useRoute();
   const navigation = useNavigation();
-  const {userInfo, profileInfo} = route.params;
   return (
     <ProfileStack.Navigator initialRouteName="ProfileScreen">
       <ProfileStack.Screen
@@ -18,14 +16,13 @@ export function ProfileStackScreen() {
           headerRight: props => (
             <EditButton
               handler={() => {
-                navigation.navigate('EditProfileScreen', {});
+                navigation.navigate('EditProfileScreen');
               }}
             />
           ),
         }}
         name="ProfileScreen"
         component={ProfileScreen}
-        initialParams={{userInfo, profileInfo}}
       />
       <ProfileStack.Screen
         options={{

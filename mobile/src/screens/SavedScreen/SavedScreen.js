@@ -15,7 +15,6 @@ import {HotelContainer} from './SavedScreen.style';
 export const SavedScreen = ({navigation}) => {
   const hotels = useSelector(savedHotelsSelector);
   const adventures = useSelector(savedAdventuresSelector);
-
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -28,7 +27,7 @@ export const SavedScreen = ({navigation}) => {
           data={adventures}
           showRightButton={false}
           renderItem={({item}) => (
-            <Adventure item={item} navigation={navigation} />
+            <Adventure type={'saved'} key={item._id} item={item} />
           )}
         />
       )}
@@ -37,7 +36,7 @@ export const SavedScreen = ({navigation}) => {
           <SectionHeader title={'Hotels'} showRightButton={false} />
           <HotelContainer>
             {hotels.map(item => (
-              <Hotel item={item} key={item._id} navigation={navigation} />
+              <Hotel item={item} type={'saved'} key={item._id} />
             ))}
           </HotelContainer>
         </View>

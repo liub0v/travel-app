@@ -1,17 +1,16 @@
 import React, {useEffect} from 'react';
 import {View, Image, TouchableWithoutFeedback} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {useNavigation} from '@react-navigation/native';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {getPopularDestinations} from '../../redux/actions/DestinationActions';
 import {getPopularAdventures} from '../../redux/actions/AdventureActions';
 import {getPopularHotels} from '../../redux/actions/HotelActions';
 
-import {InboxScreen} from '../screens/InboxScreen/InboxScreen';
 import {TripsScreen} from '../screens/TripsScreen/TripsScreen';
 import {ExploreStackScreen} from './ExploreStackScreen';
 import {SavedStackScreen} from './SavedStackScreen';
+import {ProfileStackScreen} from './ProfileStackScreen';
 
 import exploreIcon from '../../assets/images/exploreIcon.png';
 import exploreActiveIcon from '../../assets/images/exploreActiveIcon.png';
@@ -19,17 +18,9 @@ import profileIcon from '../../assets/images/profileIcon.png';
 import profileActiveIcon from '../../assets/images/profileActiveIcon.png';
 import savedIcon from '../../assets/images/savedIcon.png';
 import savedActiveIcon from '../../assets/images/savedActiveIcon.png';
-import inboxIcon from '../../assets/images/inboxIcon.png';
-import inboxActiveIcon from '../../assets/images/inboxActiveIcon.png';
 import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
-import {
-  profileInfoSelector,
-  userInfoSelector,
-  userSelector,
-} from '../../redux/selectors/UserSelector';
-import {ProfileStackScreen} from './ProfileStackScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -60,15 +51,7 @@ const TabBarIcon = ({focused, icon, activeIcon}) => {
   );
 };
 export const TabNavigation = () => {
-  const navigation = useNavigation();
   const dispatch = useDispatch();
-  const user = useSelector(userSelector);
-  const profileInfo = useSelector(profileInfoSelector);
-  const userInfo = useSelector(userInfoSelector);
-
-  const goEditProfileScreen = () => {
-    navigation.navigate('EditProfileScreen', {user});
-  };
 
   useEffect(() => {
     dispatch(getPopularDestinations());
@@ -142,28 +125,14 @@ export const TabNavigation = () => {
           tabBarIcon: ({focused}) => (
             <TabBarIcon
               focused={focused}
-              icon={inboxIcon}
-              activeIcon={inboxActiveIcon}
-            />
-          ),
-        }}
-        name="Inbox"
-        component={InboxScreen}
-      />
-      <Tab.Screen
-        options={{
-          tabBarIcon: ({focused}) => (
-            <TabBarIcon
-              focused={focused}
               icon={profileIcon}
               activeIcon={profileActiveIcon}
             />
           ),
-          headerRight: props => <EditButton handler={goEditProfileScreen} />,
+          headerShown: false,
         }}
         name="Profile"
         component={ProfileStackScreen}
-        initialParams={{profileInfo, userInfo}}
       />
     </Tab.Navigator>
   );

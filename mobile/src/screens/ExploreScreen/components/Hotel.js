@@ -15,14 +15,37 @@ import {
 
 import star from '../../../../assets/images/start.png';
 import {useNavigation} from '@react-navigation/native';
+import {getPopularHotelReviewsSelector} from '../../../../redux/selectors/HotelSelectors';
+import {getSavedHotelReviewsSelector} from '../../../../redux/selectors/UserSelector';
 
-export const Hotel = ({item}) => {
+export const Hotel = ({item, type = 'popular'}) => {
   const navigation = useNavigation();
+  const goHotelScreen = () => {
+    switch (type) {
+      case 'popular': {
+        const popularHotelReviewsSelector = getPopularHotelReviewsSelector(
+          item._id,
+        );
+        navigation.navigate('HotelScreen', {
+          hotel: item,
+          reviewsSelector: popularHotelReviewsSelector,
+        });
+        break;
+      }
+      case 'saved': {
+        const savedHotelReviewsSelector = getSavedHotelReviewsSelector(
+          item._id,
+        );
+        navigation.navigate('HotelScreen', {
+          hotel: item,
+          reviewsSelector: savedHotelReviewsSelector,
+        });
+        break;
+      }
+    }
+  };
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        navigation.navigate('HotelScreen', {hotel: item});
-      }}>
+    <TouchableWithoutFeedback onPress={goHotelScreen}>
       <HotelItem>
         <HotelImage source={{uri: item.imageURL}} />
         <HotelInfoWrapper>

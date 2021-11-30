@@ -6,6 +6,10 @@ const Joi = require("joi");
 const { Guide } = require("../models/guide");
 const { Client } = require("../models/client");
 const { Admin } = require("../models/admin");
+const {
+  populateSavedAdventuresObj,
+  populateSavedHotelsObj,
+} = require("../utils/populateObjects");
 if (!config.get("JWT_PRIVATE_KEY")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
   process.exit(1);
@@ -33,6 +37,8 @@ router.post("/", async (req, res) => {
       user = await Client.findOne({ userID: user._id })
         .populate("savedHotels")
         .populate("savedAdventures")
+        .populate(populateSavedHotelsObj)
+        .populate(populateSavedAdventuresObj)
         .populate("userID");
       if (!user) return res.status(400).send("User isn't a client");
       break;
