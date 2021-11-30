@@ -65,7 +65,7 @@ export const DestinationsCatalog = ({navigation}) => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   useEffect(() => {
-    dispatch(getDestinations({page: page, limit: 8}));
+    hasMore && dispatch(getDestinations({page: page, limit: 8}));
   }, [page]);
   return (
     <MainContainer>
@@ -86,7 +86,6 @@ export const DestinationsCatalog = ({navigation}) => {
             <Destination item={item} navigation={navigation} />
           )}
           keyExtractor={item => item._id}
-          ListFooterComponent={hasMore ? Loader : Footer}
         />
       </FlatListWrapper>
     </MainContainer>

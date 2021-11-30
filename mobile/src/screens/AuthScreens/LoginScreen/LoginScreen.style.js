@@ -21,9 +21,12 @@ export const SocialNetworksLoginContainer = styled.View`
 `;
 export const FieldsContainer = styled.View`
   flex: 4;
+  width: 100%;
+  align-items: center;
 `;
 export const SingupWrapper = styled.View`
   flex: 2;
+  width: 100%;
 `;
 export const SocialNetworkWrapper = styled.View`
   flex: 1;
@@ -43,14 +46,13 @@ export const InputItem = styled.TextInput`
   background-color: ${colors.white};
   border-radius: 16px;
   height: 50px;
-  width: 300px;
+  width: 80%;
   font-family: ${fonts.normal};
   font-size: 16px;
   line-height: 20px;
   color: rgba(3, 25, 37, 0.5);
   padding-left: 5%;
-  margin-bottom: 2%;
-  margin-top: 5%;
+  margin-top: 24px;
 `;
 
 export const NormalText = styled.Text`
@@ -61,9 +63,16 @@ export const NormalText = styled.Text`
 
 export const LeftPosition = styled.View`
   flex-direction: row;
+  width: 80%;
   justify-content: flex-end;
+  margin-top: 12px;
 `;
 export const CenterPosition = styled.View`
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 12px;
+`;
+export const ButtonWrapper = styled.View`
+  margin-top: 24px;
+  width: 100%;
 `;

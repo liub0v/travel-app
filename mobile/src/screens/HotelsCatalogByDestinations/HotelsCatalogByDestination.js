@@ -12,7 +12,6 @@ import {
 } from './HotelsCatalogByDestination.style';
 import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {hotelsSelector} from '../../../redux/selectors/HotelSelectors';
 import {
   destinationsSelector,
   hasMoreDestinationsSelector,
@@ -58,7 +57,7 @@ export const HotelsCatalogByDestination = ({navigation}) => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   useEffect(() => {
-    dispatch(getDestinations({page: page, limit: 8}));
+    hasMore && dispatch(getDestinations({page: page, limit: 8}));
   }, [page]);
   return (
     <MainContainer>

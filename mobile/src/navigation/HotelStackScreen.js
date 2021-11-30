@@ -1,5 +1,4 @@
 import React from 'react';
-import {ReviewsScreen} from '../screens/ReviewsScreen/ReviewsScreen';
 import {HotelScreen} from '../screens/HotelScreen/HotelScreen';
 import EditHotelScreen from '../admin/screens/EditHotelScreen/EditHotelScreen';
 import {EditGalleryScreen} from '../admin/screens/EditGalleryScreen/EditGalleryScreen';
@@ -18,16 +17,6 @@ export function HotelStackScreen(Stack) {
     />,
     <Stack.Screen
       options={{
-        // headerShown: false,
-        headerTitle: 'Reviews',
-        headerBackTitle: '',
-      }}
-      name="ReviewsScreen"
-      component={ReviewsScreen}
-    />,
-    <Stack.Screen
-      options={{
-        // headerShown: false,
         headerTransparent: true,
         headerShadowVisible: false,
         headerBackTitle: '',
@@ -38,7 +27,6 @@ export function HotelStackScreen(Stack) {
     />,
     <Stack.Screen
       options={{
-        // headerShown: false,
         headerTransparent: true,
         headerShadowVisible: false,
         headerBackTitle: '',
@@ -49,7 +37,6 @@ export function HotelStackScreen(Stack) {
     />,
     <Stack.Screen
       options={{
-        // headerShown: false,
         headerBackTitle: '',
         headerTitle: 'Gallery',
       }}

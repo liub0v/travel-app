@@ -16,6 +16,7 @@ import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {LoginButton, LoginText} from '../StartScreen/StartPage.style';
 import {LoginWrapper} from './SingupScreen.style';
 import {
+  ButtonWrapper,
   CenterPosition,
   FieldsContainer,
   HeaderText,
@@ -119,12 +120,14 @@ export const SingUpScreen = ({navigation}) => {
               {errors.confirmPassword && touched.confirmPassword && (
                 <Text style={{color: 'red'}}> {errors.confirmPassword}</Text>
               )}
-              <ButtonItem
-                disabled={!isValid}
-                isLoading={isLoading}
-                title={'Sign up'}
-                handler={handleSubmit}
-              />
+              <ButtonWrapper>
+                <ButtonItem
+                  disabled={!isValid}
+                  isLoading={isLoading}
+                  title={'Sign up'}
+                  handler={handleSubmit}
+                />
+              </ButtonWrapper>
             </>
           )}
         </Formik>

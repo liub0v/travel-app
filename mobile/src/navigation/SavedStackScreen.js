@@ -16,25 +16,9 @@ export function SavedStackScreen() {
         name="Saved"
         component={SavedScreen}
       />
-      <SavedStack.Screen
-        options={{
-          headerTransparent: true,
-          headerShadowVisible: false,
-          headerTitle: '',
-        }}
-        name="AdventureScreen"
-        component={AdventureStackScreen}
-      />
-      <SavedStack.Screen
-        options={{
-          headerTransparent: true,
-          headerShadowVisible: false,
-          headerBackTitle: '',
-          headerTitle: '',
-        }}
-        name="HotelScreen"
-        component={HotelStackScreen}
-      />
+
+      {HotelStackScreen(SavedStack)}
+      {AdventureStackScreen(SavedStack)}
     </SavedStack.Navigator>
   );
 }
