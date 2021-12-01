@@ -52,6 +52,7 @@ router.put("/", async (req, res) => {
     }
   }
   destination.imageURL = imageURL ?? destination.imageURL;
+  destination.countryName = req.body.countryName ?? destination.countryName;
   await destination.save();
   res.send(destination);
 });

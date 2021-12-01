@@ -31,7 +31,7 @@ export const Section = ({
   isHorizontal = false,
   data,
   renderItem,
-  showRightButton = true,
+  showRightButton = false,
 }) => {
   const rowContainerStyle = {
     marginTop: 20,

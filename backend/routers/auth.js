@@ -42,7 +42,6 @@ router.post("/", async (req, res) => {
       break;
   }
 
-  console.log("common", { ...userRole._doc, ...user._doc });
   res.header("x-auth-token", token).send({ ...user._doc, ...userRole._doc });
 });
 function validate(req) {

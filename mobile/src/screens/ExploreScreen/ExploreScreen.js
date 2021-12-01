@@ -55,19 +55,20 @@ export const ExploreScreen = () => {
         isHorizontal={true}
         data={destinations}
         renderItem={Destination}
-        showRightButton={false}
       />
       <Section
         title={'Adventures'}
         isHorizontal={true}
         data={adventures}
         renderItem={Adventure}
+        showRightButton
       />
       <Section
         title={'Hotel Best deals'}
         isHorizontal={false}
         data={hotels}
         renderItem={Hotel}
+        showRightButton
       />
     </MainContainer>
   );

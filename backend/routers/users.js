@@ -55,13 +55,13 @@ router.put("/profileInfo", async (req, res) => {
 
   const imageURL = image && (await uploadToCloud(image, "avatars"));
   user.profileInfo.firstName =
-    req.body?.firstname || user.profileInfo.firstName;
-  user.profileInfo.lastName = req.body?.lastName || user.profileInfo.lastName;
-  user.profileInfo.phone = req.body?.phone || user.profileInfo.phone;
+    req.body?.firstname ?? user.profileInfo.firstName;
+  user.profileInfo.lastName = req.body?.lastName ?? user.profileInfo.lastName;
+  user.profileInfo.phone = req.body?.phone ?? user.profileInfo.phone;
   user.profileInfo.birthDate =
-    req.body?.birthDate || user.profileInfo.birthDate;
-  user.profileInfo.address = req.body?.address || user.profileInfo.address;
-  user.profileInfo.imageURL = imageURL || user.profileInfo.imageURL;
+    req.body?.birthDate ?? user.profileInfo.birthDate;
+  user.profileInfo.address = req.body?.address ?? user.profileInfo.address;
+  user.profileInfo.imageURL = imageURL ?? user.profileInfo.imageURL;
   await user.save();
   res.send(user.profileInfo);
 });
