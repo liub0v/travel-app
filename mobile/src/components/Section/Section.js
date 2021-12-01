@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList, Image, TouchableWithoutFeedback, View} from 'react-native';
-
+import PropTypes from 'prop-types';
+import arrow from '../../../assets/images/arrowButton.png';
 import {
   SectionContainer,
   SectionHeaderButton,
@@ -9,23 +10,29 @@ import {
   SectionHeaderWrapper,
 } from './Section.style';
 
-import arrow from '../../../assets/images/arrowButton.png';
-
-const SectionHeader = ({title}) => {
+const SectionHeader = ({title = 'Section', showRightButton}) => {
   return (
     <SectionHeaderWrapper>
       <SectionHeaderTitleWrapper>
         <SectionHeaderTitle>{title}</SectionHeaderTitle>
       </SectionHeaderTitleWrapper>
-      <SectionHeaderButton>
-        <TouchableWithoutFeedback onPress={() => {}}>
-          <Image source={arrow} />
-        </TouchableWithoutFeedback>
-      </SectionHeaderButton>
+      {showRightButton && (
+        <SectionHeaderButton>
+          <TouchableWithoutFeedback onPress={() => {}}>
+            <Image source={arrow} />
+          </TouchableWithoutFeedback>
+        </SectionHeaderButton>
+      )}
     </SectionHeaderWrapper>
   );
 };
-export const Section = ({title, isHorizontal = false, data, renderItem}) => {
+export const Section = ({
+  title = 'Section',
+  isHorizontal = false,
+  data,
+  renderItem,
+  showRightButton = false,
+}) => {
   const rowContainerStyle = {
     marginTop: 20,
     flexDirection: 'row',
@@ -36,7 +43,7 @@ export const Section = ({title, isHorizontal = false, data, renderItem}) => {
   };
   return (
     <SectionContainer>
-      <SectionHeader title={title} />
+      <SectionHeader title={title} showRightButton={showRightButton} />
       <View style={isHorizontal ? rowContainerStyle : columnContainerStyle}>
         <FlatList
           showsHorizontalScrollIndicator={false}
@@ -48,4 +55,11 @@ export const Section = ({title, isHorizontal = false, data, renderItem}) => {
       </View>
     </SectionContainer>
   );
+};
+
+Section.propTypes = {
+  title: PropTypes.string,
+  isHorizontal: PropTypes.bool,
+  data: PropTypes.array,
+  renderItem: PropTypes.elementType,
 };

@@ -1,3 +1,6 @@
 {
-
+ "DATABASE_URL" : "mongodb+srv://Liubov:fnmozw290@travelapp.xcj4z.mongodb.net/test",
+ "CLOUDINARY_CLOUD_NAME": "dbu190ejg",
+ "CLOUDINARY_API_KEY": "667222929583262",
+ "CLOUDINARY_API_SECRET": "2Oulh62_vFOWEekLKmnueO_LfbI"
 }

@@ -1,4 +1,6 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import colors from '../../../constants/colors';
+import fonts from '../../../constants/fonts';
 
 export const HotelItem = styled.View`
   flex: 1;
@@ -22,9 +24,9 @@ export const HotelInfoWrapper = styled.View`
   padding-bottom: 10px;
 `;
 export const HotelName = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 12px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 export const HotelStarsContainer = styled.View`
   flex-direction: row;
@@ -37,12 +39,13 @@ export const HotelPriceWrapper = styled.View`
   align-items: center;
 `;
 export const HotelPrice = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 16px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 export const HotelPricePeriod = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+  color: ${colors.white};
+  opacity: 0.5;
 `;

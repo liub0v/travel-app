@@ -1,43 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
-import * as Font from 'expo-font';
 import FlashMessage from 'react-native-flash-message';
 
-import {applyMiddleware, compose, createStore} from 'redux';
-import {reducers} from '../redux/reducers';
-import createSagaMiddleware from 'redux-saga';
-import {sagaWatcher} from '../redux/sagas';
 import {Provider} from 'react-redux';
-import {persistStore} from 'redux-persist';
 import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor} from '../redux/store';
 
 import {Navigation} from './navigation/Navigation';
+import {loadFonts} from './constants/fonts';
 
 console.reportErrorsAsExceptions = false;
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const sagaMiddleware = createSagaMiddleware();
-const middleware = [sagaMiddleware];
-const store = createStore(
-  reducers,
-  composeEnhancers(applyMiddleware(...middleware)),
-);
-const persistor = persistStore(store);
-sagaMiddleware.run(sagaWatcher);
-
 const App = () => {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  async function loadFonts() {
-    const fonts = await Font.loadAsync({
-      Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
-      MontserratExtraBold: require('../assets/fonts/Montserrat-ExtraBold.ttf'),
-    });
-    setFontsLoaded(true);
-  }
-
   useEffect(() => {
-    loadFonts();
-    SplashScreen.hide();
+    const bootstrapApp = async () => {
+      await loadFonts();
+      SplashScreen.hide();
+    };
+
+    bootstrapApp();
   }, []);
 
   return (

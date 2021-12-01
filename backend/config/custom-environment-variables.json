@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey" : "travelApp_jwtPrivateKey"
+  "JWT_PRIVATE_KEY" : "travelApp_jwtPrivateKey"
 }
+

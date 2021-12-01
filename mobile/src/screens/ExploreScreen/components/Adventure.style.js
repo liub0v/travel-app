@@ -1,4 +1,6 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import colors from '../../../constants/colors';
+import fonts from '../../../constants/fonts';
 
 export const AdventureItem = styled.View`
   margin-right: 10px;
@@ -12,12 +14,13 @@ export const AdventureImage = styled.Image`
 export const AdventureTitleWrapper = styled.View``;
 export const AdventureName = styled.Text`
   width: 140px;
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 14px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 export const AdventureLocation = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5); ;
+  color: ${colors.white};
+  opacity: 0.5;
 `;

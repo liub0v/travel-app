@@ -1,4 +1,6 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
+import colors from '../../constants/colors';
+import fonts from '../../constants/fonts';
 
 export const SectionContainer = styled.View`
   margin-top: 20px;
@@ -15,13 +17,13 @@ export const SectionHeaderButton = styled.View`
 `;
 
 export const SectionHeaderTitleWrapper = styled.View`
-  background-color: #219653;
+  background-color: ${colors.green};
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
 `;
 export const SectionHeaderTitle = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 16px;
-  color: white;
+  color: ${colors.white};
   padding: 7px 16px 7px 24px;
 `;

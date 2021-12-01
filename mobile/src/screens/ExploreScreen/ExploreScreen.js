@@ -1,25 +1,24 @@
 import React from 'react';
 import {Image, TouchableWithoutFeedback} from 'react-native';
-
-import {adventures, destinations, hotels} from '../../api/mock';
-
+import {useSelector} from 'react-redux';
+import {destinationsSelector} from '../../../redux/selectors/DestinationSelector';
+import {adventuresSelector} from '../../../redux/selectors/AdventureSelectors';
+import {hotelsSelector} from '../../../redux/selectors/HotelSelectors';
 import {Section} from '../../components/Section/Section';
 import {Destination} from './components/Destination';
 import {Adventure} from './components/Adventure';
 import {Hotel} from './components/Hotel';
 import {Preview} from './components/Preview';
-
 import {
   CategoriesContainer,
   CategoryTitle,
   CategoryItem,
   MainContainer,
 } from './ExploreScreen.style';
-
 import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
-import giudesIcon from '../../../assets/images/GiudesIcon.png';
+import guidesIcon from '../../../assets/images/GiudesIcon.png';
 
 const Category = ({image, title}) => {
   return (
@@ -33,6 +32,9 @@ const Category = ({image, title}) => {
 };
 
 export const ExploreScreen = () => {
+  const destinations = useSelector(destinationsSelector);
+  const adventures = useSelector(adventuresSelector);
+  const hotels = useSelector(hotelsSelector);
   return (
     <MainContainer
       showsVerticalScrollIndicator={false}
@@ -46,7 +48,7 @@ export const ExploreScreen = () => {
         <Category image={hotelsIcon} title={'Hotels'} />
         <Category image={destinationsIcon} title={'Destinations'} />
         <Category image={adventuresIcon} title={'Adventures'} />
-        <Category image={giudesIcon} title={'Giudes'} />
+        <Category image={guidesIcon} title={'Giudes'} />
       </CategoriesContainer>
       <Section
         title={'Popular destination'}
@@ -59,8 +61,15 @@ export const ExploreScreen = () => {
         isHorizontal
         data={adventures}
         renderItem={Adventure}
+        showRightButton
       />
-      <Section title={'Hotel Best deals'} data={hotels} renderItem={Hotel} />
+      <Section
+        title={'Hotel Best deals'}
+        isHorizontal={false}
+        data={hotels}
+        renderItem={Hotel}
+        showRightButton
+      />
     </MainContainer>
   );
 };

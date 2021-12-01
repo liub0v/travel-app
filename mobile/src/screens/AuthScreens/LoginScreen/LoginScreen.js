@@ -1,21 +1,18 @@
 import React from 'react';
-import {ScrollView, Text} from 'react-native';
 import {Formik} from 'formik';
-
+import {ScrollView, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {logInUser} from '../../../../redux/actions/AuthActions';
 import {
   logInErrorSelector,
   logInIsLoadingSelector,
-} from '../../../../redux/selectors/userSelector';
+} from '../../../../redux/selectors/UserSelector';
 
+import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {
   getValidationStyles,
   logInValidationSchema,
 } from '../../../services/validation';
-
-import {ButtonItem} from '../../../components/Buttons/ButtonItem';
-
 import {
   SocialNetworksLoginContainer,
   CenterPosition,
@@ -29,11 +26,11 @@ import {
   HeaderWrapper,
   FieldsContainer,
 } from './LoginScreen.style';
+import colors from '../../../constants/colors';
 
 export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(logInIsLoadingSelector);
-  const error = useSelector(logInErrorSelector);
   const loginButtonHandler = ({email, password}) => {
     dispatch(logInUser({email, password}));
   };
@@ -69,7 +66,6 @@ export const LoginScreen = ({navigation}) => {
             values,
             errors,
             touched,
-            isValid,
           }) => (
             <>
               <InputItem
@@ -80,7 +76,7 @@ export const LoginScreen = ({navigation}) => {
                 style={getValidationStyles(errors.email, touched.email)}
               />
               {errors.email && touched.email && (
-                <Text style={{color: 'red'}}> {errors.email}</Text>
+                <Text style={{color: colors.red}}> {errors.email}</Text>
               )}
               <InputItem
                 onChangeText={handleChange('password')}
@@ -91,7 +87,7 @@ export const LoginScreen = ({navigation}) => {
                 style={getValidationStyles(errors.password, touched.password)}
               />
               {errors.password && touched.password && (
-                <Text style={{color: 'red'}}> {errors.password}</Text>
+                <Text style={{color: colors.red}}> {errors.password}</Text>
               )}
               <LeftPosition>
                 <NormalText>Forgot password?</NormalText>

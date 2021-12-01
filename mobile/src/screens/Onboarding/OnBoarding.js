@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
 import {Image, TouchableWithoutFeedback, View} from 'react-native';
-
 import {useDispatch} from 'react-redux';
-import {putIsOnboarding} from '../../../redux/actions/AuthActions';
-
+import {saveProfileOnboarding} from '../../../redux/actions/AuthActions';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {FirstPage} from './FirstPage';
 import {SecondPage} from './SecondPage';
 import {ThirdPage} from './ThirdPage';
-
+import {CenterPosition} from '../AuthScreens/LoginScreen/LoginScreen.style';
 import {
   Arrow,
   OnboardingBackground,
@@ -16,8 +14,6 @@ import {
   Point,
   PointContainer,
 } from './OnBoarding.style';
-import {CenterPosition} from '../AuthScreens/LoginScreen/LoginScreen.style';
-
 import arrowImage from '../../../assets/images/arrowButton.png';
 
 export const OnBoarding = ({navigation}) => {
@@ -28,9 +24,8 @@ export const OnBoarding = ({navigation}) => {
     if (page > 2) setPage(1);
   };
   const buttonHandler = () => {
-    dispatch(putIsOnboarding(false));
+    dispatch(saveProfileOnboarding(false));
     // navigation.navigate('Explore');
-    // setPage(1);
   };
   const component = () => {
     switch (page) {

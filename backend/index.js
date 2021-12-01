@@ -2,19 +2,40 @@ const mongoose = require("mongoose");
 const express = require("express");
 const auth = require("./routers/auth");
 const users = require("./routers/users");
-
+const config = require("config");
+const destinations = require("./routers/destinations");
+const adventures = require("./routers/adventures");
+const hotels = require("./routers/hotels");
+const formData = require("express-form-data");
+const os = require("os");
 const app = express();
 
 mongoose
-  .connect("mongodb+srv://Liubov:fnmozw290@travelapp.xcj4z.mongodb.net/test")
-  // .connect("mongodb://localhost/travelApp")
+  .connect(config.get("DATABASE_URL"))
   .then(() => console.log("Connected to MongoDB..."))
   .catch((error) => console.error(error.message));
+const options = {
+  uploadDir: os.tmpdir(),
+  autoClean: true,
+};
+
+// parse data with connect-multiparty.
+app.use(formData.parse(options));
+// delete from the request all empty files (size == 0)
+app.use(formData.format());
+// change the file objects to fs.ReadStream
+app.use(formData.stream());
+// union the body and the files
+app.use(formData.union());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 app.use("/api/auth", auth);
 app.use("/api/users", users);
+app.use("/api/destinations", destinations);
+app.use("/api/adventures", adventures);
+app.use("/api/hotels", hotels);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

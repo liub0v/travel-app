@@ -1,6 +1,7 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
 import {Animated} from 'react-native';
-
+import colors from '../../../constants/colors';
+import fonts from '../../../constants/fonts';
 export const Container = styled.ImageBackground`
   width: 100%;
   height: 430px;
@@ -20,7 +21,7 @@ export const PointContainer = styled.View`
   align-items: center;
 `;
 export const BookingButton = styled.View`
-  background-color: #2d9cdb;
+  background-color: ${colors.blue};
   width: 160px;
   height: 40px;
   justify-content: center;
@@ -28,19 +29,20 @@ export const BookingButton = styled.View`
   border-radius: 16px;
 `;
 export const BookingButtonTitle = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 12px;
-  color: white;
+  color: ${colors.white};
 `;
 export const Title = styled.Text`
-  font-family: MontserratExtraBold;
+  font-family: ${fonts.bold};
   font-size: 28px;
-  color: #ffffff;
+  color: ${colors.white};
 `;
 export const Description = styled.Text`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.5);
+  color: ${colors.white};
+  opacity: 0.5;
 `;
 export const TextWrapper = styled.View`
   width: 80%;
@@ -56,9 +58,10 @@ export const SearchBarWrapper = styled(Animated.View)`
   align-items: center;
 `;
 export const SearchBarInput = styled.TextInput`
-  font-family: Montserrat;
+  font-family: ${fonts.normal};
   font-size: 14px;
-  color: rgba(3, 25, 37, 0.5);
+  color: ${colors.screenBackground};
+  opacity: 0.5;
   height: 40px;
-  padding-left: 0px;
+  padding-left: 0;
 `;

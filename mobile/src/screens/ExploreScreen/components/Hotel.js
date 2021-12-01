@@ -17,16 +17,16 @@ import star from '../../../../assets/images/start.png';
 export const Hotel = ({item}) => {
   return (
     <HotelItem>
-      <HotelImage source={item.image} />
+      <HotelImage source={{uri: item.imageURL}} />
       <HotelInfoWrapper>
-        <HotelName>{`${item.name} ${item.rating}*`}</HotelName>
+        <HotelName>{`${item.name} ${item?.rating}*`}</HotelName>
         <HotelStarsContainer>
-          {[...Array(item.startsNumber)].map((item, index) => {
+          {[...Array(item.starsNumber)].map((item, index) => {
             return <HotelStar key={index} source={star} />;
           })}
         </HotelStarsContainer>
         <HotelPriceWrapper>
-          <HotelPrice>{`$ ${item.pricePerNight} / `}</HotelPrice>
+          <HotelPrice>{`$ ${item.price} / `}</HotelPrice>
           <HotelPricePeriod>{'per night'}</HotelPricePeriod>
         </HotelPriceWrapper>
       </HotelInfoWrapper>

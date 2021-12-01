@@ -10,9 +10,9 @@ import {
 export const Destination = ({item}) => {
   return (
     <DestinationItem>
-      <DestinationImage source={item.image}></DestinationImage>
+      <DestinationImage source={{uri: item.imageURL}} />
       <DestinationTitleWrapper>
-        <DestinationTitle>{item.title}</DestinationTitle>
+        <DestinationTitle>{item.countryName}</DestinationTitle>
       </DestinationTitleWrapper>
     </DestinationItem>
   );

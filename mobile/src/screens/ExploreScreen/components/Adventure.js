@@ -11,10 +11,10 @@ import {
 export const Adventure = ({item}) => {
   return (
     <AdventureItem>
-      <AdventureImage source={item.image}></AdventureImage>
+      <AdventureImage source={{uri: item.imageURL}}></AdventureImage>
       <AdventureTitleWrapper>
         <AdventureName>{item.name}</AdventureName>
-        <AdventureLocation>{item.location}</AdventureLocation>
+        <AdventureLocation>{item.address}</AdventureLocation>
       </AdventureTitleWrapper>
     </AdventureItem>
   );
