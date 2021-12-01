@@ -52,13 +52,13 @@ export const ExploreScreen = () => {
       </CategoriesContainer>
       <Section
         title={'Popular destination'}
-        isHorizontal={true}
+        isHorizontal
         data={destinations}
         renderItem={Destination}
       />
       <Section
         title={'Adventures'}
-        isHorizontal={true}
+        isHorizontal
         data={adventures}
         renderItem={Adventure}
         showRightButton

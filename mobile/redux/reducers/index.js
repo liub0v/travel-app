@@ -2,6 +2,9 @@ import {authReducer} from './AuthReducer';
 const {combineReducers} = require('redux');
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
+
+import {authReducer} from './AuthReducer';
+
 import {destinationReducer} from './DestinationReducer';
 import {adventureReducer} from './AdventureReducer';
 import {hotelReducer} from './HotelReducer';
