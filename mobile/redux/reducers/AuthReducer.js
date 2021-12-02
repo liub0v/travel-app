@@ -16,7 +16,7 @@ import {
   UPDATE_USER_COMPLETED,
 } from '../types/AuthTypes';
 import {REMOVE_SAVED_HOTEL} from '../types/HotelTypes';
-import {REMOVE_SAVED_ADVENTURE} from '../types/AdventureTypes';
+import {DELETE_SAVED_ADVENTURE_COMPLETED} from '../types/AdventureTypes';
 
 const initialState = {
   user: undefined,
@@ -139,7 +139,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
           savedAdventures: [...state.user.savedAdventures, payload],
         },
       };
-    case REMOVE_SAVED_ADVENTURE:
+    case DELETE_SAVED_ADVENTURE_COMPLETED:
       return {
         ...state,
         user: {

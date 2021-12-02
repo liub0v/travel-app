@@ -3,7 +3,10 @@ import {Image, TouchableWithoutFeedback, View} from 'react-native';
 
 import {useSelector} from 'react-redux';
 import {popularDestinationsSelector} from '../../../redux/selectors/DestinationSelector';
-import {popularAdventuresSelector} from '../../../redux/selectors/AdventureSelectors';
+import {
+  popularAdventureLoaderSelector,
+  popularAdventuresSelector,
+} from '../../../redux/selectors/AdventureSelectors';
 import {popularHotelsSelector} from '../../../redux/selectors/HotelSelectors';
 
 import {Section, SectionHeader} from '../../components/Section/Section';
@@ -24,6 +27,7 @@ import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
 import {HotelContainer} from '../SavedScreen/SavedScreen.style';
+import {AdventureLoader} from '../../components/Loaders/AdventureLoader/AdventureLoader';
 
 const Category = ({image, title, passHandler = () => {}}) => {
   return (
@@ -40,6 +44,11 @@ export const ExploreScreen = ({navigation}) => {
   const [adventuresY, setAdventuresY] = useState(0);
   const [hotelsY, setHotelsY] = useState(0);
   const [destinationsY, setDestinationsY] = useState(0);
+
+  const popularAdventuresIsLoading = useSelector(
+    popularAdventureLoaderSelector,
+  );
+
   const goAdventureCatalog = () => {
     navigation.navigate('DestinationsCatalog');
   };
@@ -117,15 +126,17 @@ export const ExploreScreen = ({navigation}) => {
       </View>
 
       <View onLayout={event => setAdventuresY(event.nativeEvent.layout.y)}>
-        <Section
-          title={'Adventures'}
-          isHorizontal={true}
-          data={adventures}
-          renderItem={({item}) => (
-            <Adventure item={item} navigation={navigation} />
-          )}
-          passHandler={goAdventureCatalog}
-        />
+        {popularAdventuresIsLoading ? (
+          <AdventureLoader />
+        ) : (
+          <Section
+            title={'Adventures'}
+            isHorizontal={true}
+            data={adventures}
+            renderItem={({item}) => <Adventure item={item} />}
+            passHandler={goAdventureCatalog}
+          />
+        )}
       </View>
 
       <View

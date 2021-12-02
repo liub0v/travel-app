@@ -12,7 +12,7 @@ import {
   GET_ADVENTURES,
   GET_ADVENTURES_BY_DESTINATION,
   GET_POPULAR_ADVENTURES,
-  REMOVE_SAVED_ADVENTURE,
+  DELETE_SAVED_ADVENTURE_COMPLETED,
   SAVE_ADVENTURE,
   SET_ADVENTURES,
   SET_ADVENTURES_ERROR,
@@ -22,6 +22,7 @@ import {
   UPDATE_ADVENTURE,
   UPDATE_ADVENTURE_COMPLETED,
   UPDATE_ADVENTURE_STARTED,
+  SET_POPULAR_ADVENTURES_STARTED,
 } from '../types/AdventureTypes';
 
 export const setAdventures = adventures => {
@@ -46,6 +47,12 @@ export const setPopularAdventures = adventures => {
   return {
     type: SET_POPULAR_ADVENTURES,
     payload: adventures,
+  };
+};
+export const setPopularAdventuresStarted = isLoading => {
+  return {
+    type: SET_POPULAR_ADVENTURES_STARTED,
+    payload: isLoading,
   };
 };
 export const getPopularAdventures = () => {
@@ -84,9 +91,9 @@ export const saveAdventure = adventureID => {
     payload: adventureID,
   };
 };
-export const removeSavedAdventure = adventureID => {
+export const deleteSavedAdventureCompleted = adventureID => {
   return {
-    type: REMOVE_SAVED_ADVENTURE,
+    type: DELETE_SAVED_ADVENTURE_COMPLETED,
     payload: adventureID,
   };
 };

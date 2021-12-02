@@ -4,7 +4,7 @@ export const adventuresSelector = createSelector(
   adventureSelector,
   item => item.adventures,
 );
-
+//loading
 export const isLoadingAdventureSelector = createSelector(
   adventureSelector,
   item => item.isLoading,
@@ -21,6 +21,11 @@ export const deleteAdventureLoaderSelector = createSelector(
   adventureSelector,
   item => item.deleteLoading,
 );
+export const popularAdventureLoaderSelector = createSelector(
+  adventureSelector,
+  item => item.popularAdventuresLoading,
+);
+
 export const errorAdventureSelector = createSelector(
   adventureSelector,
   item => item.error,
@@ -33,6 +38,7 @@ export const popularAdventuresSelector = createSelector(
   adventureSelector,
   item => item.popularAdventures,
 );
+//reviews
 export const getAdventureReviewsSelector = adventureID => {
   return createSelector(
     adventuresSelector,

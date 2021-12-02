@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, Image, TouchableWithoutFeedback, View} from 'react-native';
+import {Animated, Image, TouchableWithoutFeedback, View} from 'react-native';
 import PropTypes from 'prop-types';
 
 import {
@@ -41,11 +41,11 @@ export const Section = ({
   passHandler = () => {},
 }) => {
   const rowContainerStyle = {
-    marginTop: 20,
+    marginTop: 12,
     flexDirection: 'row',
   };
   const columnContainerStyle = {
-    marginTop: 20,
+    marginTop: 12,
     flexDirection: 'column',
   };
   return (
@@ -56,7 +56,7 @@ export const Section = ({
         passHandler={passHandler}
       />
       <View style={isHorizontal ? rowContainerStyle : columnContainerStyle}>
-        <FlatList
+        <Animated.FlatList
           showsHorizontalScrollIndicator={false}
           horizontal={isHorizontal}
           data={data}

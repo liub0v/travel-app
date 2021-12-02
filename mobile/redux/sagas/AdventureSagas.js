@@ -17,13 +17,14 @@ import {
   setAdventuresError,
   setHasMoreAdventures,
   setPopularAdventures,
-  removeSavedAdventure,
+  deleteSavedAdventureCompleted,
   updateAdventureCompleted,
   updateAdventureStarted,
   addAdventureStarted,
   addAdventureCompleted,
   deleteAdventureStarted,
   deleteAdventureCompleted,
+  setPopularAdventuresStarted,
 } from '../actions/AdventureActions';
 import {tokenSelector} from '../selectors/UserSelector';
 import {userAPI} from '../../src/api/userAPI';
@@ -42,18 +43,18 @@ export const adventureSagas = [
 ];
 function* getPopularAdventuresSaga(action) {
   try {
-    // yield put(setAdventuresIsLoading(true));
+    yield put(setPopularAdventuresStarted(true));
     const response = yield call(adventureAPI.getPopularAdventures, 1, 5);
     const adventures = response.data;
     yield put(setPopularAdventures(adventures));
-    // yield put(setAdventuresIsLoading(false));
+    yield put(setPopularAdventuresStarted(false));
   } catch (error) {
-    // yield put(setAdventuresIsLoading(false));
-    // yield put(setAdventuresError(error));
-    // yield call(showMessage, {
-    //   message: error.response?.data,
-    //   type: 'error',
-    // });
+    yield put(setPopularAdventuresStarted(false));
+    yield put(setAdventuresError(error));
+    yield call(showMessage, {
+      message: error.response?.data,
+      type: 'error',
+    });
   }
 }
 function* getAdventuresSaga(action) {
@@ -129,7 +130,7 @@ function* deleteSavedAdventureSaga(action) {
       token,
     );
     console.log(response);
-    yield put(removeSavedAdventure(adventureID));
+    yield put(deleteSavedAdventureCompleted(adventureID));
     // yield put(setPopularHotels(hotels));
     // yield put(setHotelsIsLoading(false));
   } catch (error) {
