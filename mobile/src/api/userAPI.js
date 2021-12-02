@@ -50,7 +50,7 @@ async function saveHotel(hotelID, token) {
   );
 }
 
-async function deleteSavedHotel(hotelID, token) {
+async function deleteSavedHotel(token, hotelID) {
   return await instance.delete('/users/savedHotel', {
     headers: {'x-auth-token': token},
     data: {hotelID},

@@ -18,7 +18,6 @@ import {
   deleteGalleryImageCompleted,
   deleteHotelCompleted,
   deleteHotelStarted,
-  removeSavedHotel,
   setHasMoreHotels,
   setHotel,
   setHotels,
@@ -30,7 +29,11 @@ import {
 import * as RootNavigation from '../../src/navigation/RootNavigation';
 import {tokenSelector} from '../selectors/UserSelector';
 import {userAPI} from '../../src/api/userAPI';
-import {setSavedHotel} from '../actions/AuthActions';
+import {
+  deleteSavedHotelCompleted,
+  likeHotelStarted,
+  setSavedHotel,
+} from '../actions/AuthActions';
 
 export const hotelSagas = [
   takeEvery(GET_HOTELS_BY_DESTINATION, getHotelsByDestinationSaga),
@@ -101,25 +104,7 @@ function* getHotelsSaga(action) {
     });
   }
 }
-function* saveHotelSaga(action) {
-  try {
-    // yield put(setHotelsIsLoading(true));
-    const token = yield select(tokenSelector);
-    const hotelID = action.payload;
-    const response = yield call(userAPI.saveHotel, hotelID, token);
-    const hotel = response.data;
-    yield put(setSavedHotel(hotel));
-    // yield put(setPopularHotels(hotels));
-    // yield put(setHotelsIsLoading(false));
-  } catch (error) {
-    // yield put(setHotelsIsLoading(false));
-    // yield put(setHotelsError(error));
-    // yield call(showMessage, {
-    //   message: error.response?.data,
-    //   type: 'error',
-    // });
-  }
-}
+
 function* updateHotelSaga(action) {
   try {
     // yield put(setHotelsIsLoading(true));
@@ -195,22 +180,39 @@ function* updateHotelGallerySaga(action) {
     });
   }
 }
+function* saveHotelSaga(action) {
+  try {
+    yield put(likeHotelStarted(true));
+    const token = yield select(tokenSelector);
+    const hotelID = action.payload;
+    const response = yield call(userAPI.saveHotel, hotelID, token);
+    const hotel = response.data;
+    yield put(setSavedHotel(hotel));
+    yield put(likeHotelStarted(false));
+  } catch (error) {
+    yield put(likeHotelStarted(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
 function* deleteSavedHotelSaga(action) {
   try {
-    // yield put(setHotelsIsLoading(true));
+    yield put(likeHotelStarted(true));
     const token = yield select(tokenSelector);
-    const {hotelID} = action.payload;
+    const hotelID = action.payload;
     const response = yield call(userAPI.deleteSavedHotel, token, hotelID);
-    yield put(removeSavedHotel(hotelID));
-    // yield put(setPopularHotels(hotels));
-    // yield put(setHotelsIsLoading(false));
+    yield put(deleteSavedHotelCompleted(hotelID));
+    yield put(likeHotelStarted(false));
   } catch (error) {
-    // yield put(setHotelsIsLoading(false));
-    // yield put(setHotelsError(error));
-    // yield call(showMessage, {
-    //   message: error.response?.data,
-    //   type: 'error',
-    // });
+    yield put(likeHotelStarted(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
   }
 }
 function* deleteGalleryImageSaga(action) {

@@ -10,9 +10,8 @@ import {
 import {Section, SectionHeader} from '../../components/Section/Section';
 import {Hotel} from '../ExploreScreen/components/Hotel';
 import {Adventure} from '../ExploreScreen/components/Adventure';
-import {HotelContainer} from './SavedScreen.style';
 
-export const SavedScreen = ({navigation}) => {
+export const SavedScreen = () => {
   const hotels = useSelector(savedHotelsSelector);
   const adventures = useSelector(savedAdventuresSelector);
   return (
@@ -25,20 +24,15 @@ export const SavedScreen = ({navigation}) => {
           title={'Adventures'}
           isHorizontal={true}
           data={adventures}
-          showRightButton={false}
-          renderItem={({item}) => (
-            <Adventure type={'saved'} key={item._id} item={item} />
-          )}
+          renderItem={({item}) => <Adventure item={item} />}
         />
       )}
       {!!hotels.length && (
         <View>
-          <SectionHeader title={'Hotels'} showRightButton={false} />
-          <HotelContainer>
-            {hotels.map(item => (
-              <Hotel item={item} type={'saved'} key={item._id} />
-            ))}
-          </HotelContainer>
+          <SectionHeader title={'Hotels'} />
+          {hotels.map(item => (
+            <Hotel item={item} key={item._id} />
+          ))}
         </View>
       )}
     </ScrollView>

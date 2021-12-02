@@ -15,7 +15,10 @@ import {
   UPDATE_USER_STARTED,
   UPDATE_USER_COMPLETED,
 } from '../types/AuthTypes';
-import {REMOVE_SAVED_HOTEL} from '../types/HotelTypes';
+import {
+  DELETE_SAVED_HOTEL_COMPLETED,
+  LIKE_HOTEL_STARTED,
+} from '../types/HotelTypes';
 import {DELETE_SAVED_ADVENTURE_COMPLETED} from '../types/AdventureTypes';
 
 const initialState = {
@@ -41,6 +44,8 @@ const initialState = {
     isLoading: false,
     error: undefined,
   },
+  likeHotelLoading: false,
+  likeAdventureLoading: false,
 };
 export const authReducer = (state = initialState, {type, payload}) => {
   switch (type) {
@@ -121,16 +126,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
           savedHotels: [...state.user.savedHotels, payload],
         },
       };
-    case REMOVE_SAVED_HOTEL:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          savedHotels: state.user.savedHotels.filter(
-            item => item._id !== payload,
-          ),
-        },
-      };
+
     case SET_SAVED_ADVENTURE:
       return {
         ...state,
@@ -149,6 +145,18 @@ export const authReducer = (state = initialState, {type, payload}) => {
           ),
         },
       };
+    case DELETE_SAVED_HOTEL_COMPLETED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          savedHotels: state.user.savedHotels.filter(
+            item => item._id !== payload,
+          ),
+        },
+      };
+    case LIKE_HOTEL_STARTED:
+      return {...state, likeHotelLoading: payload};
     case DELETE_USER_STARTED:
       return {
         ...state,
@@ -174,6 +182,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
           profileInfo: payload.profileInfo,
         },
       };
+
     default:
       return state;
   }

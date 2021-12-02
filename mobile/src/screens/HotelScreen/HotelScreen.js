@@ -35,17 +35,17 @@ import {DynamicText} from '../AdventureScreen/AdventureScreen';
 import {Map} from '../AdventureScreen/AdventureScreen.style';
 import {Like} from '../../components/Like/Like';
 import {useDispatch, useSelector} from 'react-redux';
-import {deleteSavedHotel, saveHotel} from '../../../redux/actions/HotelActions';
 import {
+  likeHotelLoaderSelector,
   roleSelector,
   savedHotelsSelector,
   tokenSelector,
 } from '../../../redux/selectors/UserSelector';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {getHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
 import {hotelAPI} from '../../api/hotelAPI';
 import {Edit} from '../../components/Edit/Edit';
 import {HotelsOptions} from '../../services/HotelOptions';
+import {deleteSavedHotel, saveHotel} from '../../../redux/actions/AuthActions';
 const Option = ({title, icon}) => {
   return (
     <OptionWrapper>
@@ -64,6 +64,9 @@ export const HotelScreen = () => {
   const token = useSelector(tokenSelector);
   const role = useSelector(roleSelector);
   const like = savedHotels?.filter(item => item._id === hotel._id).length > 0;
+
+  const likeLoader = useSelector(likeHotelLoaderSelector);
+
   const setLikeOnHotel = () => {
     like && dispatch(deleteSavedHotel(hotel._id));
     !like && dispatch(saveHotel(hotel._id));
@@ -100,7 +103,11 @@ export const HotelScreen = () => {
           {role === 'admin' ? (
             <Edit handler={goEditScreen} />
           ) : (
-            <Like handler={setLikeOnHotel} likeInit={like} />
+            <Like
+              handler={setLikeOnHotel}
+              likeInit={like}
+              isLoading={likeLoader}
+            />
           )}
         </LikeWrapper>
         <NameContainer>

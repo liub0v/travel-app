@@ -9,7 +9,6 @@ import {
 } from './Adventure.style';
 import {TouchableWithoutFeedback} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {getPopularHotelReviewsSelector} from '../../../../redux/selectors/HotelSelectors';
 import {getPopularAdventureReviewsSelector} from '../../../../redux/selectors/AdventureSelectors';
 
 export const Adventure = ({item}) => {

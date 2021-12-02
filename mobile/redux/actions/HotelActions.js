@@ -8,12 +8,9 @@ import {
   DELETE_HOTEL,
   DELETE_HOTEL_COMPLETED,
   DELETE_HOTEL_STARTED,
-  DELETE_SAVED_HOTEL,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
   GET_POPULAR_HOTELS,
-  REMOVE_SAVED_HOTEL,
-  SAVE_HOTEL,
   SET_HAS_MORE_HOTELS,
   SET_HOTEL,
   SET_HOTELS,
@@ -114,12 +111,7 @@ export const clearHotels = () => {
     type: CLEAR_HOTELS,
   };
 };
-export const saveHotel = hotelID => {
-  return {
-    type: SAVE_HOTEL,
-    payload: hotelID,
-  };
-};
+
 export const deleteHotelStarted = isLoading => {
   return {
     type: DELETE_HOTEL_STARTED,
@@ -135,18 +127,6 @@ export const deleteHotel = hotelID => {
 export const deleteHotelCompleted = hotelID => {
   return {
     type: DELETE_HOTEL_COMPLETED,
-    payload: hotelID,
-  };
-};
-export const deleteSavedHotel = hotelID => {
-  return {
-    type: DELETE_SAVED_HOTEL,
-    payload: hotelID,
-  };
-};
-export const removeSavedHotel = hotelID => {
-  return {
-    type: REMOVE_SAVED_HOTEL,
     payload: hotelID,
   };
 };

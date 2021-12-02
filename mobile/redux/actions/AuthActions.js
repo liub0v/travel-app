@@ -21,6 +21,12 @@ import {
   UPDATE_USER_COMPLETED,
   UPDATE_USER_STARTED,
 } from '../types/AuthTypes';
+import {
+  DELETE_SAVED_HOTEL,
+  DELETE_SAVED_HOTEL_COMPLETED,
+  LIKE_HOTEL_STARTED,
+  SAVE_HOTEL,
+} from '../types/HotelTypes';
 
 export const logInUser = user => {
   return {
@@ -151,5 +157,29 @@ export const updateUserCompleted = user => {
   return {
     type: UPDATE_USER_COMPLETED,
     payload: user,
+  };
+};
+export const saveHotel = hotelID => {
+  return {
+    type: SAVE_HOTEL,
+    payload: hotelID,
+  };
+};
+export const deleteSavedHotel = hotelID => {
+  return {
+    type: DELETE_SAVED_HOTEL,
+    payload: hotelID,
+  };
+};
+export const deleteSavedHotelCompleted = hotelID => {
+  return {
+    type: DELETE_SAVED_HOTEL_COMPLETED,
+    payload: hotelID,
+  };
+};
+export const likeHotelStarted = isLoading => {
+  return {
+    type: LIKE_HOTEL_STARTED,
+    payload: isLoading,
   };
 };

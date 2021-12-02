@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect';
-import {popularHotelsSelector} from './HotelSelectors';
 import {popularAdventuresSelector} from './AdventureSelectors';
 
 const authSelector = state => state.auth;
@@ -27,6 +26,15 @@ export const savedHotelsSelector = createSelector(
 export const savedAdventuresSelector = createSelector(
   userSelector,
   user => user.savedAdventures,
+);
+
+export const likeHotelLoaderSelector = createSelector(
+  authSelector,
+  user => user.likeHotelLoading,
+);
+export const likeAdventureLoaderSelector = createSelector(
+  authSelector,
+  user => user.likeAdventureLoading,
 );
 export const logOutIsLoadingSelector = createSelector(
   authSelector,
