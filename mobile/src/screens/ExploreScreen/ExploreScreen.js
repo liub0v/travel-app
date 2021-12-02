@@ -33,7 +33,6 @@ import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
-import {HotelContainer} from '../SavedScreen/SavedScreen.style';
 import {Loader} from '../../components/Loaders/AdventureLoader/Loader';
 import {HotelLoader} from '../../components/Loaders/HotelsLoader/HotelLoader';
 import {DestinationLoader} from '../../components/Loaders/DestinationLoader/DestinationLoader';
@@ -138,7 +137,6 @@ export const ExploreScreen = ({navigation}) => {
             isHorizontal={true}
             data={destinations}
             renderItem={({item}) => <Destination item={item} key={item._id} />}
-            showRightButton={false}
           />
         )}
       </SectionWrapper>
@@ -151,6 +149,7 @@ export const ExploreScreen = ({navigation}) => {
           <Section
             title={'Adventures'}
             isHorizontal={true}
+            showRightButton
             data={adventures}
             renderItem={({item}) => <Adventure item={item} key={item._id} />}
             passHandler={goAdventureCatalog}
@@ -163,7 +162,7 @@ export const ExploreScreen = ({navigation}) => {
         <SectionHeader
           passHandler={goHotelsCatalog}
           title={'Hotel Best deals'}
-          showRightButton={true}
+          showRightButton
         />
         {popularHotelsIsLoading ? (
           <>

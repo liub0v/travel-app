@@ -28,7 +28,7 @@ import {
 } from '../actions/AdventureActions';
 import {tokenSelector} from '../selectors/UserSelector';
 import {userAPI} from '../../src/api/userAPI';
-import {setAdventureHotel} from '../actions/AuthActions';
+import {likeAdventureStarted, setAdventureHotel} from '../actions/AuthActions';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
 
 export const adventureSagas = [
@@ -101,26 +101,25 @@ function* getAdventuresSagaByDestination(action) {
 
 function* saveAdventureSaga(action) {
   try {
-    // yield put(setHotelsIsLoading(true));
+    yield put(likeAdventureStarted(true));
     const token = yield select(tokenSelector);
     const adventureID = action.payload;
     const response = yield call(userAPI.saveAdventure, adventureID, token);
     const adventure = response.data;
     yield put(setAdventureHotel(adventure));
-    // yield put(setPopularHotels(hotels));
-    // yield put(setHotelsIsLoading(false));
+    yield put(likeAdventureStarted(false));
   } catch (error) {
-    // yield put(setHotelsIsLoading(false));
-    // yield put(setHotelsError(error));
-    // yield call(showMessage, {
-    //   message: error.response?.data || error.message,
-    //   type: 'error',
-    // });
+    yield put(likeAdventureStarted(false));
+    yield put(setAdventuresError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
   }
 }
 function* deleteSavedAdventureSaga(action) {
   try {
-    // yield put(setHotelsIsLoading(true));
+    yield put(likeAdventureStarted(true));
     const token = yield select(tokenSelector);
     const adventureID = action.payload;
 
@@ -129,17 +128,15 @@ function* deleteSavedAdventureSaga(action) {
       adventureID,
       token,
     );
-    console.log(response);
     yield put(deleteSavedAdventureCompleted(adventureID));
-    // yield put(setPopularHotels(hotels));
-    // yield put(setHotelsIsLoading(false));
+    yield put(likeAdventureStarted(false));
   } catch (error) {
-    // yield put(setHotelsIsLoading(false));
-    // yield put(setHotelsError(error));
-    // yield call(showMessage, {
-    //   message: error.response?.data || error.message,
-    //   type: 'error',
-    // });
+    yield put(likeAdventureStarted(false));
+    yield put(setAdventuresError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
   }
 }
 function* updateAdventureSaga(action) {

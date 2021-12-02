@@ -19,7 +19,10 @@ import {
   DELETE_SAVED_HOTEL_COMPLETED,
   LIKE_HOTEL_STARTED,
 } from '../types/HotelTypes';
-import {DELETE_SAVED_ADVENTURE_COMPLETED} from '../types/AdventureTypes';
+import {
+  DELETE_SAVED_ADVENTURE_COMPLETED,
+  LIKE_ADVENTURE_STARTED,
+} from '../types/AdventureTypes';
 
 const initialState = {
   user: undefined,
@@ -157,6 +160,8 @@ export const authReducer = (state = initialState, {type, payload}) => {
       };
     case LIKE_HOTEL_STARTED:
       return {...state, likeHotelLoading: payload};
+    case LIKE_ADVENTURE_STARTED:
+      return {...state, likeAdventureLoading: payload};
     case DELETE_USER_STARTED:
       return {
         ...state,

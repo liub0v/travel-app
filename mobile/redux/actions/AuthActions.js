@@ -27,6 +27,7 @@ import {
   LIKE_HOTEL_STARTED,
   SAVE_HOTEL,
 } from '../types/HotelTypes';
+import {LIKE_ADVENTURE_STARTED} from '../types/AdventureTypes';
 
 export const logInUser = user => {
   return {
@@ -180,6 +181,12 @@ export const deleteSavedHotelCompleted = hotelID => {
 export const likeHotelStarted = isLoading => {
   return {
     type: LIKE_HOTEL_STARTED,
+    payload: isLoading,
+  };
+};
+export const likeAdventureStarted = isLoading => {
+  return {
+    type: LIKE_ADVENTURE_STARTED,
     payload: isLoading,
   };
 };

@@ -6,6 +6,7 @@ import {
   saveAdventure,
 } from '../../../redux/actions/AdventureActions';
 import {
+  likeAdventureLoaderSelector,
   roleSelector,
   savedAdventuresSelector,
   tokenSelector,
@@ -51,13 +52,13 @@ import {
   GuideNameTitle,
 } from './AdventureScreen.style';
 import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
-import {getAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Edit} from '../../components/Edit/Edit';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
   const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
+
   const toggleNumberOfLines = () => {
     setTextShown(!textShown);
   };
@@ -102,6 +103,7 @@ export const AdventureScreen = () => {
   const savedAdventures = useSelector(savedAdventuresSelector);
   const like =
     savedAdventures?.filter(item => item._id === adventure._id).length > 0;
+  const likeLoader = useSelector(likeAdventureLoaderSelector);
   const setLikeOnAdventure = () => {
     like && dispatch(deleteSavedAdventure(adventure._id));
     !like && dispatch(saveAdventure(adventure._id));
@@ -142,7 +144,11 @@ export const AdventureScreen = () => {
           {role === 'admin' ? (
             <Edit handler={goEditScreen} />
           ) : (
-            <Like handler={setLikeOnAdventure} likeInit={like} />
+            <Like
+              handler={setLikeOnAdventure}
+              likeInit={like}
+              isLoading={likeLoader}
+            />
           )}
         </LikeWrapper>
       </ImageContainer>

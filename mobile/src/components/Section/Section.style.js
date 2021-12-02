@@ -3,10 +3,10 @@ import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
 
 export const SectionContainer = styled.View`
-  margin-top: 24px;
   width: 100%;
 `;
 export const SectionHeaderWrapper = styled.View`
+  margin-top: 24px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

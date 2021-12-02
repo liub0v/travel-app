@@ -14,7 +14,7 @@ import arrow from '../../../assets/images/arrowButton.png';
 
 export const SectionHeader = ({
   title = 'Section',
-  showRightButton = true,
+  showRightButton = false,
   passHandler = () => {},
 }) => {
   return (
@@ -37,7 +37,7 @@ export const Section = ({
   isHorizontal = false,
   data,
   renderItem,
-  showRightButton = true,
+  showRightButton = false,
   passHandler = () => {},
 }) => {
   const rowContainerStyle = {
