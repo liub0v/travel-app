@@ -25,3 +25,7 @@ export const CategoryTitle = styled.Text`
   font-family: ${fonts.normal};
   font-size: 12px;
 `;
+export const SectionWrapper = styled.View`
+  width: 100%;
+  margin-bottom: 24px;
+`;

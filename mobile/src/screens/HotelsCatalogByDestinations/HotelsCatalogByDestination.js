@@ -10,16 +10,25 @@ import {
   NormalText,
   SearchWrapper,
 } from './HotelsCatalogByDestination.style';
-import {FlatList, TouchableWithoutFeedback} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  destinationsLoader,
   destinationsSelector,
   hasMoreDestinationsSelector,
 } from '../../../redux/selectors/DestinationSelector';
 import FastImage from 'react-native-fast-image';
-import {getDestinations} from '../../../redux/actions/DestinationActions';
+import {
+  clearDestinations,
+  getDestinations,
+} from '../../../redux/actions/DestinationActions';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {clearHotels} from '../../../redux/actions/HotelActions';
+import colors from '../../constants/colors';
 
 const Destination = ({item, navigation}) => {
   const dispatch = useDispatch();
@@ -56,30 +65,43 @@ export const HotelsCatalogByDestination = ({navigation}) => {
   const hasMore = useSelector(hasMoreDestinationsSelector);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const isLoading = useSelector(destinationsLoader);
   useEffect(() => {
     hasMore && dispatch(getDestinations({page: page, limit: 8}));
   }, [page]);
+  useEffect(() => {
+    return () => {
+      dispatch(clearDestinations());
+    };
+  }, []);
   return (
     <MainContainer>
       <SearchWrapper>
         <Search placeholder={'Where are you going?'} />
       </SearchWrapper>
-      <FlatListWrapper>
-        <FlatList
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          data={destinations}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            hasMore && setPage(page + 1);
-          }}
-          renderItem={({item}) => (
-            <Destination item={item} navigation={navigation} />
-          )}
-          keyExtractor={item => item._id}
-          // ListFooterComponent={hasMore ? Loader : Footer}
+      {isLoading ? (
+        <ActivityIndicator
+          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+          size="large"
+          color={colors.green}
         />
-      </FlatListWrapper>
+      ) : (
+        <FlatListWrapper>
+          <FlatList
+            horizontal={false}
+            showsVerticalScrollIndicator={false}
+            data={destinations}
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              hasMore && setPage(page + 1);
+            }}
+            renderItem={({item}) => (
+              <Destination item={item} navigation={navigation} />
+            )}
+            keyExtractor={item => item._id}
+          />
+        </FlatListWrapper>
+      )}
     </MainContainer>
   );
 };

@@ -1,13 +1,19 @@
 import React, {useRef, useState} from 'react';
-import {Image, TouchableWithoutFeedback, View} from 'react-native';
+import {Image, TouchableWithoutFeedback} from 'react-native';
 
 import {useSelector} from 'react-redux';
-import {popularDestinationsSelector} from '../../../redux/selectors/DestinationSelector';
 import {
-  popularAdventureLoaderSelector,
+  popularDestinationsLoaderSelector,
+  popularDestinationsSelector,
+} from '../../../redux/selectors/DestinationSelector';
+import {
+  popularAdventuresLoaderSelector,
   popularAdventuresSelector,
 } from '../../../redux/selectors/AdventureSelectors';
-import {popularHotelsSelector} from '../../../redux/selectors/HotelSelectors';
+import {
+  popularHotelsLoaderSelector,
+  popularHotelsSelector,
+} from '../../../redux/selectors/HotelSelectors';
 
 import {Section, SectionHeader} from '../../components/Section/Section';
 import {Destination} from './components/Destination';
@@ -20,6 +26,7 @@ import {
   CategoryTitle,
   CategoryItem,
   MainContainer,
+  SectionWrapper,
 } from './ExploreScreen.style';
 
 import hotelsIcon from '../../../assets/images/hotelsIcon.png';
@@ -27,7 +34,9 @@ import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
 import {HotelContainer} from '../SavedScreen/SavedScreen.style';
-import {AdventureLoader} from '../../components/Loaders/AdventureLoader/AdventureLoader';
+import {Loader} from '../../components/Loaders/AdventureLoader/Loader';
+import {HotelLoader} from '../../components/Loaders/HotelsLoader/HotelLoader';
+import {DestinationLoader} from '../../components/Loaders/DestinationLoader/DestinationLoader';
 
 const Category = ({image, title, passHandler = () => {}}) => {
   return (
@@ -46,7 +55,11 @@ export const ExploreScreen = ({navigation}) => {
   const [destinationsY, setDestinationsY] = useState(0);
 
   const popularAdventuresIsLoading = useSelector(
-    popularAdventureLoaderSelector,
+    popularAdventuresLoaderSelector,
+  );
+  const popularHotelsIsLoading = useSelector(popularHotelsLoaderSelector);
+  const popularDestinationsIsLoading = useSelector(
+    popularDestinationsLoaderSelector,
   );
 
   const goAdventureCatalog = () => {
@@ -106,7 +119,6 @@ export const ExploreScreen = ({navigation}) => {
         <Category
           image={adventuresIcon}
           title={'Adventures'}
-          // passHandler={goAdventureCatalog}
           passHandler={goToAdventureSection}
         />
         <Category
@@ -115,44 +127,58 @@ export const ExploreScreen = ({navigation}) => {
           passHandler={goGuidesCatalog}
         />
       </CategoriesContainer>
-      <View onLayout={event => setDestinationsY(event.nativeEvent.layout.y)}>
-        <Section
-          title={'Popular destination'}
-          isHorizontal={true}
-          data={destinations}
-          renderItem={Destination}
-          showRightButton={false}
-        />
-      </View>
 
-      <View onLayout={event => setAdventuresY(event.nativeEvent.layout.y)}>
+      <SectionWrapper
+        onLayout={event => setDestinationsY(event.nativeEvent.layout.y)}>
+        {popularDestinationsIsLoading ? (
+          <DestinationLoader />
+        ) : (
+          <Section
+            title={'Popular destinations'}
+            isHorizontal={true}
+            data={destinations}
+            renderItem={({item}) => <Destination item={item} key={item._id} />}
+            showRightButton={false}
+          />
+        )}
+      </SectionWrapper>
+
+      <SectionWrapper
+        onLayout={event => setAdventuresY(event.nativeEvent.layout.y)}>
         {popularAdventuresIsLoading ? (
-          <AdventureLoader />
+          <Loader />
         ) : (
           <Section
             title={'Adventures'}
             isHorizontal={true}
             data={adventures}
-            renderItem={({item}) => <Adventure item={item} />}
+            renderItem={({item}) => <Adventure item={item} key={item._id} />}
             passHandler={goAdventureCatalog}
           />
         )}
-      </View>
+      </SectionWrapper>
 
-      <View
-        style={{width: '100%', flex: 1}}
+      <SectionWrapper
         onLayout={event => setHotelsY(event.nativeEvent.layout.y)}>
         <SectionHeader
           passHandler={goHotelsCatalog}
           title={'Hotel Best deals'}
           showRightButton={true}
         />
-        <HotelContainer>
-          {hotels?.map(item => (
-            <Hotel item={item} key={item._id} navigation={navigation} />
-          ))}
-        </HotelContainer>
-      </View>
+        {popularHotelsIsLoading ? (
+          <>
+            {[{_id: 1}]?.map(item => (
+              <HotelLoader key={item._id} />
+            ))}
+          </>
+        ) : (
+          <>
+            {hotels?.map(item => (
+              <Hotel item={item} key={item._id} />
+            ))}
+          </>
+        )}
+      </SectionWrapper>
     </MainContainer>
   );
 };

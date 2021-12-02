@@ -21,7 +21,7 @@ export const deleteAdventureLoaderSelector = createSelector(
   adventureSelector,
   item => item.deleteLoading,
 );
-export const popularAdventureLoaderSelector = createSelector(
+export const popularAdventuresLoaderSelector = createSelector(
   adventureSelector,
   item => item.popularAdventuresLoading,
 );

@@ -2,6 +2,7 @@ import {
   ADD_GUIDE,
   ADD_GUIDE_COMPLETED,
   ADD_GUIDE_STARTED,
+  CLEAR_GUIDES,
   DELETE_GUIDE,
   DELETE_GUIDE_COMPLETED,
   DELETE_GUIDE_STARTED,
@@ -27,6 +28,12 @@ export const getGuides = ({page, limit}) => {
     payload: {page, limit},
   };
 };
+export const clearGuides = () => {
+  return {
+    type: CLEAR_GUIDES,
+  };
+};
+
 export const setGuidesStarted = isLoading => {
   return {
     type: SET_GUIDES_STARTED,

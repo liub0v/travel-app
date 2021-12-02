@@ -1,4 +1,5 @@
 import {
+  CLEAR_DESTINATIONS,
   GET_DESTINATIONS,
   GET_POPULAR_DESTINATIONS,
   SET_DESTINATIONS,
@@ -6,6 +7,7 @@ import {
   SET_DESTINATIONS_IS_LOADING,
   SET_HAS_MORE_DESTINATIONS,
   SET_POPULAR_DESTINATIONS,
+  SET_POPULAR_DESTINATIONS_STARTED,
 } from '../types/DestinationTypes';
 
 export const setDestinations = destinations => {
@@ -47,5 +49,16 @@ export const setPopularDestinations = popularDestinations => {
   return {
     type: SET_POPULAR_DESTINATIONS,
     payload: popularDestinations,
+  };
+};
+export const setPopularDestinationsStarted = isLoading => {
+  return {
+    type: SET_POPULAR_DESTINATIONS_STARTED,
+    payload: isLoading,
+  };
+};
+export const clearDestinations = () => {
+  return {
+    type: CLEAR_DESTINATIONS,
   };
 };

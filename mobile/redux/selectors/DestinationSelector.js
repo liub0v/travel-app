@@ -12,3 +12,11 @@ export const popularDestinationsSelector = createSelector(
   destinationSelector,
   item => item.popularDestinations,
 );
+export const popularDestinationsLoaderSelector = createSelector(
+  destinationSelector,
+  item => item.popularDestinationsLoading,
+);
+export const destinationsLoader = createSelector(
+  destinationSelector,
+  item => item.isLoading,
+);

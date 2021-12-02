@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import {
   getHotelReviewsSelector,
-  getPopularHotelReviewsSelector,
   hasMoreHotelsSelector,
   hotelsSelector,
   isLoadingHotelSelector,
@@ -16,8 +15,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getHotelsByDestination} from '../../../redux/actions/HotelActions';
 import colors from '../../constants/colors';
 import {
-  BoldText,
-  GreenText,
   InfoContainer,
   ItemContainer,
   NormalText,
@@ -107,7 +104,6 @@ export const HotelsCatalog = ({navigation, route}) => {
           }}
           renderItem={({item}) => <Hotel item={item} />}
           keyExtractor={item => item._id}
-          // ListFooterComponent={hasMore ? Loader : Footer}
         />
       )}
     </MainContainer>

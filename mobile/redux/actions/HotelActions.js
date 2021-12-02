@@ -20,6 +20,7 @@ import {
   SET_HOTELS_ERROR,
   SET_HOTELS_IS_LOADING,
   SET_POPULAR_HOTELS,
+  SET_POPULAR_HOTELS_STARTED,
   UPDATE_HOTEL,
   UPDATE_HOTEL_GALLERY,
 } from '../types/HotelTypes';
@@ -81,6 +82,12 @@ export const setPopularHotels = hotels => {
   return {
     type: SET_POPULAR_HOTELS,
     payload: hotels,
+  };
+};
+export const setPopularHotelsStarted = isLoading => {
+  return {
+    type: SET_POPULAR_HOTELS_STARTED,
+    payload: isLoading,
   };
 };
 export const setHasMoreHotels = hasMore => {

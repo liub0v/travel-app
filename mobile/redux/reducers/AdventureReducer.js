@@ -38,7 +38,7 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
       return {...state, adventures: payload};
     }
     case CLEAR_ADVENTURES:
-      return {...state, adventures: undefined};
+      return {...state, adventures: undefined, hasMore: true};
     case SET_HAS_MORE_ADVENTURES:
       return {...state, hasMore: payload};
     case SET_POPULAR_ADVENTURES:

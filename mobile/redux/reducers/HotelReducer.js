@@ -11,6 +11,7 @@ import {
   SET_HOTELS_ERROR,
   SET_HOTELS_IS_LOADING,
   SET_POPULAR_HOTELS,
+  SET_POPULAR_HOTELS_STARTED,
 } from '../types/HotelTypes';
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   error: undefined,
   hasMore: true,
   deleteHotelLoader: false,
+  popularHotelsLoader: false,
 };
 
 export const hotelReducer = (state = initialState, {type, payload}) => {
@@ -31,11 +33,13 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
       return {...state, hotels: payload};
     }
     case CLEAR_HOTELS:
-      return {...state, hotels: undefined};
+      return {...state, hotels: undefined, hasMore: true};
     case SET_HAS_MORE_HOTELS:
       return {...state, hasMore: payload};
     case SET_POPULAR_HOTELS:
       return {...state, popularHotels: payload};
+    case SET_POPULAR_HOTELS_STARTED:
+      return {...state, popularHotelsLoader: payload};
     case SET_HOTELS_IS_LOADING:
       return {...state, isLoading: payload};
     case SET_HOTELS_ERROR:
@@ -105,6 +109,7 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
         deleteHotelLoader: payload,
       };
     }
+
     default:
       return state;
   }

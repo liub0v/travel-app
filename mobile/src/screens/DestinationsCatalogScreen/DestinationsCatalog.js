@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  destinationsLoader,
   destinationsSelector,
   hasMoreDestinationsSelector,
 } from '../../../redux/selectors/DestinationSelector';
@@ -21,14 +22,18 @@ import {
   SearchWrapper,
   TitleWrapper,
 } from './DestinationsCatalog.style';
-import {getDestinations} from '../../../redux/actions/DestinationActions';
+import {
+  clearDestinations,
+  getDestinations,
+} from '../../../redux/actions/DestinationActions';
 import {clearAdventures} from '../../../redux/actions/AdventureActions';
 import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
+import {useNavigation} from '@react-navigation/native';
 
-const Destination = ({item, navigation}) => {
+const Destination = ({item}) => {
   const dispatch = useDispatch();
-
+  const navigation = useNavigation();
   const goAdventuresCatalogByDestination = () => {
     dispatch(clearAdventures());
     navigation.navigate('AdventuresCatalog', {destination: item.countryName});
@@ -59,35 +64,49 @@ export const Footer = () => {
     </Text>
   );
 };
-export const DestinationsCatalog = ({navigation}) => {
+export const DestinationsCatalog = () => {
   const destinations = useSelector(destinationsSelector);
   const hasMore = useSelector(hasMoreDestinationsSelector);
   const dispatch = useDispatch();
+  const isLoading = useSelector(destinationsLoader);
+
   const [page, setPage] = useState(1);
   useEffect(() => {
     hasMore && dispatch(getDestinations({page: page, limit: 8}));
   }, [page]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearDestinations());
+    };
+  }, []);
   return (
     <MainContainer>
       <SearchWrapper>
         <Search placeholder={'Where are you going?'} />
       </SearchWrapper>
-      <FlatListWrapper>
-        <FlatList
-          numColumns={2}
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          data={destinations}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            hasMore && setPage(page + 1);
-          }}
-          renderItem={({item}) => (
-            <Destination item={item} navigation={navigation} />
-          )}
-          keyExtractor={item => item._id}
+      {isLoading ? (
+        <ActivityIndicator
+          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+          size="large"
+          color={colors.green}
         />
-      </FlatListWrapper>
+      ) : (
+        <FlatListWrapper>
+          <FlatList
+            numColumns={2}
+            horizontal={false}
+            showsVerticalScrollIndicator={false}
+            data={destinations}
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              hasMore && setPage(page + 1);
+            }}
+            renderItem={({item}) => <Destination item={item} />}
+            keyExtractor={item => item._id}
+          />
+        </FlatListWrapper>
+      )}
     </MainContainer>
   );
 };

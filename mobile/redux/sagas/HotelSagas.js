@@ -25,6 +25,7 @@ import {
   setHotelsError,
   setHotelsIsLoading,
   setPopularHotels,
+  setPopularHotelsStarted,
 } from '../actions/HotelActions';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
 import {tokenSelector} from '../selectors/UserSelector';
@@ -66,21 +67,20 @@ function* getHotelsByDestinationSaga(action) {
     });
   }
 }
-function* getPopularHotelsSaga(action) {
+function* getPopularHotelsSaga() {
   try {
-    // yield put(setHotelsIsLoading(true));
+    yield put(setPopularHotelsStarted(true));
     const response = yield call(hotelAPI.getPopularHotels, 1, 5);
     const hotels = response.data;
     yield put(setPopularHotels(hotels));
-    // yield put(setPopularHotels(hotels));
-    // yield put(setHotelsIsLoading(false));
+    yield put(setPopularHotelsStarted(false));
   } catch (error) {
-    // yield put(setHotelsIsLoading(false));
-    // yield put(setHotelsError(error));
-    // yield call(showMessage, {
-    //   message: error.response?.data,
-    //   type: 'error',
-    // });
+    yield put(setPopularHotelsStarted(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
   }
 }
 function* getHotelsSaga(action) {
@@ -96,7 +96,7 @@ function* getHotelsSaga(action) {
     yield put(setHotelsIsLoading(false));
     yield put(setHotelsError(error));
     yield call(showMessage, {
-      message: error.response?.data,
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }
@@ -134,7 +134,7 @@ function* updateHotelSaga(action) {
     // yield put(setHotelsIsLoading(false));
     yield put(setHotelsError(error));
     yield call(showMessage, {
-      message: error.response?.data,
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }
@@ -190,7 +190,7 @@ function* updateHotelGallerySaga(action) {
     // yield put(setHotelsIsLoading(false));
     yield put(setHotelsError(error));
     yield call(showMessage, {
-      message: error.response?.data,
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }
@@ -231,7 +231,7 @@ function* deleteGalleryImageSaga(action) {
     // yield put(setHotelsIsLoading(false));
     yield put(setHotelsError(error));
     yield call(showMessage, {
-      message: error.response?.data,
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }

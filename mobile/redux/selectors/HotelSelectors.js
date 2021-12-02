@@ -9,6 +9,10 @@ export const isLoadingHotelSelector = createSelector(
   hotelSelector,
   item => item.isLoading,
 );
+export const popularHotelsLoaderSelector = createSelector(
+  hotelSelector,
+  item => item.popularHotelsLoader,
+);
 export const deleteHotelStartedSelector = createSelector(
   hotelSelector,
   item => item.deleteHotelLoader,

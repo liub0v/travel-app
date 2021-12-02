@@ -3,8 +3,9 @@ import colors from '../../../constants/colors';
 import fonts from '../../../constants/fonts';
 
 export const DestinationItem = styled.View`
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-top: 24px;
+  margin-right: 12px;
+  margin-left: 12px;
 `;
 export const DestinationImage = styled.Image`
   border-radius: 16px;

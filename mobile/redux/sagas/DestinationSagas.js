@@ -5,6 +5,7 @@ import {
   setDestinationsIsLoading,
   setHasMoreDestinations,
   setPopularDestinations,
+  setPopularDestinationsStarted,
 } from '../actions/DestinationActions';
 import {destinationAPI} from '../../src/api/destinationAPI';
 import {showMessage} from 'react-native-flash-message';
@@ -16,20 +17,20 @@ export const destinationSagas = [
   takeEvery(GET_DESTINATIONS, getDestinationsSaga),
   takeEvery(GET_POPULAR_DESTINATIONS, getPopularDestinationsSaga),
 ];
-function* getPopularDestinationsSaga(action) {
+function* getPopularDestinationsSaga() {
   try {
-    // yield put(setDestinationsIsLoading(true));
+    yield put(setPopularDestinationsStarted(true));
     const response = yield call(destinationAPI.getDestinations, 1, 3);
     const destinations = response.data;
     yield put(setPopularDestinations(destinations));
-    // yield put(setDestinationsIsLoading(false));
+    yield put(setPopularDestinationsStarted(false));
   } catch (error) {
-    // yield put(setDestinationsIsLoading(false));
-    // yield put(setDestinationsError(error));
-    // yield call(showMessage, {
-    //   message: error.response?.data,
-    //   type: 'error',
-    // });
+    yield put(setPopularDestinationsStarted(false));
+    yield put(setDestinationsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
   }
 }
 function* getDestinationsSaga(action) {
@@ -45,7 +46,7 @@ function* getDestinationsSaga(action) {
     yield put(setDestinationsIsLoading(false));
     yield put(setDestinationsError(error));
     yield call(showMessage, {
-      message: error.response?.data,
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }

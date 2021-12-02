@@ -165,7 +165,7 @@ export const CommentInput = ({
         <SectionHeader title={'Reviews'} showRightButton={false} />
       </View>
       {comments.map(item => (
-        <Comment item={item} />
+        <Comment item={item} key={item._id} />
       ))}
       <CommentInputWrapper>
         <UserInfoWrapper>

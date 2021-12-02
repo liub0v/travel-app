@@ -1,6 +1,7 @@
 import {
   ADD_GUIDE_COMPLETED,
   ADD_GUIDE_STARTED,
+  CLEAR_GUIDES,
   DELETE_GUIDE_COMPLETED,
   DELETE_GUIDE_STARTED,
   SET_GUIDES_COMPLETED,
@@ -66,6 +67,9 @@ export const guideReducer = (state = initialState, {type, payload}) => {
         ...state,
         guides: [...guidesCopy],
       };
+    }
+    case CLEAR_GUIDES: {
+      return {...state, guides: undefined, hasMore: true};
     }
     default:
       return state;

@@ -41,11 +41,9 @@ export const Section = ({
   passHandler = () => {},
 }) => {
   const rowContainerStyle = {
-    marginTop: 12,
     flexDirection: 'row',
   };
   const columnContainerStyle = {
-    marginTop: 12,
     flexDirection: 'column',
   };
   return (

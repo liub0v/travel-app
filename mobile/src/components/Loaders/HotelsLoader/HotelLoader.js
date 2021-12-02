@@ -1,10 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import {Animated} from 'react-native';
-import {AdventureItem} from './AdventureLoader.style';
 import colors from '../../../constants/colors';
-import {Section} from '../../Section/Section';
+import {HotelItem} from '../../../screens/ExploreScreen/components/Hotel.style';
 
-export const AdventureLoader = () => {
+export const HotelLoader = ({style}) => {
   const animateState = {
     start: 0,
     end: 1,
@@ -36,23 +35,18 @@ export const AdventureLoader = () => {
     outputRange: [0.4, 0.5],
   });
   return (
-    <Section
-      title={'Adventures'}
-      isHorizontal={true}
-      data={[0, 1, 2]}
-      renderItem={() => (
-        <AdventureItem>
-          <Animated.View
-            style={{
-              borderRadius: 16,
-              height: 250,
-              width: 150,
-              backgroundColor: colors.grey,
-              opacity,
-            }}
-          />
-        </AdventureItem>
-      )}
-    />
+    <HotelItem>
+      <Animated.View
+        style={{
+          borderBottomStartRadius: 16,
+          borderTopStartRadius: 16,
+          height: 90,
+          width: '100%',
+          backgroundColor: colors.grey,
+          ...style,
+          opacity,
+        }}
+      />
+    </HotelItem>
   );
 };

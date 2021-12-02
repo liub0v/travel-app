@@ -22,6 +22,7 @@ export const GuidesCatalogScreen = () => {
   useEffect(() => {
     hasMore && dispatch(getGuides({page, limit: 8}));
   }, [page]);
+
   return (
     <MainContainer>
       <SearchWrapper>
@@ -44,7 +45,6 @@ export const GuidesCatalogScreen = () => {
           }}
           renderItem={({item}) => <Guide item={item} />}
           keyExtractor={item => item._id}
-          // ListFooterComponent={hasMore ? Loader : Footer}
         />
       )}
     </MainContainer>

@@ -41,7 +41,7 @@ export const adventureSagas = [
   takeEvery(ADD_ADVENTURE, addAdventureSaga),
   takeEvery(DELETE_ADVENTURE, deleteAdventureSaga),
 ];
-function* getPopularAdventuresSaga(action) {
+function* getPopularAdventuresSaga() {
   try {
     yield put(setPopularAdventuresStarted(true));
     const response = yield call(adventureAPI.getPopularAdventures, 1, 5);
@@ -52,7 +52,7 @@ function* getPopularAdventuresSaga(action) {
     yield put(setPopularAdventuresStarted(false));
     yield put(setAdventuresError(error));
     yield call(showMessage, {
-      message: error.response?.data,
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }
@@ -67,12 +67,12 @@ function* getAdventuresSaga(action) {
     yield put(setAdventures(adventures));
     yield put(setAdventuresIsLoading(false));
   } catch (error) {
-    // yield put(setAdventuresIsLoading(false));
-    // yield put(setAdventuresError(error));
-    // yield call(showMessage, {
-    //   message: error.response?.data,
-    //   type: 'error',
-    // });
+    yield put(setAdventuresIsLoading(false));
+    yield put(setAdventuresError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
   }
 }
 function* getAdventuresSagaByDestination(action) {
@@ -93,7 +93,7 @@ function* getAdventuresSagaByDestination(action) {
     yield put(setAdventuresIsLoading(false));
     yield put(setAdventuresError(error));
     yield call(showMessage, {
-      message: error.response?.data,
+      message: error.response?.data || error.message,
       type: 'error',
     });
   }
@@ -113,7 +113,7 @@ function* saveAdventureSaga(action) {
     // yield put(setHotelsIsLoading(false));
     // yield put(setHotelsError(error));
     // yield call(showMessage, {
-    //   message: error.response?.data,
+    //   message: error.response?.data || error.message,
     //   type: 'error',
     // });
   }
@@ -137,7 +137,7 @@ function* deleteSavedAdventureSaga(action) {
     // yield put(setHotelsIsLoading(false));
     // yield put(setHotelsError(error));
     // yield call(showMessage, {
-    //   message: error.response?.data,
+    //   message: error.response?.data || error.message,
     //   type: 'error',
     // });
   }

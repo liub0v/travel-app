@@ -4,8 +4,8 @@ import fonts from '../../../constants/fonts';
 
 export const HotelItem = styled.View`
   flex-direction: row;
-  margin-left: 16px;
-  margin-bottom: 20px;
+  margin-left: 12px;
+  margin-top: 24px;
 `;
 export const HotelImage = styled.Image`
   border-top-left-radius: 8px;

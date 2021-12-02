@@ -3,9 +3,8 @@ import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
 
 export const SectionContainer = styled.View`
-  margin-top: 20px;
+  margin-top: 24px;
   width: 100%;
-  margin-bottom: 10px;
 `;
 export const SectionHeaderWrapper = styled.View`
   flex-direction: row;
