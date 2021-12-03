@@ -14,13 +14,13 @@ export const AdventureImage = styled.Image`
 `;
 export const AdventureTitleWrapper = styled.View``;
 export const AdventureName = styled.Text`
-  width: 140px;
+  width: 150px;
   font-family: ${fonts.normal};
   font-size: 14px;
   color: ${colors.white};
 `;
 export const AdventureLocation = styled.Text`
-  width: 140px;
+  width: 150px;
   font-family: ${fonts.normal};
   font-size: 12px;
   color: ${colors.white};

@@ -1,15 +1,14 @@
 import React, {useEffect, useRef} from 'react';
-import {Animated} from 'react-native';
-import colors from '../../../constants/colors';
-import {HotelItem} from '../../../screens/ExploreScreen/components/Hotel.style';
+import {Animated, View} from 'react-native';
+import colors from '../../constants/colors';
 
-export const HotelLoader = ({style}) => {
+export const Loader = ({style}) => {
   const animateState = {
     start: 0,
     end: 1,
   };
-
   const value = useRef(new Animated.Value(animateState.start)).current;
+
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
@@ -29,24 +28,21 @@ export const HotelLoader = ({style}) => {
       },
     ).start();
   }, []);
+
   const inputRange = [animateState.start, animateState.end];
   const opacity = value.interpolate({
     inputRange,
     outputRange: [0.4, 0.5],
   });
   return (
-    <HotelItem>
+    <View>
       <Animated.View
         style={{
-          borderBottomStartRadius: 16,
-          borderTopStartRadius: 16,
-          height: 90,
-          width: '100%',
           backgroundColor: colors.grey,
           ...style,
           opacity,
         }}
       />
-    </HotelItem>
+    </View>
   );
 };

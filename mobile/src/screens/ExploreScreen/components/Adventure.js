@@ -14,7 +14,7 @@ import {getPopularAdventureReviewsSelector} from '../../../../redux/selectors/Ad
 export const Adventure = ({item}) => {
   const navigation = useNavigation();
   const popularAdventureReviewsSelector = getPopularAdventureReviewsSelector(
-    item._id,
+    item?._id,
   );
   return (
     <TouchableWithoutFeedback
@@ -25,10 +25,10 @@ export const Adventure = ({item}) => {
         });
       }}>
       <AdventureItem>
-        <AdventureImage source={{uri: item.imageURL}} />
+        <AdventureImage source={{uri: item?.imageURL}} />
         <AdventureTitleWrapper>
-          <AdventureName>{item.name}</AdventureName>
-          <AdventureLocation>{item.address}</AdventureLocation>
+          <AdventureName>{item?.name}</AdventureName>
+          <AdventureLocation>{item?.address}</AdventureLocation>
         </AdventureTitleWrapper>
       </AdventureItem>
     </TouchableWithoutFeedback>

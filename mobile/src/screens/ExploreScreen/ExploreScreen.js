@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Image, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, Image, TouchableWithoutFeedback} from 'react-native';
 
 import {useSelector} from 'react-redux';
 import {
@@ -15,7 +15,6 @@ import {
   popularHotelsSelector,
 } from '../../../redux/selectors/HotelSelectors';
 
-import {Section, SectionHeader} from '../../components/Section/Section';
 import {Destination} from './components/Destination';
 import {Adventure} from './components/Adventure';
 import {Hotel} from './components/Hotel';
@@ -33,9 +32,7 @@ import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
-import {Loader} from '../../components/Loaders/AdventureLoader/Loader';
-import {HotelLoader} from '../../components/Loaders/HotelsLoader/HotelLoader';
-import {DestinationLoader} from '../../components/Loaders/DestinationLoader/DestinationLoader';
+import {SectionMap} from '../../components/SectionMap/SectionMap';
 
 const Category = ({image, title, passHandler = () => {}}) => {
   return (
@@ -49,10 +46,15 @@ const Category = ({image, title, passHandler = () => {}}) => {
 };
 
 export const ExploreScreen = ({navigation}) => {
+  const scrollRef = useRef();
+
   const [adventuresY, setAdventuresY] = useState(0);
   const [hotelsY, setHotelsY] = useState(0);
   const [destinationsY, setDestinationsY] = useState(0);
 
+  const destinations = useSelector(popularDestinationsSelector);
+  const adventures = useSelector(popularAdventuresSelector);
+  const hotels = useSelector(popularHotelsSelector);
   const popularAdventuresIsLoading = useSelector(
     popularAdventuresLoaderSelector,
   );
@@ -70,7 +72,6 @@ export const ExploreScreen = ({navigation}) => {
   const goGuidesCatalog = () => {
     navigation.navigate('GuidesCatalogScreen');
   };
-  const scrollRef = useRef();
 
   const goToAdventureSection = () => {
     scrollRef.current?.scrollTo({
@@ -90,9 +91,7 @@ export const ExploreScreen = ({navigation}) => {
       animated: true,
     });
   };
-  const destinations = useSelector(popularDestinationsSelector);
-  const adventures = useSelector(popularAdventuresSelector);
-  const hotels = useSelector(popularHotelsSelector);
+
   return (
     <MainContainer
       ref={scrollRef}
@@ -126,58 +125,75 @@ export const ExploreScreen = ({navigation}) => {
           passHandler={goGuidesCatalog}
         />
       </CategoriesContainer>
-
       <SectionWrapper
         onLayout={event => setDestinationsY(event.nativeEvent.layout.y)}>
-        {popularDestinationsIsLoading ? (
-          <DestinationLoader />
-        ) : (
-          <Section
-            title={'Popular destinations'}
-            isHorizontal={true}
-            data={destinations}
-            renderItem={({item}) => <Destination item={item} key={item._id} />}
-          />
-        )}
+        <SectionMap
+          horizontal
+          headerOptions={{
+            title: 'Popular destinations',
+          }}
+          isLoading={popularDestinationsIsLoading}
+          loaderStyle={loaderStyles.destination}
+          data={destinations}
+          component={item => <Destination item={item} key={item._id} />}
+        />
       </SectionWrapper>
-
       <SectionWrapper
         onLayout={event => setAdventuresY(event.nativeEvent.layout.y)}>
-        {popularAdventuresIsLoading ? (
-          <Loader />
-        ) : (
-          <Section
-            title={'Adventures'}
-            isHorizontal={true}
-            showRightButton
-            data={adventures}
-            renderItem={({item}) => <Adventure item={item} key={item._id} />}
-            passHandler={goAdventureCatalog}
-          />
-        )}
+        <SectionMap
+          horizontal
+          headerOptions={{
+            passHandler: goAdventureCatalog,
+            title: 'Adventures',
+            showRightButton: true,
+          }}
+          isLoading={popularAdventuresIsLoading}
+          loaderStyle={loaderStyles.adventure}
+          data={adventures}
+          component={item => <Adventure item={item} key={item._id} />}
+        />
       </SectionWrapper>
-
       <SectionWrapper
         onLayout={event => setHotelsY(event.nativeEvent.layout.y)}>
-        <SectionHeader
-          passHandler={goHotelsCatalog}
-          title={'Hotel Best deals'}
-          showRightButton
+        <SectionMap
+          headerOptions={{
+            passHandler: goHotelsCatalog,
+            title: 'Hotel Best deals',
+            showRightButton: true,
+          }}
+          isLoading={popularHotelsIsLoading}
+          loaderStyle={loaderStyles.hotel}
+          data={hotels}
+          component={item => <Hotel item={item} key={item._id} />}
         />
-        {popularHotelsIsLoading ? (
-          <>
-            {[{_id: 1}]?.map(item => (
-              <HotelLoader key={item._id} />
-            ))}
-          </>
-        ) : (
-          <>
-            {hotels?.map(item => (
-              <Hotel item={item} key={item._id} />
-            ))}
-          </>
-        )}
       </SectionWrapper>
     </MainContainer>
   );
 };
+
+const loaderStyles = StyleSheet.create({
+  destination: {
+    borderRadius: 16,
+    height: 130,
+    width: 200,
+    marginRight: 12,
+    marginLeft: 12,
+    marginTop: 24,
+  },
+  adventure: {
+    borderRadius: 16,
+    height: 250,
+    width: 150,
+    marginRight: 12,
+    marginLeft: 12,
+    marginTop: 24,
+  },
+  hotel: {
+    borderBottomStartRadius: 16,
+    borderTopStartRadius: 16,
+    height: 90,
+    width: '100%',
+    marginLeft: 12,
+    marginTop: 24,
+  },
+});

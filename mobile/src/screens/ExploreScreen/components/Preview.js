@@ -1,7 +1,6 @@
 import React, {useRef} from 'react';
 import {Animated, TouchableWithoutFeedback} from 'react-native';
 
-import {Point} from '../../Onboarding/OnBoarding.style';
 import {
   BookingButton,
   BookingButtonTitle,
@@ -11,7 +10,6 @@ import {
   Title,
   ButtonsWrapper,
   Wrapper,
-  PointContainer,
   SearchBarInput,
   SearchBarWrapper,
   IconWrapper,
@@ -106,11 +104,6 @@ export const Preview = () => {
               <BookingButtonTitle>{'Book now'}</BookingButtonTitle>
             </TouchableWithoutFeedback>
           </BookingButton>
-          <PointContainer>
-            <Point active={false} />
-            <Point active={true} />
-            <Point active={false} />
-          </PointContainer>
         </ButtonsWrapper>
       </Wrapper>
     </Container>
