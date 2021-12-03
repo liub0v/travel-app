@@ -10,11 +10,7 @@ import {
   NormalText,
   SearchWrapper,
 } from './HotelsCatalogByDestination.style';
-import {
-  ActivityIndicator,
-  FlatList,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   destinationsLoader,
@@ -28,7 +24,10 @@ import {
 } from '../../../redux/actions/DestinationActions';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {clearHotels} from '../../../redux/actions/HotelActions';
-import colors from '../../constants/colors';
+import {
+  Footer,
+  Spinner,
+} from '../DestinationsCatalogScreen/DestinationsCatalog';
 
 const Destination = ({item, navigation}) => {
   const dispatch = useDispatch();
@@ -79,29 +78,22 @@ export const HotelsCatalogByDestination = ({navigation}) => {
       <SearchWrapper>
         <Search placeholder={'Where are you going?'} />
       </SearchWrapper>
-      {isLoading ? (
-        <ActivityIndicator
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-          size="large"
-          color={colors.green}
+      <FlatListWrapper>
+        <FlatList
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
+          data={destinations}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            hasMore && setPage(page + 1);
+          }}
+          renderItem={({item}) => (
+            <Destination item={item} navigation={navigation} />
+          )}
+          keyExtractor={item => item._id}
+          ListFooterComponent={isLoading ? <Spinner /> : <Footer />}
         />
-      ) : (
-        <FlatListWrapper>
-          <FlatList
-            horizontal={false}
-            showsVerticalScrollIndicator={false}
-            data={destinations}
-            onEndReachedThreshold={0.5}
-            onEndReached={() => {
-              hasMore && setPage(page + 1);
-            }}
-            renderItem={({item}) => (
-              <Destination item={item} navigation={navigation} />
-            )}
-            keyExtractor={item => item._id}
-          />
-        </FlatListWrapper>
-      )}
+      </FlatListWrapper>
     </MainContainer>
   );
 };

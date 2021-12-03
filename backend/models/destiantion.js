@@ -5,6 +5,9 @@ const destinationSchema = new mongoose.Schema({
   countryName: String,
   imageURL: String,
 });
+
+destinationSchema.index({ countryName: "text" });
+
 const Destination = mongoose.model("Destination", destinationSchema);
 
 function validateDestination(destination) {

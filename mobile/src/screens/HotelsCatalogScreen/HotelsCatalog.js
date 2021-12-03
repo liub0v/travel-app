@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {MainContainer} from './HotelsCatalog.style';
-import {
-  ActivityIndicator,
-  FlatList,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import {
   getHotelReviewsSelector,
   hasMoreHotelsSelector,
@@ -29,7 +25,11 @@ import {
   StarsContainer,
 } from '../ExploreScreen/components/Hotel.style';
 import star from '../../../assets/images/start.png';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {
+  Footer,
+  Spinner,
+} from '../DestinationsCatalogScreen/DestinationsCatalog';
 
 const Hotel = ({item}) => {
   const navigation = useNavigation();
@@ -75,7 +75,8 @@ const Hotel = ({item}) => {
   );
 };
 
-export const HotelsCatalog = ({navigation, route}) => {
+export const HotelsCatalog = () => {
+  const route = useRoute();
   const destination = route.params.destination;
   const hotels = useSelector(hotelsSelector);
   const hasMore = useSelector(hasMoreHotelsSelector);
@@ -87,25 +88,18 @@ export const HotelsCatalog = ({navigation, route}) => {
   }, [page]);
   return (
     <MainContainer>
-      {isLoading ? (
-        <ActivityIndicator
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-          size="large"
-          color={colors.green}
-        />
-      ) : (
-        <FlatList
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          data={hotels}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            hasMore && setPage(page + 1);
-          }}
-          renderItem={({item}) => <Hotel item={item} />}
-          keyExtractor={item => item._id}
-        />
-      )}
+      <FlatList
+        horizontal={false}
+        showsVerticalScrollIndicator={false}
+        data={hotels}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => {
+          hasMore && setPage(page + 1);
+        }}
+        renderItem={({item}) => <Hotel item={item} />}
+        keyExtractor={item => item._id}
+        ListFooterComponent={isLoading ? <Spinner /> : <Footer />}
+      />
     </MainContainer>
   );
 };

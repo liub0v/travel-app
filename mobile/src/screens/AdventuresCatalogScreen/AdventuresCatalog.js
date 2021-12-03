@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   adventuresSelector,
@@ -14,7 +14,11 @@ import {
 import {Search} from '../../components/Seacrh/Search';
 import {Adventure} from '../ExploreScreen/components/Adventure';
 import {getAdventuresByDestination} from '../../../redux/actions/AdventureActions';
-import colors from '../../constants/colors';
+
+import {
+  Footer,
+  Spinner,
+} from '../DestinationsCatalogScreen/DestinationsCatalog';
 
 export const AdventuresCatalog = ({navigation, route}) => {
   const destination = route.params.destination;
@@ -34,29 +38,22 @@ export const AdventuresCatalog = ({navigation, route}) => {
         <Search placeholder={'Where are you going?'} />
       </SearchWrapper>
       <FlatListWrapper>
-        {isLoading ? (
-          <ActivityIndicator
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-            size="large"
-            color={colors.green}
-          />
-        ) : (
-          <FlatList
-            numColumns={2}
-            horizontal={false}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
-            data={adventures}
-            onEndReachedThreshold={0.5}
-            onEndReached={() => {
-              hasMore && setPage(page + 1);
-            }}
-            renderItem={({item}) => (
-              <Adventure item={item} navigation={navigation} />
-            )}
-            keyExtractor={item => item._id}
-          />
-        )}
+        <FlatList
+          numColumns={2}
+          horizontal={false}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          data={adventures}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            hasMore && setPage(page + 1);
+          }}
+          renderItem={({item}) => (
+            <Adventure item={item} navigation={navigation} />
+          )}
+          keyExtractor={item => item._id}
+          ListFooterComponent={isLoading ? <Spinner /> : <Footer />}
+        />
       </FlatListWrapper>
     </MainContainer>
   );

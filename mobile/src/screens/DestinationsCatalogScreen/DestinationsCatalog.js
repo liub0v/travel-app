@@ -25,6 +25,7 @@ import {
 import {
   clearDestinations,
   getDestinations,
+  getDestinationsByName,
 } from '../../../redux/actions/DestinationActions';
 import {clearAdventures} from '../../../redux/actions/AdventureActions';
 import colors from '../../constants/colors';
@@ -54,15 +55,17 @@ const Destination = ({item}) => {
     </TouchableWithoutFeedback>
   );
 };
-export const Loader = () => {
-  return <ActivityIndicator size="large" color={colors.green} />;
+export const Spinner = () => {
+  return (
+    <ActivityIndicator
+      style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+      size="large"
+      color={colors.green}
+    />
+  );
 };
 export const Footer = () => {
-  return (
-    <Text style={{fontFamily: fonts.normal, color: colors.white}}>
-      {'the end'}
-    </Text>
-  );
+  return <Text style={{fontFamily: fonts.normal, color: colors.white}}> </Text>;
 };
 export const DestinationsCatalog = () => {
   const destinations = useSelector(destinationsSelector);
@@ -72,6 +75,7 @@ export const DestinationsCatalog = () => {
 
   const [page, setPage] = useState(1);
   useEffect(() => {
+    console.log(hasMore);
     hasMore && dispatch(getDestinations({page: page, limit: 8}));
   }, [page]);
 
@@ -80,33 +84,35 @@ export const DestinationsCatalog = () => {
       dispatch(clearDestinations());
     };
   }, []);
+
+  const searchHandler = countryName => {
+    setPage(1);
+    dispatch(getDestinationsByName({page: 1, limit: 8, countryName}));
+  };
+
   return (
     <MainContainer>
       <SearchWrapper>
-        <Search placeholder={'Where are you going?'} />
-      </SearchWrapper>
-      {isLoading ? (
-        <ActivityIndicator
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-          size="large"
-          color={colors.green}
+        <Search
+          placeholder={'Where are you going?'}
+          onChangeHandler={searchHandler}
         />
-      ) : (
-        <FlatListWrapper>
-          <FlatList
-            numColumns={2}
-            horizontal={false}
-            showsVerticalScrollIndicator={false}
-            data={destinations}
-            onEndReachedThreshold={0.5}
-            onEndReached={() => {
-              hasMore && setPage(page + 1);
-            }}
-            renderItem={({item}) => <Destination item={item} />}
-            keyExtractor={item => item._id}
-          />
-        </FlatListWrapper>
-      )}
+      </SearchWrapper>
+      <FlatListWrapper>
+        <FlatList
+          numColumns={2}
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
+          data={destinations}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            hasMore && setPage(page + 1);
+          }}
+          renderItem={({item}) => <Destination item={item} />}
+          keyExtractor={item => item._id}
+          ListFooterComponent={isLoading ? <Spinner /> : <Footer />}
+        />
+      </FlatListWrapper>
     </MainContainer>
   );
 };

@@ -1,6 +1,8 @@
 import {
   CLEAR_DESTINATIONS,
   GET_DESTINATIONS,
+  GET_DESTINATIONS_BY_NAME,
+  GET_DESTINATIONS_BY_NAME_COMPLETED,
   GET_POPULAR_DESTINATIONS,
   SET_DESTINATIONS,
   SET_DESTINATIONS_ERROR,
@@ -60,5 +62,17 @@ export const setPopularDestinationsStarted = isLoading => {
 export const clearDestinations = () => {
   return {
     type: CLEAR_DESTINATIONS,
+  };
+};
+export const getDestinationsByName = ({page, limit, countryName}) => {
+  return {
+    type: GET_DESTINATIONS_BY_NAME,
+    payload: {page, limit, countryName},
+  };
+};
+export const getDestinationsByNameCompleted = destinations => {
+  return {
+    type: GET_DESTINATIONS_BY_NAME_COMPLETED,
+    payload: destinations,
   };
 };

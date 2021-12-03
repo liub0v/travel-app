@@ -19,6 +19,22 @@ router.get("/", async (req, res) => {
     .limit(limit);
   res.send(destinations);
 });
+router.get("/search", async (req, res) => {
+  const countryName = req.query.countryName;
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 6;
+  const startIndex = (page - 1) * limit;
+  await Destination.createIndexes();
+  const regex = new RegExp(`.*^${countryName}.*`, "i");
+  const destinations = await Destination.find({
+    countryName: regex,
+  })
+    .sort({ _id: 1 })
+    .skip(startIndex)
+
+    .limit(limit);
+  res.send(destinations);
+});
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {

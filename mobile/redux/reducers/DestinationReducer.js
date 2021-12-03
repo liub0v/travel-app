@@ -1,5 +1,6 @@
 import {
   CLEAR_DESTINATIONS,
+  GET_DESTINATIONS_BY_NAME_COMPLETED,
   SET_DESTINATIONS,
   SET_DESTINATIONS_ERROR,
   SET_DESTINATIONS_IS_LOADING,
@@ -37,6 +38,9 @@ export const destinationReducer = (state = initialState, {type, payload}) => {
       return {...state, popularDestinationsLoading: payload};
     case CLEAR_DESTINATIONS:
       return {...state, destinations: undefined, hasMore: true};
+    case GET_DESTINATIONS_BY_NAME_COMPLETED: {
+      return {...state, destinations: [...payload]};
+    }
     default:
       return state;
   }
