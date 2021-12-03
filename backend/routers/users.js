@@ -10,6 +10,7 @@ const { Guide } = require("../models/guide");
 const { Hotel } = require("../models/hotel");
 const { Adventure } = require("../models/adventure");
 const { Admin } = require("../models/admin");
+const { populateReviewsObj } = require("../utils/populateObjects");
 
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -54,7 +55,9 @@ router.put("/saveHotel", auth, async (req, res) => {
   );
   if (!client) return res.status(404).send("User doesn't exist");
 
-  const hotel = await Hotel.findById(req.body.hotelID);
+  const hotel = await Hotel.findById(req.body.hotelID).populate(
+    populateReviewsObj
+  );
   if (!hotel) return res.status(404).send("Hotel doesn't exist");
 
   client.savedHotels = [...client.savedHotels, hotel];
@@ -102,6 +105,65 @@ router.put("/saveAdventure", auth, async (req, res) => {
   6;
   res.send(adventure);
 });
+
+router.put("/visitedHotel", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id }).populate(
+    "visitedHotels"
+  );
+  if (!client) return res.status(404).send("User doesn't exist");
+
+  const hotel = await Hotel.findById(req.body.hotelID).populate(
+    populateReviewsObj
+  );
+  if (!hotel) return res.status(404).send("Hotel doesn't exist");
+
+  client.visitedHotels = [...client.visitedHotels, hotel];
+
+  await client.save();
+
+  res.send(hotel);
+});
+router.delete("/visitedHotel", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id });
+  if (!client) return res.status(404).send("User doesn't exist");
+
+  client.visitedHotels = client.visitedHotels.filter(
+    (item) => item.toString() !== req.body.hotelID
+  );
+
+  await client.save();
+
+  res.send(client.visitedHotels);
+});
+
+router.put("/visitedAdventure", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id }).populate(
+    "visitedAdventures"
+  );
+  if (!client) return res.status(404).send("User doesn't exist");
+
+  const adventure = await Adventure.findById(req.body.adventureID);
+  if (!adventure) return res.status(404).send("Adventure doesn't exist");
+
+  client.visitedAdventures = [...client.visitedAdventures, adventure];
+
+  await client.save();
+
+  res.send(adventure);
+});
+router.delete("/visitedAdventure", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id });
+  if (!client) return res.status(404).send("User doesn't exist");
+
+  client.visitedAdventures = client.visitedAdventures.filter(
+    (item) => item.toString() !== req.body.adventureID
+  );
+
+  await client.save();
+
+  res.send(client.visitedAdventures);
+});
+
 router.put("/profileInfo", auth, async (req, res) => {
   // let user = await User.findById(req.user._id);
   let user = await User.findById(req.body.userID);

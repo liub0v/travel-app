@@ -22,12 +22,26 @@ import {
   UPDATE_USER_STARTED,
 } from '../types/AuthTypes';
 import {
+  ADD_VISITED_HOTEL,
+  ADD_VISITED_HOTEL_COMPLETED,
+  ADD_VISITED_HOTEL_STARTED,
   DELETE_SAVED_HOTEL,
   DELETE_SAVED_HOTEL_COMPLETED,
+  DELETE_VISITED_HOTEL,
+  DELETE_VISITED_HOTEL_COMPLETED,
+  DELETE_VISITED_HOTEL_STARTED,
   LIKE_HOTEL_STARTED,
   SAVE_HOTEL,
 } from '../types/HotelTypes';
-import {LIKE_ADVENTURE_STARTED} from '../types/AdventureTypes';
+import {
+  ADD_VISITED_ADVENTURE,
+  ADD_VISITED_ADVENTURE_COMPLETED,
+  ADD_VISITED_ADVENTURE_STARTED,
+  DELETE_VISITED_ADVENTURE,
+  DELETE_VISITED_ADVENTURE_COMPLETED,
+  DELETE_VISITED_ADVENTURE_STARTED,
+  LIKE_ADVENTURE_STARTED,
+} from '../types/AdventureTypes';
 
 export const logInUser = user => {
   return {
@@ -160,6 +174,7 @@ export const updateUserCompleted = user => {
     payload: user,
   };
 };
+
 export const saveHotel = hotelID => {
   return {
     type: SAVE_HOTEL,
@@ -178,6 +193,7 @@ export const deleteSavedHotelCompleted = hotelID => {
     payload: hotelID,
   };
 };
+
 export const likeHotelStarted = isLoading => {
   return {
     type: LIKE_HOTEL_STARTED,
@@ -188,5 +204,81 @@ export const likeAdventureStarted = isLoading => {
   return {
     type: LIKE_ADVENTURE_STARTED,
     payload: isLoading,
+  };
+};
+
+export const addVisitedHotelStarted = isLoading => {
+  return {
+    type: ADD_VISITED_HOTEL_STARTED,
+    payload: isLoading,
+  };
+};
+export const addVisitedHotel = hotelID => {
+  return {
+    type: ADD_VISITED_HOTEL,
+    payload: hotelID,
+  };
+};
+export const addVisitedHotelCompleted = hotel => {
+  return {
+    type: ADD_VISITED_HOTEL_COMPLETED,
+    payload: hotel,
+  };
+};
+
+export const deleteVisitedHotelStarted = isLoading => {
+  return {
+    type: DELETE_VISITED_HOTEL_STARTED,
+    payload: isLoading,
+  };
+};
+export const deleteVisitedHotel = hotelID => {
+  return {
+    type: DELETE_VISITED_HOTEL,
+    payload: hotelID,
+  };
+};
+export const deleteVisitedHotelCompleted = hotelID => {
+  return {
+    type: DELETE_VISITED_HOTEL_COMPLETED,
+    payload: hotelID,
+  };
+};
+
+export const addVisitedAdventureStarted = isLoading => {
+  return {
+    type: ADD_VISITED_ADVENTURE_STARTED,
+    payload: isLoading,
+  };
+};
+export const addVisitedAdventure = adventureID => {
+  return {
+    type: ADD_VISITED_ADVENTURE,
+    payload: adventureID,
+  };
+};
+export const addVisitedAdventureCompleted = adventure => {
+  return {
+    type: ADD_VISITED_ADVENTURE_COMPLETED,
+    payload: adventure,
+  };
+};
+
+export const deleteVisitedAdventureStarted = isLoading => {
+  return {
+    type: DELETE_VISITED_ADVENTURE_STARTED,
+    payload: isLoading,
+  };
+};
+export const deleteVisitedAdventure = adventureID => {
+  return {
+    type: DELETE_VISITED_ADVENTURE,
+    payload: adventureID,
+  };
+};
+export const deleteVisitedAdventureCompleted = adventureID => {
+  return {
+    type: DELETE_VISITED_ADVENTURE_COMPLETED,
+    payload: adventureID,
   };
 };

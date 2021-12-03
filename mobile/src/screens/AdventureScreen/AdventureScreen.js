@@ -6,10 +6,13 @@ import {
   saveAdventure,
 } from '../../../redux/actions/AdventureActions';
 import {
+  addVisitedAdventureLoaderSelector,
+  deleteVisitedAdventureLoaderSelector,
   likeAdventureLoaderSelector,
   roleSelector,
   savedAdventuresSelector,
   tokenSelector,
+  visitedAdventuresSelector,
 } from '../../../redux/selectors/UserSelector';
 
 import {adventureAPI} from '../../api/adventureAPI';
@@ -33,10 +36,8 @@ import {
   GuideAvatar,
   GuideContainer,
   InfoContainer,
-  LocationContainer,
   LocationTitle,
   MainContainer,
-  Map,
   NameContainer,
   NameTitle,
   PriceContainer,
@@ -54,6 +55,10 @@ import {
 import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {Edit} from '../../components/Edit/Edit';
+import {
+  addVisitedAdventure,
+  deleteVisitedAdventure,
+} from '../../../redux/actions/AuthActions';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -94,16 +99,25 @@ export const Criterion = ({title = 'criterion', value = 100}) => {
 
 export const AdventureScreen = () => {
   const route = useRoute();
-  const adventure = route.params.adventure;
-  const reviewsSelector = route.params.reviewsSelector;
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   const token = useSelector(tokenSelector);
   const role = useSelector(roleSelector);
   const savedAdventures = useSelector(savedAdventuresSelector);
+  const visitedAdventures = useSelector(visitedAdventuresSelector);
+  const likeLoader = useSelector(likeAdventureLoaderSelector);
+  const markLoader = useSelector(addVisitedAdventureLoaderSelector);
+  const unmarkLoader = useSelector(deleteVisitedAdventureLoaderSelector);
+
+  const adventure = route.params.adventure;
+  const reviewsSelector = route.params.reviewsSelector;
+  const adventureID = adventure._id;
   const like =
     savedAdventures?.filter(item => item._id === adventure._id).length > 0;
-  const likeLoader = useSelector(likeAdventureLoaderSelector);
+  const isVisited =
+    visitedAdventures?.filter(item => item._id === adventure._id).length > 0;
+
   const setLikeOnAdventure = () => {
     like && dispatch(deleteSavedAdventure(adventure._id));
     !like && dispatch(saveAdventure(adventure._id));
@@ -131,6 +145,37 @@ export const AdventureScreen = () => {
       priceRating,
       comment,
     );
+  };
+
+  const markAdventureHandler = () => {
+    dispatch(addVisitedAdventure(adventureID));
+  };
+  const unmarkAdventureHandler = () => {
+    dispatch(deleteVisitedAdventure(adventureID));
+  };
+
+  const showButton = () => {
+    switch (role) {
+      case 'admin':
+        return null;
+      case 'client': {
+        return isVisited ? (
+          <ButtonItem
+            title={'Unmark as visited'}
+            isLoading={unmarkLoader}
+            handler={unmarkAdventureHandler}
+          />
+        ) : (
+          <ButtonItem
+            title={'Mark as visited'}
+            isLoading={markLoader}
+            handler={markAdventureHandler}
+          />
+        );
+      }
+      case 'guide':
+        return null;
+    }
   };
   return (
     <MainContainer
@@ -216,13 +261,7 @@ export const AdventureScreen = () => {
           ))}
         </IntroReviews>
       </ReviewsContainer>
-      <LocationContainer>
-        <SectionHeader showRightButton={false} title={'Location'} />
-        <Map />
-      </LocationContainer>
-      <ButtonWrapper>
-        {role !== 'admin' && <ButtonItem title={'Book now'} />}
-      </ButtonWrapper>
+      <ButtonWrapper>{showButton()}</ButtonWrapper>
     </MainContainer>
   );
 };

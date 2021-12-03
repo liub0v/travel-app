@@ -16,11 +16,19 @@ import {
   UPDATE_USER_COMPLETED,
 } from '../types/AuthTypes';
 import {
+  ADD_VISITED_HOTEL_COMPLETED,
+  ADD_VISITED_HOTEL_STARTED,
   DELETE_SAVED_HOTEL_COMPLETED,
+  DELETE_VISITED_HOTEL_COMPLETED,
+  DELETE_VISITED_HOTEL_STARTED,
   LIKE_HOTEL_STARTED,
 } from '../types/HotelTypes';
 import {
+  ADD_VISITED_ADVENTURE_COMPLETED,
+  ADD_VISITED_ADVENTURE_STARTED,
   DELETE_SAVED_ADVENTURE_COMPLETED,
+  DELETE_VISITED_ADVENTURE_COMPLETED,
+  DELETE_VISITED_ADVENTURE_STARTED,
   LIKE_ADVENTURE_STARTED,
 } from '../types/AdventureTypes';
 
@@ -49,6 +57,10 @@ const initialState = {
   },
   likeHotelLoading: false,
   likeAdventureLoading: false,
+  addVisitedHotelLoading: false,
+  deleteVisitedHotelLoading: false,
+  addVisitedAdventureLoading: false,
+  deleteVisitedAdventureLoading: false,
 };
 export const authReducer = (state = initialState, {type, payload}) => {
   switch (type) {
@@ -129,7 +141,16 @@ export const authReducer = (state = initialState, {type, payload}) => {
           savedHotels: [...state.user.savedHotels, payload],
         },
       };
-
+    case DELETE_SAVED_HOTEL_COMPLETED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          savedHotels: state.user.savedHotels.filter(
+            item => item._id !== payload,
+          ),
+        },
+      };
     case SET_SAVED_ADVENTURE:
       return {
         ...state,
@@ -148,12 +169,46 @@ export const authReducer = (state = initialState, {type, payload}) => {
           ),
         },
       };
-    case DELETE_SAVED_HOTEL_COMPLETED:
+    case ADD_VISITED_HOTEL_STARTED:
+      return {...state, addVisitedHotelLoading: payload};
+    case ADD_VISITED_HOTEL_COMPLETED:
       return {
         ...state,
         user: {
           ...state.user,
-          savedHotels: state.user.savedHotels.filter(
+          visitedHotels: [...state.user.visitedHotels, payload],
+        },
+      };
+    case DELETE_VISITED_HOTEL_STARTED:
+      return {...state, deleteVisitedHotelLoading: payload};
+    case DELETE_VISITED_HOTEL_COMPLETED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          visitedHotels: state.user.visitedHotels.filter(
+            item => item._id !== payload,
+          ),
+        },
+      };
+    case ADD_VISITED_ADVENTURE_STARTED:
+      return {...state, addVisitedAdventureLoading: payload};
+    case ADD_VISITED_ADVENTURE_COMPLETED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          visitedAdventures: [...state.user.visitedAdventures, payload],
+        },
+      };
+    case DELETE_VISITED_ADVENTURE_STARTED:
+      return {...state, deleteVisitedAdventureLoading: payload};
+    case DELETE_VISITED_ADVENTURE_COMPLETED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          visitedAdventures: state.user.visitedAdventures.filter(
             item => item._id !== payload,
           ),
         },

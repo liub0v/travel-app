@@ -46,6 +46,7 @@ export const setHotel = hotel => {
     payload: hotel,
   };
 };
+
 export const addHotel = hotelData => {
   return {
     type: ADD_HOTEL,
@@ -58,6 +59,7 @@ export const addHotelCompleted = hotel => {
     payload: hotel,
   };
 };
+
 export const updateHotel = hotelData => {
   return {
     type: UPDATE_HOTEL,

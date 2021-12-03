@@ -17,7 +17,6 @@ import {
   InfoContainer,
   InfoWrapper,
   LikeWrapper,
-  LocationContainer,
   MainContainer,
   NameContainer,
   NormalText,
@@ -32,20 +31,27 @@ import {
 } from './HotelScreen.style';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {DynamicText} from '../AdventureScreen/AdventureScreen';
-import {Map} from '../AdventureScreen/AdventureScreen.style';
 import {Like} from '../../components/Like/Like';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  addVisitedHotelLoaderSelector,
+  deleteVisitedHotelLoaderSelector,
   likeHotelLoaderSelector,
   roleSelector,
   savedHotelsSelector,
   tokenSelector,
+  visitedHotelsSelector,
 } from '../../../redux/selectors/UserSelector';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {hotelAPI} from '../../api/hotelAPI';
 import {Edit} from '../../components/Edit/Edit';
 import {HotelsOptions} from '../../services/HotelOptions';
-import {deleteSavedHotel, saveHotel} from '../../../redux/actions/AuthActions';
+import {
+  addVisitedHotel,
+  deleteSavedHotel,
+  deleteVisitedHotel,
+  saveHotel,
+} from '../../../redux/actions/AuthActions';
 const Option = ({title, icon}) => {
   return (
     <OptionWrapper>
@@ -56,16 +62,22 @@ const Option = ({title, icon}) => {
 };
 export const HotelScreen = () => {
   const route = useRoute();
-  const hotel = route.params.hotel;
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const savedHotels = useSelector(savedHotelsSelector);
-  const reviewsSelector = route.params.reviewsSelector;
   const token = useSelector(tokenSelector);
   const role = useSelector(roleSelector);
-  const like = savedHotels?.filter(item => item._id === hotel._id).length > 0;
-
+  const savedHotels = useSelector(savedHotelsSelector);
+  const visitedHotels = useSelector(visitedHotelsSelector);
   const likeLoader = useSelector(likeHotelLoaderSelector);
+  const markLoader = useSelector(addVisitedHotelLoaderSelector);
+  const unmarkLoader = useSelector(deleteVisitedHotelLoaderSelector);
+
+  const hotel = route.params.hotel;
+  const reviewsSelector = route.params.reviewsSelector;
+  const hotelID = hotel._id;
+  const like = savedHotels?.filter(item => item._id === hotel._id).length > 0;
+  const isVisited =
+    visitedHotels?.filter(item => item._id === hotel._id).length > 0;
 
   const setLikeOnHotel = () => {
     like && dispatch(deleteSavedHotel(hotel._id));
@@ -90,7 +102,37 @@ export const HotelScreen = () => {
       comment,
     );
   };
-
+  const markHotelHandler = () => {
+    dispatch(addVisitedHotel(hotelID));
+  };
+  const unmarkHotelHandler = () => {
+    dispatch(deleteVisitedHotel(hotelID));
+  };
+  const showButton = () => {
+    switch (role) {
+      case 'admin':
+        return (
+          <ButtonItem title={'Edit Gallery'} handler={goEditGalleryScreen} />
+        );
+      case 'client': {
+        return isVisited ? (
+          <ButtonItem
+            isLoading={unmarkLoader}
+            handler={unmarkHotelHandler}
+            title={'Unmark as visited'}
+          />
+        ) : (
+          <ButtonItem
+            isLoading={markLoader}
+            handler={markHotelHandler}
+            title={'Mark as visited'}
+          />
+        );
+      }
+      case 'guide':
+        return null;
+    }
+  };
   return (
     <MainContainer
       showsVerticalScrollIndicator={false}
@@ -149,9 +191,6 @@ export const HotelScreen = () => {
       <SummeryContainer>
         <DynamicText text={hotel.summary} lineNumber={3} />
       </SummeryContainer>
-      <LocationContainer>
-        <Map />
-      </LocationContainer>
       <GalleryContainer>
         <GalleryHeader>{'Gallery'}</GalleryHeader>
         <GalleryWrapper>
@@ -172,13 +211,7 @@ export const HotelScreen = () => {
           </ColumnWrapper>
         </GalleryWrapper>
       </GalleryContainer>
-      <ButtonWrapper>
-        {role === 'admin' ? (
-          <ButtonItem title={'Edit Gallery'} handler={goEditGalleryScreen} />
-        ) : (
-          <ButtonItem title={'Book now'} />
-        )}
-      </ButtonWrapper>
+      <ButtonWrapper>{showButton()}</ButtonWrapper>
     </MainContainer>
   );
 };

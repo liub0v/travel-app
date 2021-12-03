@@ -2,8 +2,10 @@ import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {showMessage} from 'react-native-flash-message';
 import {
   ADD_ADVENTURE,
+  ADD_VISITED_ADVENTURE,
   DELETE_ADVENTURE,
   DELETE_SAVED_ADVENTURE,
+  DELETE_VISITED_ADVENTURE,
   GET_ADVENTURES,
   GET_ADVENTURES_BY_DESTINATION,
   GET_POPULAR_ADVENTURES,
@@ -28,7 +30,14 @@ import {
 } from '../actions/AdventureActions';
 import {tokenSelector} from '../selectors/UserSelector';
 import {userAPI} from '../../src/api/userAPI';
-import {likeAdventureStarted, setAdventureHotel} from '../actions/AuthActions';
+import {
+  addVisitedAdventureCompleted,
+  addVisitedAdventureStarted,
+  deleteVisitedAdventureCompleted,
+  deleteVisitedAdventureStarted,
+  likeAdventureStarted,
+  setAdventureHotel,
+} from '../actions/AuthActions';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
 
 export const adventureSagas = [
@@ -40,6 +49,8 @@ export const adventureSagas = [
   takeEvery(UPDATE_ADVENTURE, updateAdventureSaga),
   takeEvery(ADD_ADVENTURE, addAdventureSaga),
   takeEvery(DELETE_ADVENTURE, deleteAdventureSaga),
+  takeEvery(ADD_VISITED_ADVENTURE, addVisitedAdventureSaga),
+  takeEvery(DELETE_VISITED_ADVENTURE, deleteVisitedAdventureSaga),
 ];
 function* getPopularAdventuresSaga() {
   try {
@@ -123,11 +134,7 @@ function* deleteSavedAdventureSaga(action) {
     const token = yield select(tokenSelector);
     const adventureID = action.payload;
 
-    const response = yield call(
-      userAPI.deleteSavedAdventure,
-      adventureID,
-      token,
-    );
+    yield call(userAPI.deleteSavedAdventure, adventureID, token);
     yield put(deleteSavedAdventureCompleted(adventureID));
     yield put(likeAdventureStarted(false));
   } catch (error) {
@@ -139,6 +146,47 @@ function* deleteSavedAdventureSaga(action) {
     });
   }
 }
+
+function* addVisitedAdventureSaga(action) {
+  try {
+    yield put(addVisitedAdventureStarted(true));
+    const token = yield select(tokenSelector);
+    const adventureID = action.payload;
+    const response = yield call(
+      userAPI.addVisitedAdventure,
+      token,
+      adventureID,
+    );
+    const adventure = response.data;
+    yield put(addVisitedAdventureCompleted(adventure));
+    yield put(addVisitedAdventureStarted(false));
+  } catch (error) {
+    yield put(addVisitedAdventureStarted(false));
+    yield put(setAdventuresError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+function* deleteVisitedAdventureSaga(action) {
+  try {
+    yield put(deleteVisitedAdventureStarted(true));
+    const token = yield select(tokenSelector);
+    const adventureID = action.payload;
+    yield call(userAPI.deleteVisitedAdventure, token, adventureID);
+    yield put(deleteVisitedAdventureCompleted(adventureID));
+    yield put(deleteVisitedAdventureStarted(false));
+  } catch (error) {
+    yield put(deleteVisitedAdventureStarted(false));
+    yield put(setAdventuresError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+
 function* updateAdventureSaga(action) {
   try {
     yield put(updateAdventureStarted(true));

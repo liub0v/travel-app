@@ -24,14 +24,14 @@ export const SavedScreen = () => {
           title={'Adventures'}
           isHorizontal={true}
           data={adventures}
-          renderItem={({item}) => <Adventure item={item} />}
+          renderItem={({item}) => <Adventure item={item} type={'saved'} />}
         />
       )}
       {!!hotels.length && (
         <View>
           <SectionHeader title={'Hotels'} />
           {hotels.map(item => (
-            <Hotel item={item} key={item._id} />
+            <Hotel item={item} key={item._id} type={'saved'} />
           ))}
         </View>
       )}

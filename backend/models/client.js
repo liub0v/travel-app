@@ -26,6 +26,24 @@ const clientSchema = new mongoose.Schema({
     ],
     default: [],
   },
+  visitedHotels: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Hotel",
+      },
+    ],
+    default: [],
+  },
+  visitedAdventures: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Adventure",
+      },
+    ],
+    default: [],
+  },
 });
 const Client = mongoose.model("Client", clientSchema);
 

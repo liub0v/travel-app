@@ -8,6 +8,7 @@ const router = require("express").Router();
 const comments = require("../routers/comments");
 const admin = require("../middleware/admin");
 const auth = require("../middleware/auth");
+const { populateReviewsObj } = require("../utils/populateObjects");
 
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -19,16 +20,8 @@ router.get("/", async (req, res) => {
     .sort({ _id: 1 })
     .skip(startIndex)
     .limit(limit)
-    .populate("reviews")
     .populate("rating")
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "rating clientID",
-        select:
-          "starsNumber profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
-      },
-    });
+    .populate(populateReviewsObj);
 
   res.send(hotels);
 });

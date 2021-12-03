@@ -7,7 +7,6 @@ import {getPopularDestinations} from '../../redux/actions/DestinationActions';
 import {getPopularAdventures} from '../../redux/actions/AdventureActions';
 import {getPopularHotels} from '../../redux/actions/HotelActions';
 
-import {TripsScreen} from '../screens/TripsScreen/TripsScreen';
 import {ExploreStackScreen} from './ExploreStackScreen';
 import {SavedStackScreen} from './SavedStackScreen';
 import {ProfileStackScreen} from './ProfileStackScreen';
@@ -21,6 +20,7 @@ import savedActiveIcon from '../../assets/images/savedActiveIcon.png';
 import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
+import {TripsStackScreen} from './TripsStackScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -95,6 +95,7 @@ export const TabNavigation = () => {
       />
       <Tab.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <TabBarIcon
               focused={focused}
@@ -104,7 +105,7 @@ export const TabNavigation = () => {
           ),
         }}
         name="Trips"
-        component={TripsScreen}
+        component={TripsStackScreen}
       />
       <Tab.Screen
         options={{

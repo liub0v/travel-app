@@ -19,6 +19,7 @@ export const userInfoSelector = createSelector(
   userSelector,
   user => user?.userID,
 );
+
 export const savedHotelsSelector = createSelector(
   userSelector,
   user => user.savedHotels,
@@ -26,6 +27,15 @@ export const savedHotelsSelector = createSelector(
 export const savedAdventuresSelector = createSelector(
   userSelector,
   user => user.savedAdventures,
+);
+
+export const visitedHotelsSelector = createSelector(
+  userSelector,
+  user => user.visitedHotels,
+);
+export const visitedAdventuresSelector = createSelector(
+  userSelector,
+  user => user.visitedAdventures,
 );
 
 export const likeHotelLoaderSelector = createSelector(
@@ -36,6 +46,23 @@ export const likeAdventureLoaderSelector = createSelector(
   authSelector,
   user => user.likeAdventureLoading,
 );
+export const addVisitedHotelLoaderSelector = createSelector(
+  authSelector,
+  user => user.addVisitedHotelLoading,
+);
+export const deleteVisitedHotelLoaderSelector = createSelector(
+  authSelector,
+  user => user.deleteVisitedHotelLoading,
+);
+export const addVisitedAdventureLoaderSelector = createSelector(
+  authSelector,
+  user => user.addVisitedAdventureLoading,
+);
+export const deleteVisitedAdventureLoaderSelector = createSelector(
+  authSelector,
+  user => user.deleteVisitedAdventureLoading,
+);
+
 export const logOutIsLoadingSelector = createSelector(
   authSelector,
   item => item.logOut.isLoading,
@@ -64,15 +91,30 @@ export const updateUserIsLoadingSelector = createSelector(
   authSelector,
   item => item.update.isLoading,
 );
+
 export const getSavedHotelReviewsSelector = hotelID => {
   return createSelector(
     savedHotelsSelector,
     hotels => hotels.find(hotel => hotel._id === hotelID).reviews,
   );
 };
+
 export const getSavedAdventureReviewsSelector = adventureID => {
   return createSelector(
     popularAdventuresSelector,
+    adventures =>
+      adventures.find(adventure => adventure._id === adventureID).reviews,
+  );
+};
+export const getVisitedHotelReviewsSelector = hotelID => {
+  return createSelector(
+    visitedHotelsSelector,
+    hotels => hotels.find(hotel => hotel._id === hotelID).reviews,
+  );
+};
+export const getVisitedAdventureReviewsSelector = adventureID => {
+  return createSelector(
+    visitedAdventuresSelector(),
     adventures =>
       adventures.find(adventure => adventure._id === adventureID).reviews,
   );

@@ -15,34 +15,41 @@ import {
 
 import star from '../../../../assets/images/start.png';
 import {useNavigation} from '@react-navigation/native';
-import {getPopularHotelReviewsSelector} from '../../../../redux/selectors/HotelSelectors';
-import {getSavedHotelReviewsSelector} from '../../../../redux/selectors/UserSelector';
+import {
+  getHotelReviewsSelector,
+  getPopularHotelReviewsSelector,
+} from '../../../../redux/selectors/HotelSelectors';
+import {
+  getSavedHotelReviewsSelector,
+  getVisitedHotelReviewsSelector,
+} from '../../../../redux/selectors/UserSelector';
 
-export const Hotel = ({item, type = 'popular'}) => {
+export const Hotel = ({item, type}) => {
   const navigation = useNavigation();
   const goHotelScreen = () => {
+    let reviewsSelector;
+
     switch (type) {
       case 'popular': {
-        const popularHotelReviewsSelector = getPopularHotelReviewsSelector(
-          item._id,
-        );
-        navigation.navigate('HotelScreen', {
-          hotel: item,
-          reviewsSelector: popularHotelReviewsSelector,
-        });
+        reviewsSelector = getPopularHotelReviewsSelector(item._id);
         break;
       }
       case 'saved': {
-        const savedHotelReviewsSelector = getSavedHotelReviewsSelector(
-          item._id,
-        );
-        navigation.navigate('HotelScreen', {
-          hotel: item,
-          reviewsSelector: savedHotelReviewsSelector,
-        });
+        reviewsSelector = getSavedHotelReviewsSelector(item._id);
         break;
       }
+      case 'visited': {
+        reviewsSelector = getVisitedHotelReviewsSelector(item._id);
+        break;
+      }
+      default: {
+        reviewsSelector = getHotelReviewsSelector(item._id);
+      }
     }
+    navigation.navigate('HotelScreen', {
+      hotel: item,
+      reviewsSelector,
+    });
   };
   return (
     <TouchableWithoutFeedback onPress={goHotelScreen}>

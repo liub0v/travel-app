@@ -2,9 +2,11 @@ import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {showMessage} from 'react-native-flash-message';
 import {
   ADD_HOTEL,
+  ADD_VISITED_HOTEL,
   DELETE_GALLERY_IMAGE,
   DELETE_HOTEL,
   DELETE_SAVED_HOTEL,
+  DELETE_VISITED_HOTEL,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
   GET_POPULAR_HOTELS,
@@ -30,7 +32,11 @@ import * as RootNavigation from '../../src/navigation/RootNavigation';
 import {tokenSelector} from '../selectors/UserSelector';
 import {userAPI} from '../../src/api/userAPI';
 import {
+  addVisitedHotelCompleted,
+  addVisitedHotelStarted,
   deleteSavedHotelCompleted,
+  deleteVisitedHotelCompleted,
+  deleteVisitedHotelStarted,
   likeHotelStarted,
   setSavedHotel,
 } from '../actions/AuthActions';
@@ -46,6 +52,8 @@ export const hotelSagas = [
   takeEvery(DELETE_GALLERY_IMAGE, deleteGalleryImageSaga),
   takeEvery(ADD_HOTEL, addHotelSaga),
   takeEvery(DELETE_HOTEL, deleteHotelSaga),
+  takeEvery(ADD_VISITED_HOTEL, addVisitedHotelSaga),
+  takeEvery(DELETE_VISITED_HOTEL, deleteVisitedHotelSaga),
 ];
 function* getHotelsByDestinationSaga(action) {
   try {
@@ -187,6 +195,7 @@ function* saveHotelSaga(action) {
     const hotelID = action.payload;
     const response = yield call(userAPI.saveHotel, hotelID, token);
     const hotel = response.data;
+    console.log(hotel);
     yield put(setSavedHotel(hotel));
     yield put(likeHotelStarted(false));
   } catch (error) {
@@ -203,7 +212,7 @@ function* deleteSavedHotelSaga(action) {
     yield put(likeHotelStarted(true));
     const token = yield select(tokenSelector);
     const hotelID = action.payload;
-    const response = yield call(userAPI.deleteSavedHotel, token, hotelID);
+    yield call(userAPI.deleteSavedHotel, token, hotelID);
     yield put(deleteSavedHotelCompleted(hotelID));
     yield put(likeHotelStarted(false));
   } catch (error) {
@@ -220,17 +229,48 @@ function* deleteGalleryImageSaga(action) {
     // yield put(setHotelsIsLoading(true));
     const token = yield select(tokenSelector);
     const {hotelID, imageURL} = action.payload;
-    const response = yield call(
-      hotelAPI.deleteGalleryImage,
-      token,
-      hotelID,
-      imageURL,
-    );
+    yield call(hotelAPI.deleteGalleryImage, token, hotelID, imageURL);
     yield put(deleteGalleryImageCompleted({hotelID, imageURL}));
     // yield put(setPopularHotels(hotels));
     // yield put(setHotelsIsLoading(false));
   } catch (error) {
     // yield put(setHotelsIsLoading(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+
+function* addVisitedHotelSaga(action) {
+  try {
+    yield put(addVisitedHotelStarted(true));
+    const token = yield select(tokenSelector);
+    const hotelID = action.payload;
+    const response = yield call(userAPI.addVisitedHotel, token, hotelID);
+    const hotel = response.data;
+    yield put(addVisitedHotelCompleted(hotel));
+    yield put(addVisitedHotelStarted(false));
+  } catch (error) {
+    yield put(addVisitedHotelStarted(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+function* deleteVisitedHotelSaga(action) {
+  try {
+    yield put(deleteVisitedHotelStarted(true));
+    const token = yield select(tokenSelector);
+    const hotelID = action.payload;
+    yield call(userAPI.deleteVisitedHotel, token, hotelID);
+    yield put(deleteVisitedHotelCompleted(hotelID));
+    yield put(deleteVisitedHotelStarted(false));
+  } catch (error) {
+    yield put(deleteVisitedHotelStarted(false));
     yield put(setHotelsError(error));
     yield call(showMessage, {
       message: error.response?.data || error.message,

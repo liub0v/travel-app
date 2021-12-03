@@ -74,6 +74,39 @@ async function deleteSavedAdventure(adventureID, token) {
   });
 }
 
+async function addVisitedHotel(token, hotelID) {
+  return await instance.put(
+    '/users/visitedHotel',
+    {hotelID},
+    {
+      headers: {'x-auth-token': token},
+    },
+  );
+}
+
+async function deleteVisitedHotel(token, hotelID) {
+  return await instance.delete('/users/visitedHotel', {
+    headers: {'x-auth-token': token},
+    data: {hotelID},
+  });
+}
+
+async function addVisitedAdventure(token, adventureID) {
+  return await instance.put(
+    '/users/visitedAdventure',
+    {adventureID},
+    {
+      headers: {'x-auth-token': token},
+    },
+  );
+}
+
+async function deleteVisitedAdventure(token, adventureID) {
+  return await instance.delete('/users/visitedAdventure', {
+    headers: {'x-auth-token': token},
+    data: {adventureID},
+  });
+}
 async function deleteUser(token, userID) {
   return await instance.delete('/users', {
     headers: {'x-auth-token': token},
@@ -134,4 +167,8 @@ export const userAPI = {
   singUpGuide,
   deleteUser,
   updateUser,
+  addVisitedHotel,
+  deleteVisitedHotel,
+  addVisitedAdventure,
+  deleteVisitedAdventure,
 };
