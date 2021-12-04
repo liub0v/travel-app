@@ -7,6 +7,7 @@ import {
   DELETE_HOTEL,
   DELETE_SAVED_HOTEL,
   DELETE_VISITED_HOTEL,
+  FILTER_HOTELS,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
   GET_POPULAR_HOTELS,
@@ -20,6 +21,7 @@ import {
   deleteGalleryImageCompleted,
   deleteHotelCompleted,
   deleteHotelStarted,
+  filterHotelsStarted,
   setHasMoreHotels,
   setHotel,
   setHotels,
@@ -40,6 +42,7 @@ import {
   likeHotelStarted,
   setSavedHotel,
 } from '../actions/AuthActions';
+import {searchAPI} from '../../src/api/searchAPI';
 
 export const hotelSagas = [
   takeEvery(GET_HOTELS_BY_DESTINATION, getHotelsByDestinationSaga),
@@ -54,6 +57,7 @@ export const hotelSagas = [
   takeEvery(DELETE_HOTEL, deleteHotelSaga),
   takeEvery(ADD_VISITED_HOTEL, addVisitedHotelSaga),
   takeEvery(DELETE_VISITED_HOTEL, deleteVisitedHotelSaga),
+  takeEvery(FILTER_HOTELS, filterHotelsSaga),
 ];
 function* getHotelsByDestinationSaga(action) {
   try {
@@ -105,6 +109,33 @@ function* getHotelsSaga(action) {
     yield put(setHotelsIsLoading(false));
   } catch (error) {
     yield put(setHotelsIsLoading(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+
+function* filterHotelsSaga(action) {
+  try {
+    const {page, limit, filter} = action.payload;
+    const {priceRange, hotelOptions} = filter;
+    yield put(filterHotelsStarted(true));
+    const response = yield call(
+      searchAPI.getFilteredHotels,
+      page,
+      limit,
+      priceRange,
+      hotelOptions,
+    );
+    const hotels = response.data;
+    !hotels.length && (yield put(setHasMoreHotels(false)));
+    yield put(setHotels(hotels));
+    yield put(filterHotelsStarted(false));
+    RootNavigation.navigate('HotelsCatalog', {filter});
+  } catch (error) {
+    yield put(filterHotelsStarted(false));
     yield put(setHotelsError(error));
     yield call(showMessage, {
       message: error.response?.data || error.message,

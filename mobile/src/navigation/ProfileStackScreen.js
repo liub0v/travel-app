@@ -10,7 +10,9 @@ const ProfileStack = createNativeStackNavigator();
 export function ProfileStackScreen() {
   const navigation = useNavigation();
   return (
-    <ProfileStack.Navigator initialRouteName="ProfileScreen">
+    <ProfileStack.Navigator
+      screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}
+      initialRouteName="ProfileScreen">
       <ProfileStack.Screen
         options={{
           headerRight: props => (

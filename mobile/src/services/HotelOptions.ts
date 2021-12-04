@@ -21,10 +21,9 @@ class HotelsOptions<HotelsOptionsProps> {
     this.wifi = false;
     this.pets = false;
     this.pool = false;
-    hotelOptions &&
-      hotelOptions.split(',').forEach((item: string) => {
-        this[item] = true;
-      });
+    hotelOptions?.split(',').forEach((item: string) => {
+      this[item] = true;
+    });
   }
   toString(): string {
     const hotelOptionsArray: string[] = [];

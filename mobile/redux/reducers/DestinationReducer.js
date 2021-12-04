@@ -1,3 +1,4 @@
+import {PAGE_SIZE} from '../../src/constants/api';
 import {
   CLEAR_DESTINATIONS,
   GET_DESTINATIONS_BY_NAME_COMPLETED,
@@ -22,9 +23,17 @@ export const destinationReducer = (state = initialState, {type, payload}) => {
   switch (type) {
     case SET_DESTINATIONS: {
       if (state.destinations) {
-        return {...state, destinations: [...state.destinations, ...payload]};
+        return {
+          ...state,
+          destinations: [...state.destinations, ...payload],
+          hasMore: payload.length === PAGE_SIZE,
+        };
       }
-      return {...state, destinations: payload};
+      return {
+        ...state,
+        destinations: payload,
+        hasMore: payload.length === PAGE_SIZE,
+      };
     }
     case SET_HAS_MORE_DESTINATIONS:
       return {...state, hasMore: payload};
@@ -38,9 +47,13 @@ export const destinationReducer = (state = initialState, {type, payload}) => {
       return {...state, popularDestinationsLoading: payload};
     case CLEAR_DESTINATIONS:
       return {...state, destinations: undefined, hasMore: true};
-    case GET_DESTINATIONS_BY_NAME_COMPLETED: {
-      return {...state, destinations: [...payload]};
-    }
+    case GET_DESTINATIONS_BY_NAME_COMPLETED:
+      return {
+        ...state,
+        destinations: [...payload],
+        hasMore: payload.length === PAGE_SIZE,
+      };
+
     default:
       return state;
   }

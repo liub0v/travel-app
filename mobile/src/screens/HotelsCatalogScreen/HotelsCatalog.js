@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {MainContainer} from './HotelsCatalog.style';
+
 import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import {
   getHotelReviewsSelector,
@@ -8,15 +8,19 @@ import {
   isLoadingHotelSelector,
 } from '../../../redux/selectors/HotelSelectors';
 import {useDispatch, useSelector} from 'react-redux';
-import {getHotelsByDestination} from '../../../redux/actions/HotelActions';
+import {
+  filterHotels,
+  getHotelsByDestination,
+} from '../../../redux/actions/HotelActions';
 import colors from '../../constants/colors';
+import FastImage from 'react-native-fast-image';
+import {ButtonItem} from '../../components/Buttons/ButtonItem';
+import {MainContainer} from './HotelsCatalog.style';
 import {
   InfoContainer,
   ItemContainer,
   NormalText,
 } from '../HotelsCatalogByDestinations/HotelsCatalogByDestination.style';
-import FastImage from 'react-native-fast-image';
-import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {
   HotelPrice,
   HotelPricePeriod,
@@ -30,6 +34,7 @@ import {
   Footer,
   Spinner,
 } from '../DestinationsCatalogScreen/DestinationsCatalog';
+import {PAGE_SIZE} from '../../constants/api';
 
 const Hotel = ({item}) => {
   const navigation = useNavigation();
@@ -77,14 +82,21 @@ const Hotel = ({item}) => {
 
 export const HotelsCatalog = () => {
   const route = useRoute();
-  const destination = route.params.destination;
+  const destination = route?.params?.destination;
+  const filter = route?.params?.filter;
   const hotels = useSelector(hotelsSelector);
   const hasMore = useSelector(hasMoreHotelsSelector);
   const isLoading = useSelector(isLoadingHotelSelector);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+
   useEffect(() => {
-    dispatch(getHotelsByDestination({page, limit: 8, destination}));
+    if (destination) {
+      dispatch(getHotelsByDestination({page, limit: PAGE_SIZE, destination}));
+    }
+    if (filter) {
+      dispatch(filterHotels({page, limit: PAGE_SIZE, filter}));
+    }
   }, [page]);
   return (
     <MainContainer>

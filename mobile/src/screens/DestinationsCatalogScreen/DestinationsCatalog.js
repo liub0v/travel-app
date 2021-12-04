@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
   Text,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -31,6 +32,7 @@ import {clearAdventures} from '../../../redux/actions/AdventureActions';
 import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
 import {useNavigation} from '@react-navigation/native';
+import {PAGE_SIZE} from '../../constants/api';
 
 const Destination = ({item}) => {
   const dispatch = useDispatch();
@@ -55,6 +57,7 @@ const Destination = ({item}) => {
     </TouchableWithoutFeedback>
   );
 };
+
 export const Spinner = () => {
   return (
     <ActivityIndicator
@@ -64,20 +67,55 @@ export const Spinner = () => {
     />
   );
 };
+
 export const Footer = () => {
-  return <Text style={{fontFamily: fonts.normal, color: colors.white}}> </Text>;
+  return (
+    // <View style={{width: '100%', alignItems: 'center'}}>
+    <Text
+      style={{
+        width: '100%',
+        fontFamily: fonts.normal,
+        color: colors.grey,
+        textAlign: 'center',
+      }}>
+      No more results
+    </Text>
+    // </View>
+  );
 };
+
 export const DestinationsCatalog = () => {
   const destinations = useSelector(destinationsSelector);
   const hasMore = useSelector(hasMoreDestinationsSelector);
-  const dispatch = useDispatch();
   const isLoading = useSelector(destinationsLoader);
 
+  const dispatch = useDispatch();
+
   const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [timerId, setTimerId] = useState();
+
+  const searchDestinations = useCallback(
+    (countryName, page) => {
+      if (countryName.trim()) {
+        dispatch(getDestinationsByName({page, limit: PAGE_SIZE, countryName}));
+      } else {
+        dispatch(getDestinations({page, limit: PAGE_SIZE}));
+      }
+    },
+    [dispatch],
+  );
+
+  const handleEndReached = useCallback(() => {
+    if (hasMore) {
+      setPage(page + 1);
+      searchDestinations(searchTerm, page + 1);
+    }
+  }, [page, hasMore, searchTerm, searchDestinations]);
+
   useEffect(() => {
-    console.log(hasMore);
-    hasMore && dispatch(getDestinations({page: page, limit: 8}));
-  }, [page]);
+    searchDestinations('', 1);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -85,17 +123,35 @@ export const DestinationsCatalog = () => {
     };
   }, []);
 
-  const searchHandler = countryName => {
-    setPage(1);
-    dispatch(getDestinationsByName({page: 1, limit: 8, countryName}));
+  const handleSearchTermpChange = countryName => {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    const newId = setTimeout(() => {
+      dispatch(clearDestinations());
+      setPage(1);
+      setSearchTerm(countryName);
+      searchDestinations(countryName, 1);
+    }, 500);
+
+    setTimerId(newId);
   };
+
+  const footerComponent = useCallback(() => {
+    if (!hasMore) {
+      return <Footer />;
+    } else {
+      return isLoading ? <Spinner /> : null;
+    }
+  }, [isLoading, hasMore]);
 
   return (
     <MainContainer>
       <SearchWrapper>
         <Search
           placeholder={'Where are you going?'}
-          onChangeHandler={searchHandler}
+          onChangeHandler={handleSearchTermpChange}
         />
       </SearchWrapper>
       <FlatListWrapper>
@@ -105,12 +161,10 @@ export const DestinationsCatalog = () => {
           showsVerticalScrollIndicator={false}
           data={destinations}
           onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            hasMore && setPage(page + 1);
-          }}
+          onEndReached={handleEndReached}
           renderItem={({item}) => <Destination item={item} />}
           keyExtractor={item => item._id}
-          ListFooterComponent={isLoading ? <Spinner /> : <Footer />}
+          ListFooterComponent={footerComponent}
         />
       </FlatListWrapper>
     </MainContainer>

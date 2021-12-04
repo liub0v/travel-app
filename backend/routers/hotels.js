@@ -37,14 +37,31 @@ router.get("/ByDestination", async (req, res) => {
     .limit(limit)
     .populate("reviews")
     .populate("rating")
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "rating clientID",
-        select:
-          "starsNumber profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
-      },
-    });
+    .populate(populateReviewsObj);
+
+  res.send(hotels);
+});
+router.get("/filter", async (req, res) => {
+  const [priceMin, priceMax] = req.query.priceRange.split(",");
+  const hotelOptions = req.query.hotelOptions.split(",");
+
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 8;
+  const startIndex = (page - 1) * limit;
+
+  const regexString = hotelOptions.map((option) => `(?=.*${option})`).join("");
+  const regex = new RegExp(regexString);
+
+  const hotels = await Hotel.find({
+    price: { $gte: priceMin, $lte: priceMax },
+    hotelOptions: regex,
+  })
+    .sort({ _id: 1 })
+    .skip(startIndex)
+    .limit(limit)
+    .populate("reviews")
+    .populate("rating")
+    .populate(populateReviewsObj);
 
   res.send(hotels);
 });

@@ -3,6 +3,7 @@ import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
 export const MainContainer = styled.View`
   flex: 1;
+  margin-top: 24px;
 `;
 
 export const SearchWrapper = styled.View`

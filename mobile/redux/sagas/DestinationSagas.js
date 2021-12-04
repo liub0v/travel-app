@@ -44,7 +44,7 @@ function* getDestinationsSaga(action) {
     const response = yield call(destinationAPI.getDestinations, page, limit);
     const destinations = response.data;
     yield put(setDestinations(destinations));
-    !destinations.length && (yield put(setHasMoreDestinations(false)));
+    // !destinations.length && (yield put(setHasMoreDestinations(false)));
     yield put(setDestinationsIsLoading(false));
   } catch (error) {
     yield put(setDestinationsIsLoading(false));
@@ -67,7 +67,9 @@ function* getDestinationsByNameSaga(action) {
       countryName,
     );
     const destinations = response.data;
-    yield put(getDestinationsByNameCompleted(destinations));
+    // yield put(getDestinationsByNameCompleted(destinations));
+    yield put(setDestinations(destinations));
+    setDestinations;
     yield put(setDestinationsIsLoading(false));
   } catch (error) {
     yield put(setDestinationsIsLoading(false));

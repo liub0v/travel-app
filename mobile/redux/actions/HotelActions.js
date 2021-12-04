@@ -8,6 +8,9 @@ import {
   DELETE_HOTEL,
   DELETE_HOTEL_COMPLETED,
   DELETE_HOTEL_STARTED,
+  FILTER_HOTELS,
+  FILTER_HOTELS_COMPLETED,
+  FILTER_HOTELS_STARTED,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
   GET_POPULAR_HOTELS,
@@ -149,5 +152,24 @@ export const deleteGalleryImage = ({hotelID, imageURL}) => {
   return {
     type: DELETE_GALLERY_IMAGE,
     payload: {hotelID, imageURL},
+  };
+};
+
+export const filterHotelsStarted = isLoading => {
+  return {
+    type: FILTER_HOTELS_STARTED,
+    payload: isLoading,
+  };
+};
+export const filterHotels = ({page, limit, filter}) => {
+  return {
+    type: FILTER_HOTELS,
+    payload: {page, limit, filter},
+  };
+};
+export const filterHotelsCompleted = hotels => {
+  return {
+    type: FILTER_HOTELS_COMPLETED,
+    payload: hotels,
   };
 };

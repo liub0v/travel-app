@@ -6,7 +6,8 @@ export const SERVER_DOMAIN = 'localhost:3000';
 export const SERVER_API_ENDPOINT = '/api';
 
 export const instance = axios.create({
-  baseURL: 'http://192.168.43.50:3000/api', //mac
+  // baseURL: 'http://192.168.43.50:3000/api', //mac
+  baseURL: 'http://localhost:3000/api', //mac
   // baseURL: 'http://192.168.56.1:3000/api', //win
-  timeout: 30000,
+  timeout: 3000,
 });

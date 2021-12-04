@@ -9,12 +9,18 @@ import {AdventureStackScreen} from './AdventureStackScreen';
 import {HotelStackScreen} from './HotelStackScreen';
 import {GuideScreen} from '../screens/GuideScreen/GuideScreen';
 import {GuidesCatalogScreen} from '../screens/GuidesCatalogScreen/GuidesCatalogScreen';
-
+import {FilterScreen} from '../screens/FilterScreen/FilterScreen';
+import {Filter} from '../components/Filter/Filter';
+import {useNavigation} from '@react-navigation/core';
+import colors from '../constants/colors';
 const ExploreStack = createNativeStackNavigator();
 
 export function ExploreStackScreen() {
+  const navigation = useNavigation();
   return (
-    <ExploreStack.Navigator initialRouteName="Explore">
+    <ExploreStack.Navigator
+      initialRouteName="Explore"
+      screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}>
       <ExploreStack.Screen
         options={{
           headerShown: false,
@@ -32,6 +38,13 @@ export function ExploreStackScreen() {
       <ExploreStack.Screen
         options={{
           headerTitle: 'Trips',
+          headerRight: props => (
+            <Filter
+              handler={() => {
+                navigation.navigate('FilterScreen');
+              }}
+            />
+          ),
         }}
         name="HotelsCatalogByDestination"
         component={HotelsCatalogByDestination}
@@ -46,6 +59,7 @@ export function ExploreStackScreen() {
       <ExploreStack.Screen
         options={{
           headerTitle: 'Hotels',
+          headerBackTitle: '',
         }}
         name="HotelsCatalog"
         component={HotelsCatalog}
@@ -66,6 +80,15 @@ export function ExploreStackScreen() {
         }}
         name="GuidesCatalogScreen"
         component={GuidesCatalogScreen}
+      />
+      <ExploreStack.Screen
+        options={{
+          headerTintColor: colors.white,
+          headerTitle: 'Filter',
+          headerBackTitle: '',
+        }}
+        name="FilterScreen"
+        component={FilterScreen}
       />
     </ExploreStack.Navigator>
   );

@@ -3,12 +3,13 @@ import React from 'react';
 import {AdventureStackScreen} from './AdventureStackScreen';
 import {HotelStackScreen} from './HotelStackScreen';
 import {TripsScreen} from '../screens/TripsScreen/TripsScreen';
-
+import colors from '../constants/colors';
 const TripsStack = createNativeStackNavigator();
 
 export function TripsStackScreen() {
   return (
-    <TripsStack.Navigator>
+    <TripsStack.Navigator
+      screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}>
       <TripsStack.Screen
         options={{
           headerShown: true,
