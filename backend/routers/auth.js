@@ -46,6 +46,7 @@ router.post("/", async (req, res) => {
         .populate(populateVisitedAdventuresObj)
         .populate(populateVisitedHotelsObj)
         .populate("userID");
+
       if (!user) return res.status(400).send("User isn't a client");
       break;
     case "guide":

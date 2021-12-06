@@ -19,13 +19,13 @@ export function ExploreStackScreen() {
   const navigation = useNavigation();
   return (
     <ExploreStack.Navigator
-      initialRouteName="Explore"
+      initialRouteName="ExploreScreen"
       screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}>
       <ExploreStack.Screen
         options={{
           headerShown: false,
         }}
-        name="Explore"
+        name="ExploreScreen"
         component={ExploreScreen}
       />
       <ExploreStack.Screen

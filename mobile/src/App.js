@@ -8,33 +8,19 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from '../redux/store';
 
 import {Navigation} from './navigation/Navigation';
-// import {loadFonts} from './constants/fonts';
-import * as Font from 'expo-font';
+import {loadFonts} from './constants/fonts';
+
 console.reportErrorsAsExceptions = false;
 
 const App = () => {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  async function loadFonts() {
-    const fonts = await Font.loadAsync({
-      Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
-      MontserratExtraBold: require('../assets/fonts/Montserrat-ExtraBold.ttf'),
-    });
-    setFontsLoaded(true);
-  }
-
   useEffect(async () => {
-    await loadFonts();
-    SplashScreen.hide();
-  }, []);
+    const bootstrapApp = async () => {
+      await loadFonts();
+      SplashScreen.hide();
+    };
 
-  // useEffect(async () => {
-  //   const bootstrapApp = async () => {
-  //   await loadFonts();
-  //   SplashScreen.hide();
-  //   };
-  //
-  //   bootstrapApp();
-  // }, []);
+    bootstrapApp();
+  }, []);
 
   return (
     <Provider store={store}>

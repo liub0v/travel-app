@@ -25,6 +25,16 @@ router.get("/", async (req, res) => {
 
   res.send(hotels);
 });
+
+router.get("/", async (req, res) => {
+  const hotelID = req.query.hotelID;
+  const hotels = await Hotel.findById(hotelID)
+    .populate("rating")
+    .populate(populateReviewsObj);
+
+  res.send(hotels);
+});
+
 router.get("/ByDestination", async (req, res) => {
   const destination = req.query.destination;
   const page = parseInt(req.query.page) || 1;

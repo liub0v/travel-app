@@ -15,6 +15,7 @@ import {
 } from '../types/HotelTypes';
 
 const initialState = {
+  currentHotel: undefined,
   hotels: undefined,
   popularHotels: undefined,
   isLoading: false,

@@ -15,10 +15,9 @@ export function TripsStackScreen() {
           headerShown: true,
           headerTitle: 'My trips',
         }}
-        name="Trips"
+        name="TripsScreen"
         component={TripsScreen}
       />
-
       {HotelStackScreen(TripsStack)}
       {AdventureStackScreen(TripsStack)}
     </TripsStack.Navigator>

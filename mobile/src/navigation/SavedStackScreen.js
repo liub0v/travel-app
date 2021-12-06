@@ -4,6 +4,7 @@ import {SavedScreen} from '../screens/SavedScreen/SavedScreen';
 import {AdventureStackScreen} from './AdventureStackScreen';
 import {HotelStackScreen} from './HotelStackScreen';
 import colors from '../constants/colors';
+
 const SavedStack = createNativeStackNavigator();
 
 export function SavedStackScreen() {
@@ -13,8 +14,9 @@ export function SavedStackScreen() {
       <SavedStack.Screen
         options={{
           headerShown: true,
+          headerTitle: 'Saved',
         }}
-        name="Saved"
+        name="SavedScreen"
         component={SavedScreen}
       />
 

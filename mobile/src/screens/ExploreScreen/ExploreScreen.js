@@ -135,7 +135,9 @@ export const ExploreScreen = ({navigation}) => {
           isLoading={popularDestinationsIsLoading}
           loaderStyle={loaderStyles.destination}
           data={destinations}
-          component={item => <Destination item={item} key={item._id} />}
+          component={item => (
+            <Destination item={item} key={item._id} type="popular" />
+          )}
         />
       </SectionWrapper>
       <SectionWrapper
@@ -150,7 +152,9 @@ export const ExploreScreen = ({navigation}) => {
           isLoading={popularAdventuresIsLoading}
           loaderStyle={loaderStyles.adventure}
           data={adventures}
-          component={item => <Adventure item={item} key={item._id} />}
+          component={item => (
+            <Adventure item={item} key={item._id} type="popular" />
+          )}
         />
       </SectionWrapper>
       <SectionWrapper
@@ -164,7 +168,9 @@ export const ExploreScreen = ({navigation}) => {
           isLoading={popularHotelsIsLoading}
           loaderStyle={loaderStyles.hotel}
           data={hotels}
-          component={item => <Hotel item={item} key={item._id} />}
+          component={item => (
+            <Hotel item={item} key={item._id} type="popular" />
+          )}
         />
       </SectionWrapper>
     </MainContainer>

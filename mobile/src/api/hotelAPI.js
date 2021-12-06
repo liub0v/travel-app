@@ -50,6 +50,11 @@ async function deleteHotel(token, hotelID) {
     data: {hotelID},
   });
 }
+
+async function getHotelByID(hotelID) {
+  return await instance.get('/hotels', {params: {hotelID}});
+}
+
 async function addHotel(
   token,
   {
@@ -135,4 +140,5 @@ export const hotelAPI = {
   deleteGalleryImage,
   addHotel,
   deleteHotel,
+  getHotelByID,
 };

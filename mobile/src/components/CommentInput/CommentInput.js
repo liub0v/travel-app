@@ -161,9 +161,6 @@ export const CommentInput = ({
 
   return (
     <CommentInputContainer>
-      <View style={{paddingBottom: 24, paddingTop: 24}}>
-        <SectionHeader title={'Reviews'} showRightButton={false} />
-      </View>
       {comments.map(item => (
         <Comment item={item} key={item._id} />
       ))}

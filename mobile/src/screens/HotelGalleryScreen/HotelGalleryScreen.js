@@ -17,7 +17,7 @@ export const HotelGalleryScreen = () => {
 
   return (
     <MainContainer horizontal pagingEnabled>
-      {gallery.map((imageURL, index) => (
+      {gallery?.map((imageURL, index) => (
         <ScrollView maximumZoomScale={2.5} minimumZoomScale={1} key={index}>
           <FastImage
             resizeMode="contain"

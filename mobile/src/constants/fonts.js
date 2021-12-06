@@ -1,7 +1,7 @@
 import * as Font from 'expo-font';
 
 export async function loadFonts() {
-  const fonts = await Font.loadAsync({
+  return await Font.loadAsync({
     Montserrat: require('../../assets/fonts/Montserrat-Regular.ttf'),
     MontserratExtraBold: require('../../assets/fonts/Montserrat-ExtraBold.ttf'),
   });

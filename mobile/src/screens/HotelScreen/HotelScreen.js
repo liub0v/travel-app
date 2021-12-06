@@ -194,16 +194,16 @@ export const HotelScreen = () => {
       <GalleryContainer>
         <GalleryHeader>{'Gallery'}</GalleryHeader>
         <GalleryWrapper>
-          <GalleryMainImage source={{uri: hotel.gallery[2]}} />
+          <GalleryMainImage source={{uri: hotel?.gallery[2]}} />
           <ColumnWrapper>
-            <GallerySecondImage source={{uri: hotel.gallery[0]}} />
+            <GallerySecondImage source={{uri: hotel?.gallery[0]}} />
             <RowWrapper>
-              <GalleryThirdImage source={{uri: hotel.gallery[1]}} />
+              <GalleryThirdImage source={{uri: hotel?.gallery[1]}} />
               <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
                 <GalleryMoreImage
                   blurRadius={3}
                   imageStyle={{borderRadius: 8}}
-                  source={{uri: hotel.gallery[3]}}>
+                  source={{uri: hotel?.gallery[3]}}>
                   <GalleryMoreTitle>{'6+'}</GalleryMoreTitle>
                 </GalleryMoreImage>
               </TouchableWithoutFeedback>
