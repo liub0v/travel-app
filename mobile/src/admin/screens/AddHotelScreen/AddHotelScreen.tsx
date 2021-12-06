@@ -230,8 +230,8 @@ export const AddHotelScreen: React.FC<Props> = () => {
             <InputWrapper>
               <Title>Gallery</Title>
               <GalleryContainer>
-                {gallery?.map(img => (
-                  <ImageWrapper>
+                {gallery?.map((img, index) => (
+                  <ImageWrapper key={index}>
                     <ImageItem>
                       <FastImage
                         style={{width: 100, height: 100}}

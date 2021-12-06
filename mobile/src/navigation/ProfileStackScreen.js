@@ -2,8 +2,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {ProfileScreen} from '../screens/ProfileScreen/ProfileScreen';
 import {EditProfileScreen} from '../screens/EditProfileScreen/EditProfileScreen';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {EditButton} from './TabNavigation';
+import colors from '../constants/colors';
 
 const ProfileStack = createNativeStackNavigator();
 
@@ -22,13 +23,14 @@ export function ProfileStackScreen() {
               }}
             />
           ),
+          headerTitle: 'Profile',
         }}
         name="ProfileScreen"
         component={ProfileScreen}
       />
       <ProfileStack.Screen
         options={{
-          headerTitle: 'EditProfile',
+          headerTitle: 'Edit Profile',
           headerBackTitle: '',
         }}
         name="EditProfileScreen"

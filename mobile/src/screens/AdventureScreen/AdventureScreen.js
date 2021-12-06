@@ -256,8 +256,8 @@ export const AdventureScreen = () => {
           }}
         />
         <IntroReviews>
-          {adventure?.reviews.slice(0, 3).map(item => (
-            <Comment item={item} />
+          {adventure?.reviews?.slice(0, 3)?.map(item => (
+            <Comment item={item} key={item?._id} />
           ))}
         </IntroReviews>
       </ReviewsContainer>

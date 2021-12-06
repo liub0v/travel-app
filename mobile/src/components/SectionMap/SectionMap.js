@@ -8,8 +8,8 @@ const Map = ({data, component, isLoading, loaderStyle}) => {
   if (isLoading) {
     return (
       <>
-        {mockLoader?.map(() => (
-          <Loader style={loaderStyle} />
+        {mockLoader?.map(item => (
+          <Loader style={loaderStyle} key={item._id} />
         ))}
       </>
     );

@@ -59,9 +59,7 @@ export const AdventuresScreen = () => {
             onEndReached={() => {
               hasMore && setPage(page + 1);
             }}
-            renderItem={({item}) => (
-              <Adventure item={item} navigation={navigation} />
-            )}
+            renderItem={({item}) => <Adventure item={item} />}
             keyExtractor={item => item._id}
           />
         </>

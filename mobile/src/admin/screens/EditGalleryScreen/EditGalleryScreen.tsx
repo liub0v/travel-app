@@ -50,8 +50,8 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
   return (
     <ScrollView>
       <GalleryContainer>
-        {gallery.map((imgURL: string) => (
-          <ImageWrapper>
+        {gallery.map((imgURL, index) => (
+          <ImageWrapper key={index}>
             <ImageItem>
               <FastImage
                 style={{width: 100, height: 100}}
@@ -63,8 +63,8 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
             </DeleteWrapper>
           </ImageWrapper>
         ))}
-        {images?.map(img => (
-          <ImageWrapper>
+        {images?.map((img, index) => (
+          <ImageWrapper key={index}>
             <ImageItem>
               <FastImage
                 style={{width: 100, height: 100}}

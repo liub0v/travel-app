@@ -13,8 +13,9 @@ export function TripsStackScreen() {
       <TripsStack.Screen
         options={{
           headerShown: true,
+          headerTitle: 'My trips',
         }}
-        name="Saved"
+        name="Trips"
         component={TripsScreen}
       />
 

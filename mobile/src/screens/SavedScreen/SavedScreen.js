@@ -30,7 +30,7 @@ export const SavedScreen = () => {
       {!!hotels.length && (
         <View>
           <SectionHeader title={'Hotels'} />
-          {hotels.map(item => (
+          {hotels?.map(item => (
             <Hotel item={item} key={item._id} type={'saved'} />
           ))}
         </View>

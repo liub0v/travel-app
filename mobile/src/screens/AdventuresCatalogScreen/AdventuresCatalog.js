@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, View, Text, TouchableWithoutFeedback} from 'react-native';
+import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   adventuresSelector,
@@ -7,10 +7,7 @@ import {
   hasMoreAdventuresSelector,
   isLoadingAdventureSelector,
 } from '../../../redux/selectors/AdventureSelectors';
-import {
-  FlatListWrapper,
-  MainContainer,
-} from '../DestinationsCatalogScreen/DestinationsCatalog.style';
+import {MainContainer} from '../DestinationsCatalogScreen/DestinationsCatalog.style';
 import {getAdventuresByDestination} from '../../../redux/actions/AdventureActions';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import colors from '../../constants/colors';
@@ -24,7 +21,6 @@ import FastImage from 'react-native-fast-image';
 
 import {
   InfoContainer,
-  ItemContainer,
   NormalText,
 } from '../HotelsCatalogByDestinations/HotelsCatalogByDestination.style';
 import {
@@ -67,7 +63,7 @@ const Adventure = ({item}) => {
         <InfoContainer>
           <NormalText>{item?.name}</NormalText>
           <StarsContainer>
-            {[...Array(item?.rating?.starsNumber)].map((item, index) => {
+            {[...Array(item?.rating?.starsNumber)]?.map((item, index) => {
               return <Star key={index} source={star} />;
             })}
           </StarsContainer>
@@ -98,7 +94,8 @@ const Adventure = ({item}) => {
   );
 };
 
-export const AdventuresCatalog = ({navigation, route}) => {
+export const AdventuresCatalog = () => {
+  const route = useRoute();
   const destination = route.params.destination;
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);

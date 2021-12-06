@@ -177,8 +177,8 @@ export const HotelScreen = () => {
         </InfoWrapper>
       </InfoContainer>
       <OptionsContainer>
-        {hotelOptions.show().map(item => (
-          <Option title={item.title} icon={item.image} />
+        {hotelOptions.show().map((item, index) => (
+          <Option title={item.title} icon={item.image} key={index} />
         ))}
         <ButtonSeeMoreWrapper>
           <ButtonItem

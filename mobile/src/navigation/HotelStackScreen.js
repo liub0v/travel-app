@@ -5,6 +5,7 @@ import {EditGalleryScreen} from '../admin/screens/EditGalleryScreen/EditGalleryS
 import {HotelGalleryScreen} from '../screens/HotelGalleryScreen/HotelGalleryScreen';
 
 export function HotelStackScreen(Stack) {
+  const screens = [{_id: 11}, {_id: 12}, {_id: 13}, {_id: 14}, {_id: 15}];
   return [
     <Stack.Screen
       options={{
@@ -14,6 +15,7 @@ export function HotelStackScreen(Stack) {
       }}
       name="HotelScreen"
       component={HotelScreen}
+      key={screens[0]._id}
     />,
     <Stack.Screen
       options={{
@@ -24,6 +26,7 @@ export function HotelStackScreen(Stack) {
       }}
       name="EditHotelScreen"
       component={EditHotelScreen}
+      key={screens[1]._id}
     />,
     <Stack.Screen
       options={{
@@ -34,6 +37,7 @@ export function HotelStackScreen(Stack) {
       }}
       name="EditGalleryScreen"
       component={EditGalleryScreen}
+      key={screens[2]._id}
     />,
     <Stack.Screen
       options={{
@@ -42,6 +46,7 @@ export function HotelStackScreen(Stack) {
       }}
       name="HotelGalleryScreen"
       component={HotelGalleryScreen}
+      key={screens[3]._id}
     />,
   ];
 }
