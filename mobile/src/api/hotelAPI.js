@@ -52,22 +52,12 @@ async function deleteHotel(token, hotelID) {
 }
 
 async function getHotelByID(hotelID) {
-  return await instance.get('/hotels', {params: {hotelID}});
+  return await instance.get('/hotels/byID', {params: {hotelID}});
 }
 
 async function addHotel(
   token,
-  {
-    name,
-    image,
-    summary,
-    price,
-    address,
-    hotelOptions,
-    beds,
-    starsNumber,
-    gallery,
-  },
+  {name, image, summary, price, address, hotelOptions, starsNumber, gallery},
 ) {
   const formData = new FormData();
   formData.append('name', name);
@@ -96,17 +86,7 @@ async function addHotel(
 }
 async function updateHotel(
   token,
-  {
-    hotelID,
-    name,
-    image,
-    summary,
-    price,
-    address,
-    hotelOptions,
-    beds,
-    starsNumber,
-  },
+  {hotelID, name, image, summary, price, address, hotelOptions, starsNumber},
 ) {
   const formData = new FormData();
   formData.append('hotelID', hotelID);

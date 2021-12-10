@@ -1,11 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   destinationsLoader,
@@ -29,10 +23,10 @@ import {
   getDestinationsByName,
 } from '../../../redux/actions/DestinationActions';
 import {clearAdventures} from '../../../redux/actions/AdventureActions';
-import colors from '../../constants/colors';
-import fonts from '../../constants/fonts';
 import {useNavigation} from '@react-navigation/native';
 import {PAGE_SIZE} from '../../constants/api';
+import {Spinner} from '../../components/Loaders/Spinner';
+import {Footer} from '../../components/Footer/Footer';
 
 const Destination = ({item}) => {
   const dispatch = useDispatch();
@@ -55,32 +49,6 @@ const Destination = ({item}) => {
         </TitleWrapper>
       </ItemContainer>
     </TouchableWithoutFeedback>
-  );
-};
-
-export const Spinner = () => {
-  return (
-    <ActivityIndicator
-      style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-      size="large"
-      color={colors.green}
-    />
-  );
-};
-
-export const Footer = () => {
-  return (
-    // <View style={{width: '100%', alignItems: 'center'}}>
-    <Text
-      style={{
-        width: '100%',
-        fontFamily: fonts.normal,
-        color: colors.grey,
-        textAlign: 'center',
-      }}>
-      No more results
-    </Text>
-    // </View>
   );
 };
 
@@ -123,7 +91,7 @@ export const DestinationsCatalog = () => {
     };
   }, []);
 
-  const handleSearchTermpChange = countryName => {
+  const handleSearchTermChange = countryName => {
     if (timerId) {
       clearTimeout(timerId);
     }
@@ -151,7 +119,7 @@ export const DestinationsCatalog = () => {
       <SearchWrapper>
         <Search
           placeholder={'Where are you going?'}
-          onChangeHandler={handleSearchTermpChange}
+          onChangeHandler={handleSearchTermChange}
         />
       </SearchWrapper>
       <FlatListWrapper>

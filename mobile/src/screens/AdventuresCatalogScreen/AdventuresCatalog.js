@@ -12,10 +12,6 @@ import {getAdventuresByDestination} from '../../../redux/actions/AdventureAction
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import colors from '../../constants/colors';
 
-import {
-  Footer,
-  Spinner,
-} from '../DestinationsCatalogScreen/DestinationsCatalog';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 
@@ -39,6 +35,8 @@ import {
   GuideTitleWrapper,
 } from './AdventuresCatalog.style';
 import {GuideImage} from './AdventuresCatalog.style';
+import {Spinner} from '../../components/Loaders/Spinner';
+import {Footer} from '../../components/Footer/Footer';
 
 const Adventure = ({item}) => {
   const navigation = useNavigation();

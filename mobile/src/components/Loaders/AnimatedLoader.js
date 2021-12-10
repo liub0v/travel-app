@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {Animated, View} from 'react-native';
 import colors from '../../constants/colors';
 
-export const Loader = ({style}) => {
+export const AnimatedLoader = ({style}) => {
   const animateState = {
     start: 0,
     end: 1,

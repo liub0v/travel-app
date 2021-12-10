@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, View} from 'react-native';
-import {Loader} from '../Loaders/Loader';
+import {AnimatedLoader} from '../Loaders/AnimatedLoader';
 import {SectionHeader} from '../Section/Section';
 
 const Map = ({data, component, isLoading, loaderStyle}) => {
@@ -9,7 +9,7 @@ const Map = ({data, component, isLoading, loaderStyle}) => {
     return (
       <>
         {mockLoader?.map(item => (
-          <Loader style={loaderStyle} key={item._id} />
+          <AnimatedLoader style={loaderStyle} key={item._id} />
         ))}
       </>
     );

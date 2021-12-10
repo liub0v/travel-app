@@ -25,12 +25,10 @@ import {
 } from '../../../redux/actions/DestinationActions';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {clearHotels} from '../../../redux/actions/HotelActions';
-import {
-  Footer,
-  Spinner,
-} from '../DestinationsCatalogScreen/DestinationsCatalog';
 import {PAGE_SIZE} from '../../constants/api';
 import {useNavigation} from '@react-navigation/core';
+import {Footer} from '../../components/Footer/Footer';
+import {Spinner} from '../../components/Loaders/Spinner';
 
 const Destination = ({item}) => {
   const dispatch = useDispatch();
@@ -63,7 +61,7 @@ const Destination = ({item}) => {
     </TouchableWithoutFeedback>
   );
 };
-export const HotelsCatalogByDestination = ({navigation}) => {
+export const HotelsCatalogByDestination = () => {
   const destinations = useSelector(destinationsSelector);
   const hasMore = useSelector(hasMoreDestinationsSelector);
   const dispatch = useDispatch();

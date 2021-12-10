@@ -85,20 +85,17 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
       return {...state, adventures: [payload]};
     case DELETE_ADVENTURE_STARTED:
       return {...state, deleteLoading: payload};
-    case DELETE_ADVENTURE_COMPLETED: {
+    case DELETE_ADVENTURE_COMPLETED:
       return {
         ...state,
         adventures: [
           ...state.adventures.filter(adventure => adventure._id !== payload),
         ],
       };
-    }
-    case SET_POPULAR_ADVENTURES_STARTED: {
+    case SET_POPULAR_ADVENTURES_STARTED:
       return {...state, popularAdventuresLoading: payload};
-    }
-    case SAVE_ADVENTURE_STARTED: {
+    case SAVE_ADVENTURE_STARTED:
       return {...state, saveLoading: payload};
-    }
     default:
       return state;
   }

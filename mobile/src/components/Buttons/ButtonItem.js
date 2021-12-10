@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {ButtonWrapper, ButtonText, ButtonContainer} from './ButtonItem.style';
-import {ActivityIndicator} from 'react-native';
 import colors from '../../constants/colors';
+import {Spinner} from '../Loaders/Spinner';
 
 export const ButtonItem = ({
   handler = () => {},
@@ -28,7 +28,7 @@ export const ButtonItem = ({
         height={size.height}
         width={size.width}>
         {isLoading ? (
-          <ActivityIndicator size="small" color={colors.white} />
+          <Spinner size={'small'} color={colors.white} />
         ) : (
           <ButtonText fontSize={titleSize} color={theme.textColor}>
             {title}

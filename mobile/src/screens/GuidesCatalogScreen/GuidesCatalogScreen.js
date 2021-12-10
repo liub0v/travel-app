@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {MainContainer} from '../HotelsCatalogScreen/HotelsCatalog.style';
-import {ActivityIndicator, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import colors from '../../constants/colors';
 import {getGuides} from '../../../redux/actions/GuideActions';
 import {
   guidesSelector,
@@ -12,6 +11,7 @@ import {
 import {Guide} from '../ExploreScreen/components/Guide';
 import {SearchWrapper} from '../HotelsCatalogByDestinations/HotelsCatalogByDestination.style';
 import {Search} from '../../components/Seacrh/Search';
+import {Spinner} from '../../components/Loaders/Spinner';
 
 export const GuidesCatalogScreen = () => {
   const guides = useSelector(guidesSelector);
@@ -29,11 +29,7 @@ export const GuidesCatalogScreen = () => {
         <Search placeholder={'Where are you going?'} />
       </SearchWrapper>
       {isLoading ? (
-        <ActivityIndicator
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-          size="large"
-          color={colors.green}
-        />
+        <Spinner />
       ) : (
         <FlatList
           horizontal={false}

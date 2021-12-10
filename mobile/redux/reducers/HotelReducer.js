@@ -1,10 +1,14 @@
 import {
   ADD_HOTEL_COMPLETED,
   ADD_HOTEL_REVIEW,
+  CLEAR_HOTEL,
   CLEAR_HOTELS,
   DELETE_GALLERY_IMAGE_COMPLETED,
   DELETE_HOTEL_COMPLETED,
   DELETE_HOTEL_STARTED,
+  GET_HOTEL_COMPLETED,
+  GET_HOTEL_STARTED,
+  RESET_HOTELS,
   SET_HAS_MORE_HOTELS,
   SET_HOTEL,
   SET_HOTELS,
@@ -15,7 +19,6 @@ import {
 } from '../types/HotelTypes';
 
 const initialState = {
-  currentHotel: undefined,
   hotels: undefined,
   popularHotels: undefined,
   isLoading: false,
@@ -23,10 +26,23 @@ const initialState = {
   hasMore: true,
   deleteHotelLoader: false,
   popularHotelsLoader: false,
+
+  currentHotel: {
+    data: undefined,
+    isLoading: false,
+    error: undefined,
+  },
 };
 
 export const hotelReducer = (state = initialState, {type, payload}) => {
   switch (type) {
+    case GET_HOTEL_COMPLETED:
+      return {...state, currentHotel: {...state.currentHotel, data: payload}};
+    case GET_HOTEL_STARTED:
+      return {
+        ...state,
+        currentHotel: {...state.currentHotel, isLoading: payload},
+      };
     case SET_HOTELS: {
       if (state.hotels) {
         return {...state, hotels: [...state.hotels, ...payload]};
@@ -35,6 +51,17 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
     }
     case CLEAR_HOTELS:
       return {...state, hotels: undefined, hasMore: true};
+    case CLEAR_HOTEL:
+      return {
+        ...state,
+        currentHotel: {
+          data: undefined,
+          isLoading: false,
+          error: undefined,
+        },
+      };
+    case RESET_HOTELS:
+      return {...state, hotels: payload};
     case SET_HAS_MORE_HOTELS:
       return {...state, hasMore: payload};
     case SET_POPULAR_HOTELS:
@@ -60,6 +87,14 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         hotels: [...hotelsCopy],
+        currentHotel: {
+          ...state.currentHotel,
+          data: {
+            ...state.currentHotel.data,
+            reviews: [...state.currentHotel.data.reviews, payload.review],
+            rating: {...payload.rating},
+          },
+        },
       };
     }
     case SET_HOTEL: {
@@ -110,7 +145,6 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
         deleteHotelLoader: payload,
       };
     }
-
     default:
       return state;
   }

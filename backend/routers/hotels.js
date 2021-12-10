@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
   res.send(hotels);
 });
 
-router.get("/", async (req, res) => {
+router.get("/byID", async (req, res) => {
   const hotelID = req.query.hotelID;
   const hotels = await Hotel.findById(hotelID)
     .populate("rating")

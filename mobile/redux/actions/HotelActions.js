@@ -2,6 +2,7 @@ import {
   ADD_HOTEL,
   ADD_HOTEL_COMPLETED,
   ADD_HOTEL_REVIEW,
+  CLEAR_HOTEL,
   CLEAR_HOTELS,
   DELETE_GALLERY_IMAGE,
   DELETE_GALLERY_IMAGE_COMPLETED,
@@ -11,9 +12,13 @@ import {
   FILTER_HOTELS,
   FILTER_HOTELS_COMPLETED,
   FILTER_HOTELS_STARTED,
+  GET_HOTEL,
+  GET_HOTEL_COMPLETED,
+  GET_HOTEL_STARTED,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
   GET_POPULAR_HOTELS,
+  RESET_HOTELS,
   SET_HAS_MORE_HOTELS,
   SET_HOTEL,
   SET_HOTELS,
@@ -25,6 +30,24 @@ import {
   UPDATE_HOTEL_GALLERY,
 } from '../types/HotelTypes';
 
+export const getHotel = hotelID => {
+  return {
+    type: GET_HOTEL,
+    payload: hotelID,
+  };
+};
+export const getHotelStarted = isLoading => {
+  return {
+    type: GET_HOTEL_STARTED,
+    payload: isLoading,
+  };
+};
+export const getHotelCompleted = hotel => {
+  return {
+    type: GET_HOTEL_COMPLETED,
+    payload: hotel,
+  };
+};
 export const setHotels = hotels => {
   return {
     type: SET_HOTELS,
@@ -47,6 +70,13 @@ export const setHotel = hotel => {
   return {
     type: SET_HOTEL,
     payload: hotel,
+  };
+};
+
+export const resetHotel = hotels => {
+  return {
+    type: RESET_HOTELS,
+    payload: hotels,
   };
 };
 
@@ -116,7 +146,11 @@ export const clearHotels = () => {
     type: CLEAR_HOTELS,
   };
 };
-
+export const clearHotel = () => {
+  return {
+    type: CLEAR_HOTEL,
+  };
+};
 export const deleteHotelStarted = isLoading => {
   return {
     type: DELETE_HOTEL_STARTED,

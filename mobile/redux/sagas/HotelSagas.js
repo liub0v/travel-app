@@ -8,6 +8,7 @@ import {
   DELETE_SAVED_HOTEL,
   DELETE_VISITED_HOTEL,
   FILTER_HOTELS,
+  GET_HOTEL,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
   GET_POPULAR_HOTELS,
@@ -22,6 +23,8 @@ import {
   deleteHotelCompleted,
   deleteHotelStarted,
   filterHotelsStarted,
+  getHotelCompleted,
+  getHotelStarted,
   setHasMoreHotels,
   setHotel,
   setHotels,
@@ -58,7 +61,26 @@ export const hotelSagas = [
   takeEvery(ADD_VISITED_HOTEL, addVisitedHotelSaga),
   takeEvery(DELETE_VISITED_HOTEL, deleteVisitedHotelSaga),
   takeEvery(FILTER_HOTELS, filterHotelsSaga),
+  takeEvery(GET_HOTEL, getHotel),
 ];
+function* getHotel(action) {
+  try {
+    const hotelID = action.payload;
+    yield put(getHotelStarted(true));
+    const response = yield call(hotelAPI.getHotelByID, hotelID);
+    const hotel = response.data;
+    yield put(getHotelCompleted(hotel));
+    yield put(getHotelStarted(false));
+  } catch (error) {
+    yield put(getHotelStarted(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+
 function* getHotelsByDestinationSaga(action) {
   try {
     const {page, limit, destination} = action.payload;
@@ -82,6 +104,7 @@ function* getHotelsByDestinationSaga(action) {
     });
   }
 }
+
 function* getPopularHotelsSaga() {
   try {
     yield put(setPopularHotelsStarted(true));
@@ -98,6 +121,7 @@ function* getPopularHotelsSaga() {
     });
   }
 }
+
 function* getHotelsSaga(action) {
   try {
     const {page, limit} = action.payload;

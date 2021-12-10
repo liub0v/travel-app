@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 
 import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import {
-  getHotelReviewsSelector,
   hasMoreHotelsSelector,
   hotelsSelector,
   isLoadingHotelSelector,
 } from '../../../redux/selectors/HotelSelectors';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  clearHotels,
   filterHotels,
   getHotelsByDestination,
 } from '../../../redux/actions/HotelActions';
@@ -30,19 +30,15 @@ import {
 } from '../ExploreScreen/components/Hotel.style';
 import star from '../../../assets/images/start.png';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {
-  Footer,
-  Spinner,
-} from '../DestinationsCatalogScreen/DestinationsCatalog';
 import {PAGE_SIZE} from '../../constants/api';
+import {Spinner} from '../../components/Loaders/Spinner';
+import {Footer} from '../../components/Footer/Footer';
 
 const Hotel = ({item}) => {
   const navigation = useNavigation();
-  const hotelReviewsSelector = getHotelReviewsSelector(item._id);
   const goHotelScreen = () => {
     navigation.navigate('HotelScreen', {
-      hotel: item,
-      reviewsSelector: hotelReviewsSelector,
+      hotelID: item._id,
     });
   };
   return (
@@ -98,6 +94,13 @@ export const HotelsCatalog = () => {
       dispatch(filterHotels({page, limit: PAGE_SIZE, filter}));
     }
   }, [page]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearHotels());
+    };
+  }, []);
+
   return (
     <MainContainer>
       <FlatList

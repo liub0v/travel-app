@@ -5,6 +5,18 @@ export const hotelsSelector = createSelector(
   hotelSelector,
   item => item.hotels,
 );
+export const currentHotelSelector = createSelector(
+  hotelSelector,
+  item => item.currentHotel.data,
+);
+export const currentHotelReviewsSelector = createSelector(
+  currentHotelSelector,
+  item => item?.reviews,
+);
+export const currentHotelIsLoadingSelector = createSelector(
+  hotelSelector,
+  item => item.currentHotel.isLoading,
+);
 export const isLoadingHotelSelector = createSelector(
   hotelSelector,
   item => item.isLoading,

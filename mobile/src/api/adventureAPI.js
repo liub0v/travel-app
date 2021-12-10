@@ -10,7 +10,7 @@ async function getPopularAdventures(page = 1, limit = 3) {
     params: {page, limit},
   });
 }
-async function getAdventures(page = 1, limit = 6) {
+async function getAdventures(page = 1, limit = 8) {
   return await instance.get('/adventures', {
     params: {page, limit},
   });
