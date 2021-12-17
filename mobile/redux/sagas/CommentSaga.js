@@ -23,10 +23,12 @@ function* read(socket) {
     yield put(action);
   }
 }
+
 export function* subscribe(socket) {
   return new eventChannel(emit => {
-    socket.on('review', ({review, adventureID}) => {
-      emit(addAdventureReview({review, adventureID}));
+    socket.on('review', ({review, adventureID, rating}) => {
+      console.log('review log');
+      emit(addAdventureReview({review, adventureID, rating}));
     });
 
     socket.on('comment', ({review, rating, hotelID}) => {

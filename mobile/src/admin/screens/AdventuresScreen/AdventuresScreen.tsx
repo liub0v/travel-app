@@ -12,6 +12,7 @@ import {
   isLoadingAdventureSelector,
 } from '../../../../redux/selectors/AdventureSelectors';
 import {ButtonWrapper} from '../HotelsListScreen/HotelsScreen.style';
+import {Spinner} from '../../../components/Loaders/Spinner';
 
 export const AdventuresScreen = () => {
   const adventures = useSelector(adventuresSelector);
@@ -31,11 +32,7 @@ export const AdventuresScreen = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       {isLoading ? (
-        <ActivityIndicator
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-          size="large"
-          color={colors.green}
-        />
+        <Spinner />
       ) : (
         <>
           <ButtonWrapper>

@@ -48,12 +48,12 @@ export const LoginScreen = ({navigation}) => {
         <HeaderText>Log in</HeaderText>
       </HeaderWrapper>
       <SocialNetworksLoginContainer>
-        <SocialNetworkWrapper />
-        <SocialNetworkWrapper />
+        {/*<SocialNetworkWrapper />*/}
+        {/*<SocialNetworkWrapper />*/}
       </SocialNetworksLoginContainer>
       <FieldsContainer>
         <CenterPosition>
-          <ThinkText>or log in with email </ThinkText>
+          {/*<ThinkText>or log in with email </ThinkText>*/}
         </CenterPosition>
 
         <Formik
@@ -90,9 +90,7 @@ export const LoginScreen = ({navigation}) => {
               {errors.password && touched.password && (
                 <Text style={{color: colors.red}}> {errors.password}</Text>
               )}
-              <LeftPosition>
-                <NormalText>Forgot password?</NormalText>
-              </LeftPosition>
+              <LeftPosition></LeftPosition>
               <ButtonWrapper>
                 <ButtonItem
                   isLoading={isLoading}

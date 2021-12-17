@@ -11,6 +11,10 @@ async function getPopularHotels(page = 1, limit = 5) {
 async function getHotels(page = 1, limit = 8) {
   return await instance.get('/hotels', {params: {page, limit}});
 }
+async function getHotelByID(hotelID) {
+  return await instance.get('/hotels/byID', {params: {hotelID}});
+}
+
 async function saveHotelReview(token, hotelID, starsNumber, comment) {
   return await instance.post(
     '/hotels/comment',
@@ -49,10 +53,6 @@ async function deleteHotel(token, hotelID) {
     headers: {'x-auth-token': token},
     data: {hotelID},
   });
-}
-
-async function getHotelByID(hotelID) {
-  return await instance.get('/hotels/byID', {params: {hotelID}});
 }
 
 async function addHotel(

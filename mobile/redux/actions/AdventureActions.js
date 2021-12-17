@@ -23,6 +23,10 @@ import {
   UPDATE_ADVENTURE_COMPLETED,
   UPDATE_ADVENTURE_STARTED,
   SET_POPULAR_ADVENTURES_STARTED,
+  GET_ADVENTURE,
+  GET_ADVENTURE_STARTED,
+  GET_ADVENTURE_COMPLETED,
+  CLEAR_ADVENTURE,
 } from '../types/AdventureTypes';
 
 export const setAdventures = adventures => {
@@ -103,10 +107,10 @@ export const deleteSavedAdventure = adventureID => {
     payload: adventureID,
   };
 };
-export const addAdventureReview = ({review, adventureID}) => {
+export const addAdventureReview = ({review, adventureID, rating}) => {
   return {
     type: ADD_ADVENTURE_REVIEW,
-    payload: {review, adventureID},
+    payload: {review, adventureID, rating},
   };
 };
 export const getAdventureReview = socket => {
@@ -167,5 +171,29 @@ export const deleteAdventureCompleted = adventureID => {
   return {
     type: DELETE_ADVENTURE_COMPLETED,
     payload: adventureID,
+  };
+};
+
+export const getAdventure = adventureID => {
+  return {
+    type: GET_ADVENTURE,
+    payload: adventureID,
+  };
+};
+export const getAdventureStarted = isLoading => {
+  return {
+    type: GET_ADVENTURE_STARTED,
+    payload: isLoading,
+  };
+};
+export const getAdventureCompleted = adventure => {
+  return {
+    type: GET_ADVENTURE_COMPLETED,
+    payload: adventure,
+  };
+};
+export const clearAdventure = () => {
+  return {
+    type: CLEAR_ADVENTURE,
   };
 };

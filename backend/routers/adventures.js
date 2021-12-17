@@ -4,9 +4,9 @@ const {
   removeFromCloud,
   updateCloudImage,
 } = require("../utils/cloudinary");
-const auth = require("../middleware/auth");
 const router = require("express").Router();
 const comments = require("../routers/comments");
+const { populateReviewsObj } = require("../utils/populateObjects");
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
@@ -32,7 +32,15 @@ router.get("/", async (req, res) => {
 
   res.send(adventures);
 });
+router.get("/byID", async (req, res) => {
+  const adventureID = req.query.adventureID;
+  const adventures = await Adventure.findById(adventureID)
+    .populate("rating")
+    .populate(populateReviewsObj)
+    .populate("guideID");
 
+  res.send(adventures);
+});
 router.get("/byDestination", async (req, res) => {
   const destination = req.query.destination;
   const page = parseInt(req.query.page) || 1;

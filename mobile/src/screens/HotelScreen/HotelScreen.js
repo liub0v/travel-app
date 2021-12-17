@@ -54,6 +54,8 @@ import {clearHotel, getHotel} from '../../../redux/actions/HotelActions';
 import {
   currentHotelIsLoadingSelector,
   currentHotelSelector,
+  getIsLikedHotelSelector,
+  getIsVisitedHotelSelector,
 } from '../../../redux/selectors/HotelSelectors';
 import colors from '../../constants/colors';
 const Option = ({title, icon}) => {
@@ -71,37 +73,35 @@ export const HotelScreen = () => {
   const navigation = useNavigation();
   const token = useSelector(tokenSelector);
   const role = useSelector(roleSelector);
-  // const savedHotels = useSelector(savedHotelsSelector);
-  // const visitedHotels = useSelector(visitedHotelsSelector);
+
   const likeLoader = useSelector(likeHotelLoaderSelector);
   const markLoader = useSelector(addVisitedHotelLoaderSelector);
   const unmarkLoader = useSelector(deleteVisitedHotelLoaderSelector);
 
-  // const hotel = route.params.hotel;
-  // const reviewsSelector = route.params.reviewsSelector;
-  // const hotelID = hotel._id;
   const hotel = useSelector(currentHotelSelector);
   const hotelIsLoading = useSelector(currentHotelIsLoadingSelector);
   const hotelID = route.params.hotelID;
+
+  const like = !!useSelector(getIsLikedHotelSelector(hotelID));
+  const isVisited = !!useSelector(getIsVisitedHotelSelector(hotelID));
+  const hotelOptions = new HotelsOptions(hotel?.hotelOptions);
+
   const onRefresh = useCallback(() => {
     dispatch(getHotel(hotelID));
   }, [dispatch, getHotel]);
+
   useEffect(() => {
     dispatch(getHotel(hotelID));
   }, []);
+
   useEffect(() => {
     return () => dispatch(clearHotel());
   }, []);
-  // const like = savedHotels?.filter(item => item._id === hotel._id).length > 0;
-  // const isVisited =
-  //   visitedHotels?.filter(item => item._id === hotel._id).length > 0;
-  const like = true;
-  const isVisited = true;
+
   const setLikeOnHotel = () => {
     like && dispatch(deleteSavedHotel(hotel._id));
     !like && dispatch(saveHotel(hotel._id));
   };
-  const hotelOptions = new HotelsOptions(hotel?.hotelOptions);
 
   const goEditScreen = () => {
     navigation.navigate('EditHotelScreen', {hotel: hotel});
@@ -112,6 +112,13 @@ export const HotelScreen = () => {
   const goHotelGalleryScreen = () => {
     navigation.navigate('HotelGalleryScreen', {hotelID: hotel._id});
   };
+  const goReviewsScreen = () => {
+    navigation.navigate('ReviewsScreen', {
+      type: 'hotel',
+      onSubmit: saveReview,
+    });
+  };
+
   const saveReview = async (starsNumber, comment) => {
     return await hotelAPI.saveHotelReview(
       token,
@@ -120,12 +127,15 @@ export const HotelScreen = () => {
       comment,
     );
   };
+
   const markHotelHandler = () => {
     dispatch(addVisitedHotel(hotelID));
   };
+
   const unmarkHotelHandler = () => {
     dispatch(deleteVisitedHotel(hotelID));
   };
+
   const showButton = () => {
     switch (role) {
       case 'admin':
@@ -151,6 +161,7 @@ export const HotelScreen = () => {
         return null;
     }
   };
+
   return (
     <MainContainer
       showsVerticalScrollIndicator={false}
@@ -166,80 +177,77 @@ export const HotelScreen = () => {
           colors={colors.white}
         />
       }>
-      <ImageContainer source={{uri: hotel?.imageURL}}>
-        <LikeWrapper>
-          {role === 'admin' ? (
-            <Edit handler={goEditScreen} />
-          ) : (
-            <Like
-              handler={setLikeOnHotel}
-              likeInit={like}
-              isLoading={likeLoader}
-            />
-          )}
-        </LikeWrapper>
-        <NameContainer>
-          <BoldText>{hotel?.name}</BoldText>
-          <NormalText>{hotel?.address}</NormalText>
-        </NameContainer>
-      </ImageContainer>
-      <InfoContainer>
-        <InfoWrapper>
-          <BoldText>{`$ ${hotel?.price}`}</BoldText>
-          <RatingTitle>{`${hotel?.rating?.generalRating}`}</RatingTitle>
-        </InfoWrapper>
-        <InfoWrapper>
-          <NormalText>{'06 July - 14 July, 2 guest'}</NormalText>
-          <TouchableWithoutFeedback
-            onPress={() => {
-              navigation.setParams();
-              navigation.navigate('ReviewsScreen', {
-                type: 'hotel',
-                onSubmit: saveReview,
-              });
-            }}>
-            <ReviewsTitle>{`${hotel?.reviews?.length} Reviews`}</ReviewsTitle>
-          </TouchableWithoutFeedback>
-        </InfoWrapper>
-      </InfoContainer>
-      <OptionsContainer>
-        {hotelOptions.show().map((item, index) => (
-          <Option title={item.title} icon={item.image} key={index} />
-        ))}
-        <ButtonSeeMoreWrapper>
-          <ButtonItem
-            size={{width: 100, height: 24}}
-            titleSize={12}
-            title={'See more'}
-          />
-        </ButtonSeeMoreWrapper>
-      </OptionsContainer>
-      <SummeryContainer>
-        <DynamicText text={hotel?.summary} lineNumber={3} />
-      </SummeryContainer>
-      <GalleryContainer>
-        <GalleryHeader>{'Gallery'}</GalleryHeader>
-        <GalleryWrapper>
-          <GalleryMainImage source={{uri: hotel?.gallery?.[2]}} />
-          <ColumnWrapper>
-            <GallerySecondImage source={{uri: hotel?.gallery?.[0]}} />
-            <RowWrapper>
-              <GalleryThirdImage source={{uri: hotel?.gallery?.[1]}} />
-              <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
-                <GalleryMoreImage
-                  blurRadius={3}
-                  imageStyle={{borderRadius: 8}}
-                  source={{uri: hotel?.gallery?.[3]}}>
-                  <GalleryMoreTitle>
-                    {hotel?.gallery?.length - 4}+
-                  </GalleryMoreTitle>
-                </GalleryMoreImage>
+      {!hotelIsLoading && (
+        <>
+          <ImageContainer source={{uri: hotel?.imageURL}}>
+            <LikeWrapper>
+              {role === 'admin' ? (
+                <Edit handler={goEditScreen} />
+              ) : (
+                <Like
+                  handler={setLikeOnHotel}
+                  likeInit={like}
+                  isLoading={likeLoader}
+                />
+              )}
+            </LikeWrapper>
+            <NameContainer>
+              <BoldText>{hotel?.name}</BoldText>
+              <NormalText>{hotel?.address}</NormalText>
+            </NameContainer>
+          </ImageContainer>
+          <InfoContainer>
+            <InfoWrapper>
+              <BoldText>{`$ ${hotel?.price}`}</BoldText>
+              <RatingTitle>{`${hotel?.rating?.generalRating}`}</RatingTitle>
+            </InfoWrapper>
+            <InfoWrapper>
+              <NormalText>{'06 July - 14 July, 2 guest'}</NormalText>
+              <TouchableWithoutFeedback onPress={goReviewsScreen}>
+                <ReviewsTitle>{`${hotel?.reviews?.length} Reviews`}</ReviewsTitle>
               </TouchableWithoutFeedback>
-            </RowWrapper>
-          </ColumnWrapper>
-        </GalleryWrapper>
-      </GalleryContainer>
-      <ButtonWrapper>{showButton()}</ButtonWrapper>
+            </InfoWrapper>
+          </InfoContainer>
+          <OptionsContainer>
+            {hotelOptions.show().map((item, index) => (
+              <Option title={item.title} icon={item.image} key={index} />
+            ))}
+            <ButtonSeeMoreWrapper>
+              <ButtonItem
+                size={{width: 100, height: 24}}
+                titleSize={12}
+                title={'See more'}
+              />
+            </ButtonSeeMoreWrapper>
+          </OptionsContainer>
+          <SummeryContainer>
+            <DynamicText text={hotel?.summary} lineNumber={3} />
+          </SummeryContainer>
+          <GalleryContainer>
+            <GalleryHeader>{'Gallery'}</GalleryHeader>
+            <GalleryWrapper>
+              <GalleryMainImage source={{uri: hotel?.gallery?.[2]}} />
+              <ColumnWrapper>
+                <GallerySecondImage source={{uri: hotel?.gallery?.[0]}} />
+                <RowWrapper>
+                  <GalleryThirdImage source={{uri: hotel?.gallery?.[1]}} />
+                  <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
+                    <GalleryMoreImage
+                      blurRadius={3}
+                      imageStyle={{borderRadius: 8}}
+                      source={{uri: hotel?.gallery?.[3]}}>
+                      <GalleryMoreTitle>
+                        {hotel?.gallery?.length - 4}+
+                      </GalleryMoreTitle>
+                    </GalleryMoreImage>
+                  </TouchableWithoutFeedback>
+                </RowWrapper>
+              </ColumnWrapper>
+            </GalleryWrapper>
+          </GalleryContainer>
+          <ButtonWrapper>{showButton()}</ButtonWrapper>
+        </>
+      )}
     </MainContainer>
   );
 };

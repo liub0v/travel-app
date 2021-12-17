@@ -6,6 +6,7 @@ import {
   DELETE_ADVENTURE,
   DELETE_SAVED_ADVENTURE,
   DELETE_VISITED_ADVENTURE,
+  GET_ADVENTURE,
   GET_ADVENTURES,
   GET_ADVENTURES_BY_DESTINATION,
   GET_POPULAR_ADVENTURES,
@@ -27,6 +28,8 @@ import {
   deleteAdventureStarted,
   deleteAdventureCompleted,
   setPopularAdventuresStarted,
+  getAdventureStarted,
+  getAdventureCompleted,
 } from '../actions/AdventureActions';
 import {tokenSelector} from '../selectors/UserSelector';
 import {userAPI} from '../../src/api/userAPI';
@@ -51,7 +54,27 @@ export const adventureSagas = [
   takeEvery(DELETE_ADVENTURE, deleteAdventureSaga),
   takeEvery(ADD_VISITED_ADVENTURE, addVisitedAdventureSaga),
   takeEvery(DELETE_VISITED_ADVENTURE, deleteVisitedAdventureSaga),
+  takeEvery(GET_ADVENTURE, getAdventureSaga),
 ];
+
+function* getAdventureSaga(action) {
+  try {
+    const adventureID = action.payload;
+    yield put(getAdventureStarted(true));
+    const response = yield call(adventureAPI.getAdventureByID, adventureID);
+    const adventure = response.data;
+    yield put(getAdventureCompleted(adventure));
+    yield put(getAdventureStarted(false));
+  } catch (error) {
+    yield put(getAdventureStarted(false));
+    yield put(setAdventuresError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+
 function* getPopularAdventuresSaga() {
   try {
     yield put(setPopularAdventuresStarted(true));

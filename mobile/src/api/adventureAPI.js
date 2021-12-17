@@ -15,6 +15,10 @@ async function getAdventures(page = 1, limit = 8) {
     params: {page, limit},
   });
 }
+async function getAdventureByID(adventureID) {
+  return await instance.get('/adventures/byID', {params: {adventureID}});
+}
+
 async function deleteAdventure(token, adventureID) {
   return await instance.delete('/adventures', {
     headers: {'x-auth-token': token},
@@ -106,4 +110,5 @@ export const adventureAPI = {
   updateAdventure,
   addAdventure,
   deleteAdventure,
+  getAdventureByID,
 };

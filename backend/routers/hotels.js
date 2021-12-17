@@ -14,14 +14,13 @@ const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`
 
 router.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 6;
+  const limit = parseInt(req.query.limit) || 8;
   const startIndex = (page - 1) * limit;
   const hotels = await Hotel.find()
     .sort({ _id: 1 })
     .skip(startIndex)
     .limit(limit)
-    .populate("rating")
-    .populate(populateReviewsObj);
+    .populate("rating");
 
   res.send(hotels);
 });

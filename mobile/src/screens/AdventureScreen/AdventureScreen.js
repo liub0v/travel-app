@@ -1,8 +1,10 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  clearAdventure,
   deleteSavedAdventure,
+  getAdventure,
   saveAdventure,
 } from '../../../redux/actions/AdventureActions';
 import {
@@ -22,7 +24,6 @@ import {SectionHeader} from '../../components/Section/Section';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {Stars} from '../../components/Stars/Stars';
 import {Like} from '../../components/Like/Like';
-import {Comment} from '../../components/CommentInput/CommentInput';
 
 import {
   ButtonWrapper,
@@ -59,6 +60,16 @@ import {
   addVisitedAdventure,
   deleteVisitedAdventure,
 } from '../../../redux/actions/AuthActions';
+import {
+  currentAdventureIsLoadingSelector,
+  currentAdventureReviewsSelector,
+  currentAdventureSelector,
+  getIsLikedAdventureSelector,
+  getIsVisitedAdventureSelector,
+} from '../../../redux/selectors/AdventureSelectors';
+import {RefreshControl} from 'react-native';
+import {clearHotel, getHotel} from '../../../redux/actions/HotelActions';
+import {Comment} from '../ReviewsScreen/ReviewsScreen';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -104,19 +115,17 @@ export const AdventureScreen = () => {
 
   const token = useSelector(tokenSelector);
   const role = useSelector(roleSelector);
-  const savedAdventures = useSelector(savedAdventuresSelector);
-  const visitedAdventures = useSelector(visitedAdventuresSelector);
+
   const likeLoader = useSelector(likeAdventureLoaderSelector);
   const markLoader = useSelector(addVisitedAdventureLoaderSelector);
   const unmarkLoader = useSelector(deleteVisitedAdventureLoaderSelector);
 
-  const adventure = route.params.adventure;
-  const reviewsSelector = route.params.reviewsSelector;
-  const adventureID = adventure._id;
-  const like =
-    savedAdventures?.filter(item => item._id === adventure._id).length > 0;
-  const isVisited =
-    visitedAdventures?.filter(item => item._id === adventure._id).length > 0;
+  const adventureID = route.params.adventureID;
+  const adventure = useSelector(currentAdventureSelector);
+  const like = !!useSelector(getIsLikedAdventureSelector);
+  const isVisited = !!useSelector(getIsVisitedAdventureSelector);
+  const reviews = useSelector(currentAdventureReviewsSelector);
+  const adventureIsLoading = useSelector(currentAdventureIsLoadingSelector);
 
   const setLikeOnAdventure = () => {
     like && dispatch(deleteSavedAdventure(adventure._id));
@@ -129,11 +138,11 @@ export const AdventureScreen = () => {
 
   const saveReview = async (
     starsNumber,
+    comment,
     interestingRating,
     guideRating,
     serviceRating,
     priceRating,
-    comment,
   ) => {
     return await adventureAPI.saveAdventureReview(
       token,
@@ -153,6 +162,25 @@ export const AdventureScreen = () => {
   const unmarkAdventureHandler = () => {
     dispatch(deleteVisitedAdventure(adventureID));
   };
+
+  const goReviewsScreen = () => {
+    navigation.navigate('ReviewsScreen', {
+      type: 'adventure',
+      onSubmit: saveReview,
+    });
+  };
+
+  const onRefresh = useCallback(() => {
+    dispatch(getAdventure(adventureID));
+  }, [dispatch, getAdventure]);
+
+  useEffect(() => {
+    dispatch(getAdventure(adventureID));
+  }, []);
+
+  useEffect(() => {
+    return () => dispatch(clearAdventure());
+  }, []);
 
   const showButton = () => {
     switch (role) {
@@ -183,8 +211,16 @@ export const AdventureScreen = () => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
         flexGrow: 1,
-      }}>
-      <ImageContainer source={{uri: adventure.imageURL}}>
+      }}
+      refreshControl={
+        <RefreshControl
+          refreshing={adventureIsLoading}
+          onRefresh={onRefresh}
+          tintColor={colors.white}
+          colors={colors.white}
+        />
+      }>
+      <ImageContainer source={{uri: adventure?.imageURL}}>
         <LikeWrapper>
           {role === 'admin' ? (
             <Edit handler={goEditScreen} />
@@ -200,17 +236,17 @@ export const AdventureScreen = () => {
       <InfoContainer>
         <NameContainer>
           <Stars starsNumber={adventure?.rating?.starsNumber} />
-          <NameTitle>{adventure.name}</NameTitle>
-          <LocationTitle>{adventure.address}</LocationTitle>
+          <NameTitle>{adventure?.name}</NameTitle>
+          <LocationTitle>{adventure?.address}</LocationTitle>
         </NameContainer>
         <PriceContainer>
-          <PriceTitle>$ {adventure.price}</PriceTitle>
+          <PriceTitle>$ {adventure?.price}</PriceTitle>
           <RateTitle> per person</RateTitle>
         </PriceContainer>
       </InfoContainer>
       <SummaryContainer>
         <SectionHeader showRightButton={false} title={'Summary'} />
-        <DynamicText text={adventure.summary} />
+        <DynamicText text={adventure?.summary} />
       </SummaryContainer>
       <GuideContainer>
         <GuideAvatar
@@ -221,7 +257,7 @@ export const AdventureScreen = () => {
             {adventure?.guideID?.profileInfo?.firstName}
           </GuideNameTitle>
         </GuideNameWrapper>
-        <DynamicText text={adventure.summary} />
+        <DynamicText text={adventure?.summary} />
       </GuideContainer>
       <RatingContainer>
         <SectionHeader showRightButton={false} title={'Rating'} />
@@ -246,17 +282,10 @@ export const AdventureScreen = () => {
         <SectionHeader
           showRightButton
           title={'Reviews'}
-          passHandler={() => {
-            navigation.navigate('ReviewsScreen', {
-              comments: adventure?.reviews,
-              commentSelector: reviewsSelector,
-              onSubmit: saveReview,
-              showCriterionRating: true,
-            });
-          }}
+          passHandler={goReviewsScreen}
         />
         <IntroReviews>
-          {adventure?.reviews?.slice(0, 3)?.map(item => (
+          {reviews?.slice(0, 3)?.map(item => (
             <Comment item={item} key={item?._id} />
           ))}
         </IntroReviews>

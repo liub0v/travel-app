@@ -22,6 +22,7 @@ import {
 } from '../types/AuthTypes';
 import {showMessage} from 'react-native-flash-message';
 import {userAPI} from '../../src/api/userAPI';
+import * as RootNavigation from '../../src/navigation/RootNavigation';
 
 export const authSagas = [
   takeEvery(LOG_IN_USER, logInUserSaga),
@@ -120,6 +121,7 @@ function* updateUserSaga(action) {
     const user = response.data;
     yield put(updateUserCompleted(user));
     yield put(updateUserStarted(false));
+    RootNavigation.navigate('ProfileScreen');
   } catch (error) {
     yield put(updateUserStarted(false));
     yield call(showMessage, {

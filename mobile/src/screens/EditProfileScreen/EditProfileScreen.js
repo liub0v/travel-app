@@ -25,6 +25,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {
   deleteUserIsLoadingSelector,
   profileInfoSelector,
+  updateUserIsLoadingSelector,
   userInfoSelector,
 } from '../../../redux/selectors/UserSelector';
 export const EditProfileScreen = () => {
@@ -36,6 +37,8 @@ export const EditProfileScreen = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const deleteIsLoading = useSelector(deleteUserIsLoadingSelector);
+  const updateIsLoading = useSelector(updateUserIsLoadingSelector);
+
   function updateAccountHandler({
     name,
     username,
@@ -174,7 +177,7 @@ export const EditProfileScreen = () => {
             </InfoContainer>
             <ButtonWrapper>
               <ButtonItem
-                isLoading={false}
+                isLoading={updateIsLoading}
                 handler={handleSubmit}
                 title={'Save'}
               />
@@ -183,14 +186,12 @@ export const EditProfileScreen = () => {
         )}
       </Formik>
 
-      <ButtonWrapper>
-        <ButtonItem
-          theme={{backgroundColor: colors.red, textColor: colors.white}}
-          isLoading={deleteIsLoading}
-          handler={deleteAccountHandler}
-          title={'Delete account'}
-        />
-      </ButtonWrapper>
+      <ButtonItem
+        theme={{backgroundColor: colors.red, textColor: colors.white}}
+        isLoading={deleteIsLoading}
+        handler={deleteAccountHandler}
+        title={'Delete account'}
+      />
     </Container>
   );
 };

@@ -41,12 +41,9 @@ import {Footer} from '../../components/Footer/Footer';
 const Adventure = ({item}) => {
   const navigation = useNavigation();
 
-  const adventureReviewsSelector = getAdventureReviewsSelector(item._id);
-
   const goAdventureScreen = () => {
     navigation.navigate('AdventureScreen', {
-      adventure: item,
-      reviewsSelector: adventureReviewsSelector,
+      adventureID: item._id,
     });
   };
 

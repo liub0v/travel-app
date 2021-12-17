@@ -73,20 +73,8 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
     case SET_HOTELS_ERROR:
       return {...state, error: payload};
     case ADD_HOTEL_REVIEW: {
-      const hotelIndex = state.hotels.findIndex(hotel => {
-        return hotel._id === payload.hotelID;
-      });
-      const hotelsCopy = [...state.hotels];
-      hotelsCopy[hotelIndex].reviews = [
-        ...hotelsCopy[hotelIndex].reviews,
-        payload.review,
-      ];
-      hotelsCopy[hotelIndex].rating = {
-        ...payload.rating,
-      };
       return {
         ...state,
-        hotels: [...hotelsCopy],
         currentHotel: {
           ...state.currentHotel,
           data: {

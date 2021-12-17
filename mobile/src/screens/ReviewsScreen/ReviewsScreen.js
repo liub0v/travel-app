@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {TouchableWithoutFeedback, View} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   ButtonWrapper,
   CommentContainer,
@@ -37,6 +37,7 @@ import Slider from '@react-native-community/slider';
 import activeStar from '../../../assets/images/activeStar.png';
 import star from '../../../assets/images/star.png';
 import {currentHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
+import {currentAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
 
 export const Comment = ({item}) => {
   const date = new Date(item?.date);
@@ -121,7 +122,7 @@ export const ReviewsScreen = () => {
   const route = useRoute();
   const type = route.params?.type;
   const onSubmit = route.params?.onSubmit;
-  const showCriterionRating = route.params?.showCriterionRating;
+  const showCriterionRating = type === 'adventure';
 
   const [commentText, setCommentText] = useState('');
   const [interestingRatingValue, setInterestingRatingValue] = useState(0);
@@ -134,12 +135,13 @@ export const ReviewsScreen = () => {
       return currentHotelReviewsSelector;
     }
     if (type === 'adventure') {
-      return null;
+      return currentAdventureReviewsSelector;
     }
   }, [type]);
   const comments = useSelector(commentSelector());
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
+
   const onSubmitHandler = async () => {
     try {
       await onSubmit(
@@ -151,6 +153,11 @@ export const ReviewsScreen = () => {
         priceRatingValue,
       );
       setCommentText(' ');
+      setInterestingRatingValue(0);
+      setGuideRatingValue(0);
+      setServiceRatingValue(0);
+      setPriceRatingValue(0);
+      setStarsRatingValue(0);
     } catch (error) {
       showMessage({
         message: error.response?.data,
@@ -167,7 +174,7 @@ export const ReviewsScreen = () => {
     <View style={{flex: 1}}>
       <View style={{flex: 1}}>
         <CommentInputContainer>
-          {comments.map(item => (
+          {comments?.map(item => (
             <Comment item={item} key={item._id} />
           ))}
           <CommentInputWrapper>
@@ -205,7 +212,10 @@ export const ReviewsScreen = () => {
             )}
 
             <StarsRatingContainer>
-              <StarsRating setStarRating={setStarsRatingValue} />
+              <StarsRating
+                setStarRating={setStarsRatingValue}
+                initStarsNumber={starsRatingValue}
+              />
             </StarsRatingContainer>
 
             <CommentTextInput

@@ -2,9 +2,13 @@ import {
   ADD_ADVENTURE_COMPLETED,
   ADD_ADVENTURE_REVIEW,
   ADD_ADVENTURE_STARTED,
+  CLEAR_ADVENTURE,
   CLEAR_ADVENTURES,
   DELETE_ADVENTURE_COMPLETED,
   DELETE_ADVENTURE_STARTED,
+  GET_ADVENTURE,
+  GET_ADVENTURE_COMPLETED,
+  GET_ADVENTURE_STARTED,
   SAVE_ADVENTURE_STARTED,
   SET_ADVENTURES,
   SET_ADVENTURES_ERROR,
@@ -27,6 +31,12 @@ const initialState = {
   addLoading: false,
   deleteLoading: false,
   saveLoading: false,
+
+  currentAdventure: {
+    data: undefined,
+    isLoading: false,
+    error: undefined,
+  },
 };
 
 export const adventureReducer = (state = initialState, {type, payload}) => {
@@ -48,17 +58,16 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
     case SET_ADVENTURES_ERROR:
       return {...state, error: payload};
     case ADD_ADVENTURE_REVIEW: {
-      const adventureIndex = state.adventures.findIndex(adventure => {
-        return adventure._id === payload.adventureID;
-      });
-      const adventuresCopy = [...state.adventures];
-      adventuresCopy[adventureIndex].reviews = [
-        ...adventuresCopy[adventureIndex].reviews,
-        payload.review,
-      ];
       return {
         ...state,
-        adventures: [...adventuresCopy],
+        currentAdventure: {
+          ...state.currentAdventure,
+          data: {
+            ...state.currentAdventure.data,
+            reviews: [...state.currentAdventure.data.reviews, payload.review],
+            rating: {...payload.rating},
+          },
+        },
       };
     }
     case UPDATE_ADVENTURE_STARTED:
@@ -96,6 +105,25 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
       return {...state, popularAdventuresLoading: payload};
     case SAVE_ADVENTURE_STARTED:
       return {...state, saveLoading: payload};
+    case GET_ADVENTURE_STARTED:
+      return {
+        ...state,
+        currentAdventure: {...state.currentAdventure, isLoading: payload},
+      };
+    case GET_ADVENTURE_COMPLETED:
+      return {
+        ...state,
+        currentAdventure: {...state.currentAdventure, data: payload},
+      };
+    case CLEAR_ADVENTURE:
+      return {
+        ...state,
+        currentAdventure: {
+          data: undefined,
+          isLoading: false,
+          error: undefined,
+        },
+      };
     default:
       return state;
   }

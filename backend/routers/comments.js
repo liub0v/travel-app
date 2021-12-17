@@ -1,6 +1,5 @@
 const express = require("express");
 const auth = require("../middleware/auth");
-const { Adventure } = require("../models/adventure");
 const { _ } = require("lodash");
 const { Rating } = require("../models/rating");
 const { Client } = require("../models/client");
@@ -162,8 +161,16 @@ module.exports = (Model) => {
 
     await adventure.save();
 
-    io.emit("review", { review, adventureID: req.body.adventureID });
-    res.send({ review, adventureID: req.body.adventureID });
+    io.emit("review", {
+      review,
+      adventureID: req.body.adventureID,
+      rating: generalRating,
+    });
+    res.send({
+      review,
+      adventureID: req.body.adventureID,
+      rating: generalRating,
+    });
   });
 
   return router;

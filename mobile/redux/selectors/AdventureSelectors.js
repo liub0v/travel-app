@@ -1,4 +1,10 @@
 import {createSelector} from 'reselect';
+import {
+  savedAdventuresSelector,
+  savedHotelsSelector,
+  visitedAdventuresSelector,
+  visitedHotelsSelector,
+} from './UserSelector';
 const adventureSelector = state => state.adventure;
 export const adventuresSelector = createSelector(
   adventureSelector,
@@ -51,5 +57,29 @@ export const getPopularAdventureReviewsSelector = adventureID => {
     popularAdventuresSelector,
     adventures =>
       adventures.find(adventure => adventure._id === adventureID).reviews,
+  );
+};
+
+export const currentAdventureSelector = createSelector(
+  adventureSelector,
+  item => item.currentAdventure.data,
+);
+export const currentAdventureReviewsSelector = createSelector(
+  currentAdventureSelector,
+  item => item?.reviews,
+);
+export const currentAdventureIsLoadingSelector = createSelector(
+  adventureSelector,
+  item => item.currentAdventure.isLoading,
+);
+export const getIsLikedAdventureSelector = adventureID => {
+  return createSelector(savedAdventuresSelector, adventures =>
+    adventures.find(adventure => adventure._id === adventureID),
+  );
+};
+
+export const getIsVisitedAdventureSelector = adventureID => {
+  return createSelector(visitedAdventuresSelector, adventures =>
+    adventures.find(adventure => adventure._id === adventureID),
   );
 };

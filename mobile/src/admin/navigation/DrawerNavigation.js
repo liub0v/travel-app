@@ -11,6 +11,9 @@ import {
 } from '../../../redux/selectors/UserSelector';
 import {GuidesStackScreen} from './GuidesStackScreen';
 import {ProfileStackScreen} from '../../navigation/ProfileStackScreen';
+import {ProfileScreen} from '../../screens/ProfileScreen/ProfileScreen';
+import {EditButton} from '../../navigation/TabNavigation';
+import {useNavigation} from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
@@ -18,12 +21,13 @@ export const DrawerNavigation = () => {
   const user = useSelector(userSelector);
   const profileInfo = useSelector(profileInfoSelector);
   const userInfo = useSelector(userInfoSelector);
+  const navigation = useNavigation();
   return (
     <Drawer.Navigator initialRouteName="Destinations">
       <Drawer.Screen name="Adventures" component={AdventuresStackScreen} />
       <Drawer.Screen
         name="Profile"
-        component={ProfileStackScreen}
+        component={ProfileScreen}
         initialParams={{profileInfo, userInfo}}
       />
       <Drawer.Screen name="Destinations" component={DestinationsCatalog} />

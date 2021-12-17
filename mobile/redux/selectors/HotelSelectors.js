@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import {savedHotelsSelector, visitedHotelsSelector} from './UserSelector';
 
 const hotelSelector = state => state.hotel;
 export const hotelsSelector = createSelector(
@@ -41,21 +42,22 @@ export const popularHotelsSelector = createSelector(
   hotelSelector,
   item => item.popularHotels,
 );
-export const getHotelReviewsSelector = hotelID => {
-  return createSelector(
-    hotelsSelector,
-    hotels => hotels.find(hotel => hotel._id === hotelID).reviews,
-  );
-};
-export const getPopularHotelReviewsSelector = hotelID => {
-  return createSelector(
-    popularHotelsSelector,
-    hotels => hotels.find(hotel => hotel._id === hotelID).reviews,
-  );
-};
+
 export const getHotelGallerySelector = hotelID => {
   return createSelector(
     hotelsSelector,
     hotels => hotels.find(hotel => hotel._id === hotelID)?.gallery,
+  );
+};
+
+export const getIsLikedHotelSelector = hotelID => {
+  return createSelector(savedHotelsSelector, hotels =>
+    hotels.find(hotel => hotel._id === hotelID),
+  );
+};
+
+export const getIsVisitedHotelSelector = hotelID => {
+  return createSelector(visitedHotelsSelector, hotels =>
+    hotels.find(hotel => hotel._id === hotelID),
   );
 };

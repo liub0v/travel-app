@@ -9,40 +9,12 @@ import {
 } from './Adventure.style';
 import {TouchableWithoutFeedback} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {
-  getAdventureReviewsSelector,
-  getPopularAdventureReviewsSelector,
-} from '../../../../redux/selectors/AdventureSelectors';
-import {
-  getSavedAdventureReviewsSelector,
-  getVisitedAdventureReviewsSelector,
-} from '../../../../redux/selectors/UserSelector';
 
-export const Adventure = ({item, type}) => {
+export const Adventure = ({item}) => {
   const navigation = useNavigation();
   const goAdventureScreen = () => {
-    let reviewsSelector;
-
-    switch (type) {
-      case 'popular': {
-        reviewsSelector = getPopularAdventureReviewsSelector(item._id);
-        break;
-      }
-      case 'saved': {
-        reviewsSelector = getSavedAdventureReviewsSelector(item._id);
-        break;
-      }
-      case 'visited': {
-        reviewsSelector = getVisitedAdventureReviewsSelector(item._id);
-        break;
-      }
-      default: {
-        reviewsSelector = getAdventureReviewsSelector(item._id);
-      }
-    }
     navigation.navigate('AdventureScreen', {
-      adventure: item,
-      reviewsSelector,
+      adventureID: item._id,
     });
   };
   return (
