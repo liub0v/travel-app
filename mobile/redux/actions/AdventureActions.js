@@ -27,6 +27,7 @@ import {
   GET_ADVENTURE_STARTED,
   GET_ADVENTURE_COMPLETED,
   CLEAR_ADVENTURE,
+  GET_ADVENTURES_BY_TERM,
 } from '../types/AdventureTypes';
 
 export const setAdventures = adventures => {
@@ -38,6 +39,12 @@ export const setAdventures = adventures => {
 export const getAdventuresByDestination = options => {
   return {
     type: GET_ADVENTURES_BY_DESTINATION,
+    payload: options,
+  };
+};
+export const getAdventuresByTerm = options => {
+  return {
+    type: GET_ADVENTURES_BY_TERM,
     payload: options,
   };
 };

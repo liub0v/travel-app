@@ -78,12 +78,15 @@ const Hotel = ({item}) => {
 
 export const HotelsCatalog = () => {
   const route = useRoute();
+  const dispatch = useDispatch();
+
   const destination = route?.params?.destination;
   const filter = route?.params?.filter;
+
   const hotels = useSelector(hotelsSelector);
-  const hasMore = useSelector(hasMoreHotelsSelector);
   const isLoading = useSelector(isLoadingHotelSelector);
-  const dispatch = useDispatch();
+  const hasMore = useSelector(hasMoreHotelsSelector);
+
   const [page, setPage] = useState(1);
 
   useEffect(() => {

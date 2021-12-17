@@ -8,7 +8,10 @@ import {
   isLoadingAdventureSelector,
 } from '../../../redux/selectors/AdventureSelectors';
 import {MainContainer} from '../DestinationsCatalogScreen/DestinationsCatalog.style';
-import {getAdventuresByDestination} from '../../../redux/actions/AdventureActions';
+import {
+  clearAdventures,
+  getAdventuresByDestination,
+} from '../../../redux/actions/AdventureActions';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import colors from '../../constants/colors';
 
@@ -37,6 +40,12 @@ import {
 import {GuideImage} from './AdventuresCatalog.style';
 import {Spinner} from '../../components/Loaders/Spinner';
 import {Footer} from '../../components/Footer/Footer';
+import {PAGE_SIZE} from '../../constants/api';
+import {
+  clearHotels,
+  getHotelsByDestination,
+} from '../../../redux/actions/HotelActions';
+import {hotelsSelector} from '../../../redux/selectors/HotelSelectors';
 
 const Adventure = ({item}) => {
   const navigation = useNavigation();
@@ -91,17 +100,25 @@ const Adventure = ({item}) => {
 
 export const AdventuresCatalog = () => {
   const route = useRoute();
-  const destination = route.params.destination;
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
+
+  const destination = route?.params?.destination;
+
   const adventures = useSelector(adventuresSelector);
   const isLoading = useSelector(isLoadingAdventureSelector);
   const hasMore = useSelector(hasMoreAdventuresSelector);
+  const [page, setPage] = useState(1);
+
+  console.log(page);
   useEffect(() => {
-    hasMore &&
-      dispatch(getAdventuresByDestination({page, limit: 8, destination}));
+    dispatch(getAdventuresByDestination({page, limit: PAGE_SIZE, destination}));
   }, [page]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearAdventures());
+    };
+  }, []);
   return (
     <MainContainer>
       <FlatList

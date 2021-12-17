@@ -9,6 +9,7 @@ import {
   GET_ADVENTURE,
   GET_ADVENTURES,
   GET_ADVENTURES_BY_DESTINATION,
+  GET_ADVENTURES_BY_TERM,
   GET_POPULAR_ADVENTURES,
   SAVE_ADVENTURE,
   UPDATE_ADVENTURE,
@@ -44,7 +45,7 @@ import {
 import * as RootNavigation from '../../src/navigation/RootNavigation';
 
 export const adventureSagas = [
-  takeEvery(GET_ADVENTURES_BY_DESTINATION, getAdventuresSagaByDestination),
+  takeEvery(GET_ADVENTURES_BY_DESTINATION, getAdventuresByDestinationSaga),
   takeEvery(GET_ADVENTURES, getAdventuresSaga),
   takeEvery(GET_POPULAR_ADVENTURES, getPopularAdventuresSaga),
   takeEvery(SAVE_ADVENTURE, saveAdventureSaga),
@@ -55,6 +56,7 @@ export const adventureSagas = [
   takeEvery(ADD_VISITED_ADVENTURE, addVisitedAdventureSaga),
   takeEvery(DELETE_VISITED_ADVENTURE, deleteVisitedAdventureSaga),
   takeEvery(GET_ADVENTURE, getAdventureSaga),
+  takeEvery(GET_ADVENTURES_BY_TERM, getAdventuresByTermSaga),
 ];
 
 function* getAdventureSaga(action) {
@@ -97,6 +99,29 @@ function* getAdventuresSaga(action) {
     yield put(setAdventuresIsLoading(true));
     const response = yield call(adventureAPI.getAdventures, page, limit);
     const adventures = response.data;
+    // !adventures.length && (yield put(setHasMoreAdventures(false)));
+    yield put(setAdventures(adventures));
+    yield put(setAdventuresIsLoading(false));
+  } catch (error) {
+    yield put(setAdventuresIsLoading(false));
+    yield put(setAdventuresError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+function* getAdventuresByDestinationSaga(action) {
+  try {
+    const {page, limit, destination} = action.payload;
+    yield put(setAdventuresIsLoading(true));
+    const response = yield call(
+      adventureAPI.getAdventuresByDestination,
+      page,
+      limit,
+      destination,
+    );
+    const adventures = response.data;
     !adventures.length && (yield put(setHasMoreAdventures(false)));
     yield put(setAdventures(adventures));
     yield put(setAdventuresIsLoading(false));
@@ -109,18 +134,17 @@ function* getAdventuresSaga(action) {
     });
   }
 }
-function* getAdventuresSagaByDestination(action) {
+function* getAdventuresByTermSaga(action) {
   try {
-    const {page, limit, destination} = action.payload;
+    const {page, limit, term} = action.payload;
     yield put(setAdventuresIsLoading(true));
     const response = yield call(
-      adventureAPI.getAdventuresByDestination,
+      adventureAPI.getAdventureByTerm,
       page,
       limit,
-      destination,
+      term,
     );
     const adventures = response.data;
-    !adventures.length && (yield put(setHasMoreAdventures(false)));
     yield put(setAdventures(adventures));
     yield put(setAdventuresIsLoading(false));
   } catch (error) {

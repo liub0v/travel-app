@@ -53,11 +53,11 @@ const Destination = ({item}) => {
 };
 
 export const DestinationsCatalog = () => {
+  const dispatch = useDispatch();
+
   const destinations = useSelector(destinationsSelector);
   const hasMore = useSelector(hasMoreDestinationsSelector);
   const isLoading = useSelector(destinationsLoader);
-
-  const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');

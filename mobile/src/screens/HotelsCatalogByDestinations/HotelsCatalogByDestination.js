@@ -99,7 +99,7 @@ export const HotelsCatalogByDestination = () => {
     };
   }, []);
 
-  const handleSearchTermpChange = countryName => {
+  const handleSearchTermChange = countryName => {
     if (timerId) {
       clearTimeout(timerId);
     }
@@ -127,7 +127,7 @@ export const HotelsCatalogByDestination = () => {
       <SearchWrapper>
         <Search
           placeholder={'Where are you going?'}
-          onChangeHandler={handleSearchTermpChange}
+          onChangeHandler={handleSearchTermChange}
         />
       </SearchWrapper>
       <FlatListWrapper>

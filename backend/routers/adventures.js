@@ -11,40 +11,33 @@ const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`
 
 router.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 6;
+  const limit = parseInt(req.query.limit) || 8;
+
   const startIndex = (page - 1) * limit;
   await Adventure.createIndexes();
+
   const adventures = await Adventure.find()
     .sort({ _id: 1 })
     .skip(startIndex)
     .limit(limit)
     .populate("rating")
-    .populate("reviews")
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "rating clientID",
-        select:
-          "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
-      },
-    })
     .populate("guideID");
-
   res.send(adventures);
 });
+
 router.get("/byID", async (req, res) => {
   const adventureID = req.query.adventureID;
   const adventures = await Adventure.findById(adventureID)
     .populate("rating")
     .populate(populateReviewsObj)
     .populate("guideID");
-
   res.send(adventures);
 });
+
 router.get("/byDestination", async (req, res) => {
   const destination = req.query.destination;
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 6;
+  const limit = parseInt(req.query.limit) || 8;
   const startIndex = (page - 1) * limit;
   await Adventure.createIndexes();
   const adventures = await Adventure.find({ $text: { $search: destination } })
@@ -52,16 +45,30 @@ router.get("/byDestination", async (req, res) => {
     .skip(startIndex)
     .limit(limit)
     .populate("guideID")
-    .populate("rating")
-    .populate("reviews")
-    .populate({
-      path: "reviews",
-      populate: {
-        path: "rating clientID",
-        select:
-          "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
-      },
-    });
+    .populate("rating");
+  res.send(adventures);
+});
+router.get("/byTerm", async (req, res) => {
+  const term = req.query.term;
+  const array = term.split(" ");
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 8;
+  console.log(page, limit, term);
+  const startIndex = (page - 1) * limit;
+  const regexString = array.map((item) => `(?=.*${item})`).join("");
+  // const regex = new RegExp(`.*${term}.*`, "i");
+  const regex = new RegExp(regexString, "i");
+  await Adventure.createIndexes({ name: "text" });
+
+  // const adventures = await Adventure.find({ $text: { $search: term } })
+  const adventures = await Adventure.find({
+    $or: [{ name: regex }, { address: regex }],
+  })
+    .sort({ _id: 1 })
+    .skip(startIndex)
+    .limit(limit)
+    .populate("guideID")
+    .populate("rating");
   res.send(adventures);
 });
 router.post("/", async (req, res) => {

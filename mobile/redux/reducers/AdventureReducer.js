@@ -19,6 +19,7 @@ import {
   UPDATE_ADVENTURE_COMPLETED,
   UPDATE_ADVENTURE_STARTED,
 } from '../types/AdventureTypes';
+import {PAGE_SIZE} from '../../src/constants/api';
 
 const initialState = {
   popularAdventures: undefined,
@@ -43,9 +44,17 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
   switch (type) {
     case SET_ADVENTURES: {
       if (state.adventures) {
-        return {...state, adventures: [...state.adventures, ...payload]};
+        return {
+          ...state,
+          adventures: [...state.adventures, ...payload],
+          hasMore: payload.length === PAGE_SIZE,
+        };
       }
-      return {...state, adventures: payload};
+      return {
+        ...state,
+        adventures: payload,
+        hasMore: payload.length === PAGE_SIZE,
+      };
     }
     case CLEAR_ADVENTURES:
       return {...state, adventures: undefined, hasMore: true};

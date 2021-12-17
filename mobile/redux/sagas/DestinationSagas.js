@@ -69,7 +69,6 @@ function* getDestinationsByNameSaga(action) {
     const destinations = response.data;
     // yield put(getDestinationsByNameCompleted(destinations));
     yield put(setDestinations(destinations));
-    setDestinations;
     yield put(setDestinationsIsLoading(false));
   } catch (error) {
     yield put(setDestinationsIsLoading(false));

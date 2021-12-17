@@ -25,7 +25,7 @@ const adventureSchema = new mongoose.Schema({
     ref: "Rating",
   },
 });
-adventureSchema.index({ address: "text" });
+// adventureSchema.index();
 const Adventure = mongoose.model("Adventure", adventureSchema);
 
 function validateAdventure(adventure) {
