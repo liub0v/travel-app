@@ -17,6 +17,7 @@ import {
   SET_POPULAR_HOTELS,
   SET_POPULAR_HOTELS_STARTED,
 } from '../types/HotelTypes';
+import {PAGE_SIZE} from '../../src/constants/api';
 
 const initialState = {
   hotels: undefined,
@@ -45,9 +46,13 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
       };
     case SET_HOTELS: {
       if (state.hotels) {
-        return {...state, hotels: [...state.hotels, ...payload]};
+        return {
+          ...state,
+          hotels: [...state.hotels, ...payload],
+          hasMore: payload.length === PAGE_SIZE,
+        };
       }
-      return {...state, hotels: payload};
+      return {...state, hotels: payload, hasMore: payload.length === PAGE_SIZE};
     }
     case CLEAR_HOTELS:
       return {...state, hotels: undefined, hasMore: true};

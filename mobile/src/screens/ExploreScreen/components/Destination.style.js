@@ -7,7 +7,7 @@ export const DestinationItem = styled.View`
   margin-right: 12px;
   margin-left: 12px;
 `;
-export const DestinationImage = styled.Image`
+export const DestinationImage = styled.ImageBackground`
   border-radius: 16px;
   height: 130px;
   width: 200px;
@@ -24,4 +24,9 @@ export const DestinationTitle = styled.Text`
   font-family: ${fonts.normal};
   font-size: 12px;
   color: ${colors.screenBackground};
+`;
+export const EditWrapper = styled.View`
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
 `;

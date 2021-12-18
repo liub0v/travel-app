@@ -1,9 +1,7 @@
 import {createSelector} from 'reselect';
 import {
   savedAdventuresSelector,
-  savedHotelsSelector,
   visitedAdventuresSelector,
-  visitedHotelsSelector,
 } from './UserSelector';
 const adventureSelector = state => state.adventure;
 export const adventuresSelector = createSelector(
@@ -74,12 +72,12 @@ export const currentAdventureIsLoadingSelector = createSelector(
 );
 export const getIsLikedAdventureSelector = adventureID => {
   return createSelector(savedAdventuresSelector, adventures =>
-    adventures.find(adventure => adventure._id === adventureID),
+    adventures?.find(adventure => adventure._id === adventureID),
   );
 };
 
 export const getIsVisitedAdventureSelector = adventureID => {
   return createSelector(visitedAdventuresSelector, adventures =>
-    adventures.find(adventure => adventure._id === adventureID),
+    adventures?.find(adventure => adventure._id === adventureID),
   );
 };

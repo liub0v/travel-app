@@ -1,25 +1,38 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {
-  getDestinationsByNameCompleted,
+  addDestinationCompleted,
+  addDestinationStarted,
+  deleteDestinationCompleted,
+  deleteDestinationStarted,
   setDestinations,
   setDestinationsError,
   setDestinationsIsLoading,
-  setHasMoreDestinations,
   setPopularDestinations,
   setPopularDestinationsStarted,
+  updateDestinationCompleted,
+  updateDestinationStarted,
 } from '../actions/DestinationActions';
 import {destinationAPI} from '../../src/api/destinationAPI';
 import {showMessage} from 'react-native-flash-message';
 import {
+  ADD_DESTINATION,
+  DELETE_DESTINATION,
   GET_DESTINATIONS,
   GET_DESTINATIONS_BY_NAME,
   GET_POPULAR_DESTINATIONS,
+  UPDATE_DESTINATION,
 } from '../types/DestinationTypes';
 import {searchAPI} from '../../src/api/searchAPI';
+import {tokenSelector} from '../selectors/UserSelector';
+import * as RootNavigation from '../../src/navigation/RootNavigation';
+
 export const destinationSagas = [
   takeEvery(GET_DESTINATIONS, getDestinationsSaga),
   takeEvery(GET_POPULAR_DESTINATIONS, getPopularDestinationsSaga),
   takeEvery(GET_DESTINATIONS_BY_NAME, getDestinationsByNameSaga),
+  takeEvery(ADD_DESTINATION, addDestinationSaga),
+  takeEvery(UPDATE_DESTINATION, updateDestinationSaga),
+  takeEvery(DELETE_DESTINATION, deleteDestinationSaga),
 ];
 function* getPopularDestinationsSaga() {
   try {
@@ -72,6 +85,77 @@ function* getDestinationsByNameSaga(action) {
     yield put(setDestinationsIsLoading(false));
   } catch (error) {
     yield put(setDestinationsIsLoading(false));
+    yield put(setDestinationsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+
+function* addDestinationSaga(action) {
+  try {
+    yield put(addDestinationStarted(true));
+    const token = yield select(tokenSelector);
+    const destinationData = action.payload;
+    const response = yield call(
+      destinationAPI.addDestination,
+      token,
+      destinationData,
+    );
+    const hotel = response.data;
+    yield put(addDestinationCompleted(hotel));
+    yield put(addDestinationStarted(false));
+  } catch (error) {
+    yield put(addDestinationStarted(false));
+    yield put(setDestinationsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+
+function* updateDestinationSaga(action) {
+  try {
+    yield put(updateDestinationStarted(true));
+    const token = yield select(tokenSelector);
+    const destinationData = action.payload;
+    const response = yield call(
+      destinationAPI.updateDestination,
+      token,
+      destinationData,
+    );
+    console.log(response);
+    const destination = response.data;
+    yield put(updateDestinationCompleted(destination));
+    yield put(updateDestinationStarted(false));
+  } catch (error) {
+    yield put(updateDestinationStarted(false));
+    yield put(setDestinationsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+
+function* deleteDestinationSaga(action) {
+  try {
+    yield put(deleteDestinationStarted(true));
+    const token = yield select(tokenSelector);
+    const destinationID = action.payload;
+    const response = yield call(
+      destinationAPI.deleteDestination,
+      token,
+      destinationID,
+    );
+    const destination = response.data;
+    yield put(deleteDestinationCompleted(destination._id));
+    yield put(deleteDestinationStarted(false));
+    RootNavigation.navigate('DestinationsCatalog');
+  } catch (error) {
+    yield put(deleteDestinationStarted(false));
     yield put(setDestinationsError(error));
     yield call(showMessage, {
       message: error.response?.data || error.message,

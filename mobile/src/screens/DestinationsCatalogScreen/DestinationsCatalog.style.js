@@ -11,7 +11,8 @@ export const SearchWrapper = styled.View`
   align-items: center;
   padding-left: 24px;
   padding-right: 24px;
-  margin-top: 10px;
+  margin-top: 24px;
+  margin-bottom: 24px;
 `;
 
 export const ItemContainer = styled.View`

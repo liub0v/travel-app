@@ -17,6 +17,7 @@ import {
   GET_HOTEL_STARTED,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
+  GET_HOTELS_BY_TERM,
   GET_POPULAR_HOTELS,
   RESET_HOTELS,
   SET_HAS_MORE_HOTELS,
@@ -70,6 +71,12 @@ export const setHotel = hotel => {
   return {
     type: SET_HOTEL,
     payload: hotel,
+  };
+};
+export const getHotelsByTerm = options => {
+  return {
+    type: GET_HOTELS_BY_TERM,
+    payload: options,
   };
 };
 

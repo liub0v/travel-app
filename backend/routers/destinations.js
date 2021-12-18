@@ -6,6 +6,8 @@ const {
 } = require("../utils/cloudinary");
 const { Adventure } = require("../models/adventure");
 const router = require("express").Router();
+const admin = require("../middleware/admin");
+const auth = require("../middleware/auth");
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
@@ -35,7 +37,7 @@ router.get("/search", async (req, res) => {
     .limit(limit);
   res.send(destinations);
 });
-router.post("/", async (req, res) => {
+router.post("/", auth, admin, async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
@@ -52,12 +54,12 @@ router.post("/", async (req, res) => {
   await destination.save();
   res.send(destination);
 });
-router.put("/", async (req, res) => {
+router.put("/", auth, admin, async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
-  const destination = await Destination.findById(req.body.id);
+  const destination = await Destination.findById(req.body.destinationID);
   if (!destination) return res.status(404).send("Destination doesn't exist");
 
   const newImage = req.body.image;
@@ -74,11 +76,14 @@ router.put("/", async (req, res) => {
     }
   }
   destination.imageURL = imageURL ?? destination.imageURL;
+  destination.countryName = req.body.countryName ?? destination.countryName;
   await destination.save();
   res.send(destination);
 });
-router.delete("/", async (req, res) => {
-  const destination = await Destination.findByIdAndDelete(req.body.id);
+router.delete("/", auth, admin, async (req, res) => {
+  const destination = await Destination.findByIdAndDelete(
+    req.body.destinationID
+  );
   if (!destination) res.status(404).send("Destination doesn't exist");
 
   if (destination.imageURL !== DEFAULT_COVER_IMAGE_URL) {

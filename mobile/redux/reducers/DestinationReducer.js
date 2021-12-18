@@ -1,6 +1,10 @@
 import {PAGE_SIZE} from '../../src/constants/api';
 import {
+  ADD_DESTINATION_COMPLETED,
+  ADD_DESTINATION_STARTED,
   CLEAR_DESTINATIONS,
+  DELETE_DESTINATION_COMPLETED,
+  DELETE_DESTINATION_STARTED,
   GET_DESTINATIONS_BY_NAME_COMPLETED,
   SET_DESTINATIONS,
   SET_DESTINATIONS_ERROR,
@@ -8,6 +12,8 @@ import {
   SET_HAS_MORE_DESTINATIONS,
   SET_POPULAR_DESTINATIONS,
   SET_POPULAR_DESTINATIONS_STARTED,
+  UPDATE_DESTINATION_COMPLETED,
+  UPDATE_DESTINATION_STARTED,
 } from '../types/DestinationTypes';
 
 const initialState = {
@@ -17,6 +23,18 @@ const initialState = {
   error: undefined,
   hasMore: true,
   popularDestinationsLoading: false,
+  add: {
+    isLoading: false,
+    error: undefined,
+  },
+  update: {
+    isLoading: false,
+    error: undefined,
+  },
+  delete: {
+    isLoading: false,
+    error: undefined,
+  },
 };
 
 export const destinationReducer = (state = initialState, {type, payload}) => {
@@ -53,7 +71,40 @@ export const destinationReducer = (state = initialState, {type, payload}) => {
         destinations: [...payload],
         hasMore: payload.length === PAGE_SIZE,
       };
-
+    case ADD_DESTINATION_STARTED:
+      return {...state, add: {...state.add, isLoading: payload}};
+    case UPDATE_DESTINATION_STARTED:
+      return {...state, update: {...state.update, isLoading: payload}};
+    case DELETE_DESTINATION_STARTED:
+      return {...state, delete: {...state.delete, isLoading: payload}};
+    case ADD_DESTINATION_COMPLETED:
+      if (state.destinations) {
+        return {
+          ...state,
+          destinations: [...state.destinations, payload],
+        };
+      }
+      return {
+        ...state,
+        destinations: [payload],
+      };
+    case UPDATE_DESTINATION_COMPLETED:
+      const index = state.destinations.findIndex(item => {
+        return item._id === payload._id;
+      });
+      const copy = [...state.destinations];
+      copy[index] = payload;
+      return {
+        ...state,
+        destinations: [...copy],
+      };
+    case DELETE_DESTINATION_COMPLETED:
+      return {
+        ...state,
+        destinations: [
+          ...state.destinations.filter(item => item._id !== payload),
+        ],
+      };
     default:
       return state;
   }

@@ -11,6 +11,7 @@ const { Hotel } = require("../models/hotel");
 const { Adventure } = require("../models/adventure");
 const { Admin } = require("../models/admin");
 const { populateReviewsObj } = require("../utils/populateObjects");
+const search = require("../routers/search");
 
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -333,5 +334,5 @@ router.delete("/", auth, async (req, res) => {
 
   res.send(user);
 });
-
+router.use("/guides", search(Guide).userRouter);
 module.exports = router;

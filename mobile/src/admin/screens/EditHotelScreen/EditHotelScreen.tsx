@@ -7,7 +7,6 @@ import {HotelsOptions} from '../../../services/HotelOptions';
 import type {HotelsOptionsProps} from '../../../services/HotelOptions';
 import {Formik} from 'formik';
 import {Asset, launchImageLibrary} from 'react-native-image-picker';
-import {StarsRating} from '../../../components/CommentInput/CommentInput';
 import {
   AddressInput,
   CheckBoxContainer,
@@ -26,6 +25,7 @@ import {
 import {deleteHotelStartedSelector} from '../../../../redux/selectors/HotelSelectors';
 import colors from '../../../constants/colors';
 import {useRoute} from '@react-navigation/native';
+import {StarsRating} from '../../../screens/ReviewsScreen/ReviewsScreen';
 
 export type Props = {};
 

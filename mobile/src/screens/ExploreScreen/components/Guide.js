@@ -29,9 +29,15 @@ export const Guide = ({item, handler = undefined}) => {
   const goGuideProfile = () => {
     navigation.navigate('GuideScreen', {profileInfo, userInfo});
   };
+  const pressHandler = () => {
+    if (handler) {
+      handler(item);
+    } else {
+      goGuideProfile();
+    }
+  };
   return (
-    <TouchableWithoutFeedback
-      onPress={() => handler?.(item?.userID._id) ?? goGuideProfile()}>
+    <TouchableWithoutFeedback onPress={pressHandler}>
       <DialogItem style={{flex: 1, flexDirection: 'row'}}>
         <DialogAvatar source={{uri: item?.profileInfo?.imageURL}} />
         <DialogInfo>

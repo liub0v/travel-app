@@ -16,7 +16,6 @@ import {
 } from '../EditHotelScreen/EditHotelScreen.style';
 import {Formik} from 'formik';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
-import {StarsRating} from '../../../components/CommentInput/CommentInput';
 import CheckBox from '@react-native-community/checkbox';
 import {
   HotelsOptions,
@@ -38,6 +37,7 @@ import addIcon from '../../../../assets/images/addIcon.png';
 import {useDispatch, useSelector} from 'react-redux';
 import {isLoadingHotelSelector} from '../../../../redux/selectors/HotelSelectors';
 import {addHotel} from '../../../../redux/actions/HotelActions';
+import {StarsRating} from '../../../screens/ReviewsScreen/ReviewsScreen';
 export type Props = {};
 
 export const AddHotelScreen: React.FC<Props> = () => {

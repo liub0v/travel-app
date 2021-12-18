@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {DestinationsCatalog} from '../../screens/DestinationsCatalogScreen/DestinationsCatalog';
 import {HotelsStackScreen} from './HotelsStackScreen';
 import {AdventuresStackScreen} from './AdventuresStackScreen';
 import {useSelector} from 'react-redux';
@@ -10,29 +9,69 @@ import {
   userSelector,
 } from '../../../redux/selectors/UserSelector';
 import {GuidesStackScreen} from './GuidesStackScreen';
-import {ProfileStackScreen} from '../../navigation/ProfileStackScreen';
 import {ProfileScreen} from '../../screens/ProfileScreen/ProfileScreen';
-import {EditButton} from '../../navigation/TabNavigation';
 import {useNavigation} from '@react-navigation/native';
+import {DestinationStackScreen} from './DestinationStackScreen';
+import colors from '../../constants/colors';
+import fonts from '../../constants/fonts';
 
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigation = () => {
-  const user = useSelector(userSelector);
   const profileInfo = useSelector(profileInfoSelector);
   const userInfo = useSelector(userInfoSelector);
-  const navigation = useNavigation();
+
   return (
-    <Drawer.Navigator initialRouteName="Destinations">
-      <Drawer.Screen name="Adventures" component={AdventuresStackScreen} />
+    <Drawer.Navigator
+      initialRouteName="Profile"
+      screenOptions={{
+        drawerActiveTintColor: colors.green,
+        drawerActiveBackgroundColor: colors.screenBackground,
+        drawerInactiveTintColor: colors.white,
+        drawerLabelStyle: {
+          fontFamily: fonts.normal,
+          fontSize: 16,
+        },
+        drawerItemStyle: {
+          marginTop: 12,
+          marginLeft: 12,
+          borderBottomWidth: 0.5,
+          borderBottomColor: colors.grey,
+        },
+      }}>
+      <Drawer.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Adventures"
+        component={AdventuresStackScreen}
+      />
       <Drawer.Screen
         name="Profile"
         component={ProfileScreen}
         initialParams={{profileInfo, userInfo}}
       />
-      <Drawer.Screen name="Destinations" component={DestinationsCatalog} />
-      <Drawer.Screen name="Hotels" component={HotelsStackScreen} />
-      <Drawer.Screen name="Guides" component={GuidesStackScreen} />
+      <Drawer.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Destinations"
+        component={DestinationStackScreen}
+      />
+      <Drawer.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Hotels"
+        component={HotelsStackScreen}
+      />
+      <Drawer.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Guides"
+        component={GuidesStackScreen}
+      />
     </Drawer.Navigator>
   );
 };

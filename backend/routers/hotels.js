@@ -9,6 +9,7 @@ const comments = require("../routers/comments");
 const admin = require("../middleware/admin");
 const auth = require("../middleware/auth");
 const { populateReviewsObj } = require("../utils/populateObjects");
+const search = require("../routers/search");
 
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -171,4 +172,6 @@ router.delete("/", auth, admin, async (req, res) => {
 });
 
 router.use("/", comments(Hotel));
+router.use("/", search(Hotel).router);
+
 module.exports = router;

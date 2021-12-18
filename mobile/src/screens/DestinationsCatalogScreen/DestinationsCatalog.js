@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, TouchableWithoutFeedback} from 'react-native';
+import React from 'react';
+import {TouchableWithoutFeedback, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   destinationsLoader,
@@ -7,14 +7,11 @@ import {
   hasMoreDestinationsSelector,
 } from '../../../redux/selectors/DestinationSelector';
 import FastImage from 'react-native-fast-image';
-import {Search} from '../../components/Seacrh/Search';
+
 import {
   BoldText,
-  FlatListWrapper,
   ItemContainer,
-  MainContainer,
   NormalText,
-  SearchWrapper,
   TitleWrapper,
 } from './DestinationsCatalog.style';
 import {
@@ -24,19 +21,32 @@ import {
 } from '../../../redux/actions/DestinationActions';
 import {clearAdventures} from '../../../redux/actions/AdventureActions';
 import {useNavigation} from '@react-navigation/native';
-import {PAGE_SIZE} from '../../constants/api';
-import {Spinner} from '../../components/Loaders/Spinner';
-import {Footer} from '../../components/Footer/Footer';
+import {EditWrapper} from '../ExploreScreen/components/Destination.style';
+import {Edit} from '../../components/Edit/Edit';
+import {roleSelector} from '../../../redux/selectors/UserSelector';
+import {SearchList} from '../../admin/components/SearchList/SearchList';
 
 const Destination = ({item}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const role = useSelector(roleSelector);
+
   const goAdventuresCatalogByDestination = () => {
     dispatch(clearAdventures());
     navigation.navigate('AdventuresCatalog', {destination: item.countryName});
   };
+
+  const goEditDestinationScreen = () => {
+    navigation.navigate('EditDestinationScreen', {destination: item});
+  };
   return (
-    <TouchableWithoutFeedback onPress={goAdventuresCatalogByDestination}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        if (role === 'admin') {
+        } else {
+          goAdventuresCatalogByDestination();
+        }
+      }}>
       <ItemContainer>
         <FastImage
           style={{width: 155, height: 155, borderRadius: 16}}
@@ -47,94 +57,33 @@ const Destination = ({item}) => {
           <NormalText>{'Adventure in '}</NormalText>
           <BoldText>{item.countryName}</BoldText>
         </TitleWrapper>
+        {role === 'admin' && (
+          <EditWrapper>
+            <Edit handler={goEditDestinationScreen} />
+          </EditWrapper>
+        )}
       </ItemContainer>
     </TouchableWithoutFeedback>
   );
 };
 
 export const DestinationsCatalog = () => {
-  const dispatch = useDispatch();
-
   const destinations = useSelector(destinationsSelector);
   const hasMore = useSelector(hasMoreDestinationsSelector);
   const isLoading = useSelector(destinationsLoader);
 
-  const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [timerId, setTimerId] = useState();
-
-  const searchDestinations = useCallback(
-    (countryName, page) => {
-      if (countryName.trim()) {
-        dispatch(getDestinationsByName({page, limit: PAGE_SIZE, countryName}));
-      } else {
-        dispatch(getDestinations({page, limit: PAGE_SIZE}));
-      }
-    },
-    [dispatch],
-  );
-
-  const handleEndReached = useCallback(() => {
-    if (hasMore) {
-      setPage(page + 1);
-      searchDestinations(searchTerm, page + 1);
-    }
-  }, [page, hasMore, searchTerm, searchDestinations]);
-
-  useEffect(() => {
-    searchDestinations('', 1);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearDestinations());
-    };
-  }, []);
-
-  const handleSearchTermChange = countryName => {
-    if (timerId) {
-      clearTimeout(timerId);
-    }
-
-    const newId = setTimeout(() => {
-      dispatch(clearDestinations());
-      setPage(1);
-      setSearchTerm(countryName);
-      searchDestinations(countryName, 1);
-    }, 500);
-
-    setTimerId(newId);
-  };
-
-  const footerComponent = useCallback(() => {
-    if (!hasMore) {
-      return <Footer />;
-    } else {
-      return isLoading ? <Spinner /> : null;
-    }
-  }, [isLoading, hasMore]);
-
   return (
-    <MainContainer>
-      <SearchWrapper>
-        <Search
-          placeholder={'Where are you going?'}
-          onChangeHandler={handleSearchTermChange}
-        />
-      </SearchWrapper>
-      <FlatListWrapper>
-        <FlatList
-          numColumns={2}
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          data={destinations}
-          onEndReachedThreshold={0.5}
-          onEndReached={handleEndReached}
-          renderItem={({item}) => <Destination item={item} />}
-          keyExtractor={item => item._id}
-          ListFooterComponent={footerComponent}
-        />
-      </FlatListWrapper>
-    </MainContainer>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <SearchList
+        clearItems={clearDestinations}
+        getItems={getDestinations}
+        data={destinations}
+        hasMore={hasMore}
+        flatListProps={{numColumns: 2}}
+        getItemsByTerm={getDestinationsByName}
+        renderItem={({item}) => <Destination item={item} />}
+        isLoading={isLoading}
+      />
+    </View>
   );
 };

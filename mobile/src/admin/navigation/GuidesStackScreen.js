@@ -1,12 +1,14 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {GuidesScreen} from '../screens/GuidesScreen/GuidesScreen';
-import {ProfileScreen} from '../../screens/ProfileScreen/ProfileScreen';
 import {AddGuideScreen} from '../screens/AddGuideScreen/AddGuideScreen';
 import {EditButton} from '../../navigation/TabNavigation';
 import {useNavigation} from '@react-navigation/native';
 import {EditGuideScreen} from '../screens/EditGuideScreen/EditGuideScreen';
 import {GuideScreen} from '../../screens/GuideScreen/GuideScreen';
+import {Add} from '../../components/Add/Add';
+import {HeaderBackButton} from '@react-navigation/elements';
+import colors from '../../constants/colors';
 const GuidesStack = createNativeStackNavigator();
 
 export function GuidesStackScreen() {
@@ -15,16 +17,31 @@ export function GuidesStackScreen() {
     <GuidesStack.Navigator initialRouteName="GuidesScreen">
       <GuidesStack.Screen
         options={{
-          headerTitle: '',
+          headerTitle: 'Guides',
           headerBackTitle: '',
-          headerShown: false,
+          headerShown: true,
+          headerRight: props => (
+            <Add
+              handler={() => {
+                navigation.openDrawer();
+              }}
+            />
+          ),
+          headerLeft: () => (
+            <HeaderBackButton
+              tintColor={colors.white}
+              onPress={() => {
+                navigation.navigate('Profile');
+              }}
+            />
+          ),
         }}
         name="GuidesScreen"
         component={GuidesScreen}
       />
       <GuidesStack.Screen
         options={{
-          headerTitle: 'Add Guide',
+          headerTitle: 'Add guide',
           headerBackTitle: '',
         }}
         name="AddGuideScreen"
@@ -32,7 +49,7 @@ export function GuidesStackScreen() {
       />
       <GuidesStack.Screen
         options={{
-          headerTitle: 'EditProfile',
+          headerTitle: 'Edit guide',
           headerBackTitle: '',
         }}
         name="EditGuideScreen"

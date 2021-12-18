@@ -3,7 +3,6 @@ import {FlatList, TouchableWithoutFeedback} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   adventuresSelector,
-  getAdventureReviewsSelector,
   hasMoreAdventuresSelector,
   isLoadingAdventureSelector,
 } from '../../../redux/selectors/AdventureSelectors';
@@ -41,11 +40,6 @@ import {GuideImage} from './AdventuresCatalog.style';
 import {Spinner} from '../../components/Loaders/Spinner';
 import {Footer} from '../../components/Footer/Footer';
 import {PAGE_SIZE} from '../../constants/api';
-import {
-  clearHotels,
-  getHotelsByDestination,
-} from '../../../redux/actions/HotelActions';
-import {hotelsSelector} from '../../../redux/selectors/HotelSelectors';
 
 const Adventure = ({item}) => {
   const navigation = useNavigation();
@@ -109,7 +103,6 @@ export const AdventuresCatalog = () => {
   const hasMore = useSelector(hasMoreAdventuresSelector);
   const [page, setPage] = useState(1);
 
-  console.log(page);
   useEffect(() => {
     dispatch(getAdventuresByDestination({page, limit: PAGE_SIZE, destination}));
   }, [page]);

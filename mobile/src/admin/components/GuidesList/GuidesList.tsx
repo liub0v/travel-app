@@ -10,6 +10,7 @@ import {getGuides} from '../../../../redux/actions/GuideActions';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import colors from '../../../constants/colors';
 import {ButtonWrapper} from '../../screens/HotelsListScreen/HotelsScreen.style';
+import {PAGE_SIZE} from '../../../constants/api';
 
 type Props = {
   closeHandler: any;
@@ -23,7 +24,7 @@ export const GuidesList: React.FC<Props> = ({closeHandler, pressHandler}) => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    hasMore && dispatch(getGuides({page, limit: 6}));
+    hasMore && dispatch(getGuides({page, limit: PAGE_SIZE}));
   }, [page]);
 
   return (

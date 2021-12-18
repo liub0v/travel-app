@@ -1,5 +1,11 @@
 import {
+  ADD_DESTINATION,
+  ADD_DESTINATION_COMPLETED,
+  ADD_DESTINATION_STARTED,
   CLEAR_DESTINATIONS,
+  DELETE_DESTINATION,
+  DELETE_DESTINATION_COMPLETED,
+  DELETE_DESTINATION_STARTED,
   GET_DESTINATIONS,
   GET_DESTINATIONS_BY_NAME,
   GET_DESTINATIONS_BY_NAME_COMPLETED,
@@ -10,6 +16,9 @@ import {
   SET_HAS_MORE_DESTINATIONS,
   SET_POPULAR_DESTINATIONS,
   SET_POPULAR_DESTINATIONS_STARTED,
+  UPDATE_DESTINATION,
+  UPDATE_DESTINATION_COMPLETED,
+  UPDATE_DESTINATION_STARTED,
 } from '../types/DestinationTypes';
 
 export const setDestinations = destinations => {
@@ -74,5 +83,62 @@ export const getDestinationsByNameCompleted = destinations => {
   return {
     type: GET_DESTINATIONS_BY_NAME_COMPLETED,
     payload: destinations,
+  };
+};
+
+export const addDestination = destinationData => {
+  return {
+    type: ADD_DESTINATION,
+    payload: destinationData,
+  };
+};
+export const addDestinationStarted = isLoading => {
+  return {
+    type: ADD_DESTINATION_STARTED,
+    payload: isLoading,
+  };
+};
+export const addDestinationCompleted = destination => {
+  return {
+    type: ADD_DESTINATION_COMPLETED,
+    payload: destination,
+  };
+};
+
+export const updateDestination = destinationData => {
+  return {
+    type: UPDATE_DESTINATION,
+    payload: destinationData,
+  };
+};
+export const updateDestinationStarted = isLoading => {
+  return {
+    type: UPDATE_DESTINATION_STARTED,
+    payload: isLoading,
+  };
+};
+export const updateDestinationCompleted = destination => {
+  return {
+    type: UPDATE_DESTINATION_COMPLETED,
+    payload: destination,
+  };
+};
+
+export const deleteDestination = destinationID => {
+  return {
+    type: DELETE_DESTINATION,
+    payload: destinationID,
+  };
+};
+export const deleteDestinationStarted = isLoading => {
+  return {
+    type: DELETE_DESTINATION_STARTED,
+    payload: isLoading,
+  };
+};
+export const deleteDestinationCompleted = destinationID => {
+  return {
+    type: DELETE_DESTINATION_COMPLETED,
+    payload: destinationID,
   };
 };

@@ -7,6 +7,7 @@ import {
   DELETE_GUIDE_COMPLETED,
   DELETE_GUIDE_STARTED,
   GET_GUIDES,
+  GET_GUIDES_BY_TERM,
   SET_GUIDES_COMPLETED,
   SET_GUIDES_ERROR,
   SET_GUIDES_STARTED,
@@ -20,6 +21,12 @@ export const setGuidesCompleted = guides => {
   return {
     type: SET_GUIDES_COMPLETED,
     payload: guides,
+  };
+};
+export const getGuidesByTerm = options => {
+  return {
+    type: GET_GUIDES_BY_TERM,
+    payload: options,
   };
 };
 export const getGuides = ({page, limit}) => {

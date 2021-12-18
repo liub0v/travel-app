@@ -20,3 +20,16 @@ export const destinationsLoader = createSelector(
   destinationSelector,
   item => item.isLoading,
 );
+
+export const addDestinationLoader = createSelector(
+  destinationSelector,
+  item => item.add.isLoading,
+);
+export const updateDestinationLoader = createSelector(
+  destinationSelector,
+  item => item.update.isLoading,
+);
+export const deleteDestinationLoader = createSelector(
+  destinationSelector,
+  item => item.delete.isLoading,
+);

@@ -1,6 +1,6 @@
 import {instance} from './index';
 
-async function getHotelsByDestination(page = 1, limit = 5, destination) {
+async function getHotelsByDestination(page = 1, limit = 8, destination) {
   return await instance.get('/hotels/ByDestination', {
     params: {page, limit, destination},
   });
@@ -14,7 +14,9 @@ async function getHotels(page = 1, limit = 8) {
 async function getHotelByID(hotelID) {
   return await instance.get('/hotels/byID', {params: {hotelID}});
 }
-
+async function getHotelByTerm(page = 1, limit = 8, term) {
+  return await instance.get('/hotels/search', {params: {page, limit, term}});
+}
 async function saveHotelReview(token, hotelID, starsNumber, comment) {
   return await instance.post(
     '/hotels/comment',
@@ -84,6 +86,7 @@ async function addHotel(
   console.log(hotelID);
   return await updateGallery(token, hotelID, gallery);
 }
+
 async function updateHotel(
   token,
   {hotelID, name, image, summary, price, address, hotelOptions, starsNumber},
@@ -110,6 +113,7 @@ async function updateHotel(
     },
   });
 }
+
 export const hotelAPI = {
   updateHotel,
   getPopularHotels,
@@ -121,4 +125,5 @@ export const hotelAPI = {
   addHotel,
   deleteHotel,
   getHotelByID,
+  getHotelByTerm,
 };

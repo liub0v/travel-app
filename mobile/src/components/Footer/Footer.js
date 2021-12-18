@@ -11,6 +11,7 @@ export const Footer = () => {
         fontFamily: fonts.normal,
         color: colors.grey,
         textAlign: 'center',
+        marginTop: 24,
       }}>
       No more results
     </Text>

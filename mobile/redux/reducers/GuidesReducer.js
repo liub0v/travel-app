@@ -11,6 +11,7 @@ import {
   UPDATE_GUIDE_COMPLETED,
   UPDATE_GUIDE_STARTED,
 } from '../types/GuideTypes';
+import {PAGE_SIZE} from '../../src/constants/api';
 
 const initialState = {
   guides: undefined,
@@ -28,9 +29,13 @@ export const guideReducer = (state = initialState, {type, payload}) => {
   switch (type) {
     case SET_GUIDES_COMPLETED: {
       if (state.guides) {
-        return {...state, guides: [...state.guides, ...payload]};
+        return {
+          ...state,
+          guides: [...state.guides, ...payload],
+          hasMore: payload.length === PAGE_SIZE,
+        };
       }
-      return {...state, guides: payload};
+      return {...state, guides: payload, hasMore: payload.length === PAGE_SIZE};
     }
     case SET_GUIDES_STARTED:
       return {...state, isLoading: payload};

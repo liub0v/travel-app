@@ -5,6 +5,7 @@ const { Rating } = require("../models/rating");
 const { Client } = require("../models/client");
 const { Review } = require("../models/review");
 const { calculateAverageRating } = require("../utils/averageRating");
+
 module.exports = (Model) => {
   const router = express.Router();
 

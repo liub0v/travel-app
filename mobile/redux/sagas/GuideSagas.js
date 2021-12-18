@@ -3,6 +3,7 @@ import {
   ADD_GUIDE,
   DELETE_GUIDE,
   GET_GUIDES,
+  GET_GUIDES_BY_TERM,
   UPDATE_GUIDE,
 } from '../types/GuideTypes';
 import {showMessage} from 'react-native-flash-message';
@@ -27,6 +28,7 @@ export const guideSagas = [
   takeEvery(ADD_GUIDE, addGuideSaga),
   takeEvery(DELETE_GUIDE, deleteGuideSaga),
   takeEvery(UPDATE_GUIDE, updateGuideSaga),
+  takeEvery(GET_GUIDES_BY_TERM, searchGuidesSaga),
 ];
 
 function* getGuidesSaga(action) {
@@ -36,6 +38,23 @@ function* getGuidesSaga(action) {
     const response = yield call(userAPI.getGuides, page, limit);
     const guides = response.data;
     !guides.length && (yield put(setHasMoreGuides(false)));
+    yield put(setGuidesCompleted(guides));
+    yield put(setGuidesStarted(false));
+  } catch (error) {
+    yield put(setGuidesStarted(false));
+    yield put(setGuidesError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
+function* searchGuidesSaga(action) {
+  try {
+    const {page, limit, term} = action.payload;
+    yield put(setGuidesStarted(true));
+    const response = yield call(userAPI.getGuidesByTerm, page, limit, term);
+    const guides = response.data;
     yield put(setGuidesCompleted(guides));
     yield put(setGuidesStarted(false));
   } catch (error) {

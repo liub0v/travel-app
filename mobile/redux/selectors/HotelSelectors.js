@@ -46,18 +46,18 @@ export const popularHotelsSelector = createSelector(
 export const getHotelGallerySelector = hotelID => {
   return createSelector(
     hotelsSelector,
-    hotels => hotels.find(hotel => hotel._id === hotelID)?.gallery,
+    hotels => hotels?.find(hotel => hotel._id === hotelID)?.gallery,
   );
 };
 
 export const getIsLikedHotelSelector = hotelID => {
   return createSelector(savedHotelsSelector, hotels =>
-    hotels.find(hotel => hotel._id === hotelID),
+    hotels?.find(hotel => hotel._id === hotelID),
   );
 };
 
 export const getIsVisitedHotelSelector = hotelID => {
   return createSelector(visitedHotelsSelector, hotels =>
-    hotels.find(hotel => hotel._id === hotelID),
+    hotels?.find(hotel => hotel._id === hotelID),
   );
 };

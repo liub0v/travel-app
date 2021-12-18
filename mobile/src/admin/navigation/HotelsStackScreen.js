@@ -3,23 +3,43 @@ import React from 'react';
 import {HotelsScreen} from '../screens/HotelsListScreen/HotelsScreen';
 import {HotelStackScreen} from '../../navigation/HotelStackScreen';
 import {AddHotelScreen} from '../screens/AddHotelScreen/AddHotelScreen';
+import {Add} from '../../components/Add/Add';
+import {useNavigation} from '@react-navigation/native';
+import {HeaderBackButton} from '@react-navigation/elements';
+import colors from '../../constants/colors';
 const HotelsStack = createNativeStackNavigator();
 
 export function HotelsStackScreen() {
+  const navigation = useNavigation();
   return (
     <HotelsStack.Navigator initialRouteName="HotelsScreen">
       <HotelsStack.Screen
         options={{
-          headerTitle: '',
+          headerTitle: 'Hotels',
           headerBackTitle: '',
-          headerShown: false,
+          headerShown: true,
+          headerRight: props => (
+            <Add
+              handler={() => {
+                navigation.navigate('AddHotelScreen');
+              }}
+            />
+          ),
+          headerLeft: () => (
+            <HeaderBackButton
+              tintColor={colors.white}
+              onPress={() => {
+                navigation.openDrawer();
+              }}
+            />
+          ),
         }}
         name="HotelsScreen"
         component={HotelsScreen}
       />
       <HotelsStack.Screen
         options={{
-          headerTitle: '',
+          headerTitle: 'Add hotel',
           headerBackTitle: '',
         }}
         name="AddHotelScreen"

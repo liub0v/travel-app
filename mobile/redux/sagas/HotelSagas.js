@@ -11,6 +11,7 @@ import {
   GET_HOTEL,
   GET_HOTELS,
   GET_HOTELS_BY_DESTINATION,
+  GET_HOTELS_BY_TERM,
   GET_POPULAR_HOTELS,
   SAVE_HOTEL,
   UPDATE_HOTEL,
@@ -62,6 +63,7 @@ export const hotelSagas = [
   takeEvery(DELETE_VISITED_HOTEL, deleteVisitedHotelSaga),
   takeEvery(FILTER_HOTELS, filterHotelsSaga),
   takeEvery(GET_HOTEL, getHotel),
+  takeEvery(GET_HOTELS_BY_TERM, getHotelsByTermSaga),
 ];
 function* getHotel(action) {
   try {
@@ -121,7 +123,23 @@ function* getPopularHotelsSaga() {
     });
   }
 }
-
+function* getHotelsByTermSaga(action) {
+  try {
+    const {page, limit, term} = action.payload;
+    yield put(setHotelsIsLoading(true));
+    const response = yield call(hotelAPI.getHotelByTerm, page, limit, term);
+    const hotels = response.data;
+    yield put(setHotels(hotels));
+    yield put(setHotelsIsLoading(false));
+  } catch (error) {
+    yield put(setHotelsIsLoading(false));
+    yield put(setHotelsError(error));
+    yield call(showMessage, {
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+}
 function* getHotelsSaga(action) {
   try {
     const {page, limit} = action.payload;
@@ -187,6 +205,7 @@ function* updateHotelSaga(action) {
     });
   }
 }
+
 function* addHotelSaga(action) {
   try {
     yield put(setHotelsIsLoading(true));

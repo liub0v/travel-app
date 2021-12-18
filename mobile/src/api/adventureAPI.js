@@ -19,7 +19,7 @@ async function getAdventureByID(adventureID) {
   return await instance.get('/adventures/byID', {params: {adventureID}});
 }
 async function getAdventureByTerm(page, limit, term) {
-  return await instance.get('/adventures/byTerm', {
+  return await instance.get('/adventures/search', {
     params: {page, limit, term},
   });
 }

@@ -12,7 +12,7 @@ const Destination = mongoose.model("Destination", destinationSchema);
 
 function validateDestination(destination) {
   const schema = Joi.object({
-    id: Joi.string(),
+    destinationID: Joi.string(),
     countryName: Joi.string(),
     imageURL: Joi.string(),
     image: Joi.object().optional(),

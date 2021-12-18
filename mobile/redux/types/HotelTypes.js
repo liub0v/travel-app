@@ -6,6 +6,7 @@ export const CLEAR_HOTEL = 'CLEAR_HOTEL';
 
 export const SET_HOTELS = 'SET_HOTELS';
 export const GET_HOTELS_BY_DESTINATION = 'GET_HOTELS_BY_DESTINATION';
+export const GET_HOTELS_BY_TERM = 'GET_HOTELS_BY_TERM';
 export const RESET_HOTELS = 'RESET_HOTELS';
 
 export const GET_HOTELS = 'GET_HOTELS';
