@@ -31,7 +31,12 @@ router.get("/guides", async (req, res) => {
   if (!guides) return res.status(400).send("Guides doesn't exists");
   res.send(guides);
 });
-
+router.get("/guide", async (req, res) => {
+  const guideID = req.query.guideID;
+  const guide = await Guide.findById(guideID).populate("userID");
+  if (!guide) return res.status(400).send("Guides doesn't exists");
+  res.send(guide);
+});
 //current user
 router.get("/me", validateObjectID, auth, async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");

@@ -13,7 +13,7 @@ import {
   updateDestinationStarted,
 } from '../actions/DestinationActions';
 import {destinationAPI} from '../../src/api/destinationAPI';
-import {showMessage} from 'react-native-flash-message';
+
 import {
   ADD_DESTINATION,
   DELETE_DESTINATION,
@@ -25,6 +25,7 @@ import {
 import {searchAPI} from '../../src/api/searchAPI';
 import {tokenSelector} from '../selectors/UserSelector';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
+import {errorHandler} from './AdventureSagas';
 
 export const destinationSagas = [
   takeEvery(GET_DESTINATIONS, getDestinationsSaga),
@@ -44,10 +45,7 @@ function* getPopularDestinationsSaga() {
   } catch (error) {
     yield put(setPopularDestinationsStarted(false));
     yield put(setDestinationsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* getDestinationsSaga(action) {
@@ -57,15 +55,11 @@ function* getDestinationsSaga(action) {
     const response = yield call(destinationAPI.getDestinations, page, limit);
     const destinations = response.data;
     yield put(setDestinations(destinations));
-    // !destinations.length && (yield put(setHasMoreDestinations(false)));
     yield put(setDestinationsIsLoading(false));
   } catch (error) {
     yield put(setDestinationsIsLoading(false));
     yield put(setDestinationsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 
@@ -86,10 +80,7 @@ function* getDestinationsByNameSaga(action) {
   } catch (error) {
     yield put(setDestinationsIsLoading(false));
     yield put(setDestinationsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 
@@ -109,10 +100,7 @@ function* addDestinationSaga(action) {
   } catch (error) {
     yield put(addDestinationStarted(false));
     yield put(setDestinationsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 
@@ -133,10 +121,7 @@ function* updateDestinationSaga(action) {
   } catch (error) {
     yield put(updateDestinationStarted(false));
     yield put(setDestinationsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 
@@ -157,9 +142,6 @@ function* deleteDestinationSaga(action) {
   } catch (error) {
     yield put(deleteDestinationStarted(false));
     yield put(setDestinationsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }

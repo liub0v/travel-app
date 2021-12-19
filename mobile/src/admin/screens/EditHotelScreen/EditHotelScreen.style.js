@@ -25,7 +25,7 @@ export const NameInput = styled.TextInput`
   color: ${colors.white};
 `;
 export const SummaryInput = styled.TextInput`
-  height: 200px;
+  height: 100px;
   width: 100%;
   font-family: ${fonts.normal};
   font-size: 16px;
@@ -77,7 +77,7 @@ export const Container = styled.ScrollView`
   padding-right: 12px;
 `;
 export const ButtonWrapper = styled.View`
-  margin-top: 12px;
-  margin-bottom: 48px;
+  margin-top: 24px;
+  margin-bottom: 24px;
   width: 100%;
 `;

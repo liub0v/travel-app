@@ -58,7 +58,16 @@ export const adventureSagas = [
   takeEvery(GET_ADVENTURE, getAdventureSaga),
   takeEvery(GET_ADVENTURES_BY_TERM, getAdventuresByTermSaga),
 ];
-
+export const errorHandler = (error, action = undefined) => {
+  if (error.code === 'ECONNABORTED' || error.message === 'Network Error')
+    RootNavigation.navigate('ErrorScreen', {action});
+  else {
+    showMessage({
+      message: error.response?.data || error.message,
+      type: 'error',
+    });
+  }
+};
 function* getAdventureSaga(action) {
   try {
     const adventureID = action.payload;
@@ -70,10 +79,7 @@ function* getAdventureSaga(action) {
   } catch (error) {
     yield put(getAdventureStarted(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 
@@ -87,10 +93,7 @@ function* getPopularAdventuresSaga() {
   } catch (error) {
     yield put(setPopularAdventuresStarted(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* getAdventuresSaga(action) {
@@ -99,16 +102,12 @@ function* getAdventuresSaga(action) {
     yield put(setAdventuresIsLoading(true));
     const response = yield call(adventureAPI.getAdventures, page, limit);
     const adventures = response.data;
-    // !adventures.length && (yield put(setHasMoreAdventures(false)));
     yield put(setAdventures(adventures));
     yield put(setAdventuresIsLoading(false));
   } catch (error) {
     yield put(setAdventuresIsLoading(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 function* getAdventuresByDestinationSaga(action) {
@@ -128,10 +127,7 @@ function* getAdventuresByDestinationSaga(action) {
   } catch (error) {
     yield put(setAdventuresIsLoading(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 function* getAdventuresByTermSaga(action) {
@@ -150,10 +146,7 @@ function* getAdventuresByTermSaga(action) {
   } catch (error) {
     yield put(setAdventuresIsLoading(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 
@@ -169,10 +162,7 @@ function* saveAdventureSaga(action) {
   } catch (error) {
     yield put(likeAdventureStarted(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* deleteSavedAdventureSaga(action) {
@@ -187,10 +177,7 @@ function* deleteSavedAdventureSaga(action) {
   } catch (error) {
     yield put(likeAdventureStarted(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 
@@ -210,10 +197,7 @@ function* addVisitedAdventureSaga(action) {
   } catch (error) {
     yield put(addVisitedAdventureStarted(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* deleteVisitedAdventureSaga(action) {
@@ -227,10 +211,7 @@ function* deleteVisitedAdventureSaga(action) {
   } catch (error) {
     yield put(deleteVisitedAdventureStarted(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 
@@ -250,10 +231,7 @@ function* updateAdventureSaga(action) {
   } catch (error) {
     yield put(updateAdventureStarted(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* addAdventureSaga(action) {
@@ -272,10 +250,7 @@ function* addAdventureSaga(action) {
   } catch (error) {
     yield put(addAdventureStarted(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* deleteAdventureSaga(action) {
@@ -295,9 +270,6 @@ function* deleteAdventureSaga(action) {
   } catch (error) {
     yield put(deleteAdventureStarted(false));
     yield put(setAdventuresError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }

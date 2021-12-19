@@ -6,14 +6,13 @@ import {useSelector} from 'react-redux';
 import {
   profileInfoSelector,
   userInfoSelector,
-  userSelector,
 } from '../../../redux/selectors/UserSelector';
 import {GuidesStackScreen} from './GuidesStackScreen';
 import {ProfileScreen} from '../../screens/ProfileScreen/ProfileScreen';
-import {useNavigation} from '@react-navigation/native';
 import {DestinationStackScreen} from './DestinationStackScreen';
 import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
+import {ErrorScreen} from '../../screens/ErrorScreen/ErrorScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -40,13 +39,6 @@ export const DrawerNavigation = () => {
         },
       }}>
       <Drawer.Screen
-        options={{
-          headerShown: false,
-        }}
-        name="Adventures"
-        component={AdventuresStackScreen}
-      />
-      <Drawer.Screen
         name="Profile"
         component={ProfileScreen}
         initialParams={{profileInfo, userInfo}}
@@ -62,6 +54,13 @@ export const DrawerNavigation = () => {
         options={{
           headerShown: false,
         }}
+        name="Adventures"
+        component={AdventuresStackScreen}
+      />
+      <Drawer.Screen
+        options={{
+          headerShown: false,
+        }}
         name="Hotels"
         component={HotelsStackScreen}
       />
@@ -71,6 +70,17 @@ export const DrawerNavigation = () => {
         }}
         name="Guides"
         component={GuidesStackScreen}
+      />
+      <Drawer.Screen
+        options={{
+          headerShown: false,
+          drawerLabel: () => null,
+          drawerItemStyle: {
+            height: 0,
+          },
+        }}
+        name="ErrorScreen"
+        component={ErrorScreen}
       />
     </Drawer.Navigator>
   );

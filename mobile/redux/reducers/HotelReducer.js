@@ -10,12 +10,14 @@ import {
   GET_HOTEL_STARTED,
   RESET_HOTELS,
   SET_HAS_MORE_HOTELS,
-  SET_HOTEL,
+  UPDATE_HOTEL_COMPLETED,
   SET_HOTELS,
   SET_HOTELS_ERROR,
   SET_HOTELS_IS_LOADING,
   SET_POPULAR_HOTELS,
   SET_POPULAR_HOTELS_STARTED,
+  UPDATE_HOTEL_STARTED,
+  ADD_HOTEL_STARTED,
 } from '../types/HotelTypes';
 import {PAGE_SIZE} from '../../src/constants/api';
 
@@ -27,7 +29,14 @@ const initialState = {
   hasMore: true,
   deleteHotelLoader: false,
   popularHotelsLoader: false,
-
+  update: {
+    isLoading: false,
+    error: undefined,
+  },
+  add: {
+    isLoading: false,
+    error: undefined,
+  },
   currentHotel: {
     data: undefined,
     isLoading: false,
@@ -90,7 +99,7 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
         },
       };
     }
-    case SET_HOTEL: {
+    case UPDATE_HOTEL_COMPLETED: {
       const hotelIndex = state.hotels.findIndex(hotel => {
         return hotel._id === payload._id;
       });
@@ -101,6 +110,10 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
         hotels: [...hotelsCopy],
       };
     }
+    case UPDATE_HOTEL_STARTED:
+      return {...state, update: {...state.update, isLoading: payload}};
+    case ADD_HOTEL_STARTED:
+      return {...state, add: {...state.add, isLoading: payload}};
     case DELETE_GALLERY_IMAGE_COMPLETED: {
       const hotelIndex = state.hotels.findIndex(hotel => {
         return hotel._id === payload.hotelID;

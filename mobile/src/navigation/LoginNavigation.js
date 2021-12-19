@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StartScreen} from '../screens/AuthScreens/StartScreen/StartScreen';
 import {LoginScreen} from '../screens/AuthScreens/LoginScreen/LoginScreen';
 import {SingUpScreen} from '../screens/AuthScreens/SingupScreen/SingUpScreen';
+import {ErrorScreen} from '../screens/ErrorScreen/ErrorScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ export const LoginNavigation = () => {
       <Stack.Screen name="StartScreen" component={StartScreen} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="SingUpScreen" component={SingUpScreen} />
+      <Stack.Screen name="ErrorScreen" component={ErrorScreen} />
     </Stack.Navigator>
   );
 };

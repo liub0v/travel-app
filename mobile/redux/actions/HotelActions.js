@@ -21,7 +21,7 @@ import {
   GET_POPULAR_HOTELS,
   RESET_HOTELS,
   SET_HAS_MORE_HOTELS,
-  SET_HOTEL,
+  UPDATE_HOTEL_COMPLETED,
   SET_HOTELS,
   SET_HOTELS_ERROR,
   SET_HOTELS_IS_LOADING,
@@ -29,6 +29,8 @@ import {
   SET_POPULAR_HOTELS_STARTED,
   UPDATE_HOTEL,
   UPDATE_HOTEL_GALLERY,
+  UPDATE_HOTEL_STARTED,
+  ADD_HOTEL_STARTED,
 } from '../types/HotelTypes';
 
 export const getHotel = hotelID => {
@@ -67,10 +69,22 @@ export const getHotels = options => {
     payload: options,
   };
 };
-export const setHotel = hotel => {
+export const updateHotelCompleted = hotel => {
   return {
-    type: SET_HOTEL,
+    type: UPDATE_HOTEL_COMPLETED,
     payload: hotel,
+  };
+};
+export const updateHotelStarted = isLoading => {
+  return {
+    type: UPDATE_HOTEL_STARTED,
+    payload: isLoading,
+  };
+};
+export const addHotelStarted = isLoading => {
+  return {
+    type: ADD_HOTEL_STARTED,
+    payload: isLoading,
   };
 };
 export const getHotelsByTerm = options => {

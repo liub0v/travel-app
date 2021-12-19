@@ -22,7 +22,11 @@ import {
   InputWrapper,
   StarsWrapper,
 } from './EditHotelScreen.style';
-import {deleteHotelStartedSelector} from '../../../../redux/selectors/HotelSelectors';
+import {
+  currentHotelSelector,
+  deleteHotelStartedSelector,
+  updateHotelIsLoadingSelector,
+} from '../../../../redux/selectors/HotelSelectors';
 import colors from '../../../constants/colors';
 import {useRoute} from '@react-navigation/native';
 import {StarsRating} from '../../../screens/ReviewsScreen/ReviewsScreen';
@@ -30,10 +34,10 @@ import {StarsRating} from '../../../screens/ReviewsScreen/ReviewsScreen';
 export type Props = {};
 
 export const EditHotelScreen: React.FC<Props> = () => {
-  const route = useRoute();
-  const hotel = route.params?.hotel;
+  const hotel = useSelector(currentHotelSelector);
   const hotelOptions = new HotelsOptions(hotel?.hotelOptions);
   const deleteLoading = useSelector(deleteHotelStartedSelector);
+  const updateLoading = useSelector(updateHotelIsLoadingSelector);
   const dispatch = useDispatch();
   const [image, setImage] = useState<Asset>();
   const [starsNumber, setStarsNumber] = useState(0);
@@ -80,7 +84,11 @@ export const EditHotelScreen: React.FC<Props> = () => {
     <Container
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+      contentContainerStyle={{
+        flexGrow: 1,
+        alignItems: 'center',
+        marginTop: 24,
+      }}>
       <Formik
         initialValues={{
           name: hotel.name ?? 'no name',
@@ -204,19 +212,18 @@ export const EditHotelScreen: React.FC<Props> = () => {
             </InputWrapper>
             <ButtonWrapper>
               <ButtonItem
-                isLoading={false}
+                isLoading={updateLoading}
                 title={'Save changes'}
                 handler={handleSubmit}
               />
             </ButtonWrapper>
-            <ButtonWrapper>
-              <ButtonItem
-                isLoading={deleteLoading}
-                title={'Delete hotel'}
-                handler={deleteHotelHandler}
-                theme={{backgroundColor: colors.red, textColor: colors.white}}
-              />
-            </ButtonWrapper>
+
+            <ButtonItem
+              isLoading={deleteLoading}
+              title={'Delete hotel'}
+              handler={deleteHotelHandler}
+              theme={{backgroundColor: colors.red, textColor: colors.white}}
+            />
           </>
         )}
       </Formik>

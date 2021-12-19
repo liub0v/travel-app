@@ -16,23 +16,36 @@ import {
 } from '../../../screens/EditProfileScreen/EditProfileScreen.style';
 import colors from '../../../constants/colors';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
-import {useRoute} from '@react-navigation/native';
 import {deleteGuide, updateGuide} from '../../../../redux/actions/GuideActions';
 import {useDispatch, useSelector} from 'react-redux';
-import {deleteGuideLoaderSelector} from '../../../../redux/selectors/GuideSelectors';
+import {
+  currentGuideSelector,
+  deleteGuideLoaderSelector,
+  updateGuideLoaderSelector,
+} from '../../../../redux/selectors/GuideSelectors';
+import {DEFAULT_PROFILE_IMAGE} from '../../../constants/api';
 
 export type Props = {
   route: any;
 };
 export const EditGuideScreen: React.FC<Props> = () => {
-  const route = useRoute().params.route;
   const dispatch = useDispatch();
   const deleteIsLoading = useSelector(deleteGuideLoaderSelector);
+  const updateIsLoading = useSelector(updateGuideLoaderSelector);
 
-  const profileInfo = route.params?.profileInfo;
-  const userInfo = route.params?.userInfo;
-  const userID = userInfo._id;
-  const updateGuideHandler = ({name, username, email}) => {
+  const guide = useSelector(currentGuideSelector);
+  const profileInfo = guide?.profileInfo;
+  const userInfo = guide?.userID;
+  const userID = guide?.userID?._id;
+  const updateGuideHandler = ({
+    name,
+    username,
+    email,
+  }: {
+    name: string;
+    username: string;
+    email: string;
+  }) => {
     const [firstName, lastName] = name.split(' ');
     dispatch(updateGuide({userID, firstName, lastName, username, email}));
   };
@@ -55,7 +68,11 @@ export const EditGuideScreen: React.FC<Props> = () => {
         {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
           <View>
             <MainInfo>
-              <Avatar source={{uri: profileInfo?.imageURL}} />
+              {profileInfo?.imageURL ? (
+                <Avatar source={{uri: profileInfo?.imageURL}} />
+              ) : (
+                <Avatar source={DEFAULT_PROFILE_IMAGE} />
+              )}
               <BoldWhiteText
                 placeholder="Enter name"
                 placeholderTextColor={colors.grey}
@@ -88,7 +105,7 @@ export const EditGuideScreen: React.FC<Props> = () => {
             </InfoContainer>
             <ButtonWrapper>
               <ButtonItem
-                isLoading={false}
+                isLoading={updateIsLoading}
                 handler={handleSubmit}
                 title={'Save'}
               />

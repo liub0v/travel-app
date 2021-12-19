@@ -5,9 +5,10 @@ import {
   GreenText,
   InfoContainer,
   ItemContainer,
+  MainContainer,
   NormalText,
 } from './HotelsCatalogByDestination.style';
-import {TouchableWithoutFeedback, View} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   destinationsLoader,
@@ -62,17 +63,17 @@ export const HotelsCatalogByDestination = () => {
   const isLoading = useSelector(destinationsLoader);
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <MainContainer>
       <SearchList
         clearItems={clearDestinations}
         getItems={getDestinations}
         data={destinations}
         hasMore={hasMore}
-        flatListProps={{numColumns: 2}}
+        flatListProps={{numColumns: 1}}
         getItemsByTerm={getDestinationsByName}
         renderItem={({item}) => <Destination item={item} />}
         isLoading={isLoading}
       />
-    </View>
+    </MainContainer>
   );
 };

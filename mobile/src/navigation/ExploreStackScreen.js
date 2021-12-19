@@ -13,6 +13,7 @@ import {FilterScreen} from '../screens/FilterScreen/FilterScreen';
 import {Filter} from '../components/Filter/Filter';
 import {useNavigation} from '@react-navigation/core';
 import colors from '../constants/colors';
+import {ErrorScreen} from '../screens/ErrorScreen/ErrorScreen';
 const ExploreStack = createNativeStackNavigator();
 
 export function ExploreStackScreen() {
@@ -27,6 +28,13 @@ export function ExploreStackScreen() {
         }}
         name="ExploreScreen"
         component={ExploreScreen}
+      />
+      <ExploreStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ErrorScreen"
+        component={ErrorScreen}
       />
       <ExploreStack.Screen
         options={{

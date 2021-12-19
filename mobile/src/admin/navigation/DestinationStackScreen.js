@@ -12,7 +12,9 @@ const DestinationStack = createNativeStackNavigator();
 export function DestinationStackScreen() {
   const navigation = useNavigation();
   return (
-    <DestinationStack.Navigator initialRouteName="DestinationsCatalog">
+    <DestinationStack.Navigator
+      screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}
+      initialRouteName="DestinationsCatalog">
       <DestinationStack.Screen
         options={{
           headerTitle: 'Destinations',
@@ -21,7 +23,7 @@ export function DestinationStackScreen() {
           headerRight: props => (
             <Add
               handler={() => {
-                navigation.navigate('AddDestinationsScreen');
+                navigation.navigate('AddDestinationScreen');
               }}
             />
           ),

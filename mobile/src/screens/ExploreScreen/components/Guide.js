@@ -24,10 +24,9 @@ export const Guide = ({item, handler = undefined}) => {
     item?.userID?._id,
   );
   const guideInfoSelector = getGuideInfoSelector(item?.userID?._id);
-  const profileInfo = useSelector(guideProfileInfoSelector);
-  const userInfo = useSelector(guideInfoSelector);
+
   const goGuideProfile = () => {
-    navigation.navigate('GuideScreen', {profileInfo, userInfo});
+    navigation.navigate('GuideScreen', {guideID: item._id});
   };
   const pressHandler = () => {
     if (handler) {

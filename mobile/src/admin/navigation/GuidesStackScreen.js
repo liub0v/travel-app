@@ -14,7 +14,9 @@ const GuidesStack = createNativeStackNavigator();
 export function GuidesStackScreen() {
   const navigation = useNavigation();
   return (
-    <GuidesStack.Navigator initialRouteName="GuidesScreen">
+    <GuidesStack.Navigator
+      screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}
+      initialRouteName="GuidesScreen">
       <GuidesStack.Screen
         options={{
           headerTitle: 'Guides',
@@ -23,7 +25,7 @@ export function GuidesStackScreen() {
           headerRight: props => (
             <Add
               handler={() => {
-                navigation.openDrawer();
+                navigation.navigate('AddGuideScreen');
               }}
             />
           ),
@@ -31,7 +33,7 @@ export function GuidesStackScreen() {
             <HeaderBackButton
               tintColor={colors.white}
               onPress={() => {
-                navigation.navigate('Profile');
+                navigation.openDrawer();
               }}
             />
           ),

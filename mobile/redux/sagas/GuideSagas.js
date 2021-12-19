@@ -2,16 +2,19 @@ import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {
   ADD_GUIDE,
   DELETE_GUIDE,
+  GET_GUIDE,
   GET_GUIDES,
   GET_GUIDES_BY_TERM,
   UPDATE_GUIDE,
 } from '../types/GuideTypes';
-import {showMessage} from 'react-native-flash-message';
+
 import {
   addGuideCompleted,
   addGuideStarted,
   deleteGuideCompleted,
   deleteGuideStarted,
+  getGuideCompleted,
+  getGuideStarted,
   setGuidesCompleted,
   setGuidesError,
   setGuidesStarted,
@@ -22,13 +25,15 @@ import {
 import {userAPI} from '../../src/api/userAPI';
 import {tokenSelector} from '../selectors/UserSelector';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
+import {errorHandler} from './AdventureSagas';
 
 export const guideSagas = [
   takeEvery(GET_GUIDES, getGuidesSaga),
   takeEvery(ADD_GUIDE, addGuideSaga),
   takeEvery(DELETE_GUIDE, deleteGuideSaga),
   takeEvery(UPDATE_GUIDE, updateGuideSaga),
-  takeEvery(GET_GUIDES_BY_TERM, searchGuidesSaga),
+  takeEvery(GET_GUIDES_BY_TERM, getGuideByTermSaga),
+  takeEvery(GET_GUIDE, getGuideSaga),
 ];
 
 function* getGuidesSaga(action) {
@@ -43,13 +48,10 @@ function* getGuidesSaga(action) {
   } catch (error) {
     yield put(setGuidesStarted(false));
     yield put(setGuidesError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
-function* searchGuidesSaga(action) {
+function* getGuideByTermSaga(action) {
   try {
     const {page, limit, term} = action.payload;
     yield put(setGuidesStarted(true));
@@ -60,10 +62,7 @@ function* searchGuidesSaga(action) {
   } catch (error) {
     yield put(setGuidesStarted(false));
     yield put(setGuidesError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 function* addGuideSaga(action) {
@@ -82,10 +81,7 @@ function* addGuideSaga(action) {
   } catch (error) {
     yield put(addGuideStarted(false));
     yield put(setGuidesError(error));
-    yield call(showMessage, {
-      message: error.response?.data,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* updateGuideSaga(action) {
@@ -100,17 +96,13 @@ function* updateGuideSaga(action) {
   } catch (error) {
     yield put(updateGuideStarted(false));
     yield put(setGuidesError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* deleteGuideSaga(action) {
   try {
     const userID = action.payload;
-    console.log('saga', userID);
-    console.log('action.payload', action.payload);
+
     const token = yield select(tokenSelector);
     yield put(deleteGuideStarted(true));
     const response = yield call(userAPI.deleteUser, token, userID);
@@ -120,9 +112,21 @@ function* deleteGuideSaga(action) {
   } catch (error) {
     yield put(deleteGuideStarted(false));
     yield put(setGuidesError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
+  }
+}
+
+function* getGuideSaga(action) {
+  try {
+    const guideID = action.payload;
+    yield put(getGuideStarted(true));
+    const response = yield call(userAPI.getGuideByID, guideID);
+    const guide = response.data;
+    yield put(getGuideCompleted(guide));
+    yield put(getGuideStarted(false));
+  } catch (error) {
+    yield put(getGuideStarted(false));
+    yield put(setGuidesError(error));
+    yield call(errorHandler, error, action);
   }
 }

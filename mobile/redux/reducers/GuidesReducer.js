@@ -1,9 +1,12 @@
 import {
   ADD_GUIDE_COMPLETED,
   ADD_GUIDE_STARTED,
+  CLEAR_GUIDE,
   CLEAR_GUIDES,
   DELETE_GUIDE_COMPLETED,
   DELETE_GUIDE_STARTED,
+  GET_GUIDE_COMPLETED,
+  GET_GUIDE_STARTED,
   SET_GUIDES_COMPLETED,
   SET_GUIDES_ERROR,
   SET_GUIDES_STARTED,
@@ -24,6 +27,12 @@ const initialState = {
     isLoading: false,
     error: undefined,
   },
+
+  currentGuide: {
+    data: undefined,
+    isLoading: false,
+    error: undefined,
+  },
 };
 export const guideReducer = (state = initialState, {type, payload}) => {
   switch (type) {
@@ -38,7 +47,7 @@ export const guideReducer = (state = initialState, {type, payload}) => {
       return {...state, guides: payload, hasMore: payload.length === PAGE_SIZE};
     }
     case SET_GUIDES_STARTED:
-      return {...state, isLoading: payload};
+      return {...state, isLoading: payload, error: undefined};
     case SET_GUIDES_ERROR:
       return {...state, error: payload};
     case SET_HAS_MORE_GUIDES:
@@ -52,7 +61,7 @@ export const guideReducer = (state = initialState, {type, payload}) => {
       return {...state, guides: [payload]};
     }
     case DELETE_GUIDE_STARTED:
-      return {...state, deleteLoading: payload};
+      return {...state, deleteLoading: payload, error: undefined};
     case DELETE_GUIDE_COMPLETED:
       return {
         ...state,
@@ -61,7 +70,10 @@ export const guideReducer = (state = initialState, {type, payload}) => {
         ],
       };
     case UPDATE_GUIDE_STARTED:
-      return {...state, update: {...state.update, isLoading: payload}};
+      return {
+        ...state,
+        update: {...state.update, isLoading: payload, error: undefined},
+      };
     case UPDATE_GUIDE_COMPLETED: {
       const guideIndex = state.guides.findIndex(guide => {
         return guide._id === payload._id;
@@ -72,10 +84,27 @@ export const guideReducer = (state = initialState, {type, payload}) => {
         ...state,
         guides: [...guidesCopy],
       };
+      0;
     }
     case CLEAR_GUIDES: {
-      return {...state, guides: undefined, hasMore: true};
+      return {...state, guides: undefined, hasMore: true, error: undefined};
     }
+    case GET_GUIDE_STARTED:
+      return {
+        ...state,
+        currentGuide: {...state.currentGuide, isLoading: payload},
+      };
+    case GET_GUIDE_COMPLETED:
+      return {...state, currentGuide: {...state.currentGuide, data: payload}};
+    case CLEAR_GUIDE:
+      return {
+        ...state,
+        currentGuide: {
+          data: undefined,
+          isLoading: false,
+          error: undefined,
+        },
+      };
     default:
       return state;
   }

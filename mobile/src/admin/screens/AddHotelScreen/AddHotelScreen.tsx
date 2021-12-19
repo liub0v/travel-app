@@ -35,7 +35,7 @@ import {Delete} from '../../../components/Delete/Delete';
 import {Image, TouchableWithoutFeedback} from 'react-native';
 import addIcon from '../../../../assets/images/addIcon.png';
 import {useDispatch, useSelector} from 'react-redux';
-import {isLoadingHotelSelector} from '../../../../redux/selectors/HotelSelectors';
+import {addHotelIsLoadingSelector} from '../../../../redux/selectors/HotelSelectors';
 import {addHotel} from '../../../../redux/actions/HotelActions';
 import {StarsRating} from '../../../screens/ReviewsScreen/ReviewsScreen';
 export type Props = {};
@@ -46,7 +46,7 @@ export const AddHotelScreen: React.FC<Props> = () => {
   const [starsNumber, setStarsNumber] = useState(0);
   const [gallery, setGallery] = useState<Array<Asset>>([]);
   const dispatch = useDispatch();
-  const isLoading = useSelector(isLoadingHotelSelector);
+  const addLoading = useSelector(addHotelIsLoadingSelector);
 
   const createHandler = ({
     name,
@@ -259,7 +259,7 @@ export const AddHotelScreen: React.FC<Props> = () => {
             </InputWrapper>
             <ButtonWrapper>
               <ButtonItem
-                isLoading={isLoading}
+                isLoading={addLoading}
                 title={'Save'}
                 handler={handleSubmit}
               />

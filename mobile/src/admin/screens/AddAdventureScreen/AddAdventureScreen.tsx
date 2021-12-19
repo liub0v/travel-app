@@ -4,6 +4,7 @@ import {Asset} from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {addAdventure} from '../../../../redux/actions/AdventureActions';
 import {addAdventureLoaderSelector} from '../../../../redux/selectors/AdventureSelectors';
+import {ScrollView} from 'react-native';
 
 type Props = {};
 export const AddAdventureScreen: React.FC<Props> = () => {
@@ -36,5 +37,16 @@ export const AddAdventureScreen: React.FC<Props> = () => {
       }),
     );
   };
-  return <AdventureForm isLoading={isLoading} handler={createHandler} />;
+  return (
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+      <AdventureForm
+        isLoading={isLoading}
+        handler={createHandler}
+        adventure={{}}
+      />
+    </ScrollView>
+  );
 };

@@ -74,10 +74,6 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
   const adventure = await Adventure.findById(req.body.adventureID);
   if (!adventure) return res.status(404).send("Adventures doesn't exist");
 
@@ -94,6 +90,7 @@ router.put("/", async (req, res) => {
       );
     }
   }
+
   adventure.imageURL = imageURL ?? adventure.imageURL;
   adventure.guideID = req.body?.guideID ?? adventure.guideID;
   adventure.name = req.body?.name ?? adventure.name;

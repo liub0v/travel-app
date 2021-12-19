@@ -9,50 +9,69 @@ import {
 } from '../../screens/ProfileScreen/Profile.style';
 import React from 'react';
 import {dateParser} from '../../services/dataParser';
+import {DEFAULT_PROFILE_IMAGE} from '../../constants/api';
 
-export const ProfileForm = ({profileInfo, userInfo}) => {
+export const ProfileForm = ({profileInfo, userInfo, isLoading}) => {
   let birthDate = dateParser(profileInfo?.birthDate);
+
   return (
     <>
-      <MainInfo>
-        <Avatar source={{uri: profileInfo?.imageURL}} />
-        {profileInfo ? (
-          <>
-            <BoldWhiteText>
-              {`${profileInfo?.firstName} ${profileInfo?.lastName}`}
-            </BoldWhiteText>
-            <GreyText>{`${profileInfo?.address}`}</GreyText>
-          </>
-        ) : (
-          <BoldWhiteText>{`${userInfo?.username}`}</BoldWhiteText>
-        )}
-      </MainInfo>
-      <InfoContainer>
-        <InfoItem>
-          <GreyText>{'Username'}</GreyText>
-          <WhiteText>{`${userInfo?.username}`}</WhiteText>
-        </InfoItem>
-        <InfoItem>
-          <GreyText>{'Email'}</GreyText>
-          <WhiteText>{`${userInfo?.email}`}</WhiteText>
-        </InfoItem>
-        {profileInfo && (
-          <>
+      {!isLoading && (
+        <>
+          <MainInfo>
+            {profileInfo?.imageURL ? (
+              <Avatar source={{uri: profileInfo?.imageURL}} />
+            ) : (
+              <Avatar source={DEFAULT_PROFILE_IMAGE} />
+            )}
+
+            {profileInfo ? (
+              <>
+                <BoldWhiteText>
+                  {`${profileInfo?.firstName} ${profileInfo?.lastName}`}
+                </BoldWhiteText>
+                {profileInfo?.address && (
+                  <GreyText>{`${profileInfo?.address}`}</GreyText>
+                )}
+              </>
+            ) : (
+              <BoldWhiteText>{`${userInfo?.username}`}</BoldWhiteText>
+            )}
+          </MainInfo>
+          <InfoContainer>
             <InfoItem>
-              <GreyText>{'Phone'}</GreyText>
-              <WhiteText>{`${profileInfo?.phone}`}</WhiteText>
+              <GreyText>{'Username'}</GreyText>
+              <WhiteText>{`${userInfo?.username}`}</WhiteText>
             </InfoItem>
             <InfoItem>
-              <GreyText>{'Date of birth'}</GreyText>
-              <WhiteText>{`${birthDate}`}</WhiteText>
+              <GreyText>{'Email'}</GreyText>
+              <WhiteText>{`${userInfo?.email}`}</WhiteText>
             </InfoItem>
-            <InfoItem>
-              <GreyText>{'Address'}</GreyText>
-              <WhiteText>{`${profileInfo?.address}`}</WhiteText>
-            </InfoItem>
-          </>
-        )}
-      </InfoContainer>
+            {profileInfo && (
+              <>
+                {profileInfo?.phone && (
+                  <InfoItem>
+                    <GreyText>{'Phone'}</GreyText>
+                    <WhiteText>{`${profileInfo?.phone}`}</WhiteText>
+                  </InfoItem>
+                )}
+                {profileInfo?.birthDate && (
+                  <InfoItem>
+                    <GreyText>{'Date of birth'}</GreyText>
+                    <WhiteText>{`${birthDate}`}</WhiteText>
+                  </InfoItem>
+                )}
+                {profileInfo?.address && (
+                  <InfoItem>
+                    <GreyText>{'Address'}</GreyText>
+                    <WhiteText>{`${profileInfo?.address}`}</WhiteText>
+                  </InfoItem>
+                )}
+              </>
+            )}
+          </InfoContainer>
+        </>
+      )}
     </>
   );
 };

@@ -2,10 +2,14 @@ import {
   ADD_GUIDE,
   ADD_GUIDE_COMPLETED,
   ADD_GUIDE_STARTED,
+  CLEAR_GUIDE,
   CLEAR_GUIDES,
   DELETE_GUIDE,
   DELETE_GUIDE_COMPLETED,
   DELETE_GUIDE_STARTED,
+  GET_GUIDE,
+  GET_GUIDE_COMPLETED,
+  GET_GUIDE_STARTED,
   GET_GUIDES,
   GET_GUIDES_BY_TERM,
   SET_GUIDES_COMPLETED,
@@ -113,5 +117,28 @@ export const updateGuideCompleted = guide => {
   return {
     type: UPDATE_GUIDE_COMPLETED,
     payload: guide,
+  };
+};
+export const getGuide = guideID => {
+  return {
+    type: GET_GUIDE,
+    payload: guideID,
+  };
+};
+export const getGuideStarted = isLoading => {
+  return {
+    type: GET_GUIDE_STARTED,
+    payload: isLoading,
+  };
+};
+export const getGuideCompleted = guide => {
+  return {
+    type: GET_GUIDE_COMPLETED,
+    payload: guide,
+  };
+};
+export const clearGuide = () => {
+  return {
+    type: CLEAR_GUIDE,
   };
 };

@@ -27,12 +27,14 @@ import {
   getHotelCompleted,
   getHotelStarted,
   setHasMoreHotels,
-  setHotel,
+  updateHotelCompleted,
   setHotels,
   setHotelsError,
   setHotelsIsLoading,
   setPopularHotels,
   setPopularHotelsStarted,
+  updateHotelStarted,
+  addHotelStarted,
 } from '../actions/HotelActions';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
 import {tokenSelector} from '../selectors/UserSelector';
@@ -47,6 +49,7 @@ import {
   setSavedHotel,
 } from '../actions/AuthActions';
 import {searchAPI} from '../../src/api/searchAPI';
+import {errorHandler} from './AdventureSagas';
 
 export const hotelSagas = [
   takeEvery(GET_HOTELS_BY_DESTINATION, getHotelsByDestinationSaga),
@@ -100,10 +103,7 @@ function* getHotelsByDestinationSaga(action) {
   } catch (error) {
     yield put(setHotelsIsLoading(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 
@@ -117,10 +117,7 @@ function* getPopularHotelsSaga() {
   } catch (error) {
     yield put(setPopularHotelsStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* getHotelsByTermSaga(action) {
@@ -134,10 +131,7 @@ function* getHotelsByTermSaga(action) {
   } catch (error) {
     yield put(setHotelsIsLoading(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 function* getHotelsSaga(action) {
@@ -152,10 +146,7 @@ function* getHotelsSaga(action) {
   } catch (error) {
     yield put(setHotelsIsLoading(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 
@@ -179,49 +170,39 @@ function* filterHotelsSaga(action) {
   } catch (error) {
     yield put(filterHotelsStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 
 function* updateHotelSaga(action) {
   try {
-    // yield put(setHotelsIsLoading(true));
+    yield put(updateHotelStarted(true));
     const token = yield select(tokenSelector);
     const hotelData = action.payload;
     const response = yield call(hotelAPI.updateHotel, token, hotelData);
     const hotel = response.data;
-    yield put(setHotel(hotel));
-    // yield put(setPopularHotels(hotels));
-    // yield put(setHotelsIsLoading(false));
+    yield put(updateHotelCompleted(hotel));
+    yield put(updateHotelStarted(false));
   } catch (error) {
-    // yield put(setHotelsIsLoading(false));
+    yield put(updateHotelStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 
 function* addHotelSaga(action) {
   try {
-    yield put(setHotelsIsLoading(true));
+    yield put(addHotelStarted(true));
     const token = yield select(tokenSelector);
     const hotelData = action.payload;
     const response = yield call(hotelAPI.addHotel, token, hotelData);
     const hotel = response.data;
     yield put(addHotelCompleted(hotel));
-    yield put(setHotelsIsLoading(false));
+    yield put(addHotelStarted(false));
   } catch (error) {
-    yield put(setHotelsIsLoading(false));
+    yield put(addHotelStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* deleteHotelSaga(action) {
@@ -237,10 +218,7 @@ function* deleteHotelSaga(action) {
   } catch (error) {
     yield put(deleteHotelStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* updateHotelGallerySaga(action) {
@@ -250,16 +228,13 @@ function* updateHotelGallerySaga(action) {
     const {hotelID, images} = action.payload;
     const response = yield call(hotelAPI.updateGallery, token, hotelID, images);
     const hotel = response.data;
-    yield put(setHotel(hotel));
+    yield put(updateHotelCompleted(hotel));
     // yield put(setPopularHotels(hotels));
     // yield put(setHotelsIsLoading(false));
   } catch (error) {
     // yield put(setHotelsIsLoading(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* saveHotelSaga(action) {
@@ -269,16 +244,12 @@ function* saveHotelSaga(action) {
     const hotelID = action.payload;
     const response = yield call(userAPI.saveHotel, hotelID, token);
     const hotel = response.data;
-    console.log(hotel);
     yield put(setSavedHotel(hotel));
     yield put(likeHotelStarted(false));
   } catch (error) {
     yield put(likeHotelStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* deleteSavedHotelSaga(action) {
@@ -292,10 +263,7 @@ function* deleteSavedHotelSaga(action) {
   } catch (error) {
     yield put(likeHotelStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* deleteGalleryImageSaga(action) {
@@ -310,10 +278,7 @@ function* deleteGalleryImageSaga(action) {
   } catch (error) {
     // yield put(setHotelsIsLoading(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 
@@ -329,10 +294,7 @@ function* addVisitedHotelSaga(action) {
   } catch (error) {
     yield put(addVisitedHotelStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 function* deleteVisitedHotelSaga(action) {
@@ -346,9 +308,6 @@ function* deleteVisitedHotelSaga(action) {
   } catch (error) {
     yield put(deleteVisitedHotelStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }

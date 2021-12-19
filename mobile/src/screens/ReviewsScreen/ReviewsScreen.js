@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {TouchableWithoutFeedback, View} from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import {
   ButtonWrapper,
   CommentContainer,
@@ -38,6 +38,7 @@ import activeStar from '../../../assets/images/activeStar.png';
 import star from '../../../assets/images/star.png';
 import {currentHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
 import {currentAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
+import {closeSocket} from '../../../redux/actions/CommentActions';
 
 export const Comment = ({item}) => {
   const date = new Date(item?.date);
@@ -169,7 +170,9 @@ export const ReviewsScreen = () => {
   useEffect(() => {
     dispatch(getAdventureReview());
   }, []);
-
+  useEffect(() => {
+    return () => dispatch(closeSocket());
+  }, []);
   return (
     <View style={{flex: 1}}>
       <View style={{flex: 1}}>

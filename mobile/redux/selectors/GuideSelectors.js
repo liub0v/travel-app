@@ -14,6 +14,10 @@ export const isLoadingGuidesSelector = createSelector(
   guideSelector,
   item => item.isLoading,
 );
+export const errorGuidesSelector = createSelector(
+  guideSelector,
+  item => item.error,
+);
 export const addGuideLoaderSelector = createSelector(
   guideSelector,
   item => item.addLoading,
@@ -21,6 +25,18 @@ export const addGuideLoaderSelector = createSelector(
 export const deleteGuideLoaderSelector = createSelector(
   guideSelector,
   item => item.deleteLoading,
+);
+export const updateGuideLoaderSelector = createSelector(
+  guideSelector,
+  item => item.update.isLoading,
+);
+export const currentGuideSelector = createSelector(
+  guideSelector,
+  item => item.currentGuide.data,
+);
+export const currentGuideLoaderSelector = createSelector(
+  guideSelector,
+  item => item.currentGuide.isLoading,
 );
 export const getGuideSelector = guideID => {
   return createSelector(guidesSelector, guides =>

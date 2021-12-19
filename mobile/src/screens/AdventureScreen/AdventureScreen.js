@@ -12,9 +12,7 @@ import {
   deleteVisitedAdventureLoaderSelector,
   likeAdventureLoaderSelector,
   roleSelector,
-  savedAdventuresSelector,
   tokenSelector,
-  visitedAdventuresSelector,
 } from '../../../redux/selectors/UserSelector';
 
 import {adventureAPI} from '../../api/adventureAPI';
@@ -55,7 +53,6 @@ import {
 } from './AdventureScreen.style';
 import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {Edit} from '../../components/Edit/Edit';
 import {
   addVisitedAdventure,
   deleteVisitedAdventure,
@@ -68,7 +65,6 @@ import {
   getIsVisitedAdventureSelector,
 } from '../../../redux/selectors/AdventureSelectors';
 import {RefreshControl} from 'react-native';
-import {clearHotel, getHotel} from '../../../redux/actions/HotelActions';
 import {Comment} from '../ReviewsScreen/ReviewsScreen';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
@@ -130,10 +126,6 @@ export const AdventureScreen = () => {
   const setLikeOnAdventure = () => {
     like && dispatch(deleteSavedAdventure(adventure._id));
     !like && dispatch(saveAdventure(adventure._id));
-  };
-
-  const goEditScreen = () => {
-    navigation.navigate('EditAdventureScreen', {adventure: adventure});
   };
 
   const saveReview = async (
@@ -220,77 +212,97 @@ export const AdventureScreen = () => {
           colors={colors.white}
         />
       }>
-      <ImageContainer source={{uri: adventure?.imageURL}}>
-        <LikeWrapper>
-          {role === 'admin' ? (
-            <Edit handler={goEditScreen} />
-          ) : (
-            <Like
-              handler={setLikeOnAdventure}
-              likeInit={like}
-              isLoading={likeLoader}
-            />
+      {!adventureIsLoading && (
+        <>
+          <ImageContainer source={{uri: adventure?.imageURL}}>
+            {adventure && (
+              <LikeWrapper>
+                {role !== 'admin' && (
+                  <Like
+                    handler={setLikeOnAdventure}
+                    likeInit={like}
+                    isLoading={likeLoader}
+                  />
+                )}
+              </LikeWrapper>
+            )}
+          </ImageContainer>
+          <InfoContainer>
+            <NameContainer>
+              <Stars starsNumber={adventure?.rating?.starsNumber} />
+              <NameTitle>{adventure?.name}</NameTitle>
+              <LocationTitle>{adventure?.address}</LocationTitle>
+            </NameContainer>
+            {adventure?.price ? (
+              <PriceContainer>
+                <PriceTitle>$ {adventure?.price}</PriceTitle>
+                <RateTitle> per person</RateTitle>
+              </PriceContainer>
+            ) : null}
+          </InfoContainer>
+          {adventure?.summary && (
+            <SummaryContainer>
+              <SectionHeader showRightButton={false} title={'Summary'} />
+              <DynamicText text={adventure?.summary} />
+            </SummaryContainer>
           )}
-        </LikeWrapper>
-      </ImageContainer>
-      <InfoContainer>
-        <NameContainer>
-          <Stars starsNumber={adventure?.rating?.starsNumber} />
-          <NameTitle>{adventure?.name}</NameTitle>
-          <LocationTitle>{adventure?.address}</LocationTitle>
-        </NameContainer>
-        <PriceContainer>
-          <PriceTitle>$ {adventure?.price}</PriceTitle>
-          <RateTitle> per person</RateTitle>
-        </PriceContainer>
-      </InfoContainer>
-      <SummaryContainer>
-        <SectionHeader showRightButton={false} title={'Summary'} />
-        <DynamicText text={adventure?.summary} />
-      </SummaryContainer>
-      <GuideContainer>
-        <GuideAvatar
-          source={{uri: adventure?.guideID?.profileInfo?.imageURL}}
-        />
-        <GuideNameWrapper>
-          <GuideNameTitle>
-            {adventure?.guideID?.profileInfo?.firstName}
-          </GuideNameTitle>
-        </GuideNameWrapper>
-        <DynamicText text={adventure?.summary} />
-      </GuideContainer>
-      <RatingContainer>
-        <SectionHeader showRightButton={false} title={'Rating'} />
-        <GeneralRatingWrapper>
-          <GeneralRatingTitle>
-            {adventure?.rating?.generalRating?.toFixed(1)}
-          </GeneralRatingTitle>
-          <Stars starsNumber={adventure?.rating?.starsNumber} />
-        </GeneralRatingWrapper>
-        <Criterion
-          title="Interesting"
-          value={adventure?.rating?.interestingRating * 10}
-        />
-        <Criterion title="Guide" value={adventure?.rating?.guideRating * 10} />
-        <Criterion
-          title="Service"
-          value={adventure?.rating?.serviceRating * 10}
-        />
-        <Criterion title="Price" value={adventure?.rating?.priceRating * 10} />
-      </RatingContainer>
-      <ReviewsContainer>
-        <SectionHeader
-          showRightButton
-          title={'Reviews'}
-          passHandler={goReviewsScreen}
-        />
-        <IntroReviews>
-          {reviews?.slice(0, 3)?.map(item => (
-            <Comment item={item} key={item?._id} />
-          ))}
-        </IntroReviews>
-      </ReviewsContainer>
-      <ButtonWrapper>{showButton()}</ButtonWrapper>
+          {adventure?.guideID && (
+            <GuideContainer>
+              <GuideAvatar
+                source={{uri: adventure?.guideID?.profileInfo?.imageURL}}
+              />
+              <GuideNameWrapper>
+                <GuideNameTitle>
+                  {adventure?.guideID?.profileInfo?.firstName}
+                </GuideNameTitle>
+              </GuideNameWrapper>
+              <DynamicText text={adventure?.summary} />
+            </GuideContainer>
+          )}
+          {adventure?.rating && (
+            <RatingContainer>
+              <SectionHeader showRightButton={false} title={'Rating'} />
+              <GeneralRatingWrapper>
+                <GeneralRatingTitle>
+                  {adventure?.rating?.generalRating?.toFixed(1)}
+                </GeneralRatingTitle>
+                <Stars starsNumber={adventure?.rating?.starsNumber} />
+              </GeneralRatingWrapper>
+              <Criterion
+                title="Interesting"
+                value={adventure?.rating?.interestingRating * 10}
+              />
+              <Criterion
+                title="Guide"
+                value={adventure?.rating?.guideRating * 10}
+              />
+              <Criterion
+                title="Service"
+                value={adventure?.rating?.serviceRating * 10}
+              />
+              <Criterion
+                title="Price"
+                value={adventure?.rating?.priceRating * 10}
+              />
+            </RatingContainer>
+          )}
+          {reviews && (
+            <ReviewsContainer>
+              <SectionHeader
+                showRightButton
+                title={'Reviews'}
+                passHandler={goReviewsScreen}
+              />
+              <IntroReviews>
+                {reviews?.slice(0, 3)?.map(item => (
+                  <Comment item={item} key={item?._id} />
+                ))}
+              </IntroReviews>
+            </ReviewsContainer>
+          )}
+          {adventure && <ButtonWrapper>{showButton()}</ButtonWrapper>}
+        </>
+      )}
     </MainContainer>
   );
 };

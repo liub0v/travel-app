@@ -7,6 +7,7 @@ import {authReducer} from './AuthReducer';
 import {destinationReducer} from './DestinationReducer';
 import {adventureReducer} from './AdventureReducer';
 import {hotelReducer} from './HotelReducer';
+import {commentReducer} from './CommentReducer';
 
 const authPersistConfig = {
   key: 'auth',
@@ -19,4 +20,5 @@ export const reducers = combineReducers({
   adventure: adventureReducer,
   hotel: hotelReducer,
   guide: guideReducer,
+  comment: commentReducer,
 });

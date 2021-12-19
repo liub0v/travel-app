@@ -23,6 +23,9 @@ async function singUpGuide(username, email, password) {
 async function getGuides(page = 1, limit = 8) {
   return await instance.get('/users/guides', {params: {page, limit}});
 }
+async function getGuideByID(guideID) {
+  return await instance.get('/users/guide', {params: {guideID}});
+}
 async function getGuidesByTerm(page = 1, limit = 8, term) {
   return await instance.get('/users/guides/search', {
     params: {page, limit, term},
@@ -176,4 +179,5 @@ export const userAPI = {
   addVisitedAdventure,
   deleteVisitedAdventure,
   getGuidesByTerm,
+  getGuideByID,
 };

@@ -42,7 +42,7 @@ import {
 } from '../../../redux/selectors/UserSelector';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {hotelAPI} from '../../api/hotelAPI';
-import {Edit} from '../../components/Edit/Edit';
+
 import {HotelsOptions} from '../../services/HotelOptions';
 import {
   addVisitedHotel,
@@ -58,6 +58,7 @@ import {
   getIsVisitedHotelSelector,
 } from '../../../redux/selectors/HotelSelectors';
 import colors from '../../constants/colors';
+
 const Option = ({title, icon}) => {
   return (
     <OptionWrapper>
@@ -103,9 +104,6 @@ export const HotelScreen = () => {
     !like && dispatch(saveHotel(hotel._id));
   };
 
-  const goEditScreen = () => {
-    navigation.navigate('EditHotelScreen', {hotel: hotel});
-  };
   const goEditGalleryScreen = () => {
     navigation.navigate('EditGalleryScreen', {hotel: hotel});
   };
@@ -181,9 +179,7 @@ export const HotelScreen = () => {
         <>
           <ImageContainer source={{uri: hotel?.imageURL}}>
             <LikeWrapper>
-              {role === 'admin' ? (
-                <Edit handler={goEditScreen} />
-              ) : (
+              {role !== 'admin' && (
                 <Like
                   handler={setLikeOnHotel}
                   likeInit={like}

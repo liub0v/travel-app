@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Formik} from 'formik';
-import {Modal} from 'react-native';
+import {Modal, View} from 'react-native';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {
   AddressInput,
-  Container,
   NameInput,
   PriceInput,
   SummaryInput,
@@ -16,6 +15,8 @@ import {
 import colors from '../../../constants/colors';
 import {GuidesList} from '../GuidesList/GuidesList';
 import {Guide} from '../../../screens/ExploreScreen/components/Guide';
+import {useSelector} from 'react-redux';
+import {errorGuidesSelector} from '../../../../redux/selectors/GuideSelectors';
 
 type Props = {
   adventure: any;
@@ -29,9 +30,13 @@ export const AdventureForm: React.FC<Props> = ({
   isLoading,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [guide, setGuide] = useState();
   const initGuide = adventure?.guideID;
+  const [guide, setGuide] = useState(initGuide);
   const [image, setImage] = useState<Asset>();
+
+  const error = useSelector(errorGuidesSelector);
+
+  useEffect(() => setModalVisible(false), [error]);
 
   const setGuideHandler = (guide: string) => {
     setGuide(guide);
@@ -50,10 +55,7 @@ export const AdventureForm: React.FC<Props> = ({
     setModalVisible(true);
   };
   return (
-    <Container
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+    <View style={{width: '100%', alignItems: 'center', marginTop: 24}}>
       <Formik
         initialValues={{
           name: adventure?.name ?? '',
@@ -77,41 +79,6 @@ export const AdventureForm: React.FC<Props> = ({
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <Title>Summary</Title>
-              <SummaryInput
-                placeholder="Enter some words about adventure..."
-                placeholderTextColor={colors.grey}
-                multiline={true}
-                onChangeText={handleChange('summary')}
-                onBlur={handleBlur('summary')}
-                value={values.summary}
-              />
-            </InputWrapper>
-
-            <InputWrapper>
-              <Title>Price</Title>
-              <PriceInput
-                placeholder="0.0"
-                placeholderTextColor={colors.screenBackground}
-                onChangeText={handleChange('price')}
-                onBlur={handleBlur('price')}
-                value={values.price}
-                keyboardType="numeric"
-              />
-            </InputWrapper>
-
-            <InputWrapper>
-              <Title>Address</Title>
-              <AddressInput
-                placeholder="Enter address"
-                placeholderTextColor={colors.grey}
-                onChangeText={handleChange('address')}
-                onBlur={handleBlur('address')}
-                value={values.address}
-                keyboardType="numeric"
               />
             </InputWrapper>
             <InputWrapper>
@@ -147,6 +114,43 @@ export const AdventureForm: React.FC<Props> = ({
                 />
               </Modal>
             </InputWrapper>
+
+            <InputWrapper>
+              <Title>Price</Title>
+              <PriceInput
+                placeholder="0.0"
+                placeholderTextColor={colors.screenBackground}
+                onChangeText={handleChange('price')}
+                onBlur={handleBlur('price')}
+                value={values.price}
+                keyboardType="numeric"
+              />
+            </InputWrapper>
+
+            <InputWrapper>
+              <Title>Address</Title>
+              <AddressInput
+                placeholder="Enter address"
+                placeholderTextColor={colors.grey}
+                onChangeText={handleChange('address')}
+                onBlur={handleBlur('address')}
+                value={values.address}
+                keyboardType="numeric"
+              />
+            </InputWrapper>
+
+            <InputWrapper>
+              <Title>Summary</Title>
+              <SummaryInput
+                placeholder="Enter some words about adventure..."
+                placeholderTextColor={colors.grey}
+                multiline={true}
+                onChangeText={handleChange('summary')}
+                onBlur={handleBlur('summary')}
+                value={values.summary}
+              />
+            </InputWrapper>
+
             <ButtonWrapper>
               <ButtonItem
                 isLoading={isLoading}
@@ -157,6 +161,6 @@ export const AdventureForm: React.FC<Props> = ({
           </>
         )}
       </Formik>
-    </Container>
+    </View>
   );
 };

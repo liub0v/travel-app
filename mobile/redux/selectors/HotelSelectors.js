@@ -30,6 +30,14 @@ export const deleteHotelStartedSelector = createSelector(
   hotelSelector,
   item => item.deleteHotelLoader,
 );
+export const updateHotelIsLoadingSelector = createSelector(
+  hotelSelector,
+  item => item.update.isLoading,
+);
+export const addHotelIsLoadingSelector = createSelector(
+  hotelSelector,
+  item => item.add.isLoading,
+);
 export const errorHotelSelector = createSelector(
   hotelSelector,
   item => item.error,

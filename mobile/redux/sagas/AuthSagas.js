@@ -32,6 +32,16 @@ export const authSagas = [
   takeEvery(UPDATE_USER, updateUserSaga),
 ];
 
+const errorHandler = error => {
+  if (error.code === 'ECONNABORTED' || error.message === 'Network Error')
+    RootNavigation.navigate('AuthErrorScreen');
+  else {
+    showMessage({
+      message: error.response?.data,
+      type: 'error',
+    });
+  }
+};
 function* logInUserSaga(action) {
   try {
     const {email, password} = action.payload;
@@ -49,10 +59,7 @@ function* logInUserSaga(action) {
   } catch (error) {
     yield put(setLogInIsLoading(false));
     yield put(setLogInError(error));
-    yield call(showMessage, {
-      message: error.response?.data,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 
@@ -74,10 +81,7 @@ function* singUpUserSaga(action) {
   } catch (error) {
     yield put(setSignUpIsLoading(false));
     yield put(setSignUpError(error));
-    yield call(showMessage, {
-      message: error.response?.data,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 
@@ -105,10 +109,7 @@ function* deleteUserSaga(action) {
     yield put(deleteUserStarted(false));
   } catch (error) {
     yield put(deleteUserStarted(false));
-    yield call(showMessage, {
-      message: error.response?.data,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
 
@@ -124,9 +125,6 @@ function* updateUserSaga(action) {
     RootNavigation.navigate('ProfileScreen');
   } catch (error) {
     yield put(updateUserStarted(false));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error);
   }
 }
