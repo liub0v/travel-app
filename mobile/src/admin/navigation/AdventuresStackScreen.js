@@ -10,6 +10,7 @@ import colors from '../../constants/colors';
 import {AdventureScreen} from '../../screens/AdventureScreen/AdventureScreen';
 import {ReviewsScreen} from '../../screens/ReviewsScreen/ReviewsScreen';
 import {Edit} from '../../components/Edit/Edit';
+import {ErrorScreen} from '../../screens/ErrorScreen/ErrorScreen';
 
 const AdventuresStack = createNativeStackNavigator();
 
@@ -83,6 +84,13 @@ export function AdventuresStackScreen() {
         }}
         name="ReviewsScreen"
         component={ReviewsScreen}
+      />
+      <AdventuresStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ErrorScreen"
+        component={ErrorScreen}
       />
     </AdventuresStack.Navigator>
   );

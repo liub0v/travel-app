@@ -83,8 +83,8 @@ export const guideReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         guides: [...guidesCopy],
+        currentGuide: {...state.currentGuide, data: payload},
       };
-      0;
     }
     case CLEAR_GUIDES: {
       return {...state, guides: undefined, hasMore: true, error: undefined};

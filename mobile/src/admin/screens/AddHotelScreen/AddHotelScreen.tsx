@@ -32,12 +32,13 @@ import {
 } from '../EditGalleryScreen/EditGalleryScreen.style';
 import FastImage from 'react-native-fast-image';
 import {Delete} from '../../../components/Delete/Delete';
-import {Image, TouchableWithoutFeedback} from 'react-native';
+import {Image, Text, TouchableWithoutFeedback} from 'react-native';
 import addIcon from '../../../../assets/images/addIcon.png';
 import {useDispatch, useSelector} from 'react-redux';
 import {addHotelIsLoadingSelector} from '../../../../redux/selectors/HotelSelectors';
 import {addHotel} from '../../../../redux/actions/HotelActions';
 import {StarsRating} from '../../../screens/ReviewsScreen/ReviewsScreen';
+import {hotelValidationSchema} from '../../../services/validation';
 export type Props = {};
 
 export const AddHotelScreen: React.FC<Props> = () => {
@@ -53,11 +54,13 @@ export const AddHotelScreen: React.FC<Props> = () => {
     summary,
     price,
     address,
+    starsNumber,
     hotelOptions,
   }: {
     name: string;
     summary: string;
     price: number;
+    starsNumber: number;
     address: string;
     hotelOptions: HotelsOptions<HotelsOptionsProps>;
   }) => {
@@ -100,6 +103,7 @@ export const AddHotelScreen: React.FC<Props> = () => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
       <Formik
+        validationSchema={hotelValidationSchema}
         initialValues={{
           name: '',
           summary: '',
@@ -111,7 +115,15 @@ export const AddHotelScreen: React.FC<Props> = () => {
           image: '',
         }}
         onSubmit={createHandler}>
-        {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+        }) => (
           <>
             <ButtonItem
               isLoading={false}
@@ -128,7 +140,12 @@ export const AddHotelScreen: React.FC<Props> = () => {
                 value={values.name}
               />
             </InputWrapper>
-
+            {errors.name && touched.name && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.name}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Summary</Title>
               <SummaryInput
@@ -152,7 +169,12 @@ export const AddHotelScreen: React.FC<Props> = () => {
                 keyboardType="numeric"
               />
             </InputWrapper>
-
+            {errors.price && touched.price && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.price}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Address</Title>
               <AddressInput
@@ -164,15 +186,30 @@ export const AddHotelScreen: React.FC<Props> = () => {
                 keyboardType="numeric"
               />
             </InputWrapper>
+            {errors.address && touched.address && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.address}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Stars number</Title>
               <StarsWrapper>
                 <StarsRating
                   initStarsNumber={0}
-                  setStarRating={setStarsNumber}
+                  setStarRating={number => {
+                    setStarsNumber(number);
+                    setFieldValue('starsNumber', number);
+                  }}
                 />
               </StarsWrapper>
             </InputWrapper>
+            {errors.starsNumber && touched.starsNumber && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.starsNumber}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Hotel options</Title>
               <CheckBoxContainer>

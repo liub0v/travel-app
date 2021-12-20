@@ -65,13 +65,13 @@ function* getDestinationsSaga(action) {
 
 function* getDestinationsByNameSaga(action) {
   try {
-    const {page, limit, countryName} = action.payload;
+    const {page, limit, term} = action.payload;
     yield put(setDestinationsIsLoading(true));
     const response = yield call(
       searchAPI.getDestinationsByName,
       page,
       limit,
-      countryName,
+      term,
     );
     const destinations = response.data;
     // yield put(getDestinationsByNameCompleted(destinations));

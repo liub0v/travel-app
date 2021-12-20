@@ -56,6 +56,7 @@ export const UserInfoWrapper = styled.View`
 `;
 export const UserInfoFirstLineWrapper = styled.View``;
 export const CommentTextWrapper = styled.View`
+  margin-top: -12px;
   padding-left: 48px;
 `;
 export const UserFirstNameTitle = styled.Text`

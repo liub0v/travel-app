@@ -12,6 +12,7 @@ import {EditGalleryScreen} from '../screens/EditGalleryScreen/EditGalleryScreen'
 import {HotelGalleryScreen} from '../../screens/HotelGalleryScreen/HotelGalleryScreen';
 import {Edit} from '../../components/Edit/Edit';
 import {ReviewsScreen} from '../../screens/ReviewsScreen/ReviewsScreen';
+import {ErrorScreen} from '../../screens/ErrorScreen/ErrorScreen';
 const HotelsStack = createNativeStackNavigator();
 
 export function HotelsStackScreen() {
@@ -104,6 +105,13 @@ export function HotelsStackScreen() {
         }}
         name="ReviewsScreen"
         component={ReviewsScreen}
+      />
+      <HotelsStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ErrorScreen"
+        component={ErrorScreen}
       />
     </HotelsStack.Navigator>
   );

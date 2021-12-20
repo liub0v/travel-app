@@ -31,7 +31,7 @@ export const StarsContainer = styled.View`
   flex-direction: row;
 `;
 export const Star = styled.Image`
-  margin-right: 5px;
+  margin-right: 6px;
 `;
 export const HotelPriceWrapper = styled.View`
   flex-direction: row;

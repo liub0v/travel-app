@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, Image, TouchableWithoutFeedback} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
@@ -18,7 +18,12 @@ import {
 
 import addIcon from '../../../../assets/images/addIcon.png';
 import {Delete} from '../../../components/Delete/Delete';
-import {getHotelGallerySelector} from '../../../../redux/selectors/HotelSelectors';
+import {
+  deleteGalleryImageIsLoadingSelector,
+  getHotelGallerySelector,
+  updateHotelIsLoadingSelector,
+} from '../../../../redux/selectors/HotelSelectors';
+import {Spinner} from '../../../components/Loaders/Spinner';
 
 export type Props = {
   route: any;
@@ -29,6 +34,9 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
   const dispatch = useDispatch();
   const galleySelector = getHotelGallerySelector(hotel._id);
   const gallery = useSelector(galleySelector);
+  const [deleteIndex, setDeleteIndex] = useState(null);
+  const updateLoading = useSelector(updateHotelIsLoadingSelector);
+  const deleteImageLoading = useSelector(deleteGalleryImageIsLoadingSelector);
   const selectFile = async () => {
     const res = await launchImageLibrary({
       maxHeight: 320,
@@ -41,8 +49,12 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
   const saveHandler = () => {
     dispatch(updateHotelGallery({hotelID: hotel._id, images}));
   };
-  const deleteImageHandler = (imageURL: string) => {
+  useEffect(() => {
+    setImages([]);
+  }, [gallery]);
+  const deleteImageHandler = (imageURL, index) => {
     dispatch(deleteGalleryImage({hotelID: hotel._id, imageURL}));
+    setDeleteIndex(index);
   };
   const deleteImageFromStateHandler = (img: Asset) => {
     setImages(images.filter(item => item.uri !== img.uri));
@@ -52,14 +64,22 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
       <GalleryContainer>
         {gallery.map((imgURL, index) => (
           <ImageWrapper key={index}>
-            <ImageItem>
-              <FastImage
-                style={{width: 100, height: 100}}
-                source={{uri: imgURL}}
-              />
+            <ImageItem style={{width: 100, height: 100}}>
+              {deleteIndex === index && deleteImageLoading ? (
+                <Spinner />
+              ) : (
+                <FastImage
+                  style={{width: 100, height: 100}}
+                  source={{uri: imgURL}}
+                />
+              )}
             </ImageItem>
             <DeleteWrapper>
-              <Delete handler={() => deleteImageHandler(imgURL)} />
+              <Delete
+                handler={() => {
+                  deleteImageHandler(imgURL, index);
+                }}
+              />
             </DeleteWrapper>
           </ImageWrapper>
         ))}
@@ -87,7 +107,7 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
         </ImageWrapper>
       </GalleryContainer>
       <ButtonItem
-        isLoading={false}
+        isLoading={updateLoading}
         title={'Save changes'}
         handler={saveHandler}
       />

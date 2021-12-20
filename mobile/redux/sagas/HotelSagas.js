@@ -35,6 +35,7 @@ import {
   setPopularHotelsStarted,
   updateHotelStarted,
   addHotelStarted,
+  deleteGalleryImageStarted,
 } from '../actions/HotelActions';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
 import {tokenSelector} from '../selectors/UserSelector';
@@ -223,16 +224,15 @@ function* deleteHotelSaga(action) {
 }
 function* updateHotelGallerySaga(action) {
   try {
-    // yield put(setHotelsIsLoading(true));
+    yield put(updateHotelStarted(true));
     const token = yield select(tokenSelector);
     const {hotelID, images} = action.payload;
     const response = yield call(hotelAPI.updateGallery, token, hotelID, images);
     const hotel = response.data;
     yield put(updateHotelCompleted(hotel));
-    // yield put(setPopularHotels(hotels));
-    // yield put(setHotelsIsLoading(false));
+    yield put(updateHotelStarted(false));
   } catch (error) {
-    // yield put(setHotelsIsLoading(false));
+    yield put(updateHotelStarted(false));
     yield put(setHotelsError(error));
     yield call(errorHandler, error);
   }
@@ -268,15 +268,14 @@ function* deleteSavedHotelSaga(action) {
 }
 function* deleteGalleryImageSaga(action) {
   try {
-    // yield put(setHotelsIsLoading(true));
+    yield put(deleteGalleryImageStarted(true));
     const token = yield select(tokenSelector);
     const {hotelID, imageURL} = action.payload;
     yield call(hotelAPI.deleteGalleryImage, token, hotelID, imageURL);
     yield put(deleteGalleryImageCompleted({hotelID, imageURL}));
-    // yield put(setPopularHotels(hotels));
-    // yield put(setHotelsIsLoading(false));
+    yield put(deleteGalleryImageStarted(false));
   } catch (error) {
-    // yield put(setHotelsIsLoading(false));
+    yield put(deleteGalleryImageStarted(false));
     yield put(setHotelsError(error));
     yield call(errorHandler, error);
   }

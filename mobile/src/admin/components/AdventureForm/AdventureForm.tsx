@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Formik} from 'formik';
-import {Modal, View} from 'react-native';
+import {Modal, Text, View} from 'react-native';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import {Asset, launchImageLibrary} from 'react-native-image-picker';
 import {
@@ -17,6 +17,7 @@ import {GuidesList} from '../GuidesList/GuidesList';
 import {Guide} from '../../../screens/ExploreScreen/components/Guide';
 import {useSelector} from 'react-redux';
 import {errorGuidesSelector} from '../../../../redux/selectors/GuideSelectors';
+import {adventureValidationSchema} from '../../../services/validation';
 
 type Props = {
   adventure: any;
@@ -38,10 +39,6 @@ export const AdventureForm: React.FC<Props> = ({
 
   useEffect(() => setModalVisible(false), [error]);
 
-  const setGuideHandler = (guide: string) => {
-    setGuide(guide);
-    setModalVisible(false);
-  };
   const selectFile = async () => {
     const res = await launchImageLibrary({
       maxHeight: 320,
@@ -57,14 +54,24 @@ export const AdventureForm: React.FC<Props> = ({
   return (
     <View style={{width: '100%', alignItems: 'center', marginTop: 24}}>
       <Formik
+        validationSchema={adventureValidationSchema}
         initialValues={{
           name: adventure?.name ?? '',
           summary: adventure?.summary ?? '',
           price: adventure?.price?.toString() ?? '',
           address: adventure?.address ?? '',
+          guideID: adventure?.guideID._id ?? '',
         }}
-        onSubmit={values => handler({...values, guideID: guide?._id, image})}>
-        {({handleChange, handleBlur, handleSubmit, values}) => (
+        onSubmit={values => handler({...values, image})}>
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+        }) => (
           <>
             <ButtonItem
               isLoading={false}
@@ -81,6 +88,12 @@ export const AdventureForm: React.FC<Props> = ({
                 value={values.name}
               />
             </InputWrapper>
+            {errors.name && touched.name && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.name}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Guide</Title>
               {initGuide && !guide && <Guide item={initGuide} />}
@@ -110,11 +123,24 @@ export const AdventureForm: React.FC<Props> = ({
                   closeHandler={() => {
                     setModalVisible(!modalVisible);
                   }}
-                  pressHandler={setGuideHandler}
+                  pressHandler={guide => {
+                    setFieldValue('guideID', guide._id);
+                    setModalVisible(false);
+                    setGuide(guide);
+                  }}
                 />
               </Modal>
             </InputWrapper>
-
+            {errors.guideID && touched.guideID && (
+              <Text
+                style={{
+                  color: colors.red,
+                  padding: 6,
+                }}>
+                {' '}
+                {errors.guideID}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Price</Title>
               <PriceInput
@@ -126,7 +152,12 @@ export const AdventureForm: React.FC<Props> = ({
                 keyboardType="numeric"
               />
             </InputWrapper>
-
+            {errors.price && touched.price && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.price}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Address</Title>
               <AddressInput
@@ -138,7 +169,12 @@ export const AdventureForm: React.FC<Props> = ({
                 keyboardType="numeric"
               />
             </InputWrapper>
-
+            {errors.address && touched.address && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.address}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Summary</Title>
               <SummaryInput

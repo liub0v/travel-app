@@ -7,7 +7,7 @@ import {
   InfoContainer,
   MainInfo,
 } from '../../../screens/ProfileScreen/Profile.style';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {
   BoldWhiteText,
   ButtonWrapper,
@@ -24,6 +24,7 @@ import {
   updateGuideLoaderSelector,
 } from '../../../../redux/selectors/GuideSelectors';
 import {DEFAULT_PROFILE_IMAGE} from '../../../constants/api';
+import {profileValidationSchema} from '../../../services/validation';
 
 export type Props = {
   route: any;
@@ -59,13 +60,22 @@ export const EditGuideScreen: React.FC<Props> = () => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}}>
       <Formik
+        validationSchema={profileValidationSchema}
         initialValues={{
           username: userInfo?.username ?? '',
           email: userInfo?.email ?? '',
           name: `${profileInfo?.firstName} ${profileInfo?.lastName}` ?? '',
         }}
         onSubmit={values => updateGuideHandler(values)}>
-        {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+        }) => (
           <View>
             <MainInfo>
               {profileInfo?.imageURL ? (
@@ -92,6 +102,12 @@ export const EditGuideScreen: React.FC<Props> = () => {
                   value={values.username}
                 />
               </InfoItem>
+              {errors.username && touched.username && (
+                <Text style={{color: colors.red, padding: 6}}>
+                  {' '}
+                  {errors.username}
+                </Text>
+              )}
               <InfoItem>
                 <GreyText>{'Email'}</GreyText>
                 <WhiteText
@@ -102,6 +118,12 @@ export const EditGuideScreen: React.FC<Props> = () => {
                   value={values.email}
                 />
               </InfoItem>
+              {errors.email && touched.email && (
+                <Text style={{color: colors.red, padding: 6}}>
+                  {' '}
+                  {errors.email}
+                </Text>
+              )}
             </InfoContainer>
             <ButtonWrapper>
               <ButtonItem

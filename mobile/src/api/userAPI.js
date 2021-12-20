@@ -139,7 +139,7 @@ async function updateUser(
   formData.append('userID', userID);
   firstName && formData.append('firstName', firstName);
   lastName && formData.append('lastName', lastName);
-  username && formData.append('username', username);
+  username && formData.append('username', username.toLowerCase());
   email && formData.append('email', email);
   image?.uri &&
     image?.type &&

@@ -2,13 +2,10 @@ import React, {useRef} from 'react';
 import {Animated, TouchableWithoutFeedback} from 'react-native';
 
 import {
-  BookingButton,
-  BookingButtonTitle,
   Container,
   Description,
   TextWrapper,
   Title,
-  ButtonsWrapper,
   Wrapper,
   SearchBarInput,
   SearchBarWrapper,
@@ -97,13 +94,6 @@ export const Preview = () => {
             }
           </Description>
         </TextWrapper>
-        <ButtonsWrapper>
-          <BookingButton>
-            <TouchableWithoutFeedback onPress={() => {}}>
-              <BookingButtonTitle>{'Book now'}</BookingButtonTitle>
-            </TouchableWithoutFeedback>
-          </BookingButton>
-        </ButtonsWrapper>
       </Wrapper>
     </Container>
   );

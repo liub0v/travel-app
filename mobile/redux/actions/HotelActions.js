@@ -31,6 +31,7 @@ import {
   UPDATE_HOTEL_GALLERY,
   UPDATE_HOTEL_STARTED,
   ADD_HOTEL_STARTED,
+  DELETE_GALLERY_IMAGE_STARTED,
 } from '../types/HotelTypes';
 
 export const getHotel = hotelID => {
@@ -201,6 +202,12 @@ export const deleteGalleryImageCompleted = ({hotelID, imageURL}) => {
   return {
     type: DELETE_GALLERY_IMAGE_COMPLETED,
     payload: {hotelID, imageURL},
+  };
+};
+export const deleteGalleryImageStarted = isLoading => {
+  return {
+    type: DELETE_GALLERY_IMAGE_STARTED,
+    payload: isLoading,
   };
 };
 export const deleteGalleryImage = ({hotelID, imageURL}) => {

@@ -38,6 +38,10 @@ export const addHotelIsLoadingSelector = createSelector(
   hotelSelector,
   item => item.add.isLoading,
 );
+export const deleteGalleryImageIsLoadingSelector = createSelector(
+  hotelSelector,
+  item => item.gallery.delete.isLoading,
+);
 export const errorHotelSelector = createSelector(
   hotelSelector,
   item => item.error,

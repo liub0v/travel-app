@@ -9,6 +9,7 @@ import {GuideScreen} from '../../screens/GuideScreen/GuideScreen';
 import {Add} from '../../components/Add/Add';
 import {HeaderBackButton} from '@react-navigation/elements';
 import colors from '../../constants/colors';
+import {ErrorScreen} from '../../screens/ErrorScreen/ErrorScreen';
 const GuidesStack = createNativeStackNavigator();
 
 export function GuidesStackScreen() {
@@ -71,6 +72,13 @@ export function GuidesStackScreen() {
         })}
         name="GuideScreen"
         component={GuideScreen}
+      />
+      <GuidesStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ErrorScreen"
+        component={ErrorScreen}
       />
     </GuidesStack.Navigator>
   );

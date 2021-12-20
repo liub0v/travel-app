@@ -6,7 +6,6 @@ import {
   CLEAR_ADVENTURES,
   DELETE_ADVENTURE_COMPLETED,
   DELETE_ADVENTURE_STARTED,
-  GET_ADVENTURE,
   GET_ADVENTURE_COMPLETED,
   GET_ADVENTURE_STARTED,
   SAVE_ADVENTURE_STARTED,
@@ -90,6 +89,7 @@ export const adventureReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         adventures: [...adventuresCopy],
+        currentAdventure: {...state.currentAdventure, data: payload},
       };
     }
     case ADD_ADVENTURE_STARTED:

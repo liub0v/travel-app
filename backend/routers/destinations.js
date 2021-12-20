@@ -27,13 +27,14 @@ router.get("/search", async (req, res) => {
   const page = parseInt(req.query.page) ?? PAGE;
   const limit = parseInt(req.query.limit) ?? LIMIT;
   const startIndex = (page - 1) * limit;
+  await Destination.createIndexes();
   const regex = new RegExp(`.*^${countryName}.*`, "i");
   const destinations = await Destination.find({
     countryName: regex,
   })
+
     .sort({ _id: 1 })
     .skip(startIndex)
-
     .limit(limit);
   res.send(destinations);
 });

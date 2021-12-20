@@ -73,10 +73,10 @@ export const clearDestinations = () => {
     type: CLEAR_DESTINATIONS,
   };
 };
-export const getDestinationsByName = ({page, limit, countryName}) => {
+export const getDestinationsByName = ({page, limit, term}) => {
   return {
     type: GET_DESTINATIONS_BY_NAME,
-    payload: {page, limit, countryName},
+    payload: {page, limit, term},
   };
 };
 export const getDestinationsByNameCompleted = destinations => {

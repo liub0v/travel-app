@@ -28,8 +28,9 @@ import {
   updateHotelIsLoadingSelector,
 } from '../../../../redux/selectors/HotelSelectors';
 import colors from '../../../constants/colors';
-import {useRoute} from '@react-navigation/native';
 import {StarsRating} from '../../../screens/ReviewsScreen/ReviewsScreen';
+import {Text, View} from 'react-native';
+import {hotelValidationSchema} from '../../../services/validation';
 
 export type Props = {};
 
@@ -55,11 +56,13 @@ export const EditHotelScreen: React.FC<Props> = () => {
     summary,
     price,
     address,
+    starsNumber,
     hotelOptions,
   }: {
     name: string;
     summary: string;
     price: number;
+    starsNumber: number;
     address: string;
     hotelOptions: HotelsOptions<HotelsOptionsProps>;
   }) => {
@@ -90,18 +93,27 @@ export const EditHotelScreen: React.FC<Props> = () => {
         marginTop: 24,
       }}>
       <Formik
+        validationSchema={hotelValidationSchema}
         initialValues={{
-          name: hotel.name ?? 'no name',
-          summary: hotel.summary ?? 'no summary',
-          price: hotel.price.toString() ?? '0.0',
-          address: hotel.address ?? 'no address',
+          name: hotel?.name ?? 'no name',
+          summary: hotel?.summary ?? 'no summary',
+          price: hotel?.price.toString() ?? '0.0',
+          address: hotel?.address ?? 'no address',
           beds: '',
           hotelOptions: hotelOptions,
-          starsNumber: hotel.starsNumber ?? 0,
+          starsNumber: hotel?.starsNumber ?? 0,
           image: '',
         }}
         onSubmit={editHandler}>
-        {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+        }) => (
           <>
             <ButtonItem
               isLoading={false}
@@ -116,7 +128,12 @@ export const EditHotelScreen: React.FC<Props> = () => {
                 value={values.name}
               />
             </InputWrapper>
-
+            {errors.name && touched.name && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.name}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Summary</Title>
               <SummaryInput
@@ -136,7 +153,12 @@ export const EditHotelScreen: React.FC<Props> = () => {
                 keyboardType="numeric"
               />
             </InputWrapper>
-
+            {errors.price && touched.price && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.price}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Address</Title>
               <AddressInput
@@ -146,16 +168,30 @@ export const EditHotelScreen: React.FC<Props> = () => {
                 keyboardType="numeric"
               />
             </InputWrapper>
+            {errors.address && touched.address && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.address}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Stars number</Title>
               <StarsWrapper>
                 <StarsRating
                   initStarsNumber={hotel.starsNumber}
-                  setStarRating={setStarsNumber}
+                  setStarRating={number => {
+                    setStarsNumber(number);
+                    setFieldValue('starsNumber', number);
+                  }}
                 />
               </StarsWrapper>
             </InputWrapper>
-
+            {errors.starsNumber && touched.starsNumber && (
+              <Text style={{color: colors.red, padding: 6}}>
+                {' '}
+                {errors.starsNumber}
+              </Text>
+            )}
             <InputWrapper>
               <Title>Hotel options</Title>
               <CheckBoxContainer>
@@ -217,16 +253,17 @@ export const EditHotelScreen: React.FC<Props> = () => {
                 handler={handleSubmit}
               />
             </ButtonWrapper>
-
-            <ButtonItem
-              isLoading={deleteLoading}
-              title={'Delete hotel'}
-              handler={deleteHotelHandler}
-              theme={{backgroundColor: colors.red, textColor: colors.white}}
-            />
           </>
         )}
       </Formik>
+      <View style={{marginBottom: 48, width: '100%'}}>
+        <ButtonItem
+          isLoading={deleteLoading}
+          title={'Delete hotel'}
+          handler={deleteHotelHandler}
+          theme={{backgroundColor: colors.red, textColor: colors.white}}
+        />
+      </View>
     </Container>
   );
 };

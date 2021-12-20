@@ -18,6 +18,7 @@ import {
   SET_POPULAR_HOTELS_STARTED,
   UPDATE_HOTEL_STARTED,
   ADD_HOTEL_STARTED,
+  DELETE_GALLERY_IMAGE_STARTED,
 } from '../types/HotelTypes';
 import {PAGE_SIZE} from '../../src/constants/api';
 
@@ -41,6 +42,12 @@ const initialState = {
     data: undefined,
     isLoading: false,
     error: undefined,
+  },
+  gallery: {
+    delete: {
+      isLoading: false,
+      error: undefined,
+    },
   },
 };
 
@@ -108,6 +115,7 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         hotels: [...hotelsCopy],
+        currentHotel: {...state.currentHotel, data: payload},
       };
     }
     case UPDATE_HOTEL_STARTED:
@@ -151,6 +159,14 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
         deleteHotelLoader: payload,
       };
     }
+    case DELETE_GALLERY_IMAGE_STARTED:
+      return {
+        ...state,
+        gallery: {
+          ...state.gallery,
+          delete: {...state.gallery.delete, isLoading: payload},
+        },
+      };
     default:
       return state;
   }

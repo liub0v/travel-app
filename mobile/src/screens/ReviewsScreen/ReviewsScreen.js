@@ -27,7 +27,10 @@ import {
 import colors from '../../constants/colors';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {useDispatch, useSelector} from 'react-redux';
-import {userSelector} from '../../../redux/selectors/UserSelector';
+import {
+  roleSelector,
+  userSelector,
+} from '../../../redux/selectors/UserSelector';
 import {showMessage} from 'react-native-flash-message';
 import {getAdventureReview} from '../../../redux/actions/AdventureActions';
 import {dateParser} from '../../services/dataParser';
@@ -143,6 +146,8 @@ export const ReviewsScreen = () => {
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
 
+  const role = useSelector(roleSelector);
+
   const onSubmitHandler = async () => {
     try {
       await onSubmit(
@@ -174,71 +179,75 @@ export const ReviewsScreen = () => {
     return () => dispatch(closeSocket());
   }, []);
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, marginTop: 24}}>
       <View style={{flex: 1}}>
         <CommentInputContainer>
           {comments?.map(item => (
             <Comment item={item} key={item._id} />
           ))}
-          <CommentInputWrapper>
-            <UserInfoWrapper>
-              <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
-              <UserFirstNameTitle>{`${user?.profileInfo?.firstName} ${user?.profileInfo?.lastName}`}</UserFirstNameTitle>
-            </UserInfoWrapper>
-            {showCriterionRating && (
-              <>
-                <CriterionRatingContainer>
-                  <CriterionRating
-                    title={'Interesting'}
-                    ratingValue={interestingRatingValue}
-                    onValueChangeHandler={value =>
-                      setInterestingRatingValue(value)
-                    }
-                  />
-                  <CriterionRating
-                    title={'Guide'}
-                    ratingValue={guideRatingValue}
-                    onValueChangeHandler={value => setGuideRatingValue(value)}
-                  />
-                  <CriterionRating
-                    title={'Service'}
-                    ratingValue={serviceRatingValue}
-                    onValueChangeHandler={value => setServiceRatingValue(value)}
-                  />
-                  <CriterionRating
-                    title={'Price'}
-                    ratingValue={priceRatingValue}
-                    onValueChangeHandler={value => setPriceRatingValue(value)}
-                  />
-                </CriterionRatingContainer>
-              </>
-            )}
+          {role !== 'admin' && (
+            <CommentInputWrapper>
+              <UserInfoWrapper>
+                <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
+                <UserFirstNameTitle>{`${user?.profileInfo?.firstName} ${user?.profileInfo?.lastName}`}</UserFirstNameTitle>
+              </UserInfoWrapper>
+              {showCriterionRating && (
+                <>
+                  <CriterionRatingContainer>
+                    <CriterionRating
+                      title={'Interesting'}
+                      ratingValue={interestingRatingValue}
+                      onValueChangeHandler={value =>
+                        setInterestingRatingValue(value)
+                      }
+                    />
+                    <CriterionRating
+                      title={'Guide'}
+                      ratingValue={guideRatingValue}
+                      onValueChangeHandler={value => setGuideRatingValue(value)}
+                    />
+                    <CriterionRating
+                      title={'Service'}
+                      ratingValue={serviceRatingValue}
+                      onValueChangeHandler={value =>
+                        setServiceRatingValue(value)
+                      }
+                    />
+                    <CriterionRating
+                      title={'Price'}
+                      ratingValue={priceRatingValue}
+                      onValueChangeHandler={value => setPriceRatingValue(value)}
+                    />
+                  </CriterionRatingContainer>
+                </>
+              )}
 
-            <StarsRatingContainer>
-              <StarsRating
-                setStarRating={setStarsRatingValue}
-                initStarsNumber={starsRatingValue}
-              />
-            </StarsRatingContainer>
+              <StarsRatingContainer>
+                <StarsRating
+                  setStarRating={setStarsRatingValue}
+                  initStarsNumber={starsRatingValue}
+                />
+              </StarsRatingContainer>
 
-            <CommentTextInput
-              multiline={true}
-              placeholderTextColor={colors.gray}
-              placeholder={'Type a comment...'}
-              value={commentText}
-              onChangeText={text => {
-                setCommentText(text);
-              }}
-            />
-            <ButtonWrapper>
-              <ButtonItem
-                title={'Send'}
-                titleSize={12}
-                size={{height: 40, width: 100}}
-                handler={onSubmitHandler}
+              <CommentTextInput
+                multiline={true}
+                placeholderTextColor={colors.gray}
+                placeholder={'Type a comment...'}
+                value={commentText}
+                onChangeText={text => {
+                  setCommentText(text);
+                }}
               />
-            </ButtonWrapper>
-          </CommentInputWrapper>
+              <ButtonWrapper>
+                <ButtonItem
+                  title={'Send'}
+                  titleSize={12}
+                  size={{height: 40, width: 100}}
+                  handler={onSubmitHandler}
+                />
+              </ButtonWrapper>
+            </CommentInputWrapper>
+          )}
         </CommentInputContainer>
       </View>
     </View>

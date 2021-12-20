@@ -1,8 +1,8 @@
 import {instance} from './index';
 
-async function getDestinationsByName(page = 1, limit = 8, countryName) {
+async function getDestinationsByName(page = 1, limit = 8, term) {
   return await instance.get('/destinations/search', {
-    params: {page, limit, countryName},
+    params: {page, limit, countryName: term},
   });
 }
 async function getFilteredHotels(

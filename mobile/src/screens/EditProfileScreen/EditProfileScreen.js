@@ -19,7 +19,7 @@ import {
   InfoItem,
   WhiteText,
 } from './EditProfileScreen.style';
-import {TouchableWithoutFeedback} from 'react-native';
+import {Text, TouchableWithoutFeedback} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {
   deleteUserIsLoadingSelector,
@@ -27,6 +27,7 @@ import {
   updateUserIsLoadingSelector,
   userInfoSelector,
 } from '../../../redux/selectors/UserSelector';
+import {profileValidationSchema} from '../../services/validation';
 export const EditProfileScreen = () => {
   const profileInfo = useSelector(profileInfoSelector);
   const userInfo = useSelector(userInfoSelector);
@@ -79,6 +80,7 @@ export const EditProfileScreen = () => {
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{flexGrow: 1, justifyContent: 'space-between'}}>
       <Formik
+        validationSchema={profileValidationSchema}
         initialValues={{
           username: userInfo?.username ?? '',
           email: userInfo?.email ?? '',
@@ -89,7 +91,15 @@ export const EditProfileScreen = () => {
           image: profileInfo?.imageURL,
         }}
         onSubmit={values => updateAccountHandler(values)}>
-        {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+        }) => (
           <>
             <MainInfo>
               <TouchableWithoutFeedback
@@ -116,6 +126,12 @@ export const EditProfileScreen = () => {
                   value={values.username}
                 />
               </InfoItem>
+              {errors.username && touched.username && (
+                <Text style={{color: colors.red, padding: 6}}>
+                  {' '}
+                  {errors.username}
+                </Text>
+              )}
               <InfoItem>
                 <GreyText>{'Email'}</GreyText>
                 <WhiteText
@@ -126,7 +142,12 @@ export const EditProfileScreen = () => {
                   value={values.email}
                 />
               </InfoItem>
-
+              {errors.email && touched.email && (
+                <Text style={{color: colors.red, padding: 6}}>
+                  {' '}
+                  {errors.email}
+                </Text>
+              )}
               <InfoItem>
                 <GreyText>{'Phone'}</GreyText>
                 <WhiteText

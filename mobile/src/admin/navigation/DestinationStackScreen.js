@@ -7,6 +7,7 @@ import AddDestinationScreen from '../screens/AddDestinationScreen/AddDestination
 import {Add} from '../../components/Add/Add';
 import {HeaderBackButton} from '@react-navigation/elements';
 import colors from '../../constants/colors';
+import {ErrorScreen} from '../../screens/ErrorScreen/ErrorScreen';
 const DestinationStack = createNativeStackNavigator();
 
 export function DestinationStackScreen() {
@@ -54,6 +55,13 @@ export function DestinationStackScreen() {
         }}
         name="AddDestinationScreen"
         component={AddDestinationScreen}
+      />
+      <DestinationStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ErrorScreen"
+        component={ErrorScreen}
       />
     </DestinationStack.Navigator>
   );
