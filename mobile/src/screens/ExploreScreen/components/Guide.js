@@ -11,19 +11,11 @@ import {
 } from './Guide.style';
 
 import {TouchableWithoutFeedback} from 'react-native';
-import {
-  getGuideInfoSelector,
-  getGuideProfileInfoSelector,
-} from '../../../../redux/selectors/GuideSelectors';
-import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import {DEFAULT_PROFILE_IMAGE} from '../../../constants/api';
 
 export const Guide = ({item, handler = undefined}) => {
   const navigation = useNavigation();
-  const guideProfileInfoSelector = getGuideProfileInfoSelector(
-    item?.userID?._id,
-  );
-  const guideInfoSelector = getGuideInfoSelector(item?.userID?._id);
 
   const goGuideProfile = () => {
     navigation.navigate('GuideScreen', {guideID: item._id});
@@ -38,7 +30,12 @@ export const Guide = ({item, handler = undefined}) => {
   return (
     <TouchableWithoutFeedback onPress={pressHandler}>
       <DialogItem style={{flex: 1, flexDirection: 'row'}}>
-        <DialogAvatar source={{uri: item?.profileInfo?.imageURL}} />
+        {item?.profileInfo?.imageURL ? (
+          <DialogAvatar source={{uri: item?.profileInfo?.imageURL}} />
+        ) : (
+          <DialogAvatar source={DEFAULT_PROFILE_IMAGE} />
+        )}
+
         <DialogInfo>
           <TopInfoLine>
             <UserName>{`${item?.profileInfo?.firstName} ${item?.profileInfo?.lastName}`}</UserName>

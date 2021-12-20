@@ -12,7 +12,6 @@ export const Search = ({placeholder, onChangeHandler}) => {
         editable
         onChangeText={onChangeHandler}
         value={value}
-        onSubmitEditing={() => console.log(value)}
       />
     </SearchBarWrapper>
   );

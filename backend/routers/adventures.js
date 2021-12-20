@@ -8,14 +8,14 @@ const router = require("express").Router();
 const comments = require("../routers/comments");
 const search = require("../routers/search");
 const { populateReviewsObj } = require("../utils/populateObjects");
+const { PAGE, LIMIT } = require("../constants/api");
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 8;
+  const page = parseInt(req.query.page) ?? PAGE;
+  const limit = parseInt(req.query.limit) ?? LIMIT;
 
   const startIndex = (page - 1) * limit;
-  await Adventure.createIndexes();
 
   const adventures = await Adventure.find()
     .sort({ _id: 1 })
@@ -37,8 +37,8 @@ router.get("/byID", async (req, res) => {
 
 router.get("/byDestination", async (req, res) => {
   const destination = req.query.destination;
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 8;
+  const page = parseInt(req.query.page) ?? PAGE;
+  const limit = parseInt(req.query.limit) ?? LIMIT;
   const startIndex = (page - 1) * limit;
   await Adventure.createIndexes();
   const adventures = await Adventure.find({ $text: { $search: destination } })

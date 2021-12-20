@@ -114,7 +114,7 @@ function* updateDestinationSaga(action) {
       token,
       destinationData,
     );
-    console.log(response);
+
     const destination = response.data;
     yield put(updateDestinationCompleted(destination));
     yield put(updateDestinationStarted(false));

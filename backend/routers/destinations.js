@@ -8,6 +8,7 @@ const { Adventure } = require("../models/adventure");
 const router = require("express").Router();
 const admin = require("../middleware/admin");
 const auth = require("../middleware/auth");
+const { PAGE, LIMIT } = require("../constants/api");
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
@@ -23,10 +24,9 @@ router.get("/", async (req, res) => {
 });
 router.get("/search", async (req, res) => {
   const countryName = req.query.countryName;
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 6;
+  const page = parseInt(req.query.page) ?? PAGE;
+  const limit = parseInt(req.query.limit) ?? LIMIT;
   const startIndex = (page - 1) * limit;
-  await Destination.createIndexes();
   const regex = new RegExp(`.*^${countryName}.*`, "i");
   const destinations = await Destination.find({
     countryName: regex,
@@ -60,7 +60,9 @@ router.put("/", auth, admin, async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
   const destination = await Destination.findById(req.body.destinationID);
-  if (!destination) return res.status(404).send("Destination doesn't exist");
+  if (!destination) {
+    return res.status(404).send("Destination doesn't exist");
+  }
 
   const newImage = req.body.image;
   let imageURL;
@@ -84,8 +86,9 @@ router.delete("/", auth, admin, async (req, res) => {
   const destination = await Destination.findByIdAndDelete(
     req.body.destinationID
   );
-  if (!destination) res.status(404).send("Destination doesn't exist");
-
+  if (!destination) {
+    return res.status(404).send("Destination doesn't exist");
+  }
   if (destination.imageURL !== DEFAULT_COVER_IMAGE_URL) {
     await removeFromCloud(destination.imageURL, "destinations");
   }

@@ -1,7 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Asset} from 'react-native-image-picker';
-import {useRoute} from '@react-navigation/native';
 import {ButtonItem} from '../../../components/Buttons/ButtonItem';
 import colors from '../../../constants/colors';
 import {
@@ -42,7 +41,6 @@ export const EditAdventureScreen: React.FC<Props> = () => {
     guideID: string;
     image: Asset;
   }) => {
-    console.log(name, summary, price, address, guideID, image);
     dispatch(
       updateAdventure({
         adventureID: adventure._id,

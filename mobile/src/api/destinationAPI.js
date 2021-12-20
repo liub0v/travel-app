@@ -22,7 +22,6 @@ async function addDestination(token, {countryName, image}) {
   });
 }
 async function updateDestination(token, {destinationID, countryName, image}) {
-  console.log(destinationID);
   const formData = new FormData();
   formData.append('destinationID', destinationID);
   formData.append('countryName', countryName);

@@ -82,8 +82,7 @@ async function addHotel(
     },
   });
   const hotelID = response.data.hotelID;
-  console.log(typeof hotelID);
-  console.log(hotelID);
+
   return await updateGallery(token, hotelID, gallery);
 }
 

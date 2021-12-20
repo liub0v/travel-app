@@ -34,7 +34,6 @@ function* read(socket) {
 export function* subscribe(socket) {
   return new eventChannel(emit => {
     socket.on('review', ({review, adventureID, rating}) => {
-      console.log('review log');
       emit(addAdventureReview({review, adventureID, rating}));
     });
     socket.on('comment', ({review, rating, hotelID}) => {

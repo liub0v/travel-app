@@ -10,6 +10,7 @@ const admin = require("../middleware/admin");
 const auth = require("../middleware/auth");
 const { populateReviewsObj } = require("../utils/populateObjects");
 const search = require("../routers/search");
+const { PAGE, LIMIT } = require("../constants/api");
 
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -37,8 +38,8 @@ router.get("/byID", async (req, res) => {
 
 router.get("/ByDestination", async (req, res) => {
   const destination = req.query.destination;
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 6;
+  const page = parseInt(req.query.page) ?? PAGE;
+  const limit = parseInt(req.query.limit) ?? LIMIT;
   const startIndex = (page - 1) * limit;
   await Hotel.createIndexes();
   const hotels = await Hotel.find({ $text: { $search: destination } })
@@ -55,8 +56,8 @@ router.get("/filter", async (req, res) => {
   const [priceMin, priceMax] = req.query.priceRange.split(",");
   const hotelOptions = req.query.hotelOptions.split(",");
 
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 8;
+  const page = parseInt(req.query.page) ?? PAGE;
+  const limit = parseInt(req.query.limit) ?? LIMIT;
   const startIndex = (page - 1) * limit;
 
   const regexString = hotelOptions.map((option) => `(?=.*${option})`).join("");
@@ -77,7 +78,9 @@ router.get("/filter", async (req, res) => {
 });
 router.delete("/gallery", auth, admin, async (req, res) => {
   const hotel = await Hotel.findById(req.body.hotelID);
-  if (!hotel) return res.status(404).send("Hotel doesn't exist");
+  if (!hotel) {
+    return res.status(404).send("Hotel doesn't exist");
+  }
   const index = hotel.gallery.indexOf(req.body.imageURL);
   index > -1 && hotel.gallery.splice(index, 1);
 
@@ -89,7 +92,9 @@ router.delete("/gallery", auth, admin, async (req, res) => {
 
 router.post("/gallery", auth, admin, async (req, res) => {
   const hotel = await Hotel.findById(req.body.hotelID);
-  if (!hotel) return res.status(404).send("Hotel doesn't exist");
+  if (!hotel) {
+    return res.status(404).send("Hotel doesn't exist");
+  }
   const gallery = [];
   for (let prop in req.body) {
     if (prop.includes("image_")) {
@@ -133,7 +138,9 @@ router.put("/", auth, admin, async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
   const hotel = await Hotel.findById(req.body.hotelID);
-  if (!hotel) return res.status(404).send("Hotel doesn't exist");
+  if (!hotel) {
+    return res.status(404).send("Hotel doesn't exist");
+  }
 
   const newImage = req.body.image;
   let imageURL;
@@ -159,7 +166,9 @@ router.put("/", auth, admin, async (req, res) => {
 });
 router.delete("/", auth, admin, async (req, res) => {
   const hotel = await Hotel.findByIdAndDelete(req.body.hotelID);
-  if (!hotel) return res.status(404).send("Hotel doesn't exist");
+  if (!hotel) {
+    return res.status(404).send("Hotel doesn't exist");
+  }
 
   if (hotel.imageURL !== DEFAULT_COVER_IMAGE_URL) {
     await removeFromCloud(hotel.imageURL, "hotelsGallery");

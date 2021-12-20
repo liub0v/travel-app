@@ -1,4 +1,5 @@
 const express = require("express");
+const { PAGE, LIMIT } = require("../constants/api");
 
 module.exports = (Model) => {
   const router = express.Router();
@@ -6,8 +7,8 @@ module.exports = (Model) => {
   router.get("/search", async (req, res) => {
     const term = req.query.term;
     const array = term.split(" ");
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 8;
+    const page = parseInt(req.query.page) ?? PAGE;
+    const limit = parseInt(req.query.limit) ?? LIMIT;
     const startIndex = (page - 1) * limit;
     const regexString = array.map((item) => `(?=.*${item})`).join("");
     const regex = new RegExp(regexString, "i");
@@ -25,8 +26,8 @@ module.exports = (Model) => {
   userRouter.get("/search", async (req, res) => {
     const term = req.query.term;
     const array = term.split(" ");
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 8;
+    const page = parseInt(req.query.page) ?? PAGE;
+    const limit = parseInt(req.query.limit) ?? LIMIT;
     const startIndex = (page - 1) * limit;
     const regexString = array.map((item) => `(?=.*${item})`).join("");
     const regex = new RegExp(regexString, "i");

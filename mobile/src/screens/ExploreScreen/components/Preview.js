@@ -78,7 +78,6 @@ const SearchBar = () => {
           placeholder={'Where are you going?'}
           editable
           onChangeText={text => onChangeText(text)}
-          onSubmitEditing={() => console.log(text)}
         />
       </Animated.View>
     </SearchBarWrapper>

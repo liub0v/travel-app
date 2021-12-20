@@ -12,6 +12,7 @@ const { Adventure } = require("../models/adventure");
 const { Admin } = require("../models/admin");
 const { populateReviewsObj } = require("../utils/populateObjects");
 const search = require("../routers/search");
+const { PAGE, LIMIT, CLIENT, GUIDE, ADMIN } = require("../constants/api");
 
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -21,8 +22,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/guides", async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 8;
+  const page = parseInt(req.query.page) ?? PAGE;
+  const limit = parseInt(req.query.limit) ?? LIMIT;
   const startIndex = (page - 1) * limit;
   const guides = await Guide.find()
     .skip(startIndex)
@@ -34,20 +35,26 @@ router.get("/guides", async (req, res) => {
 router.get("/guide", async (req, res) => {
   const guideID = req.query.guideID;
   const guide = await Guide.findById(guideID).populate("userID");
-  if (!guide) return res.status(400).send("Guides doesn't exists");
+  if (!guide) {
+    return res.status(400).send("Guides doesn't exists");
+  }
   res.send(guide);
 });
 //current user
 router.get("/me", validateObjectID, auth, async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
-  if (!user) return res.status(404).send("User doesn't exist");
+  if (!user) {
+    return res.status(404).send("User doesn't exist");
+  }
   res.send(user);
 });
 
 //set isOnboarding
 router.put("/onboarding", auth, async (req, res) => {
   const user = await User.findById(req.user._id);
-  if (!user) return res.status(404).send("User doesn't exist");
+  if (!user) {
+    return res.status(404).send("User doesn't exist");
+  }
   user.isOnBoarding = req.body.isOnBoarding; //!user.isOnBoarding
   await user.save();
   res.send({
@@ -59,12 +66,16 @@ router.put("/saveHotel", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id }).populate(
     "savedHotels"
   );
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   const hotel = await Hotel.findById(req.body.hotelID).populate(
     populateReviewsObj
   );
-  if (!hotel) return res.status(404).send("Hotel doesn't exist");
+  if (!hotel) {
+    return res.status(404).send("Hotel doesn't exist");
+  }
 
   client.savedHotels = [...client.savedHotels, hotel];
 
@@ -74,7 +85,9 @@ router.put("/saveHotel", auth, async (req, res) => {
 });
 router.delete("/savedHotel", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id });
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   client.savedHotels = client.savedHotels.filter(
     (item) => item.toString() !== req.body.hotelID
@@ -86,7 +99,9 @@ router.delete("/savedHotel", auth, async (req, res) => {
 });
 router.delete("/savedAdventure", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id });
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   client.savedAdventures = client.savedAdventures.filter(
     (item) => item.toString() !== req.body.adventureID
@@ -100,15 +115,18 @@ router.put("/saveAdventure", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id }).populate(
     "savedAdventures"
   );
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   const adventure = await Adventure.findById(req.body.adventureID);
-  if (!adventure) return res.status(404).send("Adventure doesn't exist");
+  if (!adventure) {
+    return res.status(404).send("Adventure doesn't exist");
+  }
 
   client.savedAdventures = [...client.savedAdventures, adventure];
 
   await client.save();
-  6;
   res.send(adventure);
 });
 
@@ -116,12 +134,16 @@ router.put("/visitedHotel", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id }).populate(
     "visitedHotels"
   );
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   const hotel = await Hotel.findById(req.body.hotelID).populate(
     populateReviewsObj
   );
-  if (!hotel) return res.status(404).send("Hotel doesn't exist");
+  if (!hotel) {
+    return res.status(404).send("Hotel doesn't exist");
+  }
 
   client.visitedHotels = [...client.visitedHotels, hotel];
 
@@ -131,7 +153,9 @@ router.put("/visitedHotel", auth, async (req, res) => {
 });
 router.delete("/visitedHotel", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id });
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   client.visitedHotels = client.visitedHotels.filter(
     (item) => item.toString() !== req.body.hotelID
@@ -146,10 +170,14 @@ router.put("/visitedAdventure", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id }).populate(
     "visitedAdventures"
   );
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   const adventure = await Adventure.findById(req.body.adventureID);
-  if (!adventure) return res.status(404).send("Adventure doesn't exist");
+  if (!adventure) {
+    return res.status(404).send("Adventure doesn't exist");
+  }
 
   client.visitedAdventures = [...client.visitedAdventures, adventure];
 
@@ -159,7 +187,9 @@ router.put("/visitedAdventure", auth, async (req, res) => {
 });
 router.delete("/visitedAdventure", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id });
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   client.visitedAdventures = client.visitedAdventures.filter(
     (item) => item.toString() !== req.body.adventureID
@@ -171,31 +201,37 @@ router.delete("/visitedAdventure", auth, async (req, res) => {
 });
 
 router.put("/profileInfo", auth, async (req, res) => {
-  // let user = await User.findById(req.user._id);
   let user = await User.findById(req.body.userID);
-  // let user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(404).send("User doesn't exist");
+  if (!user) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   user.username = req.body?.username || user.username;
+  user.email = req.body?.email || user.email;
   await user.save();
 
   switch (user.role) {
-    case "client": {
+    case CLIENT: {
       user = await Client.findOne({
         userID: user._id,
       });
-      if (!user) return res.status(404).send("User isn't a client");
+      if (!user) {
+        return res.status(404).send("User isn't a client");
+      }
       break;
     }
-    case "guide": {
+    case GUIDE: {
       user = await Guide.findOne({
         userID: user._id,
       });
-      if (!user) return res.status(404).send("User isn't a guide");
+      if (!user) {
+        return res.status(404).send("User isn't a guide");
+      }
       break;
     }
-    default:
+    default: {
       return res.status(404).send("User doesn't have profile");
+    }
   }
   const image = req.body?.image;
 
@@ -222,13 +258,15 @@ router.post("/admin", async (req, res) => {
   }
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already exists");
+  if (user) {
+    return res.status(400).send("User already exists");
+  }
 
   user = new User({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    role: "admin",
+    role: ADMIN,
   });
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
@@ -255,13 +293,15 @@ router.post("/client", async (req, res) => {
   }
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already exists");
+  if (user) {
+    return res.status(400).send("User already exists");
+  }
 
   user = new User({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    role: "client",
+    role: CLIENT,
   });
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
@@ -289,13 +329,15 @@ router.post("/guide", async (req, res) => {
   }
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already exists");
+  if (user) {
+    return res.status(400).send("User already exists");
+  }
 
   user = new User({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    role: "guide",
+    role: GUIDE,
   });
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
@@ -310,22 +352,30 @@ router.post("/guide", async (req, res) => {
 });
 router.delete("/", auth, async (req, res) => {
   let user = await User.findById(req.body.userID);
-  if (!user) return res.status(400).send("User doesn't exist");
+  if (!user) {
+    return res.status(400).send("User doesn't exist");
+  }
 
   switch (user.role) {
-    case "client":
+    case CLIENT:
       user = await Client.deleteOne({ userID: user._id });
-      if (!user) return res.status(400).send("User isn't a client");
+      if (!user) {
+        return res.status(400).send("User isn't a client");
+      }
 
       break;
-    case "guide":
+    case GUIDE:
       user = await Guide.deleteOne({ userID: user._id });
-      if (!user) return res.status(400).send("User isn't a guide");
+      if (!user) {
+        return res.status(400).send("User isn't a guide");
+      }
 
       break;
-    case "admin":
+    case ADMIN:
       user = await Admin.deleteOne({ userID: user._id });
-      if (!user) return res.status(400).send("User isn't a admin");
+      if (!user) {
+        return res.status(400).send("User isn't a admin");
+      }
 
       break;
   }

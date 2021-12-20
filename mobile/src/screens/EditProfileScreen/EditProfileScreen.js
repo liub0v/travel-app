@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Formik} from 'formik';
 import DatePicker from 'react-native-date-picker';
-import {useRoute} from '@react-navigation/native';
 import {dateParser} from '../../services/dataParser';
 import {deleteUser, updateUser} from '../../../redux/actions/AuthActions';
 import {
@@ -43,6 +42,7 @@ export const EditProfileScreen = () => {
     name,
     username,
     phone,
+    email,
     birthDate,
     address,
     image,
@@ -54,6 +54,7 @@ export const EditProfileScreen = () => {
         firstName,
         lastName,
         username,
+        email,
         phone,
         birthDate,
         address,
