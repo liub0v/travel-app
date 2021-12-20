@@ -14,8 +14,8 @@ import {
   LoginButton,
 } from './StartPage.style';
 
-import logo from '../../../../assets/images/Logo.png';
 import imageBackground from '../../../../assets/images/startBackground.png';
+import logo from '../../../../assets/images/Logo.png';
 
 export const StartScreen = ({navigation}) => {
   const loginHandler = () => {

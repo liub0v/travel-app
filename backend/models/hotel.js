@@ -7,7 +7,6 @@ const hotelSchema = new mongoose.Schema({
   summary: String,
   price: Number,
   address: String,
-  reviews: Array,
   hotelOptions: String,
   beds: Number,
   gallery: {
@@ -15,7 +14,22 @@ const hotelSchema = new mongoose.Schema({
     default: [],
   },
   starsNumber: Number,
+  reviews: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    default: [],
+  },
+  rating: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Rating",
+  },
 });
+
+hotelSchema.index({ address: "text" });
 const Hotel = mongoose.model("Hotel", hotelSchema);
 
 function validateHotel(hotel) {
@@ -37,3 +51,4 @@ function validateHotel(hotel) {
 }
 module.exports.validate = validateHotel;
 module.exports.Hotel = Hotel;
+module.exports.hotelSchema = hotelSchema;

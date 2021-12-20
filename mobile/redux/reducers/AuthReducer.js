@@ -9,7 +9,11 @@ import {
   SET_LOG_OUT_ERROR,
   SET_SIGN_UP_ERROR,
   SET_IS_ONBOARDING,
+  SET_SAVED_HOTEL,
+  SET_SAVED_ADVENTURE,
 } from '../types/AuthTypes';
+import {REMOVE_SAVED_HOTEL} from '../types/HotelTypes';
+import {REMOVE_SAVED_ADVENTURE} from '../types/AdventureTypes';
 
 const initialState = {
   user: undefined,
@@ -98,8 +102,42 @@ export const authReducer = (state = initialState, {type, payload}) => {
           error: payload,
         },
       };
-      k;
-
+    case SET_SAVED_HOTEL:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          savedHotels: [...state.user.savedHotels, payload],
+        },
+      };
+    case REMOVE_SAVED_HOTEL:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          savedHotels: state.user.savedHotels.filter(
+            item => item._id !== payload,
+          ),
+        },
+      };
+    case SET_SAVED_ADVENTURE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          savedAdventures: [...state.user.savedAdventures, payload],
+        },
+      };
+    case REMOVE_SAVED_ADVENTURE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          savedAdventures: state.user.savedAdventures.filter(
+            item => item._id !== payload,
+          ),
+        },
+      };
     default:
       return state;
   }

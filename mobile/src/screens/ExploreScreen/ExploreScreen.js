@@ -1,28 +1,33 @@
-import React from 'react';
-import {Image, TouchableWithoutFeedback} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Image, TouchableWithoutFeedback, View} from 'react-native';
+
 import {useSelector} from 'react-redux';
-import {destinationsSelector} from '../../../redux/selectors/DestinationSelector';
-import {adventuresSelector} from '../../../redux/selectors/AdventureSelectors';
-import {hotelsSelector} from '../../../redux/selectors/HotelSelectors';
-import {Section} from '../../components/Section/Section';
+import {popularDestinationsSelector} from '../../../redux/selectors/DestinationSelector';
+import {popularAdventuresSelector} from '../../../redux/selectors/AdventureSelectors';
+import {popularHotelsSelector} from '../../../redux/selectors/HotelSelectors';
+
+import {Section, SectionHeader} from '../../components/Section/Section';
 import {Destination} from './components/Destination';
 import {Adventure} from './components/Adventure';
 import {Hotel} from './components/Hotel';
 import {Preview} from './components/Preview';
+
 import {
   CategoriesContainer,
   CategoryTitle,
   CategoryItem,
   MainContainer,
 } from './ExploreScreen.style';
+
 import hotelsIcon from '../../../assets/images/hotelsIcon.png';
 import destinationsIcon from '../../../assets/images/DestinationsIcon.png';
 import adventuresIcon from '../../../assets/images/AdventuresIcon.png';
 import guidesIcon from '../../../assets/images/GiudesIcon.png';
+import {HotelContainer} from '../SavedScreen/SavedScreen.style';
 
-const Category = ({image, title}) => {
+const Category = ({image, title, passHandler = () => {}}) => {
   return (
-    <TouchableWithoutFeedback onPress={() => {}}>
+    <TouchableWithoutFeedback onPress={passHandler}>
       <CategoryItem>
         <Image source={image} />
         <CategoryTitle>{title}</CategoryTitle>
@@ -31,12 +36,41 @@ const Category = ({image, title}) => {
   );
 };
 
-export const ExploreScreen = () => {
-  const destinations = useSelector(destinationsSelector);
-  const adventures = useSelector(adventuresSelector);
-  const hotels = useSelector(hotelsSelector);
+export const ExploreScreen = ({navigation}) => {
+  const goAdventureCatalog = () => {
+    navigation.navigate('DestinationsCatalog');
+  };
+  const [adventureX, setAdventureX] = useState(0);
+  const goHotelsCatalog = () => {
+    navigation.navigate('HotelsCatalogByDestination');
+  };
+  const scrollRef = useRef();
+  const adventuresRef = useRef(null);
+
+  useEffect(() => {
+    adventuresRef.current?.measure((width, height, px, py, fx, fy) => {
+      setAdventureX(fy);
+      console.log(width);
+      console.log(height);
+      console.log(py);
+      console.log(fy);
+    });
+    console.log(adventureX);
+  }, []);
+
+  const onPressTouch = () => {
+    scrollRef.current?.scrollTo({
+      y: adventureX,
+      animated: true,
+    });
+  };
+  const destinations = useSelector(popularDestinationsSelector);
+  const adventures = useSelector(popularAdventuresSelector);
+  const hotels = useSelector(popularHotelsSelector);
   return (
     <MainContainer
+      ref={scrollRef}
+      nestedScrollEnabled
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
@@ -45,31 +79,56 @@ export const ExploreScreen = () => {
       }}>
       <Preview />
       <CategoriesContainer>
-        <Category image={hotelsIcon} title={'Hotels'} />
-        <Category image={destinationsIcon} title={'Destinations'} />
-        <Category image={adventuresIcon} title={'Adventures'} />
-        <Category image={guidesIcon} title={'Giudes'} />
+        <Category
+          image={hotelsIcon}
+          passHandler={goHotelsCatalog}
+          title={'Hotels'}
+        />
+        <Category
+          image={destinationsIcon}
+          title={'Destinations'}
+          passHandler={goAdventureCatalog}
+        />
+        <Category
+          image={adventuresIcon}
+          title={'Adventures'}
+          passHandler={goAdventureCatalog}
+        />
+        <Category
+          image={guidesIcon}
+          title={'Giudes'}
+          passHandler={onPressTouch}
+        />
       </CategoriesContainer>
       <Section
         title={'Popular destination'}
-        isHorizontal
+        isHorizontal={true}
         data={destinations}
         renderItem={Destination}
+        showRightButton={false}
       />
       <Section
+        ref={adventuresRef}
         title={'Adventures'}
-        isHorizontal
+        isHorizontal={true}
         data={adventures}
-        renderItem={Adventure}
-        showRightButton
+        renderItem={({item}) => (
+          <Adventure item={item} navigation={navigation} />
+        )}
+        passHandler={goAdventureCatalog}
       />
-      <Section
-        title={'Hotel Best deals'}
-        isHorizontal={false}
-        data={hotels}
-        renderItem={Hotel}
-        showRightButton
-      />
+      <View style={{width: '100%', flex: 1}}>
+        <SectionHeader
+          passHandler={goHotelsCatalog}
+          title={'Hotel Best deals'}
+          showRightButton={false}
+        />
+        <HotelContainer>
+          {hotels?.map(item => (
+            <Hotel item={item} key={item._id} navigation={navigation} />
+          ))}
+        </HotelContainer>
+      </View>
     </MainContainer>
   );
 };

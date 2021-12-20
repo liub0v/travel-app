@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {
   logOutIsLoadingSelector,
@@ -6,7 +7,12 @@ import {
   userSelector,
 } from '../../../redux/selectors/UserSelector';
 import {logOutUser} from '../../../redux/actions/AuthActions';
+
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
+
+import colors from '../../constants/colors';
+import {dateParser} from '../../services/dataParser';
+
 import {
   Avatar,
   ButtonWrapper,
@@ -18,9 +24,6 @@ import {
   MainInfo,
   BoldWhiteText,
 } from './Profile.style';
-import avatar from '../../../assets/images/avatar.png';
-import colors from '../../constants/colors';
-import {dateParser} from '../../services/dataParser';
 
 export const ProfileScreen = () => {
   const dispatch = useDispatch();

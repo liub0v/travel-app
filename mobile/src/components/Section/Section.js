@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, Image, TouchableWithoutFeedback, View} from 'react-native';
 import PropTypes from 'prop-types';
-import arrow from '../../../assets/images/arrowButton.png';
+
 import {
   SectionContainer,
   SectionHeaderButton,
@@ -10,7 +10,13 @@ import {
   SectionHeaderWrapper,
 } from './Section.style';
 
-const SectionHeader = ({title = 'Section', showRightButton}) => {
+import arrow from '../../../assets/images/arrowButton.png';
+
+export const SectionHeader = ({
+  title = 'Section',
+  showRightButton = true,
+  passHandler = () => {},
+}) => {
   return (
     <SectionHeaderWrapper>
       <SectionHeaderTitleWrapper>
@@ -18,7 +24,7 @@ const SectionHeader = ({title = 'Section', showRightButton}) => {
       </SectionHeaderTitleWrapper>
       {showRightButton && (
         <SectionHeaderButton>
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableWithoutFeedback onPress={passHandler}>
             <Image source={arrow} />
           </TouchableWithoutFeedback>
         </SectionHeaderButton>
@@ -31,7 +37,8 @@ export const Section = ({
   isHorizontal = false,
   data,
   renderItem,
-  showRightButton = false,
+  showRightButton = true,
+  passHandler = () => {},
 }) => {
   const rowContainerStyle = {
     marginTop: 20,
@@ -43,14 +50,18 @@ export const Section = ({
   };
   return (
     <SectionContainer>
-      <SectionHeader title={title} showRightButton={showRightButton} />
+      <SectionHeader
+        title={title}
+        showRightButton={showRightButton}
+        passHandler={passHandler}
+      />
       <View style={isHorizontal ? rowContainerStyle : columnContainerStyle}>
         <FlatList
           showsHorizontalScrollIndicator={false}
           horizontal={isHorizontal}
           data={data}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
         />
       </View>
     </SectionContainer>

@@ -1,36 +1,46 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, View} from 'react-native';
 
-import {hotels} from '../../api/mock';
+import {useSelector} from 'react-redux';
+import {
+  savedAdventuresSelector,
+  savedHotelsSelector,
+} from '../../../redux/selectors/UserSelector';
 
-import {Section} from '../../components/Section/Section';
+import {Section, SectionHeader} from '../../components/Section/Section';
 import {Hotel} from '../ExploreScreen/components/Hotel';
 import {Adventure} from '../ExploreScreen/components/Adventure';
+import {HotelContainer} from './SavedScreen.style';
 
-export const SavedScreen = () => {
+export const SavedScreen = ({navigation}) => {
+  const hotels = useSelector(savedHotelsSelector);
+  const adventures = useSelector(savedAdventuresSelector);
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      style={{flex: 1}}>
-      {!!hotels.length && (
-        <Section
-          title={'Hotels'}
-          data={[hotels[0], hotels[1]]}
-          renderItem={Hotel}
-        />
-      )}
-
-      {!![].length && (
+      contentContainerStyle={{flexGrow: 1}}>
+      {!!adventures.length && (
         <Section
           title={'Adventures'}
-          isHorizontal
-          data={[]}
-          renderItem={Adventure}
+          isHorizontal={true}
+          data={adventures}
+          showRightButton={false}
+          renderItem={({item}) => (
+            <Adventure item={item} navigation={navigation} />
+          )}
         />
       )}
-      {!![].length && (
-        <Section title={'Guides'} data={[]} renderItem={Adventure} />
+      {!!hotels.length && (
+        <View>
+          <SectionHeader title={'Hotels'} showRightButton={false} />
+          <HotelContainer>
+            {hotels.map(item => (
+              <Hotel item={item} key={item._id} navigation={navigation} />
+            ))}
+          </HotelContainer>
+        </View>
       )}
     </ScrollView>
   );

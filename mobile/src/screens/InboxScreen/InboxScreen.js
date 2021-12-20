@@ -4,31 +4,8 @@ import {ScrollView, FlatList} from 'react-native';
 import {dialogs} from '../../api/mock';
 
 import {Dialog} from './components/Dialog';
-
-import {
-  SearchBarIcon,
-  SearchBarInput,
-  SearchBarWrapper,
-  SearchWrapper,
-} from './Inbox.style';
-
-import searchIcon from '../../../assets/images/searchIcon.png';
-
-const Search = () => {
-  const [value, onChangeText] = React.useState();
-  return (
-    <SearchBarWrapper>
-      <SearchBarIcon source={searchIcon} />
-      <SearchBarInput
-        placeholder={'Find people...'}
-        editable
-        onChangeText={text => onChangeText(text)}
-        value={value}
-        onSubmitEditing={() => console.log(value)}
-      />
-    </SearchBarWrapper>
-  );
-};
+import {Search} from '../../components/Seacrh/Search';
+import {SearchWrapper} from './Inbox.style';
 
 export const InboxScreen = () => {
   return (
@@ -37,7 +14,7 @@ export const InboxScreen = () => {
       showsHorizontalScrollIndicator={false}
       style={{flex: 1}}>
       <SearchWrapper>
-        <Search />
+        <Search placeholder={'Find people...'} />
       </SearchWrapper>
       <FlatList data={dialogs} renderItem={Dialog} />
     </ScrollView>

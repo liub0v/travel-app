@@ -4,9 +4,20 @@ const authSelector = state => state.auth;
 
 export const tokenSelector = createSelector(authSelector, item => item.token);
 export const userSelector = createSelector(authSelector, item => item.user);
+
+export const roleSelector = createSelector(userSelector, item => item.role);
+
 export const profileInfoSelector = createSelector(
   userSelector,
   user => user.profileInfo,
+);
+export const savedHotelsSelector = createSelector(
+  userSelector,
+  user => user.savedHotels,
+);
+export const savedAdventuresSelector = createSelector(
+  userSelector,
+  user => user.savedAdventures,
 );
 export const logOutIsLoadingSelector = createSelector(
   authSelector,

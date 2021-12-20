@@ -3,11 +3,16 @@ import {View, Image, TouchableWithoutFeedback} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useNavigation} from '@react-navigation/native';
 
-import {ExploreScreen} from '../screens/ExploreScreen/ExploreScreen';
+import {useDispatch} from 'react-redux';
+import {getPopularDestinations} from '../../redux/actions/DestinationActions';
+import {getPopularAdventures} from '../../redux/actions/AdventureActions';
+import {getPopularHotels} from '../../redux/actions/HotelActions';
+
 import {InboxScreen} from '../screens/InboxScreen/InboxScreen';
 import {TripsScreen} from '../screens/TripsScreen/TripsScreen';
 import {ProfileScreen} from '../screens/ProfileScreen/ProfileScreen';
-import {SavedScreen} from '../screens/SavedScreen/SavedScreen';
+import {ExploreStackScreen} from './ExploreStackScreen';
+import {SavedStackScreen} from './SavedStackScreen';
 
 import exploreIcon from '../../assets/images/exploreIcon.png';
 import exploreActiveIcon from '../../assets/images/exploreActiveIcon.png';
@@ -20,14 +25,10 @@ import inboxActiveIcon from '../../assets/images/inboxActiveIcon.png';
 import tripsIcon from '../../assets/images/tripsIcon.png';
 import tripsActiveIcon from '../../assets/images/tripsActiveIcon.png';
 import editIcon from '../../assets/images/editIcon.png';
-import {useDispatch} from 'react-redux';
-import {getDestinations} from '../../redux/actions/DestinationActions';
-import {getAdventures} from '../../redux/actions/AdventureActions';
-import {getHotels} from '../../redux/actions/HotelActions';
 
 const Tab = createBottomTabNavigator();
 
-const EditBottom = ({navigation}) => {
+const EditButton = ({navigation}) => {
   return (
     <TouchableWithoutFeedback onPress={() => {}}>
       <View
@@ -57,10 +58,11 @@ const TabBarIcon = ({focused, icon, activeIcon}) => {
 export const TabNavigation = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getDestinations());
-    dispatch(getAdventures());
-    dispatch(getHotels());
+    dispatch(getPopularDestinations());
+    dispatch(getPopularAdventures());
+    dispatch(getPopularHotels());
   }, []);
   return (
     <Tab.Navigator
@@ -95,14 +97,14 @@ export const TabNavigation = () => {
           ),
         }}
         name="Explore"
-        component={ExploreScreen}
+        component={ExploreStackScreen}
       />
       <Tab.Screen
         options={{
           tabBarIcon: ({focused}) => (
             <TabBarIcon
               focused={focused}
-              icon={tripsActiveIcon}
+              icon={tripsIcon}
               activeIcon={tripsActiveIcon}
             />
           ),
@@ -112,23 +114,24 @@ export const TabNavigation = () => {
       />
       <Tab.Screen
         options={{
+          headerShown: false,
           tabBarIcon: ({focused}) => (
             <TabBarIcon
               focused={focused}
-              icon={savedActiveIcon}
+              icon={savedIcon}
               activeIcon={savedActiveIcon}
             />
           ),
         }}
         name="Saved"
-        component={SavedScreen}
+        component={SavedStackScreen}
       />
       <Tab.Screen
         options={{
           tabBarIcon: ({focused}) => (
             <TabBarIcon
               focused={focused}
-              icon={inboxActiveIcon}
+              icon={inboxIcon}
               activeIcon={inboxActiveIcon}
             />
           ),
@@ -145,7 +148,7 @@ export const TabNavigation = () => {
               activeIcon={profileActiveIcon}
             />
           ),
-          headerRight: props => <EditBottom navigation={navigation} />,
+          headerRight: props => <EditButton navigation={navigation} />,
         }}
         name="Profile"
         component={ProfileScreen}

@@ -5,6 +5,7 @@ import fonts from '../../../constants/fonts';
 export const AdventureItem = styled.View`
   margin-right: 10px;
   margin-left: 10px;
+  margin-top: 10px;
 `;
 export const AdventureImage = styled.Image`
   border-radius: 16px;

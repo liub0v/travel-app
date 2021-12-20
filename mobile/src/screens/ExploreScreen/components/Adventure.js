@@ -7,15 +7,21 @@ import {
   AdventureName,
   AdventureTitleWrapper,
 } from './Adventure.style';
+import {TouchableWithoutFeedback} from 'react-native';
 
-export const Adventure = ({item}) => {
+export const Adventure = ({item, navigation}) => {
   return (
-    <AdventureItem>
-      <AdventureImage source={{uri: item.imageURL}}></AdventureImage>
-      <AdventureTitleWrapper>
-        <AdventureName>{item.name}</AdventureName>
-        <AdventureLocation>{item.address}</AdventureLocation>
-      </AdventureTitleWrapper>
-    </AdventureItem>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        navigation.navigate('AdventureScreen', {adventure: item});
+      }}>
+      <AdventureItem>
+        <AdventureImage source={{uri: item.imageURL}} />
+        <AdventureTitleWrapper>
+          <AdventureName>{item.name}</AdventureName>
+          <AdventureLocation>{item.address}</AdventureLocation>
+        </AdventureTitleWrapper>
+      </AdventureItem>
+    </TouchableWithoutFeedback>
   );
 };

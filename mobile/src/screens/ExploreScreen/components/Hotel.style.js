@@ -3,7 +3,6 @@ import colors from '../../../constants/colors';
 import fonts from '../../../constants/fonts';
 
 export const HotelItem = styled.View`
-  flex: 1;
   flex-direction: row;
   margin-left: 16px;
   margin-bottom: 20px;
@@ -28,10 +27,10 @@ export const HotelName = styled.Text`
   font-size: 12px;
   color: ${colors.white};
 `;
-export const HotelStarsContainer = styled.View`
+export const StarsContainer = styled.View`
   flex-direction: row;
 `;
-export const HotelStar = styled.Image`
+export const Star = styled.Image`
   margin-right: 5px;
 `;
 export const HotelPriceWrapper = styled.View`

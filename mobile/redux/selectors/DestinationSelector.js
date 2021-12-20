@@ -4,3 +4,11 @@ export const destinationsSelector = createSelector(
   destinationSelector,
   item => item.destinations,
 );
+export const hasMoreDestinationsSelector = createSelector(
+  destinationSelector,
+  item => item.hasMore,
+);
+export const popularDestinationsSelector = createSelector(
+  destinationSelector,
+  item => item.popularDestinations,
+);

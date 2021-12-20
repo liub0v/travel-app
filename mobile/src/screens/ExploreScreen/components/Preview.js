@@ -2,7 +2,6 @@ import React, {useRef} from 'react';
 import {Animated, TouchableWithoutFeedback} from 'react-native';
 
 import {Point} from '../../Onboarding/OnBoarding.style';
-
 import {
   BookingButton,
   BookingButtonTitle,
@@ -81,7 +80,6 @@ const SearchBar = () => {
           placeholder={'Where are you going?'}
           editable
           onChangeText={text => onChangeText(text)}
-          value={value}
           onSubmitEditing={() => console.log(text)}
         />
       </Animated.View>

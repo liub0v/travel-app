@@ -1,29 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {ButtonStart, ButtonText, ButtonWrapper} from './ButtonItem.style';
+import {ButtonWrapper, ButtonText, ButtonContainer} from './ButtonItem.style';
 import {ActivityIndicator} from 'react-native';
 import colors from '../../constants/colors';
 
 export const ButtonItem = ({
   handler = () => {},
   title = 'press',
+  titleSize = 16,
   disabled = false,
   isLoading = false,
-  theme = {backgroundColor: colors.blue, textColor: colors.white},
+  theme = {
+    backgroundColor: colors.blue,
+    textColor: colors.white,
+  },
+  size = {
+    height: 50,
+    width: 80,
+  },
 }) => {
   return (
-    <ButtonWrapper>
-      <ButtonStart
+    <ButtonContainer>
+      <ButtonWrapper
         disabled={disabled}
         onPress={handler}
-        backgroundColor={theme.backgroundColor}>
+        backgroundColor={theme.backgroundColor}
+        height={size.height}
+        width={size.width}>
         {isLoading ? (
           <ActivityIndicator size="small" color={colors.white} />
         ) : (
-          <ButtonText color={theme.textColor}>{title}</ButtonText>
+          <ButtonText fontSize={titleSize} color={theme.textColor}>
+            {title}
+          </ButtonText>
         )}
-      </ButtonStart>
-    </ButtonWrapper>
+      </ButtonWrapper>
+    </ButtonContainer>
   );
 };
 

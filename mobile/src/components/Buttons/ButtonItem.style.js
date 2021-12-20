@@ -1,19 +1,19 @@
 import styled from 'styled-components/native/dist/styled-components.native.esm';
 import fonts from '../../constants/fonts';
-export const ButtonStart = styled.TouchableOpacity`
+export const ButtonWrapper = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   background-color: ${props => props.backgroundColor};
   border-radius: 16px;
-  height: 50px;
-  width: 300px;
+  height: ${props => props.height}px;
+  width: ${props => props.width}%;
 `;
-export const ButtonWrapper = styled.View`
-  margin-top: 5%;
-  margin-bottom: 5%;
+export const ButtonContainer = styled.View`
+  width: 100%;
+  align-items: center;
 `;
 export const ButtonText = styled.Text`
   font-family: ${fonts.normal};
-  font-size: 16px;
+  font-size: ${props => props.fontSize}px;
   color: ${props => props.color};
 `;

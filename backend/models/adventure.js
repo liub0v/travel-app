@@ -11,10 +11,23 @@ const adventureSchema = new mongoose.Schema({
   summary: String,
   price: Number,
   address: String,
-  reviews: Array,
+  reviews: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
+    default: [],
+  },
+  rating: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Rating",
+  },
 });
+adventureSchema.index({ address: "text" });
 const Adventure = mongoose.model("Adventure", adventureSchema);
-
+Adventure.createIndexes();
 function validateAdventure(adventure) {
   const schema = Joi.object({
     id: Joi.string(),
@@ -24,7 +37,8 @@ function validateAdventure(adventure) {
     price: Joi.number(),
     address: Joi.string(),
     reviews: Joi.array(),
-    summery: Joi.string(),
+    summary: Joi.string(),
+    guideID: Joi.string(),
   });
   return schema.validate(adventure);
 }

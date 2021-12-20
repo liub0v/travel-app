@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-
-const { profileInfoSchema } = require("./schemas/profileInfo");
+const { profileInfoSchema } = require("./profileInfo");
 
 const guideSchema = new mongoose.Schema({
   userID: {

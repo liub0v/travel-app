@@ -6,9 +6,19 @@ const config = require("config");
 const destinations = require("./routers/destinations");
 const adventures = require("./routers/adventures");
 const hotels = require("./routers/hotels");
+
 const formData = require("express-form-data");
 const os = require("os");
 const app = express();
+
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+app.set("socketio", io);
+// const wsInstance = require("express-ws")(app);
+// const { app, getWss, applyTo } = wsInstance(express());
+// module.exports = wsInstance;
 
 mongoose
   .connect(config.get("DATABASE_URL"))
@@ -38,4 +48,4 @@ app.use("/api/adventures", adventures);
 app.use("/api/hotels", hotels);
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+server.listen(port, () => console.log(`Listening on port ${port}...`));

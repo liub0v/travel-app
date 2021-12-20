@@ -4,12 +4,58 @@ const {
   removeFromCloud,
   updateCloudImage,
 } = require("../utils/cloudinary");
+const auth = require("../middleware/auth");
 const router = require("express").Router();
+const comments = require("../routers/comments");
+const config = require("config");
+const { PAGE, LIMIT } = require("../constants/api");
+
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
 router.get("/", async (req, res) => {
-  const adventures = await Adventure.find();
-  if (!adventures.length) return res.status(404).send("Adventures is empty");
+  const page = parseInt(req.query.page) ?? PAGE;
+  const limit = parseInt(req.query.limit) ?? LIMIT;
+  const startIndex = (page - 1) * limit;
+
+  const adventures = await Adventure.find()
+    .sort({ _id: 1 })
+    .skip(startIndex)
+    .limit(limit)
+    .populate("rating")
+    .populate("reviews")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "rating clientID",
+        select:
+          "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
+      },
+    })
+    .populate("guideID");
+
+  res.send(adventures);
+});
+
+router.get("/byDestination", async (req, res) => {
+  const destination = req.query.destination;
+  const page = parseInt(req.query.page) ?? PAGE;
+  const limit = parseInt(req.query.limit) ?? LIMIT;
+  const startIndex = (page - 1) * limit;
+  const adventures = await Adventure.find({ $text: { $search: destination } })
+    .sort({ _id: 1 })
+    .skip(startIndex)
+    .limit(limit)
+    .populate("guideID")
+    .populate("rating")
+    .populate("reviews")
+    .populate({
+      path: "reviews",
+      populate: {
+        path: "rating clientID",
+        select:
+          "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
+      },
+    });
   res.send(adventures);
 });
 router.post("/", async (req, res) => {
@@ -34,13 +80,16 @@ router.post("/", async (req, res) => {
   await adventure.save();
   res.send(adventure);
 });
+
 router.put("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
   const adventure = await Adventure.findById(req.body.id);
-  if (!adventure) return res.status(404).send("Adventures doesn't exist");
+  if (!adventure) {
+    return res.status(404).send("Adventures doesn't exist");
+  }
 
   const newImage = req.body.image;
   let imageURL;
@@ -68,7 +117,9 @@ router.put("/", async (req, res) => {
 });
 router.delete("/", async (req, res) => {
   const adventure = await Adventure.findByIdAndDelete(req.body.id);
-  if (!adventure) res.status(404).send("Adventures doesn't exist");
+  if (!adventure) {
+    return res.status(404).send("Adventures doesn't exist");
+  }
 
   if (adventure.imageURL !== DEFAULT_COVER_IMAGE_URL) {
     await removeFromCloud(adventure.imageURL, "adventures");
@@ -76,4 +127,6 @@ router.delete("/", async (req, res) => {
 
   res.send(adventure);
 });
+router.use("/", comments(Adventure));
+
 module.exports = router;

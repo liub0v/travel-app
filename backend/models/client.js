@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-
-const { profileInfoSchema } = require("./schemas/profileInfo");
+const { profileInfoSchema } = require("./profileInfo");
 
 const clientSchema = new mongoose.Schema({
   userID: {
@@ -9,6 +8,24 @@ const clientSchema = new mongoose.Schema({
   },
   isOnboarding: Boolean,
   profileInfo: profileInfoSchema,
+  savedHotels: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Hotel",
+      },
+    ],
+    default: [],
+  },
+  savedAdventures: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Adventure",
+      },
+    ],
+    default: [],
+  },
 });
 const Client = mongoose.model("Client", clientSchema);
 
