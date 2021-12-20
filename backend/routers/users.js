@@ -8,6 +8,7 @@ const { Client } = require("../models/client");
 const { Guide } = require("../models/guide");
 const { Hotel } = require("../models/hotel");
 const { Adventure } = require("../models/adventure");
+const { CLIENT, GUIDE, ADMIN } = require("../constants/api");
 
 const DEFAULT_COVER_IMAGE_URL = `http://localhost:3000/images/default-cover.jpg`;
 
@@ -18,13 +19,17 @@ router.get("/", async (req, res) => {
 //current user
 router.get("/me", validateObjectID, auth, async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
-  if (!user) return res.status(404).send("User doesn't exist");
+  if (!user) {
+    return res.status(404).send("User doesn't exist");
+  }
   res.send(user);
 });
 //set isOnboarding
 router.put("/onboarding", auth, async (req, res) => {
   const user = await User.findById(req.user._id);
-  if (!user) return res.status(404).send("User doesn't exist");
+  if (!user) {
+    return res.status(404).send("User doesn't exist");
+  }
   user.isOnBoarding = req.body.isOnBoarding; //!user.isOnBoarding
   await user.save();
   res.send({
@@ -36,10 +41,14 @@ router.put("/saveHotel", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id }).populate(
     "savedHotels"
   );
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   const hotel = await Hotel.findById(req.body.hotelID);
-  if (!hotel) return res.status(404).send("Hotel doesn't exist");
+  if (!hotel) {
+    return res.status(404).send("Hotel doesn't exist");
+  }
 
   client.savedHotels = [...client.savedHotels, hotel];
 
@@ -49,7 +58,9 @@ router.put("/saveHotel", auth, async (req, res) => {
 });
 router.delete("/savedHotel", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id });
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   client.savedHotels = client.savedHotels.filter(
     (item) => item.toString() !== req.body.hotelID
@@ -61,7 +72,9 @@ router.delete("/savedHotel", auth, async (req, res) => {
 });
 router.delete("/savedAdventure", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id });
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   client.savedAdventures = client.savedAdventures.filter(
     (item) => item.toString() !== req.body.adventureID
@@ -75,10 +88,14 @@ router.put("/saveAdventure", auth, async (req, res) => {
   const client = await Client.findOne({ userID: req.user._id }).populate(
     "savedAdventures"
   );
-  if (!client) return res.status(404).send("User doesn't exist");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   const adventure = await Adventure.findById(req.body.adventureID);
-  if (!adventure) return res.status(404).send("Adventure doesn't exist");
+  if (!adventure) {
+    return res.status(404).send("Adventure doesn't exist");
+  }
 
   client.savedAdventures = [...client.savedAdventures, adventure];
 
@@ -89,21 +106,27 @@ router.put("/saveAdventure", auth, async (req, res) => {
 router.put("/profileInfo", async (req, res) => {
   // let user = await User.findById(req.user._id);
   let user = await User.findOne({ email: "c10@mail.com" });
-  if (!user) return res.status(404).send("User doesn't exist");
+  if (!user) {
+    return res.status(404).send("User doesn't exist");
+  }
 
   switch (user.role) {
-    case "client": {
+    case CLIENT: {
       user = await Client.findOne({
         userID: user._id,
       });
-      if (!user) return res.status(404).send("User isn't a client");
+      if (!user) {
+        return res.status(404).send("User isn't a client");
+      }
       break;
     }
-    case "guide": {
+    case GUIDE: {
       user = await Guide.findOne({
         userID: user._id,
       });
-      if (!user) return res.status(404).send("User isn't a guide");
+      if (!user) {
+        return res.status(404).send("User isn't a guide");
+      }
       break;
     }
   }
@@ -128,13 +151,15 @@ router.post("/admin", async (req, res) => {
   }
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already exists");
+  if (user) {
+    return res.status(400).send("User already exists");
+  }
 
   user = new User({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    role: "admin",
+    role: ADMIN,
   });
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
@@ -157,13 +182,15 @@ router.post("/client", async (req, res) => {
   }
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already exists");
+  if (user) {
+    return res.status(400).send("User already exists");
+  }
 
   user = new User({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    role: "client",
+    role: CLIENT,
   });
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
@@ -190,13 +217,15 @@ router.post("/guide", async (req, res) => {
   }
 
   let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already exists");
+  if (user) {
+    return res.status(400).send("User already exists");
+  }
 
   user = new User({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
-    role: "guide",
+    role: GUIDE,
   });
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);

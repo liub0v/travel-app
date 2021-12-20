@@ -22,7 +22,7 @@ const DefaultTheme = {
 export const Navigation = () => {
   const token = useSelector(tokenSelector);
   const role = useSelector(roleSelector);
-  console.log(role);
+
   return (
     <NavigationContainer
       theme={DefaultTheme}

@@ -23,7 +23,9 @@ module.exports = (Model) => {
             "profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
         },
       });
-    if (!hotel) return res.status(404).send("Hotel doesn't exist");
+    if (!hotel) {
+      return res.status(404).send("Hotel doesn't exist");
+    }
 
     const rating = new Rating({
       starsNumber: req.body.starsNumber,
@@ -34,7 +36,9 @@ module.exports = (Model) => {
     const client = await Client.findOne({ userID: req.user._id }).select(
       "profileInfo.imageURL profileInfo.firstName profileInfo.lastName"
     );
-    if (!client) return res.status(404).send("Client doesn't exist");
+    if (!client) {
+      return res.status(404).send("Client doesn't exist");
+    }
 
     const review = new Review({
       clientID: client,
@@ -86,7 +90,9 @@ module.exports = (Model) => {
             "starsNumber generalRating profileInfo.imageURL profileInfo.firstName profileInfo.lastName",
         },
       });
-    if (!adventure) return res.status(404).send("Adventures doesn't exist");
+    if (!adventure) {
+      return res.status(404).send("Adventures doesn't exist");
+    }
 
     const averageRating = _.mean([
       req.body.interestingRating,
@@ -109,7 +115,9 @@ module.exports = (Model) => {
     await rating.save();
 
     const client = await Client.findOne({ userID: req.user._id });
-    if (!client) return res.status(404).send("Client doesn't exist");
+    if (!client) {
+      return res.status(404).send("Client doesn't exist");
+    }
 
     const review = new Review({
       clientID: client,

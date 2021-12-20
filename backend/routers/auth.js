@@ -5,6 +5,7 @@ const { User } = require("../models/user");
 const Joi = require("joi");
 const { Guide } = require("../models/guide");
 const { Client } = require("../models/client");
+const { CLIENT, GUIDE, ADMIN } = require("../constants/api");
 if (!config.get("JWT_PRIVATE_KEY")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
   process.exit(1);
@@ -29,18 +30,18 @@ router.post("/", async (req, res) => {
   const token = user.generateAuthToken();
   let userRole = null;
   switch (user.role) {
-    case "client":
+    case CLIENT:
       userRole = await Client.findOne({ userID: user._id })
         .populate("savedHotels")
         .populate("savedAdventures");
       if (!userRole) return res.status(400).send("User isn't a client");
 
       break;
-    case "guide":
+    case GUIDE:
       userRole = await Guide.findOne({ userID: user._id });
       if (!userRole) return res.status(400).send("User isn't a guide");
       break;
-    case "admin":
+    case ADMIN:
       userRole = null;
       break;
   }

@@ -27,7 +27,7 @@ const adventureSchema = new mongoose.Schema({
 });
 adventureSchema.index({ address: "text" });
 const Adventure = mongoose.model("Adventure", adventureSchema);
-
+Adventure.createIndexes();
 function validateAdventure(adventure) {
   const schema = Joi.object({
     id: Joi.string(),
