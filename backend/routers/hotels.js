@@ -162,6 +162,8 @@ router.put("/", auth, admin, async (req, res) => {
   hotel.starsNumber = req.body?.starsNumber ?? hotel.starsNumber;
 
   await hotel.save();
+  await hotel.populate("rating");
+  await hotel.populate(populateReviewsObj);
   res.send(hotel);
 });
 router.delete("/", auth, admin, async (req, res) => {
