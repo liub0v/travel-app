@@ -6,8 +6,9 @@ export const DestinationItem = styled.View`
   margin-top: 24px;
   margin-right: 12px;
   margin-left: 12px;
+  border-radius: 16px;
 `;
-export const DestinationImage = styled.ImageBackground`
+export const DestinationImage = styled.Image`
   border-radius: 16px;
   height: 130px;
   width: 200px;
