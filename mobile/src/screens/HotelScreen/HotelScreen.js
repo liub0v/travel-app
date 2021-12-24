@@ -195,7 +195,8 @@ export const HotelScreen = () => {
           <InfoContainer>
             <InfoWrapper>
               <BoldText>{`$ ${hotel?.price}`}</BoldText>
-              <RatingTitle>{`${hotel?.rating?.generalRating}`}</RatingTitle>
+
+              <RatingTitle>{hotel?.rating?.generalRating ?? '0.0'}</RatingTitle>
             </InfoWrapper>
             <InfoWrapper>
               <NormalText>{'06 July - 14 July, 2 guest'}</NormalText>
@@ -222,21 +223,35 @@ export const HotelScreen = () => {
           <GalleryContainer>
             <GalleryHeader>{'Gallery'}</GalleryHeader>
             <GalleryWrapper>
-              <GalleryMainImage source={{uri: hotel?.gallery?.[2]}} />
+              <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
+                <GalleryMainImage source={{uri: hotel?.gallery?.[0]}} />
+              </TouchableWithoutFeedback>
               <ColumnWrapper>
-                <GallerySecondImage source={{uri: hotel?.gallery?.[0]}} />
+                <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
+                  <GallerySecondImage source={{uri: hotel?.gallery?.[1]}} />
+                </TouchableWithoutFeedback>
                 <RowWrapper>
-                  <GalleryThirdImage source={{uri: hotel?.gallery?.[1]}} />
                   <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
-                    <GalleryMoreImage
-                      blurRadius={3}
-                      imageStyle={{borderRadius: 8}}
-                      source={{uri: hotel?.gallery?.[3]}}>
-                      <GalleryMoreTitle>
-                        {hotel?.gallery?.length - 4}+
-                      </GalleryMoreTitle>
-                    </GalleryMoreImage>
+                    <GalleryThirdImage source={{uri: hotel?.gallery?.[2]}} />
                   </TouchableWithoutFeedback>
+                  {hotel?.gallery?.length > 4 ? (
+                    <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
+                      <GalleryMoreImage
+                        blurRadius={3}
+                        imageStyle={{borderRadius: 8}}
+                        source={{uri: hotel?.gallery?.[3]}}>
+                        <GalleryMoreTitle>
+                          {hotel?.gallery?.length - 4}+
+                        </GalleryMoreTitle>
+                      </GalleryMoreImage>
+                    </TouchableWithoutFeedback>
+                  ) : (
+                    <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
+                      <GalleryMoreImage
+                        imageStyle={{borderRadius: 8}}
+                        source={{uri: hotel?.gallery?.[3]}}></GalleryMoreImage>
+                    </TouchableWithoutFeedback>
+                  )}
                 </RowWrapper>
               </ColumnWrapper>
             </GalleryWrapper>
