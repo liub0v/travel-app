@@ -31,14 +31,23 @@ import {profileValidationSchema} from '../../services/validation';
 export const EditProfileScreen = () => {
   const profileInfo = useSelector(profileInfoSelector);
   const userInfo = useSelector(userInfoSelector);
-  let initBirthDateString = dateParser(profileInfo?.birthDate);
-  const [birthDate, setBirthDate] = useState(new Date(initBirthDateString));
+
+  let initBirthDateString = profileInfo?.birthDate
+    ? dateParser(profileInfo?.birthDate)
+    : 'Choose date';
+  const initDate = profileInfo?.birthDate
+    ? new Date(initBirthDateString)
+    : new Date();
+  const [birthDate, setBirthDate] = useState(initDate);
+  console.log(birthDate);
+  console.log(new Date());
   const [birthDateString, setBirthDateString] = useState(initBirthDateString);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const deleteIsLoading = useSelector(deleteUserIsLoadingSelector);
   const updateIsLoading = useSelector(updateUserIsLoadingSelector);
-
+  const firstName = profileInfo?.firstName ?? '';
+  const lastName = profileInfo?.lastName ?? '';
   function updateAccountHandler({
     name,
     username,
@@ -84,7 +93,7 @@ export const EditProfileScreen = () => {
         initialValues={{
           username: userInfo?.username ?? '',
           email: userInfo?.email ?? '',
-          name: `${profileInfo?.firstName} ${profileInfo?.lastName}` ?? '',
+          name: firstName + lastName,
           phone: profileInfo?.phone ?? '',
           birthDate: birthDate,
           address: profileInfo?.address ?? '',
