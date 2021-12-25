@@ -42,10 +42,10 @@ import star from '../../../assets/images/star.png';
 import {currentHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
 import {currentAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
 import {closeSocket} from '../../../redux/actions/CommentActions';
+import {DEFAULT_PROFILE_IMAGE} from '../../constants/api';
 
 export const Comment = ({item}) => {
   const date = new Date(item?.date);
-  console.log(item);
   const nameTitle = useMemo(
     () =>
       item?.clientID?.profileInfo?.firstName
@@ -61,7 +61,11 @@ export const Comment = ({item}) => {
   return (
     <CommentContainer>
       <UserContainer style={{flexDirection: 'row', flex: 1}}>
-        <UserAvatar source={{uri: item?.clientID?.profileInfo?.imageURL}} />
+        {item?.clientID?.profileInfo?.imageURL ? (
+          <UserAvatar source={{uri: item?.clientID?.profileInfo?.imageURL}} />
+        ) : (
+          <UserAvatar source={DEFAULT_PROFILE_IMAGE} />
+        )}
         <UserInfoContainer style={{justifyContent: 'space-between', flex: 1}}>
           <UserInfoFirstLineWrapper
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -210,7 +214,11 @@ export const ReviewsScreen = () => {
           {role !== 'admin' && (
             <CommentInputWrapper>
               <UserInfoWrapper>
-                <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
+                {user?.profileInfo?.imageURL ? (
+                  <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
+                ) : (
+                  <UserAvatar source={DEFAULT_PROFILE_IMAGE} />
+                )}
                 <UserFirstNameTitle>{nameTitle}</UserFirstNameTitle>
               </UserInfoWrapper>
               {showCriterionRating && (
