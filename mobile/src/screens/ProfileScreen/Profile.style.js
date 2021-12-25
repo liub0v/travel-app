@@ -11,8 +11,6 @@ export const Avatar = styled.Image`
   width: 125px;
   height: 125px;
   border-radius: 67.5px;
-  margin-bottom: 16px;
-  margin-top: 24px;
 `;
 export const BoldWhiteText = styled.Text`
   font-family: ${fonts.bold};
