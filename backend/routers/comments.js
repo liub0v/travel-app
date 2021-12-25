@@ -42,7 +42,14 @@ module.exports = (Model) => {
       rating: rating,
     });
     await review.save();
-
+    await review.populate({
+      path: "clientID",
+      select: "userID",
+      populate: {
+        path: "userID",
+        select: "username",
+      },
+    });
     const count = hotel.reviews.length;
 
     const generalRating = new Rating({
@@ -117,7 +124,14 @@ module.exports = (Model) => {
       rating: rating,
     });
     await review.save();
-
+    await review.populate({
+      path: "clientID",
+      select: "userID",
+      populate: {
+        path: "userID",
+        select: "username",
+      },
+    });
     const count = adventure.reviews.length;
 
     const generalRating = new Rating({

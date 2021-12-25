@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useMemo} from 'react';
 import {TouchableWithoutFeedback, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {
@@ -45,6 +45,19 @@ import {closeSocket} from '../../../redux/actions/CommentActions';
 
 export const Comment = ({item}) => {
   const date = new Date(item?.date);
+  console.log(item);
+  const nameTitle = useMemo(
+    () =>
+      item?.clientID?.profileInfo?.firstName
+        ? item?.clientID?.profileInfo?.firstName
+        : item?.clientID?.profileInfo?.lastName
+        ? item?.clientID?.profileInfo?.lastName
+        : item?.clientID?.userID?.username,
+    [
+      item?.clientID?.profileInfo?.firstName,
+      item?.clientID?.profileInfo?.lastName,
+    ],
+  );
   return (
     <CommentContainer>
       <UserContainer style={{flexDirection: 'row', flex: 1}}>
@@ -52,7 +65,7 @@ export const Comment = ({item}) => {
         <UserInfoContainer style={{justifyContent: 'space-between', flex: 1}}>
           <UserInfoFirstLineWrapper
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <UserFirstNameTitle>{`${item?.clientID?.profileInfo?.firstName} ${item.clientID?.profileInfo?.lastName}`}</UserFirstNameTitle>
+            <UserFirstNameTitle>{nameTitle}</UserFirstNameTitle>
             <DateTitle>{dateParser(date)}</DateTitle>
           </UserInfoFirstLineWrapper>
           <UserInfoWrapper>
@@ -146,6 +159,15 @@ export const ReviewsScreen = () => {
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
 
+  const nameTitle = useMemo(
+    () =>
+      user?.profileInfo?.firstName
+        ? user?.profileInfo?.firstName
+        : user?.profileInfo?.lastName
+        ? user?.profileInfo?.lastName
+        : user?.userID?.username,
+    [user?.profileInfo?.firstName, user?.profileInfo?.lastName],
+  );
   const role = useSelector(roleSelector);
 
   const onSubmitHandler = async () => {
@@ -189,7 +211,7 @@ export const ReviewsScreen = () => {
             <CommentInputWrapper>
               <UserInfoWrapper>
                 <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
-                <UserFirstNameTitle>{`${user?.profileInfo?.firstName} ${user?.profileInfo?.lastName}`}</UserFirstNameTitle>
+                <UserFirstNameTitle>{nameTitle}</UserFirstNameTitle>
               </UserInfoWrapper>
               {showCriterionRating && (
                 <>
