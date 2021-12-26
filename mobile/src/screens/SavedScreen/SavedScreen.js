@@ -19,7 +19,7 @@ export const SavedScreen = () => {
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{flexGrow: 1}}>
-      {!!adventures.length && (
+      {!!adventures?.length && (
         <Section
           title={'Adventures'}
           isHorizontal={true}
@@ -27,7 +27,7 @@ export const SavedScreen = () => {
           renderItem={({item}) => <Adventure item={item} type={'saved'} />}
         />
       )}
-      {!!hotels.length && (
+      {!!hotels?.length && (
         <View>
           <SectionHeader title={'Hotels'} />
           {hotels?.map(item => (

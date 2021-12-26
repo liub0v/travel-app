@@ -14,8 +14,8 @@ export const commentsSagas = [
 ];
 
 function connect() {
-  //const socket = io('http://192.168.43.50:3000/');
-  const socket = io('http://localhost:3000/');
+  const socket = io('http://192.168.43.50:3000/');
+  // const socket = io('http://localhost:3000/');
   return new Promise(resolve => {
     socket.on('connect', () => {
       resolve(socket);

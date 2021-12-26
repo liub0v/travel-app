@@ -172,7 +172,7 @@ export const HotelScreen = () => {
           refreshing={hotelIsLoading}
           onRefresh={onRefresh}
           tintColor={colors.white}
-          colors={colors.white}
+          colors={[colors.green]}
         />
       }>
       {!hotelIsLoading && (
@@ -209,13 +209,6 @@ export const HotelScreen = () => {
             {hotelOptions.show().map((item, index) => (
               <Option title={item.title} icon={item.image} key={index} />
             ))}
-            <ButtonSeeMoreWrapper>
-              <ButtonItem
-                size={{width: 100, height: 24}}
-                titleSize={12}
-                title={'See more'}
-              />
-            </ButtonSeeMoreWrapper>
           </OptionsContainer>
           <SummeryContainer>
             <DynamicText text={hotel?.summary} lineNumber={3} />

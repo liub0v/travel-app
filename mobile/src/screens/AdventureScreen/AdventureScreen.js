@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-
+import {Platform} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   clearAdventure,
@@ -208,8 +208,8 @@ export const AdventureScreen = () => {
         <RefreshControl
           refreshing={adventureIsLoading}
           onRefresh={onRefresh}
+          colors={[colors.green]}
           tintColor={colors.white}
-          colors={colors.white}
         />
       }>
       {!adventureIsLoading && (
