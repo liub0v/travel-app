@@ -31,3 +31,14 @@ export const BoldWhiteText = styled.TextInput`
   min-width: 130px;
   text-align: center;
 `;
+
+export const AvatarWrapper = styled.View`
+  width: 125px;
+  height: 125px;
+  background-color: ${colors.grey};
+  border-radius: 62px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  margin-bottom: 16px;
+`;

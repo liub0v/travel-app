@@ -118,8 +118,8 @@ export const AdventureScreen = () => {
 
   const adventureID = route.params.adventureID;
   const adventure = useSelector(currentAdventureSelector);
-  const like = !!useSelector(getIsLikedAdventureSelector);
-  const isVisited = !!useSelector(getIsVisitedAdventureSelector);
+  const like = !!useSelector(getIsLikedAdventureSelector(adventureID));
+  const isVisited = !!useSelector(getIsVisitedAdventureSelector(adventureID));
   const reviews = useSelector(currentAdventureReviewsSelector);
   const adventureIsLoading = useSelector(currentAdventureIsLoadingSelector);
 
@@ -233,12 +233,12 @@ export const AdventureScreen = () => {
               <NameTitle>{adventure?.name}</NameTitle>
               <LocationTitle>{adventure?.address}</LocationTitle>
             </NameContainer>
-            {adventure?.price ? (
+            {adventure?.price && (
               <PriceContainer>
                 <PriceTitle>$ {adventure?.price}</PriceTitle>
                 <RateTitle> per person</RateTitle>
               </PriceContainer>
-            ) : null}
+            )}
           </InfoContainer>
           {adventure?.summary && (
             <SummaryContainer>

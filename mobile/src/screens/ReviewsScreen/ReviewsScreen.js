@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useMemo} from 'react';
 import {TouchableWithoutFeedback, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {
@@ -42,17 +42,34 @@ import star from '../../../assets/images/star.png';
 import {currentHotelReviewsSelector} from '../../../redux/selectors/HotelSelectors';
 import {currentAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
 import {closeSocket} from '../../../redux/actions/CommentActions';
+import {DEFAULT_PROFILE_IMAGE} from '../../constants/api';
 
 export const Comment = ({item}) => {
   const date = new Date(item?.date);
+  const nameTitle = useMemo(
+    () =>
+      item?.clientID?.profileInfo?.firstName
+        ? item?.clientID?.profileInfo?.firstName
+        : item?.clientID?.profileInfo?.lastName
+        ? item?.clientID?.profileInfo?.lastName
+        : item?.clientID?.userID?.username,
+    [
+      item?.clientID?.profileInfo?.firstName,
+      item?.clientID?.profileInfo?.lastName,
+    ],
+  );
   return (
     <CommentContainer>
       <UserContainer style={{flexDirection: 'row', flex: 1}}>
-        <UserAvatar source={{uri: item?.clientID?.profileInfo?.imageURL}} />
+        {item?.clientID?.profileInfo?.imageURL ? (
+          <UserAvatar source={{uri: item?.clientID?.profileInfo?.imageURL}} />
+        ) : (
+          <UserAvatar source={DEFAULT_PROFILE_IMAGE} />
+        )}
         <UserInfoContainer style={{justifyContent: 'space-between', flex: 1}}>
           <UserInfoFirstLineWrapper
             style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <UserFirstNameTitle>{`${item?.clientID?.profileInfo?.firstName} ${item.clientID?.profileInfo?.lastName}`}</UserFirstNameTitle>
+            <UserFirstNameTitle>{nameTitle}</UserFirstNameTitle>
             <DateTitle>{dateParser(date)}</DateTitle>
           </UserInfoFirstLineWrapper>
           <UserInfoWrapper>
@@ -146,6 +163,15 @@ export const ReviewsScreen = () => {
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
 
+  const nameTitle = useMemo(
+    () =>
+      user?.profileInfo?.firstName
+        ? user?.profileInfo?.firstName
+        : user?.profileInfo?.lastName
+        ? user?.profileInfo?.lastName
+        : user?.userID?.username,
+    [user?.profileInfo?.firstName, user?.profileInfo?.lastName],
+  );
   const role = useSelector(roleSelector);
 
   const onSubmitHandler = async () => {
@@ -188,8 +214,12 @@ export const ReviewsScreen = () => {
           {role !== 'admin' && (
             <CommentInputWrapper>
               <UserInfoWrapper>
-                <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
-                <UserFirstNameTitle>{`${user?.profileInfo?.firstName} ${user?.profileInfo?.lastName}`}</UserFirstNameTitle>
+                {user?.profileInfo?.imageURL ? (
+                  <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
+                ) : (
+                  <UserAvatar source={DEFAULT_PROFILE_IMAGE} />
+                )}
+                <UserFirstNameTitle>{nameTitle}</UserFirstNameTitle>
               </UserInfoWrapper>
               {showCriterionRating && (
                 <>

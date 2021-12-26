@@ -10,6 +10,7 @@ import {
 import React from 'react';
 import {dateParser} from '../../services/dataParser';
 import {DEFAULT_PROFILE_IMAGE} from '../../constants/api';
+import {AvatarWrapper} from '../../screens/EditProfileScreen/EditProfileScreen.style';
 
 export const ProfileForm = ({profileInfo, userInfo, isLoading}) => {
   let birthDate = dateParser(profileInfo?.birthDate);
@@ -19,11 +20,13 @@ export const ProfileForm = ({profileInfo, userInfo, isLoading}) => {
       {!isLoading && (
         <>
           <MainInfo>
-            {profileInfo?.imageURL ? (
-              <Avatar source={{uri: profileInfo?.imageURL}} />
-            ) : (
-              <Avatar source={DEFAULT_PROFILE_IMAGE} />
-            )}
+            <AvatarWrapper>
+              {profileInfo?.imageURL ? (
+                <Avatar source={{uri: profileInfo?.imageURL}} />
+              ) : (
+                <Avatar source={DEFAULT_PROFILE_IMAGE} />
+              )}
+            </AvatarWrapper>
 
             {profileInfo ? (
               <>

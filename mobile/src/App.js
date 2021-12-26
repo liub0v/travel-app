@@ -19,15 +19,17 @@ YellowBox.ignoreWarnings([
 ]);
 
 const App = () => {
-  useEffect(async () => {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
     const bootstrapApp = async () => {
       await loadFonts();
       SplashScreen.hide();
+      setIsLoading(false);
     };
 
     bootstrapApp();
   }, []);
-
+  if (isLoading) return null;
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

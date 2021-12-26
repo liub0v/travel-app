@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Formik} from 'formik';
 import DatePicker from 'react-native-date-picker';
@@ -14,6 +15,7 @@ import {
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import colors from '../../constants/colors';
 import {
+  AvatarWrapper,
   BoldWhiteText,
   ButtonWrapper,
   InfoItem,
@@ -28,17 +30,27 @@ import {
   userInfoSelector,
 } from '../../../redux/selectors/UserSelector';
 import {profileValidationSchema} from '../../services/validation';
+import addIcon from '../../../assets/images/addIcon.png';
+
 export const EditProfileScreen = () => {
   const profileInfo = useSelector(profileInfoSelector);
   const userInfo = useSelector(userInfoSelector);
-  let initBirthDateString = dateParser(profileInfo?.birthDate);
-  const [birthDate, setBirthDate] = useState(new Date(initBirthDateString));
+
+  let initBirthDateString = profileInfo?.birthDate
+    ? dateParser(profileInfo?.birthDate)
+    : 'Choose date';
+  const initDate = profileInfo?.birthDate
+    ? new Date(initBirthDateString)
+    : new Date();
+  const [birthDate, setBirthDate] = useState(initDate);
+
   const [birthDateString, setBirthDateString] = useState(initBirthDateString);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const deleteIsLoading = useSelector(deleteUserIsLoadingSelector);
   const updateIsLoading = useSelector(updateUserIsLoadingSelector);
-
+  const firstName = profileInfo?.firstName ?? '';
+  const lastName = profileInfo?.lastName ?? '';
   function updateAccountHandler({
     name,
     username,
@@ -84,7 +96,7 @@ export const EditProfileScreen = () => {
         initialValues={{
           username: userInfo?.username ?? '',
           email: userInfo?.email ?? '',
-          name: `${profileInfo?.firstName} ${profileInfo?.lastName}` ?? '',
+          name: firstName + lastName,
           phone: profileInfo?.phone ?? '',
           birthDate: birthDate,
           address: profileInfo?.address ?? '',
@@ -104,7 +116,13 @@ export const EditProfileScreen = () => {
             <MainInfo>
               <TouchableWithoutFeedback
                 onPress={() => selectFile(setFieldValue)}>
-                <Avatar source={{uri: values.image?.uri || values.image}} />
+                <AvatarWrapper>
+                  {values.image ? (
+                    <Avatar source={{uri: values.image?.uri || values.image}} />
+                  ) : (
+                    <Avatar style={{width: 48, height: 48}} source={addIcon} />
+                  )}
+                </AvatarWrapper>
               </TouchableWithoutFeedback>
 
               <BoldWhiteText

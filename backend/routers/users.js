@@ -311,15 +311,9 @@ router.post("/client", async (req, res) => {
     userID: user._id,
   });
   await client.save();
-
+  await client.populate("userID");
   const token = user.generateAuthToken();
-  res.header("x-auth-token", token).send({
-    _id: user._id,
-    username: user.username,
-    email: user.email,
-    isOnBoarding: user.isOnBoarding,
-    role: user.role,
-  });
+  res.header("x-auth-token", token).send(client);
 });
 
 router.post("/guide", async (req, res) => {
