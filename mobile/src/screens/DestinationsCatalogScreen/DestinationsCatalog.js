@@ -1,12 +1,11 @@
 import React from 'react';
-import {TouchableWithoutFeedback, View} from 'react-native';
+import {TouchableWithoutFeedback, View, Animated} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   destinationsLoader,
   destinationsSelector,
   hasMoreDestinationsSelector,
 } from '../../../redux/selectors/DestinationSelector';
-import FastImage from 'react-native-fast-image';
 
 import {
   BoldText,
@@ -25,6 +24,7 @@ import {EditWrapper} from '../ExploreScreen/components/Destination.style';
 import {Edit} from '../../components/Edit/Edit';
 import {roleSelector} from '../../../redux/selectors/UserSelector';
 import {SearchList} from '../../admin/components/SearchList/SearchList';
+import {AnimatedImage} from '../../components/Loaders/AnimatedImage';
 
 const Destination = ({item}) => {
   const dispatch = useDispatch();
@@ -39,6 +39,7 @@ const Destination = ({item}) => {
   const goEditDestinationScreen = () => {
     navigation.navigate('EditDestinationScreen', {destination: item});
   };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -48,14 +49,14 @@ const Destination = ({item}) => {
         }
       }}>
       <ItemContainer>
-        <FastImage
-          style={{width: 155, height: 155, borderRadius: 16}}
-          blurRadius={5}
-          source={{uri: item.imageURL}}
+        <AnimatedImage
+          imageStyle={{width: 155, height: 155, borderRadius: 16}}
+          viewStyle={{borderRadius: 16}}
+          imageURL={item?.imageURL}
         />
         <TitleWrapper>
           <NormalText>{'Adventure in '}</NormalText>
-          <BoldText>{item.countryName}</BoldText>
+          <BoldText>{item?.countryName ?? ' '}</BoldText>
         </TitleWrapper>
         {role === 'admin' && (
           <EditWrapper>

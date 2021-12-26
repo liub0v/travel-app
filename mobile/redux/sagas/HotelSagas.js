@@ -215,7 +215,7 @@ function* deleteHotelSaga(action) {
     const hotel = response.data;
     yield put(deleteHotelCompleted(hotel._id));
     yield put(deleteHotelStarted(false));
-    RootNavigation.navigate('HotelsScreen');
+    RootNavigation.navigate('Hotels');
   } catch (error) {
     yield put(deleteHotelStarted(false));
     yield put(setHotelsError(error));

@@ -266,7 +266,7 @@ function* deleteAdventureSaga(action) {
     const adventure = response.data;
     yield put(deleteAdventureCompleted(adventure._id));
     yield put(deleteAdventureStarted(false));
-    RootNavigation.navigate('AdventuresScreen');
+    RootNavigation.navigate('Adventures');
   } catch (error) {
     yield put(deleteAdventureStarted(false));
     yield put(setAdventuresError(error));

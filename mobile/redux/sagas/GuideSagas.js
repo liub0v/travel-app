@@ -108,7 +108,7 @@ function* deleteGuideSaga(action) {
     const response = yield call(userAPI.deleteUser, token, userID);
     yield put(deleteGuideCompleted(userID));
     yield put(deleteGuideStarted(false));
-    RootNavigation.navigate('GuidesScreen');
+    RootNavigation.navigate('Guides');
   } catch (error) {
     yield put(deleteGuideStarted(false));
     yield put(setGuidesError(error));

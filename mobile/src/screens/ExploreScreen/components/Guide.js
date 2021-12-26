@@ -13,6 +13,7 @@ import {
 import {TouchableWithoutFeedback} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {DEFAULT_PROFILE_IMAGE} from '../../../constants/api';
+import {AnimatedImage} from '../../../components/Loaders/AnimatedImage';
 
 export const Guide = ({item, handler = undefined}) => {
   const navigation = useNavigation();
@@ -31,7 +32,11 @@ export const Guide = ({item, handler = undefined}) => {
     <TouchableWithoutFeedback onPress={pressHandler}>
       <DialogItem style={{flex: 1, flexDirection: 'row'}}>
         {item?.profileInfo?.imageURL ? (
-          <DialogAvatar source={{uri: item?.profileInfo?.imageURL}} />
+          <AnimatedImage
+            imageStyle={{width: 80, height: 80, borderRadius: 40}}
+            viewStyle={{borderRadius: 40}}
+            imageURL={item?.profileInfo?.imageURL}
+          />
         ) : (
           <DialogAvatar source={DEFAULT_PROFILE_IMAGE} />
         )}

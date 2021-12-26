@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Formik} from 'formik';
 import DatePicker from 'react-native-date-picker';
@@ -31,6 +30,7 @@ import {
 } from '../../../redux/selectors/UserSelector';
 import {profileValidationSchema} from '../../services/validation';
 import addIcon from '../../../assets/images/addIcon.png';
+import {AnimatedImage} from '../../components/Loaders/AnimatedImage';
 
 export const EditProfileScreen = () => {
   const profileInfo = useSelector(profileInfoSelector);
@@ -118,7 +118,11 @@ export const EditProfileScreen = () => {
                 onPress={() => selectFile(setFieldValue)}>
                 <AvatarWrapper>
                   {values.image ? (
-                    <Avatar source={{uri: values.image?.uri || values.image}} />
+                    <AnimatedImage
+                      imageStyle={{width: 125, height: 125, borderRadius: 67.5}}
+                      viewStyle={{borderRadius: 67.5}}
+                      imageURL={values.image?.uri || values.image}
+                    />
                   ) : (
                     <Avatar style={{width: 48, height: 48}} source={addIcon} />
                   )}

@@ -19,7 +19,7 @@ export function AdventuresStackScreen() {
   return (
     <AdventuresStack.Navigator
       screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}
-      initialRouteName="HotelsScreen">
+      initialRouteName="Adventures">
       <AdventuresStack.Screen
         options={{
           headerTitle: 'Adventures',
@@ -41,7 +41,7 @@ export function AdventuresStackScreen() {
             />
           ),
         }}
-        name="AdventuresScreen"
+        name="Adventures"
         component={AdventuresScreen}
       />
       <AdventuresStack.Screen

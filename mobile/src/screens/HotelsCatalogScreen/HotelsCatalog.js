@@ -13,7 +13,6 @@ import {
   getHotelsByDestination,
 } from '../../../redux/actions/HotelActions';
 import colors from '../../constants/colors';
-import FastImage from 'react-native-fast-image';
 import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {MainContainer} from './HotelsCatalog.style';
 import {
@@ -33,6 +32,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {PAGE_SIZE} from '../../constants/api';
 import {Spinner} from '../../components/Loaders/Spinner';
 import {Footer} from '../../components/Footer/Footer';
+import {AnimatedImage} from '../../components/Loaders/AnimatedImage';
 
 const Hotel = ({item}) => {
   const navigation = useNavigation();
@@ -44,10 +44,10 @@ const Hotel = ({item}) => {
   return (
     <TouchableWithoutFeedback>
       <ItemContainer>
-        <FastImage
-          style={{width: 155, height: 155, borderRadius: 16}}
-          blurRadius={5}
-          source={{uri: item?.imageURL}}
+        <AnimatedImage
+          imageStyle={{width: 155, height: 155, borderRadius: 16}}
+          viewStyle={{borderRadius: 16}}
+          imageURL={item?.imageURL}
         />
         <InfoContainer>
           <NormalText>{`${item?.name} ${item?.starsNumber}*`}</NormalText>

@@ -15,7 +15,6 @@ import {
   destinationsSelector,
   hasMoreDestinationsSelector,
 } from '../../../redux/selectors/DestinationSelector';
-import FastImage from 'react-native-fast-image';
 import {
   clearDestinations,
   getDestinations,
@@ -25,6 +24,7 @@ import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {clearHotels} from '../../../redux/actions/HotelActions';
 import {useNavigation} from '@react-navigation/core';
 import {SearchList} from '../../admin/components/SearchList/SearchList';
+import {AnimatedImage} from '../../components/Loaders/AnimatedImage';
 
 const Destination = ({item}) => {
   const dispatch = useDispatch();
@@ -37,14 +37,14 @@ const Destination = ({item}) => {
   return (
     <TouchableWithoutFeedback>
       <ItemContainer>
-        <FastImage
-          style={{width: 155, height: 155, borderRadius: 16}}
-          blurRadius={5}
-          source={{uri: item.imageURL}}
+        <AnimatedImage
+          imageStyle={{width: 155, height: 155, borderRadius: 16}}
+          viewStyle={{borderRadius: 16}}
+          imageURL={item?.imageURL}
         />
         <InfoContainer>
           <NormalText>{'Trip\nto'}</NormalText>
-          <BoldText>{item.countryName}</BoldText>
+          <BoldText>{item?.countryName}</BoldText>
           <GreenText>{`From $${100} /per night`}</GreenText>
           <ButtonItem
             handler={goHotelsCatalog}

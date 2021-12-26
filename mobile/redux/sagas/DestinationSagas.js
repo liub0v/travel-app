@@ -138,7 +138,7 @@ function* deleteDestinationSaga(action) {
     const destination = response.data;
     yield put(deleteDestinationCompleted(destination._id));
     yield put(deleteDestinationStarted(false));
-    RootNavigation.navigate('DestinationsCatalog');
+    RootNavigation.navigate('Destinations');
   } catch (error) {
     yield put(deleteDestinationStarted(false));
     yield put(setDestinationsError(error));

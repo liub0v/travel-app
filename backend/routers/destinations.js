@@ -22,6 +22,7 @@ router.get("/", async (req, res) => {
     .limit(limit);
   res.send(destinations);
 });
+
 router.get("/search", async (req, res) => {
   const countryName = req.query.countryName;
   const page = parseInt(req.query.page) ?? PAGE;

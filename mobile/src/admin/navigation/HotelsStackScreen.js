@@ -20,7 +20,7 @@ export function HotelsStackScreen() {
   return (
     <HotelsStack.Navigator
       screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}
-      initialRouteName="HotelsScreen">
+      initialRouteName="Hotels">
       <HotelsStack.Screen
         options={{
           headerTitle: 'Hotels',
@@ -42,7 +42,7 @@ export function HotelsStackScreen() {
             />
           ),
         }}
-        name="HotelsScreen"
+        name="Hotels"
         component={HotelsScreen}
       />
       <HotelsStack.Screen

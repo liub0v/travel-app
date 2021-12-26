@@ -2,7 +2,6 @@ import React from 'react';
 import {TouchableWithoutFeedback} from 'react-native';
 
 import {
-  HotelImage,
   HotelInfoWrapper,
   HotelItem,
   HotelName,
@@ -15,10 +14,7 @@ import {
 
 import star from '../../../../assets/images/start.png';
 import {useNavigation} from '@react-navigation/native';
-import {
-  getSavedHotelReviewsSelector,
-  getVisitedHotelReviewsSelector,
-} from '../../../../redux/selectors/UserSelector';
+import {AnimatedImage} from '../../../components/Loaders/AnimatedImage';
 
 export const Hotel = ({item}) => {
   const navigation = useNavigation();
@@ -30,16 +26,25 @@ export const Hotel = ({item}) => {
   return (
     <TouchableWithoutFeedback onPress={goHotelScreen}>
       <HotelItem>
-        <HotelImage source={{uri: item.imageURL}} />
+        <AnimatedImage
+          imageStyle={{
+            width: 150,
+            height: 90,
+            borderTopLeftRadius: 16,
+            borderBottomLeftRadius: 16,
+          }}
+          viewStyle={{borderTopLeftRadius: 16, borderBottomLeftRadius: 16}}
+          imageURL={item?.imageURL}
+        />
         <HotelInfoWrapper>
-          <HotelName>{`${item.name} ${item?.starsNumber}*`}</HotelName>
+          <HotelName>{`${item?.name} ${item?.starsNumber}*`}</HotelName>
           <StarsContainer>
-            {[...Array(item.starsNumber)].map((item, index) => {
+            {[...Array(item?.starsNumber)].map((item, index) => {
               return <Star key={index} source={star} />;
             })}
           </StarsContainer>
           <HotelPriceWrapper>
-            <HotelPrice>{`$ ${item.price} / `}</HotelPrice>
+            <HotelPrice>{`$ ${item?.price} / `}</HotelPrice>
             <HotelPricePeriod>{'per night'}</HotelPricePeriod>
           </HotelPriceWrapper>
         </HotelInfoWrapper>

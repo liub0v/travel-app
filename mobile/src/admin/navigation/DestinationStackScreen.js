@@ -15,7 +15,7 @@ export function DestinationStackScreen() {
   return (
     <DestinationStack.Navigator
       screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}
-      initialRouteName="DestinationsCatalog">
+      initialRouteName="Destinations">
       <DestinationStack.Screen
         options={{
           headerTitle: 'Destinations',
@@ -37,7 +37,7 @@ export function DestinationStackScreen() {
             />
           ),
         }}
-        name="DestinationsCatalog"
+        name="Destinations"
         component={DestinationsCatalog}
       />
       <DestinationStack.Screen

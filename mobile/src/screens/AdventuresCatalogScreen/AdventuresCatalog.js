@@ -15,7 +15,6 @@ import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import colors from '../../constants/colors';
 
 import {useNavigation, useRoute} from '@react-navigation/native';
-import FastImage from 'react-native-fast-image';
 
 import {
   InfoContainer,
@@ -40,6 +39,7 @@ import {GuideImage} from './AdventuresCatalog.style';
 import {Spinner} from '../../components/Loaders/Spinner';
 import {Footer} from '../../components/Footer/Footer';
 import {PAGE_SIZE} from '../../constants/api';
+import {AnimatedImage} from '../../components/Loaders/AnimatedImage';
 
 const Adventure = ({item}) => {
   const navigation = useNavigation();
@@ -53,10 +53,10 @@ const Adventure = ({item}) => {
   return (
     <TouchableWithoutFeedback>
       <AdventureWrapper>
-        <FastImage
-          style={{width: 150, height: 250, borderRadius: 16}}
-          blurRadius={5}
-          source={{uri: item?.imageURL}}
+        <AnimatedImage
+          imageStyle={{width: 150, height: 250, borderRadius: 16}}
+          viewStyle={{borderRadius: 16}}
+          imageURL={item?.imageURL}
         />
         <InfoContainer>
           <NormalText>{item?.name}</NormalText>

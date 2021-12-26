@@ -36,7 +36,7 @@ export const AvatarWrapper = styled.View`
   width: 125px;
   height: 125px;
   background-color: ${colors.grey};
-  border-radius: 62px;
+  border-radius: 67.5px;
   justify-content: center;
   align-items: center;
   margin-top: 24px;

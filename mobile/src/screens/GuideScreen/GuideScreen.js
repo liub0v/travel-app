@@ -41,7 +41,7 @@ export const GuideScreen = () => {
           refreshing={isLoading}
           onRefresh={onRefresh}
           tintColor={colors.white}
-          colors={colors.white}
+          colors={[colors.white]}
         />
       }>
       <ProfileForm

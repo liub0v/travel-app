@@ -1,6 +1,5 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {GuidesScreen} from '../screens/GuidesScreen/GuidesScreen';
 import {AddGuideScreen} from '../screens/AddGuideScreen/AddGuideScreen';
 import {EditButton} from '../../navigation/TabNavigation';
 import {useNavigation} from '@react-navigation/native';
@@ -10,14 +9,18 @@ import {Add} from '../../components/Add/Add';
 import {HeaderBackButton} from '@react-navigation/elements';
 import colors from '../../constants/colors';
 import {ErrorScreen} from '../../screens/ErrorScreen/ErrorScreen';
+import {GuidesCatalogScreen} from '../../screens/GuidesCatalogScreen/GuidesCatalogScreen';
 const GuidesStack = createNativeStackNavigator();
 
 export function GuidesStackScreen() {
   const navigation = useNavigation();
   return (
     <GuidesStack.Navigator
-      screenOptions={{headerTintColor: colors.white, headerBackTitle: ''}}
-      initialRouteName="GuidesScreen">
+      screenOptions={{
+        headerTintColor: colors.white,
+        headerBackTitle: '',
+      }}
+      initialRouteName="Guides">
       <GuidesStack.Screen
         options={{
           headerTitle: 'Guides',
@@ -39,8 +42,8 @@ export function GuidesStackScreen() {
             />
           ),
         }}
-        name="GuidesScreen"
-        component={GuidesScreen}
+        name="Guides"
+        component={GuidesCatalogScreen}
       />
       <GuidesStack.Screen
         options={{
