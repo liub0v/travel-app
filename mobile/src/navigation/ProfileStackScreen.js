@@ -5,6 +5,7 @@ import {EditProfileScreen} from '../screens/EditProfileScreen/EditProfileScreen'
 import {useNavigation} from '@react-navigation/native';
 import {EditButton} from './TabNavigation';
 import colors from '../constants/colors';
+import {ErrorScreen} from '../screens/ErrorScreen/ErrorScreen';
 
 const ProfileStack = createNativeStackNavigator();
 
@@ -16,7 +17,7 @@ export function ProfileStackScreen() {
       initialRouteName="ProfileScreen">
       <ProfileStack.Screen
         options={{
-          headerRight: props => (
+          headerRight: () => (
             <EditButton
               handler={() => {
                 navigation.navigate('EditProfileScreen');
@@ -27,6 +28,13 @@ export function ProfileStackScreen() {
         }}
         name="ProfileScreen"
         component={ProfileScreen}
+      />
+      <ProfileStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ErrorScreen"
+        component={ErrorScreen}
       />
       <ProfileStack.Screen
         options={{

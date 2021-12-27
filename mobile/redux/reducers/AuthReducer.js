@@ -14,6 +14,10 @@ import {
   DELETE_USER_STARTED,
   UPDATE_USER_STARTED,
   UPDATE_USER_COMPLETED,
+  GET_SAVED_ITEMS_STARTED,
+  GET_VISITED_ITEMS_STARTED,
+  GET_SAVED_ITEMS_COMPLETED,
+  GET_VISITED_ITEMS_COMPLETED,
 } from '../types/AuthTypes';
 import {
   ADD_VISITED_HOTEL_COMPLETED,
@@ -58,9 +62,18 @@ const initialState = {
   likeHotelLoading: false,
   likeAdventureLoading: false,
   addVisitedHotelLoading: false,
-  deleteVisitedHotelLoading: false,
   addVisitedAdventureLoading: false,
+  deleteVisitedHotelLoading: false,
   deleteVisitedAdventureLoading: false,
+
+  getVisited: {
+    isLoading: false,
+    error: undefined,
+  },
+  getSaved: {
+    isLoading: false,
+    error: undefined,
+  },
 };
 export const authReducer = (state = initialState, {type, payload}) => {
   switch (type) {
@@ -229,7 +242,7 @@ export const authReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         update: {
-          ...state.delete,
+          ...state.update,
           isLoading: payload,
         },
       };
@@ -242,7 +255,40 @@ export const authReducer = (state = initialState, {type, payload}) => {
           profileInfo: payload.profileInfo,
         },
       };
-
+    case GET_SAVED_ITEMS_STARTED:
+      return {
+        ...state,
+        getSaved: {
+          ...state.getSaved,
+          isLoading: payload,
+        },
+      };
+    case GET_VISITED_ITEMS_STARTED:
+      return {
+        ...state,
+        getVisited: {
+          ...state.getVisited,
+          isLoading: payload,
+        },
+      };
+    case GET_SAVED_ITEMS_COMPLETED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          savedAdventures: payload.savedAdventures,
+          savedHotels: payload.savedHotels,
+        },
+      };
+    case GET_VISITED_ITEMS_COMPLETED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          visitedAdventures: payload.visitedAdventures,
+          visitedHotels: payload.visitedHotels,
+        },
+      };
     default:
       return state;
   }

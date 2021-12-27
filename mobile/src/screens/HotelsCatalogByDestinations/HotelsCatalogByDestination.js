@@ -45,7 +45,7 @@ const Destination = ({item}) => {
         <InfoContainer>
           <NormalText>{'Trip\nto'}</NormalText>
           <BoldText>{item?.countryName}</BoldText>
-          <GreenText>{`From $${100} /per night`}</GreenText>
+          <GreenText>{`         `}</GreenText>
           <ButtonItem
             handler={goHotelsCatalog}
             titleSize={12}

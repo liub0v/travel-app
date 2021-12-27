@@ -1,8 +1,9 @@
-import React from 'react';
-import {ScrollView, View} from 'react-native';
+import React, {useCallback} from 'react';
+import {RefreshControl, ScrollView, View} from 'react-native';
 
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
+  getSavedItemsLoaderSelector,
   savedAdventuresSelector,
   savedHotelsSelector,
 } from '../../../redux/selectors/UserSelector';
@@ -10,15 +11,32 @@ import {
 import {Section, SectionHeader} from '../../components/Section/Section';
 import {Hotel} from '../ExploreScreen/components/Hotel';
 import {Adventure} from '../ExploreScreen/components/Adventure';
+import colors from '../../constants/colors';
+import {getSavedItems} from '../../../redux/actions/AuthActions';
 
 export const SavedScreen = () => {
   const hotels = useSelector(savedHotelsSelector);
   const adventures = useSelector(savedAdventuresSelector);
+  const isLoading = useSelector(getSavedItemsLoaderSelector);
+  const dispatch = useDispatch();
+
+  const onRefresh = useCallback(() => {
+    dispatch(getSavedItems());
+  }, [dispatch, getSavedItems]);
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{flexGrow: 1}}>
+      contentContainerStyle={{flexGrow: 1}}
+      refreshControl={
+        <RefreshControl
+          refreshing={isLoading}
+          onRefresh={onRefresh}
+          colors={[colors.green]}
+          tintColor={colors.white}
+        />
+      }>
       {!!adventures?.length && (
         <Section
           title={'Adventures'}

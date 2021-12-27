@@ -308,7 +308,9 @@ export const AdventureScreen = () => {
               ) : (
                 <TitleWrapper>
                   <NormalText>
-                    {'You will be the first! \n Leave your review'}
+                    {role === 'admin'
+                      ? 'No comments'
+                      : 'You will be the first! \n Leave your review'}
                   </NormalText>
                 </TitleWrapper>
               )}

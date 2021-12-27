@@ -205,7 +205,7 @@ export const HotelScreen = () => {
               <RatingTitle>{hotel?.rating?.generalRating ?? '0.0'}</RatingTitle>
             </InfoWrapper>
             <InfoWrapper>
-              <NormalText>{'06 July - 14 July, 2 guest'}</NormalText>
+              <NormalText>{'  '}</NormalText>
               <TouchableWithoutFeedback onPress={goReviewsScreen}>
                 <ReviewsTitle>{`${hotel?.reviews?.length} Reviews`}</ReviewsTitle>
               </TouchableWithoutFeedback>

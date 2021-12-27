@@ -77,6 +77,7 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
             <DeleteWrapper>
               <Delete
                 handler={() => {
+                  console.log('touch');
                   deleteImageHandler(imgURL, index);
                 }}
               />

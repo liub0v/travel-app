@@ -60,6 +60,10 @@ export const profileValidationSchema = yup.object().shape({
     .email('Please enter valid email')
     .required('Email is required'),
   username: yup.string().required('Username is required'),
+  phone: yup
+    .string()
+    .min(7, 'Minimum length is 7 numbers')
+    .max(16, 'Maximum length is 16 numbers'),
 });
 
 export const adventureValidationSchema = yup.object().shape({
@@ -68,16 +72,18 @@ export const adventureValidationSchema = yup.object().shape({
   price: yup
     .string()
     .required('Price is required')
-    .matches(/^[0-9]{1,2}([,.][0-9]{1,2})?$/, 'Enter the price correctly'),
+    .matches(/^[0-9]*([,.][0-9]{1,2})?$/, 'Enter the price correctly'),
   guideID: yup.string().required('Guide is required'),
 });
 export const hotelValidationSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
   address: yup.string().required('Address is required'),
   price: yup
-    .string()
+    .number('Enter the price correctly')
     .required('Price is required')
-    .matches(/^[0-9]*([,.][0-9]{1,2})?$/, 'Enter the price correctly'),
+    .min(1, 'Minimum price is 1$')
+    .max(10000, 'Maximum price is 10000$'),
+
   starsNumber: yup
     .number()
     .min(1, 'Stars number is required')

@@ -16,7 +16,6 @@ import {
   MainContainer,
   SectionsWrapper,
   LabelWrapper,
-  LabelText,
   SliderWrapper,
   ButtonWrapper,
 } from './FilterScreen.style';
@@ -30,7 +29,7 @@ import {clearHotels} from '../../../redux/actions/HotelActions';
 
 import {useNavigation} from '@react-navigation/core';
 const Slider = ({handler}) => {
-  const [multiSliderValue, setMultiSliderValue] = useState([0, 100]);
+  const [multiSliderValue, setMultiSliderValue] = useState([0, 10000]);
   const {height, width} = useWindowDimensions();
 
   const onValuesChangeHandler = useCallback(
@@ -104,7 +103,7 @@ export const FilterScreen = () => {
   const navigation = useNavigation();
   const hotelOptions = new HotelsOptions();
   const setFieldsHandler = useCallback(
-    ({priceRange, hotelOptions, beds}) => {
+    ({priceRange, hotelOptions}) => {
       const filter = {
         priceRange: priceRange.join(','),
         hotelOptions: hotelOptions.toString(),
@@ -118,12 +117,12 @@ export const FilterScreen = () => {
     <MainContainer>
       <Formik
         initialValues={{
-          priceRange: [0, 100],
+          priceRange: [0, 10000],
           beds: 0,
           hotelOptions: hotelOptions,
         }}
         onSubmit={setFieldsHandler}>
-        {({handleChange, handleBlur, handleSubmit, values, setFieldValue}) => (
+        {({handleSubmit, values, setFieldValue}) => (
           <>
             <SectionsWrapper>
               <SectionContainer>
@@ -132,7 +131,7 @@ export const FilterScreen = () => {
                   <SectionWhiteText>
                     The average nightly price is{' '}
                   </SectionWhiteText>
-                  <SectionGreenText>4,589₽</SectionGreenText>
+                  <SectionGreenText>5,000$</SectionGreenText>
                 </RowWrapper>
                 <SliderWrapper>
                   <Slider

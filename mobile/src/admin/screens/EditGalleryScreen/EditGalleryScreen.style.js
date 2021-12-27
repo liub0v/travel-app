@@ -7,6 +7,7 @@ export const GalleryContainer = styled.View`
   flex: 1;
   justify-content: flex-start;
   padding: 24px;
+  margin-top: 24px;
 `;
 export const ImageWrapper = styled.View`
   margin-top: 12px;

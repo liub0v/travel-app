@@ -179,7 +179,7 @@ export const EditHotelScreen: React.FC<Props> = () => {
               <StarsWrapper>
                 <StarsRating
                   initStarsNumber={hotel.starsNumber}
-                  setStarRating={number => {
+                  setStarRating={(number: number) => {
                     setStarsNumber(number);
                     setFieldValue('starsNumber', number);
                   }}

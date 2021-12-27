@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import {
   BottomInfoLine,
@@ -28,6 +28,13 @@ export const Guide = ({item, handler = undefined}) => {
       goGuideProfile();
     }
   };
+
+  const nameTitle = useMemo(() => {
+    const firstName = item?.profileInfo?.firstName ?? '';
+    const lastName = item?.profileInfo?.lastName ?? '';
+    const name = `${firstName} ${lastName}`;
+    return name.trim() || item?.userID?.username || 'Anonymous';
+  }, [item]);
   return (
     <TouchableWithoutFeedback onPress={pressHandler}>
       <DialogItem style={{flex: 1, flexDirection: 'row'}}>
@@ -40,10 +47,9 @@ export const Guide = ({item, handler = undefined}) => {
         ) : (
           <DialogAvatar source={DEFAULT_PROFILE_IMAGE} />
         )}
-
         <DialogInfo>
           <TopInfoLine>
-            <UserName>{`${item?.profileInfo?.firstName} ${item?.profileInfo?.lastName}`}</UserName>
+            <UserName>{nameTitle}</UserName>
           </TopInfoLine>
           <BottomInfoLine>
             <Message>{item?.profileInfo?.address}</Message>

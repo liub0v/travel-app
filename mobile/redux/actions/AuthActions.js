@@ -2,6 +2,12 @@ import {
   DELETE_USER,
   DELETE_USER_COMPLETED,
   DELETE_USER_STARTED,
+  GET_SAVED_ITEMS,
+  GET_SAVED_ITEMS_COMPLETED,
+  GET_SAVED_ITEMS_STARTED,
+  GET_VISITED_ITEMS,
+  GET_VISITED_ITEMS_COMPLETED,
+  GET_VISITED_ITEMS_STARTED,
   LOG_IN_USER,
   LOG_OUT_USER,
   SAVE_PROFILE_ONBOARDING,
@@ -280,5 +286,44 @@ export const deleteVisitedAdventureCompleted = adventureID => {
   return {
     type: DELETE_VISITED_ADVENTURE_COMPLETED,
     payload: adventureID,
+  };
+};
+
+export const getVisitedItemsStarted = isLoading => {
+  return {
+    type: GET_VISITED_ITEMS_STARTED,
+    payload: isLoading,
+  };
+};
+export const getVisitedItemsCompleted = ({
+  visitedAdventures,
+  visitedHotels,
+}) => {
+  return {
+    type: GET_VISITED_ITEMS_COMPLETED,
+    payload: {visitedAdventures, visitedHotels},
+  };
+};
+export const getVisitedItems = () => {
+  return {
+    type: GET_VISITED_ITEMS,
+  };
+};
+
+export const getSavedItemsStarted = isLoading => {
+  return {
+    type: GET_SAVED_ITEMS_STARTED,
+    payload: isLoading,
+  };
+};
+export const getSavedItemsCompleted = ({savedAdventures, savedHotels}) => {
+  return {
+    type: GET_SAVED_ITEMS_COMPLETED,
+    payload: {savedAdventures, savedHotels},
+  };
+};
+export const getSavedItems = () => {
+  return {
+    type: GET_SAVED_ITEMS,
   };
 };

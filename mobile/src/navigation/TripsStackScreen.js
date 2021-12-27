@@ -4,6 +4,7 @@ import {AdventureStackScreen} from './AdventureStackScreen';
 import {HotelStackScreen} from './HotelStackScreen';
 import {TripsScreen} from '../screens/TripsScreen/TripsScreen';
 import colors from '../constants/colors';
+import {ErrorScreen} from '../screens/ErrorScreen/ErrorScreen';
 const TripsStack = createNativeStackNavigator();
 
 export function TripsStackScreen() {
@@ -17,6 +18,13 @@ export function TripsStackScreen() {
         }}
         name="TripsScreen"
         component={TripsScreen}
+      />
+      <TripsStack.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="ErrorScreen"
+        component={ErrorScreen}
       />
       {HotelStackScreen(TripsStack)}
       {AdventureStackScreen(TripsStack)}

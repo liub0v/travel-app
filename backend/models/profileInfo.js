@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 const profileInfoSchema = new mongoose.Schema({
   firstName: {
     type: String,
-    minlength: 2,
-    maxlength: 16,
+    minlength: 0,
+    maxlength: 32,
   },
   lastName: {
     type: String,
-    minlength: 2,
-    maxlength: 16,
+    minlength: 0,
+    maxlength: 32,
   },
   phone: {
     type: String,

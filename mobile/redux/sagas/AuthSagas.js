@@ -1,7 +1,11 @@
 import {takeEvery, call, put, select} from 'redux-saga/effects';
 import {
-  deleteUserCompleted,
   deleteUserStarted,
+  getSavedItemsCompleted,
+  getSavedItemsStarted,
+  getVisitedItemsCompleted,
+  getVisitedItemsStarted,
+  logOutUser,
   setIsOnboarding,
   setLogInError,
   setLogInIsLoading,
@@ -15,6 +19,8 @@ import {
 import {tokenSelector} from '../selectors/UserSelector';
 import {
   DELETE_USER,
+  GET_SAVED_ITEMS,
+  GET_VISITED_ITEMS,
   LOG_IN_USER,
   SAVE_PROFILE_ONBOARDING,
   SING_UP_USER,
@@ -30,6 +36,8 @@ export const authSagas = [
   takeEvery(SAVE_PROFILE_ONBOARDING, saveProfileOnboarding),
   takeEvery(DELETE_USER, deleteUserSaga),
   takeEvery(UPDATE_USER, updateUserSaga),
+  takeEvery(GET_SAVED_ITEMS, getSavedItemsSaga),
+  takeEvery(GET_VISITED_ITEMS, getVisitedItemsSaga),
 ];
 
 const errorHandler = error => {
@@ -101,11 +109,11 @@ function* saveProfileOnboarding(action) {
 
 function* deleteUserSaga(action) {
   try {
-    const {userID} = action.payload;
+    const userID = action.payload;
     const token = yield select(tokenSelector);
     yield put(deleteUserStarted(true));
     yield call(userAPI.deleteUser, token, userID);
-    yield put(deleteUserCompleted(userID));
+    yield put(logOutUser());
     yield put(deleteUserStarted(false));
   } catch (error) {
     yield put(deleteUserStarted(false));
@@ -126,5 +134,33 @@ function* updateUserSaga(action) {
   } catch (error) {
     yield put(updateUserStarted(false));
     yield call(errorHandler, error);
+  }
+}
+
+function* getSavedItemsSaga(action) {
+  try {
+    const token = yield select(tokenSelector);
+    yield put(getSavedItemsStarted(true));
+    const response = yield call(userAPI.getSavedItems, token);
+    const {savedAdventures, savedHotels} = response.data;
+    yield put(getSavedItemsCompleted({savedAdventures, savedHotels}));
+    yield put(getSavedItemsStarted(false));
+  } catch (error) {
+    yield put(getSavedItemsStarted(false));
+    yield call(errorHandler, error, action);
+  }
+}
+
+function* getVisitedItemsSaga(action) {
+  try {
+    const token = yield select(tokenSelector);
+    yield put(getVisitedItemsStarted(true));
+    const response = yield call(userAPI.getVisitedItems, token);
+    const {visitedAdventures, visitedHotels} = response.data;
+    yield put(getVisitedItemsCompleted({visitedAdventures, visitedHotels}));
+    yield put(getVisitedItemsStarted(false));
+  } catch (error) {
+    yield put(getVisitedItemsStarted(false));
+    yield call(errorHandler, error, action);
   }
 }

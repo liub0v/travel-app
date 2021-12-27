@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Formik} from 'formik';
 import {
   Avatar,
@@ -9,6 +9,7 @@ import {
 } from '../../../screens/ProfileScreen/Profile.style';
 import {Text, View} from 'react-native';
 import {
+  AvatarWrapper,
   BoldWhiteText,
   ButtonWrapper,
   InfoItem,
@@ -25,6 +26,7 @@ import {
 } from '../../../../redux/selectors/GuideSelectors';
 import {DEFAULT_PROFILE_IMAGE} from '../../../constants/api';
 import {profileValidationSchema} from '../../../services/validation';
+import {AnimatedImage} from '../../../components/Loaders/AnimatedImage';
 
 export type Props = {
   route: any;
@@ -48,11 +50,25 @@ export const EditGuideScreen: React.FC<Props> = () => {
     email: string;
   }) => {
     const [firstName, lastName] = name.split(' ');
-    dispatch(updateGuide({userID, firstName, lastName, username, email}));
+    dispatch(
+      updateGuide({
+        userID,
+        firstName: firstName || ' ',
+        lastName: lastName || ' ',
+        username,
+        email,
+      }),
+    );
   };
   const deleteAccountHandler = () => {
     dispatch(deleteGuide(userID));
   };
+  const nameTitle = useMemo(() => {
+    const firstName = profileInfo?.firstName ?? '';
+    const lastName = profileInfo?.lastName ?? '';
+    const name = `${firstName} ${lastName}`;
+    return name.trim() || '';
+  }, [profileInfo, userInfo]);
 
   return (
     <Container
@@ -64,7 +80,7 @@ export const EditGuideScreen: React.FC<Props> = () => {
         initialValues={{
           username: userInfo?.username ?? '',
           email: userInfo?.email ?? '',
-          name: `${profileInfo?.firstName} ${profileInfo?.lastName}` ?? '',
+          name: nameTitle,
         }}
         onSubmit={values => updateGuideHandler(values)}>
         {({
@@ -74,15 +90,20 @@ export const EditGuideScreen: React.FC<Props> = () => {
           values,
           errors,
           touched,
-          setFieldValue,
         }) => (
           <View>
             <MainInfo>
-              {profileInfo?.imageURL ? (
-                <Avatar source={{uri: profileInfo?.imageURL}} />
-              ) : (
-                <Avatar source={DEFAULT_PROFILE_IMAGE} />
-              )}
+              <AvatarWrapper>
+                {profileInfo?.imageURL ? (
+                  <AnimatedImage
+                    imageStyle={{width: 125, height: 125, borderRadius: 67.5}}
+                    viewStyle={{borderRadius: 67.5}}
+                    imageURL={profileInfo?.imageURL}
+                  />
+                ) : (
+                  <Avatar source={DEFAULT_PROFILE_IMAGE} />
+                )}
+              </AvatarWrapper>
               <BoldWhiteText
                 placeholder="Enter name"
                 placeholderTextColor={colors.grey}

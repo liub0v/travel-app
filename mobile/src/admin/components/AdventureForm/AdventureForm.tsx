@@ -60,7 +60,7 @@ export const AdventureForm: React.FC<Props> = ({
           summary: adventure?.summary ?? '',
           price: adventure?.price?.toString() ?? '',
           address: adventure?.address ?? '',
-          guideID: adventure?.guideID._id ?? '',
+          guideID: adventure?.guideID?._id ?? '',
         }}
         onSubmit={values => handler({...values, image})}>
         {({
@@ -146,10 +146,13 @@ export const AdventureForm: React.FC<Props> = ({
               <PriceInput
                 placeholder="0.0"
                 placeholderTextColor={colors.screenBackground}
-                onChangeText={handleChange('price')}
+                onChangeText={(value: number) => {
+                  setFieldValue('price', Number(value));
+                }}
                 onBlur={handleBlur('price')}
                 value={values.price}
                 keyboardType="numeric"
+                type="number"
               />
             </InputWrapper>
             {errors.price && touched.price && (

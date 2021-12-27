@@ -7,7 +7,10 @@ const clientSchema = new mongoose.Schema({
     ref: "User",
   },
   isOnboarding: Boolean,
-  profileInfo: profileInfoSchema,
+  profileInfo: {
+    type: profileInfoSchema,
+    default: {},
+  },
   savedHotels: {
     type: [
       {

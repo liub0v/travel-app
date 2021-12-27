@@ -199,15 +199,39 @@ router.delete("/visitedAdventure", auth, async (req, res) => {
 
   res.send(client.visitedAdventures);
 });
+router.get("/saved", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id })
+    .populate("savedAdventures")
+    .populate("savedHotels");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
+  const savedAdventures = client.savedAdventures;
+  const savedHotels = client.savedHotels;
 
+  res.send({ savedAdventures, savedHotels });
+});
+
+router.get("/visited", auth, async (req, res) => {
+  const client = await Client.findOne({ userID: req.user._id })
+    .populate("visitedAdventures")
+    .populate("visitedHotels");
+  if (!client) {
+    return res.status(404).send("User doesn't exist");
+  }
+  const visitedHotels = client.visitedHotels;
+  const visitedAdventures = client.visitedAdventures;
+
+  res.send({ visitedAdventures, visitedHotels });
+});
 router.put("/profileInfo", auth, async (req, res) => {
   let user = await User.findById(req.body.userID);
   if (!user) {
     return res.status(404).send("User doesn't exist");
   }
 
-  user.username = req.body?.username || user.username;
-  user.email = req.body?.email || user.email;
+  user.username = req.body?.username ?? user.username;
+  user.email = req.body?.email ?? user.email;
   await user.save();
 
   switch (user.role) {
@@ -236,15 +260,15 @@ router.put("/profileInfo", auth, async (req, res) => {
   const image = req.body?.image;
 
   const imageURL = image && (await uploadToCloud(image, "avatars"));
-
+  console.log(req.body?.lastName);
   const birthDate = req.body?.birthDate && new Date(req.body?.birthDate);
   user.profileInfo.firstName =
-    req.body?.firstName || user.profileInfo.firstName;
-  user.profileInfo.lastName = req.body?.lastName || user.profileInfo.lastName;
-  user.profileInfo.phone = req.body?.phone || user.profileInfo.phone;
-  user.profileInfo.birthDate = birthDate || user.profileInfo.birthDate;
-  user.profileInfo.address = req.body?.address || user.profileInfo.address;
-  user.profileInfo.imageURL = imageURL || user.profileInfo.imageURL;
+    req.body?.firstName ?? user.profileInfo?.firstName;
+  user.profileInfo.lastName = req.body?.lastName ?? user.profileInfo?.lastName;
+  user.profileInfo.phone = req.body?.phone ?? user.profileInfo?.phone;
+  user.profileInfo.birthDate = birthDate ?? user.profileInfo?.birthDate;
+  user.profileInfo.address = req.body?.address ?? user.profileInfo?.address;
+  user.profileInfo.imageURL = imageURL ?? user.profileInfo?.imageURL;
   await user.save();
 
   await user.populate("userID");
@@ -309,6 +333,7 @@ router.post("/client", async (req, res) => {
 
   const client = new Client({
     userID: user._id,
+    profileInfo: {},
   });
   await client.save();
   await client.populate("userID");
@@ -346,6 +371,7 @@ router.post("/guide", async (req, res) => {
 });
 router.delete("/", auth, async (req, res) => {
   let user = await User.findById(req.body.userID);
+
   if (!user) {
     return res.status(400).send("User doesn't exist");
   }

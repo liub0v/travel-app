@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Formik} from 'formik';
 import DatePicker from 'react-native-date-picker';
@@ -49,8 +49,6 @@ export const EditProfileScreen = () => {
   const dispatch = useDispatch();
   const deleteIsLoading = useSelector(deleteUserIsLoadingSelector);
   const updateIsLoading = useSelector(updateUserIsLoadingSelector);
-  const firstName = profileInfo?.firstName ?? '';
-  const lastName = profileInfo?.lastName ?? '';
   function updateAccountHandler({
     name,
     username,
@@ -60,12 +58,12 @@ export const EditProfileScreen = () => {
     address,
     image,
   }) {
-    const [firstName, lastName] = name.split(' ');
+    const [firstName, lastName] = name.trim().split(' ');
     dispatch(
       updateUser({
         userID: userInfo._id,
-        firstName,
-        lastName,
+        firstName: firstName || ' ',
+        lastName: lastName || ' ',
         username,
         email,
         phone,
@@ -86,6 +84,14 @@ export const EditProfileScreen = () => {
     });
     setFieldValue('image', res?.assets?.[0]);
   };
+
+  const nameTitle = useMemo(() => {
+    const firstName = profileInfo?.firstName ?? '';
+    const lastName = profileInfo?.lastName ?? '';
+    const name = `${firstName} ${lastName}`;
+    return name.trim() || '';
+  }, [profileInfo, userInfo]);
+
   return (
     <Container
       showsVerticalScrollIndicator={false}
@@ -96,7 +102,7 @@ export const EditProfileScreen = () => {
         initialValues={{
           username: userInfo?.username ?? '',
           email: userInfo?.email ?? '',
-          name: firstName + lastName,
+          name: nameTitle,
           phone: profileInfo?.phone ?? '',
           birthDate: birthDate,
           address: profileInfo?.address ?? '',
@@ -180,6 +186,12 @@ export const EditProfileScreen = () => {
                   value={values.phone}
                 />
               </InfoItem>
+              {errors.phone && touched.phone && (
+                <Text style={{color: colors.red, padding: 6}}>
+                  {' '}
+                  {errors.phone}
+                </Text>
+              )}
               <InfoItem>
                 <GreyText>{'Date of birth'}</GreyText>
                 <ButtonWrapper>

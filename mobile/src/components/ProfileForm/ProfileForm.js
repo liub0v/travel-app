@@ -7,7 +7,7 @@ import {
   MainInfo,
   WhiteText,
 } from '../../screens/ProfileScreen/Profile.style';
-import React from 'react';
+import React, {useMemo} from 'react';
 import {dateParser} from '../../services/dataParser';
 import {DEFAULT_PROFILE_IMAGE} from '../../constants/api';
 import {AvatarWrapper} from '../../screens/EditProfileScreen/EditProfileScreen.style';
@@ -15,6 +15,13 @@ import {AnimatedImage} from '../Loaders/AnimatedImage';
 
 export const ProfileForm = ({profileInfo, userInfo, isLoading}) => {
   let birthDate = dateParser(profileInfo?.birthDate);
+
+  const nameTitle = useMemo(() => {
+    const firstName = profileInfo?.firstName ?? '';
+    const lastName = profileInfo?.lastName ?? '';
+    const name = `${firstName} ${lastName}`;
+    return name.trim() || userInfo?.username || 'Anonymous';
+  }, [profileInfo, userInfo]);
 
   return (
     <>
@@ -29,16 +36,13 @@ export const ProfileForm = ({profileInfo, userInfo, isLoading}) => {
                   imageURL={profileInfo?.imageURL}
                 />
               ) : (
-                // <Avatar source={{uri: profileInfo?.imageURL}} />
                 <Avatar source={DEFAULT_PROFILE_IMAGE} />
               )}
             </AvatarWrapper>
 
             {profileInfo ? (
               <>
-                <BoldWhiteText>
-                  {`${profileInfo?.firstName} ${profileInfo?.lastName}`}
-                </BoldWhiteText>
+                <BoldWhiteText>{nameTitle}</BoldWhiteText>
                 {profileInfo?.address && (
                   <GreyText>{`${profileInfo?.address}`}</GreyText>
                 )}

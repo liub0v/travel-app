@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {Animated, TouchableWithoutFeedback} from 'react-native';
+import {Animated, TouchableWithoutFeedback, View} from 'react-native';
 
 import {
   Container,
@@ -84,7 +84,8 @@ const SearchBar = () => {
 export const Preview = () => {
   return (
     <Container source={mainImage}>
-      <SearchBar />
+      <View />
+      {/*<SearchBar />*/}
       <Wrapper>
         <TextWrapper>
           <Title>{'Rome'}</Title>

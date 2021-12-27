@@ -36,6 +36,16 @@ async function getUserByToken(token) {
     headers: {'x-auth-token': token},
   });
 }
+async function getVisitedItems(token) {
+  return await instance.get('/users/visited', {
+    headers: {'x-auth-token': token},
+  });
+}
+async function getSavedItems(token) {
+  return await instance.get('/users/saved', {
+    headers: {'x-auth-token': token},
+  });
+}
 async function putIsOnBoarding(isOnBoarding, token) {
   return await instance.put(
     '/users/onboarding',
@@ -137,6 +147,7 @@ async function updateUser(
 ) {
   const formData = new FormData();
   formData.append('userID', userID);
+  console.log(firstName, lastName);
   firstName && formData.append('firstName', firstName);
   lastName && formData.append('lastName', lastName);
   username && formData.append('username', username.toLowerCase());
@@ -181,4 +192,6 @@ export const userAPI = {
   deleteVisitedAdventure,
   getGuidesByTerm,
   getGuideByID,
+  getVisitedItems,
+  getSavedItems,
 };

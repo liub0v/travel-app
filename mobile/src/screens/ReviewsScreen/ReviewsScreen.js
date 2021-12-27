@@ -60,18 +60,13 @@ export const Comments = React.memo(({comments}) => {
 });
 export const Comment = ({item}) => {
   const date = new Date(item?.date);
-  const nameTitle = useMemo(
-    () =>
-      item?.clientID?.profileInfo?.firstName
-        ? item?.clientID?.profileInfo?.firstName
-        : item?.clientID?.profileInfo?.lastName
-        ? item?.clientID?.profileInfo?.lastName
-        : item?.clientID?.userID?.username,
-    [
-      item?.clientID?.profileInfo?.firstName,
-      item?.clientID?.profileInfo?.lastName,
-    ],
-  );
+
+  const nameTitle = useMemo(() => {
+    const firstName = item?.clientID?.profileInfo?.firstName ?? '';
+    const lastName = item?.clientID?.profileInfo?.lastName ?? '';
+    const name = `${firstName} ${lastName}`;
+    return name.trim() || item?.clientID?.userID?.username || 'Anonymous';
+  }, [item]);
   return (
     <CommentContainer>
       <UserContainer style={{flexDirection: 'row', flex: 1}}>

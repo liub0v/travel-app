@@ -61,7 +61,7 @@ export const TabNavigation = () => {
   return (
     <Tab.Navigator
       initialRouteName="Explore"
-      backBehavior="none"
+      backBehavior={'history'}
       screenOptions={() => ({
         tabBarActiveTintColor: '#219653',
         tabBarInactiveTintColor: '#FFFFFF',

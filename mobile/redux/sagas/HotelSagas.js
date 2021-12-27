@@ -1,5 +1,4 @@
 import {call, put, select, takeEvery} from 'redux-saga/effects';
-import {showMessage} from 'react-native-flash-message';
 import {
   ADD_HOTEL,
   ADD_VISITED_HOTEL,
@@ -80,10 +79,7 @@ function* getHotel(action) {
   } catch (error) {
     yield put(getHotelStarted(false));
     yield put(setHotelsError(error));
-    yield call(showMessage, {
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
+    yield call(errorHandler, error, action);
   }
 }
 

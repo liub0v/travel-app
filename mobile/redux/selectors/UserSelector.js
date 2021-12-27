@@ -38,6 +38,14 @@ export const visitedAdventuresSelector = createSelector(
   user => user.visitedAdventures,
 );
 
+export const getVisitedItemsLoaderSelector = createSelector(
+  authSelector,
+  user => user.getVisited.isLoading,
+);
+export const getSavedItemsLoaderSelector = createSelector(
+  authSelector,
+  user => user.getSaved.isLoading,
+);
 export const likeHotelLoaderSelector = createSelector(
   authSelector,
   user => user.likeHotelLoading,

@@ -47,7 +47,7 @@ export const EditAdventureScreen: React.FC<Props> = () => {
         name,
         summary,
         image,
-        price: Number(price),
+        price,
         address,
         guideID,
       }),

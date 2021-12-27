@@ -27,9 +27,10 @@ export const HotelGalleryScreen = () => {
             justifyContent: 'center',
           }}
           maximumZoomScale={2.5}
-          minimumZoomScale={1}>
+          minimumZoomScale={1}
+          key={index}>
           {isLoading && <Spinner />}
-          <ImageWrapper key={index}>
+          <ImageWrapper>
             <FastImage
               resizeMode="contain"
               style={{width, height}}
