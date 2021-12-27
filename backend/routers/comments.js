@@ -44,7 +44,8 @@ module.exports = (Model) => {
     await review.save();
     await review.populate({
       path: "clientID",
-      select: "userID",
+      select:
+        "userID profileInfo.firstName profileInfo.lastName profileInfo.imageURL",
       populate: {
         path: "userID",
         select: "username",
@@ -126,7 +127,8 @@ module.exports = (Model) => {
     await review.save();
     await review.populate({
       path: "clientID",
-      select: "userID",
+      select:
+        "userID profileInfo.firstName profileInfo.lastName profileInfo.imageURL",
       populate: {
         path: "userID",
         select: "username",

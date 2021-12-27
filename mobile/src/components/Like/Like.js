@@ -1,20 +1,21 @@
 import {ActivityIndicator, TouchableWithoutFeedback} from 'react-native';
 import React, {useState} from 'react';
 import {Container, FillImage, InitImage} from './Like.style';
-import likeIcon from '../../../assets/images/like.png';
-import likedIcon from '../../../assets/images/savedActiveIcon.png';
+import likeImage from '../../../assets/images/like.png';
+import likedImage from '../../../assets/images/savedActiveIcon.png';
 import colors from '../../constants/colors';
+
 export const Like = ({
   handler = () => {},
   likeInit = false,
   isLoading = false,
 }) => {
-  const [like, setLike] = useState(likeInit);
+  const [likeIcon, setLikeIcon] = useState(likeInit);
   return (
     <TouchableWithoutFeedback
       onPress={() => {
         handler();
-        setLike(!like);
+        setLikeIcon(!likeIcon);
       }}>
       <Container>
         {isLoading ? (
@@ -23,10 +24,10 @@ export const Like = ({
             size="small"
             color={colors.green}
           />
-        ) : like ? (
-          <FillImage source={likedIcon} />
+        ) : likeIcon ? (
+          <FillImage source={likedImage} />
         ) : (
-          <InitImage source={likeIcon} />
+          <InitImage source={likeImage} />
         )}
       </Container>
     </TouchableWithoutFeedback>

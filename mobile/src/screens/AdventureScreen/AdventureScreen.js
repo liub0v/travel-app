@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Platform} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   clearAdventure,
@@ -29,7 +28,6 @@ import {
   CategoryRatingLine,
   CategoryRatingLineValue,
   CategoryRatingTitle,
-  ImageContainer,
   GeneralRatingTitle,
   GeneralRatingWrapper,
   GuideAvatar,
@@ -50,8 +48,8 @@ import {
   IntroReviews,
   GuideNameWrapper,
   GuideNameTitle,
+  TitleWrapper,
 } from './AdventureScreen.style';
-import {LikeWrapper} from '../HotelScreen/HotelScreen.style';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   addVisitedAdventure,
@@ -66,6 +64,8 @@ import {
 } from '../../../redux/selectors/AdventureSelectors';
 import {RefreshControl} from 'react-native';
 import {Comment} from '../ReviewsScreen/ReviewsScreen';
+import {AnimatedImage} from '../../components/Loaders/AnimatedImage';
+import {NormalText} from '../AuthScreens/LoginScreen/LoginScreen.style';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -124,9 +124,23 @@ export const AdventureScreen = () => {
   const adventureIsLoading = useSelector(currentAdventureIsLoadingSelector);
 
   const setLikeOnAdventure = () => {
-    like && dispatch(deleteSavedAdventure(adventure._id));
-    !like && dispatch(saveAdventure(adventure._id));
+    like && dispatch(deleteSavedAdventure(adventureID));
+    !like && dispatch(saveAdventure(adventureID));
   };
+
+  React.useLayoutEffect(() => {
+    if (role !== 'admin') {
+      navigation.setOptions({
+        headerRight: () => (
+          <Like
+            handler={setLikeOnAdventure}
+            likeInit={like}
+            isLoading={likeLoader}
+          />
+        ),
+      });
+    }
+  }, [navigation, likeLoader, like, setLikeOnAdventure]);
 
   const saveReview = async (
     starsNumber,
@@ -214,19 +228,11 @@ export const AdventureScreen = () => {
       }>
       {!adventureIsLoading && (
         <>
-          <ImageContainer source={{uri: adventure?.imageURL}}>
-            {adventure && (
-              <LikeWrapper>
-                {role !== 'admin' && (
-                  <Like
-                    handler={setLikeOnAdventure}
-                    likeInit={like}
-                    isLoading={likeLoader}
-                  />
-                )}
-              </LikeWrapper>
-            )}
-          </ImageContainer>
+          <AnimatedImage
+            imageStyle={{width: '100%', height: 410}}
+            viewStyle={{width: '100%'}}
+            imageURL={adventure?.imageURL}
+          />
           <InfoContainer>
             <NameContainer>
               <Stars starsNumber={adventure?.rating?.starsNumber} />
@@ -293,11 +299,19 @@ export const AdventureScreen = () => {
                 title={'Reviews'}
                 passHandler={goReviewsScreen}
               />
-              <IntroReviews>
-                {reviews?.slice(0, 3)?.map(item => (
-                  <Comment item={item} key={item?._id} />
-                ))}
-              </IntroReviews>
+              {reviews?.length ? (
+                <IntroReviews>
+                  {reviews?.slice(0, 3)?.map(item => (
+                    <Comment item={item} key={item?._id} />
+                  ))}
+                </IntroReviews>
+              ) : (
+                <TitleWrapper>
+                  <NormalText>
+                    {'You will be the first! \n Leave your review'}
+                  </NormalText>
+                </TitleWrapper>
+              )}
             </ReviewsContainer>
           )}
           {adventure && <ButtonWrapper>{showButton()}</ButtonWrapper>}

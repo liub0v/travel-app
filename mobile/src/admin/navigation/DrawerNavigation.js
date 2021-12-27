@@ -12,18 +12,17 @@ import {ProfileScreen} from '../../screens/ProfileScreen/ProfileScreen';
 import {DestinationStackScreen} from './DestinationStackScreen';
 import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
-
+import {Drawer as DrawerIcon} from '../../components/Drawer/Drawer';
 const Drawer = createDrawerNavigator();
 
 export const DrawerNavigation = () => {
   const profileInfo = useSelector(profileInfoSelector);
   const userInfo = useSelector(userInfoSelector);
-
   return (
     <Drawer.Navigator
       initialRouteName="Profile"
       backBehavior="history"
-      screenOptions={{
+      screenOptions={({navigation}) => ({
         drawerActiveTintColor: colors.green,
         drawerActiveBackgroundColor: colors.screenBackground,
         drawerInactiveTintColor: colors.white,
@@ -37,7 +36,14 @@ export const DrawerNavigation = () => {
           borderBottomWidth: 0.5,
           borderBottomColor: colors.grey,
         },
-      }}>
+        headerLeft: () => (
+          <DrawerIcon
+            handler={() => {
+              navigation.openDrawer();
+            }}
+          />
+        ),
+      })}>
       <Drawer.Screen
         name="Profile"
         component={ProfileScreen}

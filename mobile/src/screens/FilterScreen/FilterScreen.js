@@ -3,7 +3,6 @@ import React, {useCallback, useState} from 'react';
 import {useWindowDimensions} from 'react-native';
 import {
   CheckBoxContainer,
-  CheckBoxTitle,
   CheckBoxWrapper,
   CheckBoxWrapperChild,
 } from '../../admin/screens/EditHotelScreen/EditHotelScreen.style';
@@ -27,10 +26,9 @@ import {ButtonItem} from '../../components/Buttons/ButtonItem';
 import {useDispatch} from 'react-redux';
 import {HotelsOptions} from '../../services/HotelOptions';
 import {Formik} from 'formik';
-import {clearHotels, filterHotels} from '../../../redux/actions/HotelActions';
-import {PAGE_SIZE} from '../../constants/api';
+import {clearHotels} from '../../../redux/actions/HotelActions';
+
 import {useNavigation} from '@react-navigation/core';
-import {navigate} from '../../navigation/RootNavigation';
 const Slider = ({handler}) => {
   const [multiSliderValue, setMultiSliderValue] = useState([0, 100]);
   const {height, width} = useWindowDimensions();
@@ -89,9 +87,9 @@ const Slider = ({handler}) => {
         sliderLength={width * 0.8}
         onValuesChange={onValuesChangeHandler}
         min={0}
-        max={6670}
+        max={10000}
         allowOverlap={false}
-        minMarkerOverlapDistance={10}
+        minMarkerOverlapDistance={0}
       />
       <LabelWrapper>
         <SectionWhiteText>{`$${multiSliderValue[0]}`} </SectionWhiteText>
@@ -113,8 +111,6 @@ export const FilterScreen = () => {
       };
       dispatch(clearHotels());
       navigation.navigate('HotelsCatalog', {filter});
-
-      // dispatch(filterHotels({page: 1, limit: PAGE_SIZE, filter}));
     },
     [dispatch, navigation],
   );

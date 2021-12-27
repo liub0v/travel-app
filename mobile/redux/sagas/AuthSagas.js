@@ -34,7 +34,7 @@ export const authSagas = [
 
 const errorHandler = error => {
   if (error.code === 'ECONNABORTED' || error.message === 'Network Error')
-    RootNavigation.navigate('AuthErrorScreen');
+    RootNavigation.navigate('ErrorScreen');
   else {
     showMessage({
       message: error.response?.data,
@@ -104,7 +104,7 @@ function* deleteUserSaga(action) {
     const {userID} = action.payload;
     const token = yield select(tokenSelector);
     yield put(deleteUserStarted(true));
-    const response = yield call(userAPI.deleteUser, token, userID);
+    yield call(userAPI.deleteUser, token, userID);
     yield put(deleteUserCompleted(userID));
     yield put(deleteUserStarted(false));
   } catch (error) {

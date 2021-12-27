@@ -5,13 +5,14 @@ export const MainContainer = styled.ScrollView`
   flex: 1;
   flex-direction: column;
 `;
-export const ImageContainer = styled.ImageBackground`
+export const ImageContainer = styled.View`
   width: 100%;
   height: 320px;
-  align-items: center;
-  justify-content: flex-end;
 `;
 export const NameContainer = styled.View`
+  position: absolute;
+  bottom: 0;
+  left: 12.5%;
   justify-content: center;
   align-items: center;
   padding-top: 12px;
@@ -29,6 +30,7 @@ export const BoldText = styled.Text`
   font-family: ${fonts.bold};
   font-size: 24px;
   color: ${colors.white};
+  text-align: center;
 `;
 export const NormalText = styled.Text`
   font-family: ${fonts.normal};

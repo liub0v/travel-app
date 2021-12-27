@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState, useMemo} from 'react';
-import {TouchableWithoutFeedback, View} from 'react-native';
+import {Text, TouchableWithoutFeedback, View} from 'react-native';
+import {Formik} from 'formik';
 import {useRoute} from '@react-navigation/native';
 import {
   ButtonWrapper,
@@ -43,7 +44,20 @@ import {currentHotelReviewsSelector} from '../../../redux/selectors/HotelSelecto
 import {currentAdventureReviewsSelector} from '../../../redux/selectors/AdventureSelectors';
 import {closeSocket} from '../../../redux/actions/CommentActions';
 import {DEFAULT_PROFILE_IMAGE} from '../../constants/api';
+import {commentValidationSchema} from '../../services/validation';
 
+import {TitleWrapper} from './ReviewsScreen.style';
+import {NormalText} from '../AuthScreens/LoginScreen/LoginScreen.style';
+
+export const Comments = React.memo(({comments}) => {
+  return (
+    <>
+      {comments?.map(item => (
+        <Comment item={item} key={item._id} />
+      ))}
+    </>
+  );
+});
 export const Comment = ({item}) => {
   const date = new Date(item?.date);
   const nameTitle = useMemo(
@@ -105,39 +119,41 @@ const CriterionRating = ({ratingValue, title, onValueChangeHandler}) => {
     </>
   );
 };
-export const StarsRating = ({initStarsNumber = 0, setStarRating}) => {
-  const [currentIndex, setCurrentIndex] = useState(initStarsNumber);
+export const StarsRating = React.memo(
+  ({initStarsNumber = 0, setStarRating}) => {
+    const [currentIndex, setCurrentIndex] = useState(initStarsNumber);
 
-  const Star = ({isActive = false, index}) => {
+    const Star = ({isActive = false, index}) => {
+      return (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            if (currentIndex === index) {
+              setCurrentIndex(0);
+              setStarRating(0);
+            } else {
+              setCurrentIndex(index);
+              setStarRating(index);
+            }
+          }}>
+          {isActive ? (
+            <StarItem source={activeStar} />
+          ) : (
+            <StarItem source={star} />
+          )}
+        </TouchableWithoutFeedback>
+      );
+    };
     return (
-      <TouchableWithoutFeedback
-        onPress={() => {
-          if (currentIndex === index) {
-            setCurrentIndex(0);
-            setStarRating(0);
-          } else {
-            setCurrentIndex(index);
-            setStarRating(index);
-          }
-        }}>
-        {isActive ? (
-          <StarItem source={activeStar} />
-        ) : (
-          <StarItem source={star} />
-        )}
-      </TouchableWithoutFeedback>
+      <StarsWrapper>
+        <Star index={1} isActive={currentIndex > 0} />
+        <Star index={2} isActive={currentIndex > 1} />
+        <Star index={3} isActive={currentIndex > 2} />
+        <Star index={4} isActive={currentIndex > 3} />
+        <Star index={5} isActive={currentIndex > 4} />
+      </StarsWrapper>
     );
-  };
-  return (
-    <StarsWrapper>
-      <Star index={1} isActive={currentIndex > 0} />
-      <Star index={2} isActive={currentIndex > 1} />
-      <Star index={3} isActive={currentIndex > 2} />
-      <Star index={4} isActive={currentIndex > 3} />
-      <Star index={5} isActive={currentIndex > 4} />
-    </StarsWrapper>
-  );
-};
+  },
+);
 
 export const ReviewsScreen = () => {
   const route = useRoute();
@@ -151,6 +167,7 @@ export const ReviewsScreen = () => {
   const [serviceRatingValue, setServiceRatingValue] = useState(0);
   const [priceRatingValue, setPriceRatingValue] = useState(0);
   const [starsRatingValue, setStarsRatingValue] = useState(0);
+  const [showCommentInput, setShowCommentInput] = useState(true);
   const commentSelector = useCallback(() => {
     if (type === 'hotel') {
       return currentHotelReviewsSelector;
@@ -159,7 +176,7 @@ export const ReviewsScreen = () => {
       return currentAdventureReviewsSelector;
     }
   }, [type]);
-  const comments = useSelector(commentSelector());
+  const comments = useSelector(commentSelector())?.reverse();
   const user = useSelector(userSelector);
   const dispatch = useDispatch();
 
@@ -174,7 +191,7 @@ export const ReviewsScreen = () => {
   );
   const role = useSelector(roleSelector);
 
-  const onSubmitHandler = async () => {
+  const onSubmitHandler = async ({commentText}) => {
     try {
       await onSubmit(
         starsRatingValue,
@@ -184,13 +201,15 @@ export const ReviewsScreen = () => {
         serviceRatingValue,
         priceRatingValue,
       );
-      setCommentText(' ');
+      setShowCommentInput(false);
+      setCommentText('');
       setInterestingRatingValue(0);
       setGuideRatingValue(0);
       setServiceRatingValue(0);
       setPriceRatingValue(0);
       setStarsRatingValue(0);
     } catch (error) {
+      setShowCommentInput(true);
       showMessage({
         message: error.response?.data,
         type: 'error',
@@ -208,76 +227,108 @@ export const ReviewsScreen = () => {
     <View style={{flex: 1, marginTop: 24}}>
       <View style={{flex: 1}}>
         <CommentInputContainer>
-          {comments?.map(item => (
-            <Comment item={item} key={item._id} />
-          ))}
-          {role !== 'admin' && (
-            <CommentInputWrapper>
-              <UserInfoWrapper>
-                {user?.profileInfo?.imageURL ? (
-                  <UserAvatar source={{uri: user?.profileInfo?.imageURL}} />
-                ) : (
-                  <UserAvatar source={DEFAULT_PROFILE_IMAGE} />
+          <Formik
+            validationSchema={commentValidationSchema}
+            initialValues={{
+              commentText: '',
+            }}
+            onSubmit={values => onSubmitHandler(values)}>
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+            }) => (
+              <>
+                {role !== 'admin' && showCommentInput && (
+                  <CommentInputWrapper>
+                    <UserInfoWrapper>
+                      {user?.profileInfo?.imageURL ? (
+                        <UserAvatar
+                          source={{uri: user?.profileInfo?.imageURL}}
+                        />
+                      ) : (
+                        <UserAvatar source={DEFAULT_PROFILE_IMAGE} />
+                      )}
+                      <UserFirstNameTitle>{nameTitle}</UserFirstNameTitle>
+                    </UserInfoWrapper>
+                    {showCriterionRating && (
+                      <>
+                        <CriterionRatingContainer>
+                          <CriterionRating
+                            title={'Interesting'}
+                            ratingValue={interestingRatingValue}
+                            onValueChangeHandler={value =>
+                              setInterestingRatingValue(value)
+                            }
+                          />
+                          <CriterionRating
+                            title={'Guide'}
+                            ratingValue={guideRatingValue}
+                            onValueChangeHandler={value =>
+                              setGuideRatingValue(value)
+                            }
+                          />
+                          <CriterionRating
+                            title={'Service'}
+                            ratingValue={serviceRatingValue}
+                            onValueChangeHandler={value =>
+                              setServiceRatingValue(value)
+                            }
+                          />
+                          <CriterionRating
+                            title={'Price'}
+                            ratingValue={priceRatingValue}
+                            onValueChangeHandler={value =>
+                              setPriceRatingValue(value)
+                            }
+                          />
+                        </CriterionRatingContainer>
+                      </>
+                    )}
+
+                    <StarsRatingContainer>
+                      <StarsRating
+                        setStarRating={setStarsRatingValue}
+                        initStarsNumber={starsRatingValue}
+                      />
+                    </StarsRatingContainer>
+
+                    <CommentTextInput
+                      multiline={true}
+                      placeholderTextColor={colors.grey}
+                      placeholder={'Type a comment...'}
+                      onChangeText={handleChange('commentText')}
+                      onBlur={handleBlur('commentText')}
+                      value={values.commentText}
+                    />
+                    {errors.commentText && touched.commentText && (
+                      <Text style={{color: colors.red, padding: 6}}>
+                        {' '}
+                        {errors.commentText}
+                      </Text>
+                    )}
+                    <ButtonWrapper>
+                      <ButtonItem
+                        title={'Send'}
+                        titleSize={12}
+                        size={{height: 40, width: 100}}
+                        handler={handleSubmit}
+                      />
+                    </ButtonWrapper>
+                  </CommentInputWrapper>
                 )}
-                <UserFirstNameTitle>{nameTitle}</UserFirstNameTitle>
-              </UserInfoWrapper>
-              {showCriterionRating && (
-                <>
-                  <CriterionRatingContainer>
-                    <CriterionRating
-                      title={'Interesting'}
-                      ratingValue={interestingRatingValue}
-                      onValueChangeHandler={value =>
-                        setInterestingRatingValue(value)
-                      }
-                    />
-                    <CriterionRating
-                      title={'Guide'}
-                      ratingValue={guideRatingValue}
-                      onValueChangeHandler={value => setGuideRatingValue(value)}
-                    />
-                    <CriterionRating
-                      title={'Service'}
-                      ratingValue={serviceRatingValue}
-                      onValueChangeHandler={value =>
-                        setServiceRatingValue(value)
-                      }
-                    />
-                    <CriterionRating
-                      title={'Price'}
-                      ratingValue={priceRatingValue}
-                      onValueChangeHandler={value => setPriceRatingValue(value)}
-                    />
-                  </CriterionRatingContainer>
-                </>
-              )}
-
-              <StarsRatingContainer>
-                <StarsRating
-                  setStarRating={setStarsRatingValue}
-                  initStarsNumber={starsRatingValue}
-                />
-              </StarsRatingContainer>
-
-              <CommentTextInput
-                multiline={true}
-                placeholderTextColor={colors.gray}
-                placeholder={'Type a comment...'}
-                value={commentText}
-                onChangeText={text => {
-                  setCommentText(text);
-                }}
-              />
-              <ButtonWrapper>
-                <ButtonItem
-                  title={'Send'}
-                  titleSize={12}
-                  size={{height: 40, width: 100}}
-                  handler={onSubmitHandler}
-                />
-              </ButtonWrapper>
-            </CommentInputWrapper>
+              </>
+            )}
+          </Formik>
+          {!showCommentInput && (
+            <TitleWrapper>
+              <NormalText>Thank for your review!</NormalText>
+            </TitleWrapper>
           )}
+          <Comments comments={comments} />
         </CommentInputContainer>
       </View>
     </View>

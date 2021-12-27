@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableWithoutFeedback} from 'react-native';
 import {Container, InitImage} from '../Like/Like.style';
-
+import editIcon from '../../../assets/images/editIconPen.png';
 export const Edit = ({handler = () => {}}) => {
   return (
     <TouchableWithoutFeedback
@@ -9,11 +9,7 @@ export const Edit = ({handler = () => {}}) => {
         handler();
       }}>
       <Container>
-        <InitImage
-          source={{
-            uri: 'https://cdn-icons-png.flaticon.com/512/1250/1250615.png',
-          }}
-        />
+        <InitImage source={editIcon} />
       </Container>
     </TouchableWithoutFeedback>
   );

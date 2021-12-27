@@ -106,11 +106,13 @@ export const EditGalleryScreen: React.FC<Props> = ({route}) => {
           </ImageItem>
         </ImageWrapper>
       </GalleryContainer>
-      <ButtonItem
-        isLoading={updateLoading}
-        title={'Save changes'}
-        handler={saveHandler}
-      />
+      {images.length !== 0 && (
+        <ButtonItem
+          isLoading={updateLoading}
+          title={'Add Images'}
+          handler={saveHandler}
+        />
+      )}
     </ScrollView>
   );
 };

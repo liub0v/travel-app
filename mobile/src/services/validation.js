@@ -84,3 +84,6 @@ export const hotelValidationSchema = yup.object().shape({
     .max(5, 'Max number is 5')
     .required('Stars number is required'),
 });
+export const commentValidationSchema = yup.object().shape({
+  commentText: yup.string().trim().required('Your review is empty'),
+});

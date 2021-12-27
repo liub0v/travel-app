@@ -6,12 +6,12 @@ export function AdventureStackScreen(Stack) {
   const screens = [{_id: 21}, {_id: 22}];
   return [
     <Stack.Screen
-      options={{
+      options={() => ({
         headerTransparent: true,
         headerShadowVisible: false,
         headerTitle: '',
         headerBackTitle: '',
-      }}
+      })}
       name="AdventureScreen"
       component={AdventureScreen}
       key={screens[0]._id}

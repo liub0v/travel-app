@@ -144,3 +144,14 @@ export const GuideNameTitle = styled.Text`
   font-size: 16px;
   color: ${colors.white};
 `;
+export const TitleWrapper = styled.View`
+  margin-top: 24px;
+  margin-bottom: 24px;
+  margin-left: 10%;
+  margin-right: 10%;
+  align-items: center;
+  background-color: ${colors.grey};
+  opacity: 0.7;
+  padding: 24px;
+  border-radius: 32px;
+`;

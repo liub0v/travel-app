@@ -1,21 +1,17 @@
 import React, {useCallback, useEffect} from 'react';
-import {RefreshControl, TouchableWithoutFeedback} from 'react-native';
+import {RefreshControl, TouchableWithoutFeedback, View} from 'react-native';
 import {
   BoldText,
   ButtonWrapper,
   ColumnWrapper,
   GalleryContainer,
   GalleryHeader,
-  GalleryMainImage,
   GalleryMoreImage,
   GalleryMoreTitle,
-  GallerySecondImage,
-  GalleryThirdImage,
   GalleryWrapper,
   ImageContainer,
   InfoContainer,
   InfoWrapper,
-  LikeWrapper,
   MainContainer,
   NameContainer,
   NormalText,
@@ -57,6 +53,7 @@ import {
   getIsVisitedHotelSelector,
 } from '../../../redux/selectors/HotelSelectors';
 import colors from '../../constants/colors';
+import {AnimatedImage} from '../../components/Loaders/AnimatedImage';
 
 const Option = ({title, icon}) => {
   return (
@@ -99,9 +96,23 @@ export const HotelScreen = () => {
   }, []);
 
   const setLikeOnHotel = () => {
-    like && dispatch(deleteSavedHotel(hotel._id));
-    !like && dispatch(saveHotel(hotel._id));
+    like && dispatch(deleteSavedHotel(hotelID));
+    !like && dispatch(saveHotel(hotelID));
   };
+
+  React.useLayoutEffect(() => {
+    if (role !== 'admin') {
+      navigation.setOptions({
+        headerRight: () => (
+          <Like
+            handler={setLikeOnHotel}
+            likeInit={like}
+            isLoading={likeLoader}
+          />
+        ),
+      });
+    }
+  }, [navigation, likeLoader, like, setLikeOnHotel]);
 
   const goEditGalleryScreen = () => {
     navigation.navigate('EditGalleryScreen', {hotel: hotel});
@@ -174,18 +185,14 @@ export const HotelScreen = () => {
           colors={[colors.green]}
         />
       }>
-      {!hotelIsLoading && (
+      {hotel && (
         <>
-          <ImageContainer source={{uri: hotel?.imageURL}}>
-            <LikeWrapper>
-              {role !== 'admin' && (
-                <Like
-                  handler={setLikeOnHotel}
-                  likeInit={like}
-                  isLoading={likeLoader}
-                />
-              )}
-            </LikeWrapper>
+          <ImageContainer>
+            <AnimatedImage
+              imageStyle={{width: '100%', height: 320}}
+              viewStyle={{width: '100%'}}
+              imageURL={hotel?.imageURL}
+            />
             <NameContainer>
               <BoldText>{hotel?.name}</BoldText>
               <NormalText>{hotel?.address}</NormalText>
@@ -212,20 +219,53 @@ export const HotelScreen = () => {
           <SummeryContainer>
             <DynamicText text={hotel?.summary} lineNumber={3} />
           </SummeryContainer>
-          {hotel?.gallery && (
+          {hotel?.gallery?.length !== 0 && (
             <GalleryContainer>
               <GalleryHeader>{'Gallery'}</GalleryHeader>
               <GalleryWrapper>
                 <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
-                  <GalleryMainImage source={{uri: hotel?.gallery?.[0]}} />
+                  <View>
+                    {hotel?.gallery?.[0] && (
+                      <AnimatedImage
+                        imageStyle={{width: 130, height: 152, borderRadius: 8}}
+                        viewStyle={{borderRadius: 8}}
+                        imageURL={hotel?.gallery?.[0]}
+                      />
+                    )}
+                  </View>
                 </TouchableWithoutFeedback>
+
                 <ColumnWrapper>
                   <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
-                    <GallerySecondImage source={{uri: hotel?.gallery?.[1]}} />
+                    <View style={{width: '90%'}}>
+                      {hotel?.gallery?.[1] && (
+                        <AnimatedImage
+                          imageStyle={{
+                            width: '100%',
+                            height: 70,
+                            borderRadius: 8,
+                          }}
+                          viewStyle={{borderRadius: 8, width: '100%'}}
+                          imageURL={hotel?.gallery?.[1]}
+                        />
+                      )}
+                    </View>
                   </TouchableWithoutFeedback>
                   <RowWrapper>
                     <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
-                      <GalleryThirdImage source={{uri: hotel?.gallery?.[2]}} />
+                      <View style={{width: '43%'}}>
+                        {hotel?.gallery?.[2] && (
+                          <AnimatedImage
+                            imageStyle={{
+                              width: '100%',
+                              height: 70,
+                              borderRadius: 8,
+                            }}
+                            viewStyle={{borderRadius: 8, width: '100%'}}
+                            imageURL={hotel?.gallery?.[2]}
+                          />
+                        )}
+                      </View>
                     </TouchableWithoutFeedback>
                     {hotel?.gallery?.length > 4 ? (
                       <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
@@ -240,10 +280,20 @@ export const HotelScreen = () => {
                       </TouchableWithoutFeedback>
                     ) : (
                       <TouchableWithoutFeedback onPress={goHotelGalleryScreen}>
-                        <GalleryMoreImage
-                          imageStyle={{borderRadius: 8}}
-                          source={{uri: hotel?.gallery?.[3]}}
-                        />
+                        <View style={{width: '43%'}}>
+                          {hotel?.gallery?.[3] && (
+                            <AnimatedImage
+                              imageStyle={{
+                                width: '100%',
+                                height: 70,
+                                borderRadius: 8,
+                                marginLeft: '4%',
+                              }}
+                              viewStyle={{borderRadius: 8, width: '100%'}}
+                              imageURL={hotel?.gallery?.[3]}
+                            />
+                          )}
+                        </View>
                       </TouchableWithoutFeedback>
                     )}
                   </RowWrapper>

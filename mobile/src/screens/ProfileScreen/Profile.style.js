@@ -46,4 +46,5 @@ export const InfoItem = styled.View`
 export const ButtonWrapper = styled.View`
   align-items: center;
   margin-bottom: 24px;
+  margin-top: 24px;
 `;
