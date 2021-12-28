@@ -246,13 +246,13 @@ export const AdventureScreen = () => {
               </PriceContainer>
             )}
           </InfoContainer>
-          {adventure?.summary && (
+          {!!adventure?.summary && (
             <SummaryContainer>
               <SectionHeader showRightButton={false} title={'Summary'} />
               <DynamicText text={adventure?.summary} />
             </SummaryContainer>
           )}
-          {adventure?.guideID && (
+          {!!adventure?.guideID && (
             <GuideContainer>
               <GuideAvatar
                 source={{uri: adventure?.guideID?.profileInfo?.imageURL}}

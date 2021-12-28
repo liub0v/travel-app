@@ -85,6 +85,7 @@ export const GeneralRatingWrapper = styled.View`
 export const GeneralRatingTitle = styled.Text`
   font-family: ${fonts.bold};
   font-size: 28px;
+  padding-right: 12px;
   color: ${colors.white};
 `;
 export const CategoryRatingItem = styled.View`

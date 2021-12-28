@@ -147,7 +147,7 @@ async function updateUser(
 ) {
   const formData = new FormData();
   formData.append('userID', userID);
-  console.log(firstName, lastName);
+
   firstName && formData.append('firstName', firstName);
   lastName && formData.append('lastName', lastName);
   username && formData.append('username', username.toLowerCase());

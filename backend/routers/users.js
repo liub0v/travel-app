@@ -260,7 +260,7 @@ router.put("/profileInfo", auth, async (req, res) => {
   const image = req.body?.image;
 
   const imageURL = image && (await uploadToCloud(image, "avatars"));
-  console.log(req.body?.lastName);
+
   const birthDate = req.body?.birthDate && new Date(req.body?.birthDate);
   user.profileInfo.firstName =
     req.body?.firstName ?? user.profileInfo?.firstName;
