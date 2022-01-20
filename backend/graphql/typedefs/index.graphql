@@ -1,0 +1,11 @@
+type Query {
+    # Hotel
+    hotels: [Hotel]!
+    hotel(id: ID!): Hotel
+}
+
+type Mutation {
+    # Hotels
+    createHotel(hotel: HotelCreateInput!): Hotel!
+    updateHotel(id: ID!, hotel: HotelUpdateInput!): Hotel!
+}

@@ -10,5 +10,5 @@ export const instance = axios.create({
   // baseURL: 'http://localhost:3000/api', //mac
   // baseURL: 'http://192.168.1.87:3000/api', //mac
   // baseURL: 'http://192.168.56.1:3000/api', //win
-  timeout: 10000,
+  timeout: 30000,
 });
