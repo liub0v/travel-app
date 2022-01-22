@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "export travelApp_jwtPrivateKey=secret && nodemon index.js"
+    "start-mac": "export travelApp_jwtPrivateKey=secret && nodemon index.js",
+    "start-win": "set travelApp_jwtPrivateKey=secret && nodemon index.js",
+    "start-qrapgql": "node graphql/index.js"
   },
   "author": "",
   "license": "ISC",

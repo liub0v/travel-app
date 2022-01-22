@@ -1,0 +1,9 @@
+type Rating  {
+    id: ID!
+    starsNumber: Int,
+    generalRating: Int,
+    interestingRating: Int,
+    guideRating: Int,
+    serviceRating: Int,
+    priceRating: Int,
+}

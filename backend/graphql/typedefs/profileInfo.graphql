@@ -1,0 +1,9 @@
+type ProfileInfo {
+    firstName: String,
+    lastName: String,
+    phone: String,
+    birthDate: String,
+    address: String,
+    imageURL: String,
+
+}

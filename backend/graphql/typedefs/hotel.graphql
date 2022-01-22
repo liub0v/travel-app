@@ -1,19 +1,37 @@
 type Hotel  {
   id: ID!
-  name: String!
+  name: String,
+  imageURL: String,
+  summary: String,
+  price: Int,
   address: String,
-  imageURL: String
+  hotelOptions: String,
+  beds: Int,
+  gallery: [String],
+  starsNumber: Int,
 }
 
 # Inputs
 input HotelCreateInput {
-  name: String!
+  name: String,
+  imageURL: String,
+  summary: String,
+  price: Int,
   address: String,
-  imageURL: String
+  hotelOptions: String,
+  beds: Int,
+  gallery: [String],
+  starsNumber: Int,
 }
 
 input HotelUpdateInput {
-  name: String
+  name: String,
+  imageURL: String,
+  summary: String,
+  price: Int,
   address: String,
-  imageURL: String
+  hotelOptions: String,
+  beds: Int,
+  gallery: [String],
+  starsNumber: Int,
 }

@@ -1,0 +1,6 @@
+type Client {
+    userID: User,
+    profileInfo: ProfileInfo,
+    savedHotels: [Hotel],
+    visitedHotels: [Hotel]
+}

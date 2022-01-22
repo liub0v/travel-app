@@ -1,0 +1,13 @@
+type Auth{
+    User: User,
+    token: String
+}
+input RegisterInput {
+    username: String!
+    email: String!
+    password: String!
+}
+input LoginInput {
+    email: String!
+    password: String!
+}
