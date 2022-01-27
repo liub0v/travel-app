@@ -3,6 +3,7 @@ type Query {
     hotels: [Hotel]!
     hotel(id: ID!): Hotel
     user(id: ID!): User
+    login(input: LoginInput): Auth!
     client(id: ID!): Client
 }
 
@@ -10,9 +11,7 @@ type Mutation {
     # Hotels
     createHotel(hotel: HotelCreateInput!): Hotel!
     updateHotel(id: ID!, hotel: HotelUpdateInput!): Hotel!
-
     register(input: RegisterInput): Auth!
-    login(input: LoginInput): Auth!
     updateUser(id: ID!, user: UserUpdateInput!): User!
 
 }

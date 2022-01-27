@@ -1,5 +1,6 @@
 const { ApolloServer } = require("apollo-server");
 const { schema } = require("./schema"); // We imported this
+const TravelAppAPI = require("./datasource"); // We imported this
 
 const config = require("config");
 
@@ -10,12 +11,12 @@ const start = async () => {
     // subscriptions: {
     //   path: "/subscriptions/",
     // },
-    // dataSources: () => ({
-    //   CBE_API: new CBE_API(),
-    // }),
-    // context: ({ req }) => ({
-    //   token: req.headers.authorization,
-    // }),
+    dataSources: () => ({
+      api: new TravelAppAPI(),
+    }),
+    context: ({ req }) => ({
+      token: req.headers["x-auth-token"],
+    }),
   });
   const { url, subscriptionsUrl } = await apollo.listen({
     port: config.get("GQL_PORT"),

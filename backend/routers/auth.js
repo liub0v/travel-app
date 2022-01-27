@@ -60,6 +60,7 @@ router.post("/", async (req, res) => {
 
   res.header("x-auth-token", token).send(user);
 });
+
 function validate(req) {
   const schema = Joi.object({
     email: Joi.string().required().email(),

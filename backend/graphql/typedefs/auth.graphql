@@ -1,6 +1,13 @@
 type Auth{
-    User: User,
+    user: AuthUser,
     token: String
+}
+type AuthUser{
+    _id: ID!,
+    userID: User!,
+    isOnboarding: Boolean,
+    savedHotels: [Hotel],
+    visitedHotels: [Hotel]
 }
 input RegisterInput {
     username: String!
