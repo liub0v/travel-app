@@ -1,10 +1,20 @@
 import {instance} from './index';
+import {LOGIN} from '../graphql/queries';
+import {client} from '../graphql/Client';
 
 async function logInUser(email, password) {
-  return await instance.post('/auth', {
-    email,
-    password,
+  const response = await client.query({
+    query: LOGIN,
+    variables: {
+      email,
+      password,
+    },
   });
+  // return await instance.post('/auth', {
+  //   email,
+  //   password,
+  // });
+  return response.data.login;
 }
 async function singUpUser(username, email, password) {
   return await instance.post('/users/client', {

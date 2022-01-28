@@ -1,5 +1,5 @@
 type Review  {
-    id: ID!
+    _id: ID!
     clientID: Client!
     comment: String,
     date: String,

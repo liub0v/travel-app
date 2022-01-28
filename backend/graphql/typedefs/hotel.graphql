@@ -1,9 +1,9 @@
 type Hotel  {
-  id: ID!
+  _id: ID!
   name: String,
   imageURL: String,
   summary: String,
-  price: Int,
+  price: Float,
   address: String,
   hotelOptions: String,
   beds: Int,
@@ -16,7 +16,7 @@ input HotelCreateInput {
   name: String,
   imageURL: String,
   summary: String,
-  price: Int,
+  price: Float,
   address: String,
   hotelOptions: String,
   beds: Int,
@@ -28,7 +28,7 @@ input HotelUpdateInput {
   name: String,
   imageURL: String,
   summary: String,
-  price: Int,
+  price: Float,
   address: String,
   hotelOptions: String,
   beds: Int,

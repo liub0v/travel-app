@@ -1,5 +1,5 @@
 type Rating  {
-    id: ID!
+    _id: ID!
     starsNumber: Int,
     generalRating: Int,
     interestingRating: Int,

@@ -3,6 +3,8 @@ import React, {useEffect, useState} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import FlashMessage from 'react-native-flash-message';
 
+import {ApolloProvider} from '@apollo/client';
+
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from '../redux/store';
@@ -13,11 +15,13 @@ import {loadFonts} from './constants/fonts';
 console.reportErrorsAsExceptions = false;
 
 import {YellowBox} from 'react-native';
+import {client} from './graphql/Client';
 
 YellowBox.ignoreWarnings([
   'Non-serializable values were found in the navigation state',
 ]);
 console.disableYellowBox = true;
+
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -32,10 +36,12 @@ const App = () => {
   if (isLoading) return null;
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Navigation />
-        <FlashMessage position="top" />
-      </PersistGate>
+      <ApolloProvider client={client}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Navigation />
+          <FlashMessage position="top" />
+        </PersistGate>
+      </ApolloProvider>
     </Provider>
   );
 };

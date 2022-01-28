@@ -59,8 +59,12 @@ function* logInUserSaga(action) {
       email.toLowerCase(),
       password,
     );
-    const token = response.headers['x-auth-token'];
-    const user = response.data;
+    console.log(response);
+    // const token = response.headers['x-auth-token'];
+    // const user = response.data;
+
+    const user = response.user;
+    const token = response.token;
     yield put(setUser(user));
     yield put(setUserToken(token));
     yield put(setLogInIsLoading(false));
