@@ -28,9 +28,11 @@ import {
   FieldsContainer,
   ButtonWrapper,
 } from './LoginScreen.style';
+import {useNavigation} from '@react-navigation/core';
 
-export const LoginScreen = ({navigation}) => {
+export const LoginScreen = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const isLoading = useSelector(logInIsLoadingSelector);
   const loginButtonHandler = ({email, password}) => {
     dispatch(logInUser({email, password}));
