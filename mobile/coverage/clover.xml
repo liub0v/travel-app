@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1643802881133" clover="3.2.0">
+  <project timestamp="1643802881133" name="All files">
+    <metrics statements="45" coveredstatements="39" conditionals="29" coveredconditionals="28" methods="7" coveredmethods="4" elements="81" coveredelements="71" complexity="0" loc="45" ncloc="45" packages="7" files="10" classes="10"/>
+    <package name="assets.images">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="avatar.jpeg" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/assets/images/avatar.jpeg">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.Loaders">
+      <metrics statements="13" coveredstatements="8" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="1"/>
+      <file name="AnimatedImage.js" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/src/components/Loaders/AnimatedImage.js">
+        <metrics statements="13" coveredstatements="8" conditionals="2" coveredconditionals="1" methods="3" coveredmethods="1"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="63" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.ProfileForm">
+      <metrics statements="9" coveredstatements="9" conditionals="27" coveredconditionals="27" methods="2" coveredmethods="2"/>
+      <file name="ProfileForm.js" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/src/components/ProfileForm/ProfileForm.js">
+        <metrics statements="8" coveredstatements="8" conditionals="27" coveredconditionals="27" methods="2" coveredmethods="2"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="23" type="stmt"/>
+        <line num="20" count="23" type="stmt"/>
+        <line num="21" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="22" count="20" type="cond" truecount="2" falsecount="0"/>
+        <line num="23" count="20" type="stmt"/>
+        <line num="24" count="20" type="cond" truecount="3" falsecount="0"/>
+        <line num="27" count="23" type="stmt"/>
+      </file>
+      <file name="ProfileInfo.style.js" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/src/components/ProfileForm/ProfileInfo.style.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="5" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.constants">
+      <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="api.js" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/src/constants/api.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+      </file>
+      <file name="colors.js" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/src/constants/colors.js">
+        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      </file>
+      <file name="fonts.js" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/src/constants/fonts.js">
+        <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="4" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.screens.EditProfileScreen">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="EditProfileScreen.style.js" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/src/screens/EditProfileScreen/EditProfileScreen.style.js">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.screens.ProfileScreen">
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="Profile.style.js" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/src/screens/ProfileScreen/Profile.style.js">
+        <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.services">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="dataParser.js" path="/Users/liubou.kurets/Documents/studentLab/travel-app/mobile/src/services/dataParser.js">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="23" type="stmt"/>
+        <line num="3" count="23" type="stmt"/>
+        <line num="17" count="23" type="stmt"/>
+        <line num="19" count="23" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

@@ -12,6 +12,7 @@ import {dateParser} from '../../services/dataParser';
 import {DEFAULT_PROFILE_IMAGE} from '../../constants/api';
 import {AvatarWrapper} from '../../screens/EditProfileScreen/EditProfileScreen.style';
 import {AnimatedImage} from '../Loaders/AnimatedImage';
+import {ProfileFormWrapper, ProfileInfoWrapper} from './ProfileInfo.style';
 
 export const ProfileForm = ({profileInfo, userInfo, isLoading}) => {
   let birthDate = dateParser(profileInfo?.birthDate);
@@ -26,7 +27,7 @@ export const ProfileForm = ({profileInfo, userInfo, isLoading}) => {
   return (
     <>
       {!isLoading && (
-        <>
+        <ProfileFormWrapper>
           <MainInfo>
             <AvatarWrapper>
               {profileInfo?.imageURL ? (
@@ -52,38 +53,42 @@ export const ProfileForm = ({profileInfo, userInfo, isLoading}) => {
             )}
           </MainInfo>
           <InfoContainer>
-            <InfoItem>
-              <GreyText>{'Username'}</GreyText>
-              <WhiteText>{`${userInfo?.username}`}</WhiteText>
-            </InfoItem>
-            <InfoItem>
-              <GreyText>{'Email'}</GreyText>
-              <WhiteText>{`${userInfo?.email}`}</WhiteText>
-            </InfoItem>
+            {userInfo?.username && (
+              <InfoItem testID={'username'}>
+                <GreyText>{'Username'}</GreyText>
+                <WhiteText>{`${userInfo?.username}`}</WhiteText>
+              </InfoItem>
+            )}
+            {userInfo?.email && (
+              <InfoItem testID={'email'}>
+                <GreyText>{'Email'}</GreyText>
+                <WhiteText>{`${userInfo?.email}`}</WhiteText>
+              </InfoItem>
+            )}
             {profileInfo && (
-              <>
+              <ProfileInfoWrapper>
                 {profileInfo?.phone && (
-                  <InfoItem>
+                  <InfoItem testID={'phone'}>
                     <GreyText>{'Phone'}</GreyText>
                     <WhiteText>{`${profileInfo?.phone}`}</WhiteText>
                   </InfoItem>
                 )}
                 {profileInfo?.birthDate && (
-                  <InfoItem>
+                  <InfoItem testID={'birthDate'}>
                     <GreyText>{'Date of birth'}</GreyText>
                     <WhiteText>{`${birthDate}`}</WhiteText>
                   </InfoItem>
                 )}
                 {profileInfo?.address && (
-                  <InfoItem>
+                  <InfoItem testID={'address'}>
                     <GreyText>{'Address'}</GreyText>
                     <WhiteText>{`${profileInfo?.address}`}</WhiteText>
                   </InfoItem>
                 )}
-              </>
+              </ProfileInfoWrapper>
             )}
           </InfoContainer>
-        </>
+        </ProfileFormWrapper>
       )}
     </>
   );

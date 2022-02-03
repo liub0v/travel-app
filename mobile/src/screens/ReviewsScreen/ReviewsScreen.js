@@ -163,6 +163,7 @@ export const ReviewsScreen = () => {
   const [priceRatingValue, setPriceRatingValue] = useState(0);
   const [starsRatingValue, setStarsRatingValue] = useState(0);
   const [showCommentInput, setShowCommentInput] = useState(true);
+
   const commentSelector = useCallback(() => {
     if (type === 'hotel') {
       return currentHotelReviewsSelector;
@@ -171,10 +172,12 @@ export const ReviewsScreen = () => {
       return currentAdventureReviewsSelector;
     }
   }, [type]);
-  const comments = useSelector(commentSelector())?.reverse();
+
   const user = useSelector(userSelector);
+  const comments = useSelector(commentSelector())?.reverse();
   const dispatch = useDispatch();
 
+  console.log(comments);
   const nameTitle = useMemo(
     () =>
       user?.profileInfo?.firstName
