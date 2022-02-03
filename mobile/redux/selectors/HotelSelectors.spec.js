@@ -46,5 +46,11 @@ describe('hotel selectors', () => {
       )?.gallery;
       expect(output).toBe(expectedOutput);
     });
+    it('should return undefined by wrong id ', () => {
+      const hotelID = 'wrong';
+      const selector = getHotelGallerySelector(hotelID);
+      const output = selector(state);
+      expect(output).toBeUndefined();
+    });
   });
 });

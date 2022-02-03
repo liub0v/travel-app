@@ -108,10 +108,25 @@ const hotel2 = {
     starsNumber: 5,
   },
 };
+export const newHotelMock = {
+  _id: '455',
+  name: 'Hotel3 Name',
+  imageURL:
+    'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106286/hotels/hiujfmsuy8mtbtnxdobt.jpg',
+  price: 15.0,
+  starsNumber: 6,
+  summary: 'Hotel3 summary',
+  address: 'Hotel3 address',
+  hotelOptions: 'option1,option2,option3,option4,option5',
+};
 export const HOTEL = {
   currentHotel: {
     data: hotelData,
     isLoading: false,
   },
   hotels: [hotel1, hotel2],
+  add: {
+    isLoading: false,
+    error: undefined,
+  },
 };
