@@ -9,6 +9,7 @@ async function getPopularHotels(page = 1, limit = 5) {
   return await instance.get('/hotels', {params: {page, limit}});
 }
 async function getHotels(page = 1, limit = 8) {
+  console.log('getHotel api fun');
   return await instance.get('/hotels', {params: {page, limit}});
 }
 async function getHotelByID(hotelID) {

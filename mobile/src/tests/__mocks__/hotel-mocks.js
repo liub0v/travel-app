@@ -1,5 +1,5 @@
 import {USER_MOCKS} from './user-mocks';
-
+import hotelCover from '../../../assets/images/hotelCover copy.png';
 const review1 = {
   _id: 12,
   date: new Date(),
@@ -114,10 +114,31 @@ export const newHotelMock = {
   imageURL:
     'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106286/hotels/hiujfmsuy8mtbtnxdobt.jpg',
   price: 15.0,
-  starsNumber: 6,
+  starsNumber: 5,
   summary: 'Hotel3 summary',
   address: 'Hotel3 address',
   hotelOptions: 'option1,option2,option3,option4,option5',
+  gallery: [
+    'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106399/hotelsGallery/izluzyzhpd4hbtiv942k.jpg',
+    'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106401/hotelsGallery/pw6svrnnsyav4fehlboh.jpg',
+    'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106403/hotelsGallery/djvfhhddrzwte2uuhopy.jpg',
+    'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106405/hotelsGallery/acoq1ypciuahsazvroy9.jpg',
+  ],
+};
+export const newHotelDataMock = {
+  name: 'Hotel3 Name',
+  image: hotelCover,
+  price: 15.0,
+  starsNumber: 5,
+  summary: 'Hotel3 summary',
+  address: 'Hotel3 address',
+  hotelOptions: 'option1,option2,option3,option4,option5',
+  gallery: [
+    'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106399/hotelsGallery/izluzyzhpd4hbtiv942k.jpg',
+    'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106401/hotelsGallery/pw6svrnnsyav4fehlboh.jpg',
+    'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106403/hotelsGallery/djvfhhddrzwte2uuhopy.jpg',
+    'https://res.cloudinary.com/dbu190ejg/image/upload/v1640106405/hotelsGallery/acoq1ypciuahsazvroy9.jpg',
+  ],
 };
 export const HOTEL = {
   currentHotel: {
