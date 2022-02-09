@@ -2,7 +2,8 @@ import styled from 'styled-components/native/dist/styled-components.native.esm';
 import colors from '../../constants/colors';
 import fonts from '../../constants/fonts';
 export const CommentInputWrapper = styled.View`
-  padding: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
 `;
 export const CommentInputContainer = styled.ScrollView`
   flex: 1;
@@ -38,6 +39,8 @@ export const CommentContainer = styled.View``;
 export const UserContainer = styled.View`
   padding-left: 24px;
   padding-right: 24px;
+  flex-direction: row;
+  flex: 1;
 `;
 export const UserAvatar = styled.Image`
   width: 40px;
@@ -53,6 +56,8 @@ export const UserInfoContainer = styled.View``;
 export const UserInfoWrapper = styled.View`
   flex-direction: row;
   align-items: center;
+  padding-left: 24px;
+  padding-top: 24px;
 `;
 export const UserInfoFirstLineWrapper = styled.View``;
 export const CommentTextWrapper = styled.View`

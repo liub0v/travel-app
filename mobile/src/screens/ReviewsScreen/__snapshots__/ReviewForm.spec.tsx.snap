@@ -1,0 +1,549 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing ReviewForm component rendering and submitting a basic Formik form should match snapshot 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "paddingLeft": 24,
+        "paddingRight": 24,
+      },
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flexBasis": 0,
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginTop": 24,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "width": "90%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF7F",
+              "fontFamily": "Montserrat",
+              "fontSize": 14,
+              "paddingLeft": 12,
+            },
+          ]
+        }
+      >
+        Interesting
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF",
+              "fontFamily": "MontserratExtraBold",
+              "fontSize": 14,
+              "paddingLeft": 12,
+            },
+          ]
+        }
+      >
+        0
+      </Text>
+    </View>
+    <RNCSlider
+      disabled={false}
+      enabled={true}
+      inverted={false}
+      maximumTrackTintColor="#FFFFFF"
+      maximumValue={10}
+      minimumTrackTintColor="#2D9CDB"
+      minimumValue={0}
+      onChange={[Function]}
+      onRNCSliderSlidingComplete={null}
+      onRNCSliderSlidingStart={null}
+      onRNCSliderValueChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      step={1}
+      style={
+        Array [
+          Object {
+            "height": 40,
+          },
+          Object {
+            "height": 40,
+            "width": "100%",
+          },
+        ]
+      }
+      tapToSeek={false}
+      thumbImage={null}
+      thumbTintColor="#2D9CDB"
+      value={0}
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "width": "90%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF7F",
+              "fontFamily": "Montserrat",
+              "fontSize": 14,
+              "paddingLeft": 12,
+            },
+          ]
+        }
+      >
+        Guide
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF",
+              "fontFamily": "MontserratExtraBold",
+              "fontSize": 14,
+              "paddingLeft": 12,
+            },
+          ]
+        }
+      >
+        0
+      </Text>
+    </View>
+    <RNCSlider
+      disabled={false}
+      enabled={true}
+      inverted={false}
+      maximumTrackTintColor="#FFFFFF"
+      maximumValue={10}
+      minimumTrackTintColor="#2D9CDB"
+      minimumValue={0}
+      onChange={[Function]}
+      onRNCSliderSlidingComplete={null}
+      onRNCSliderSlidingStart={null}
+      onRNCSliderValueChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      step={1}
+      style={
+        Array [
+          Object {
+            "height": 40,
+          },
+          Object {
+            "height": 40,
+            "width": "100%",
+          },
+        ]
+      }
+      tapToSeek={false}
+      thumbImage={null}
+      thumbTintColor="#2D9CDB"
+      value={0}
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "width": "90%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF7F",
+              "fontFamily": "Montserrat",
+              "fontSize": 14,
+              "paddingLeft": 12,
+            },
+          ]
+        }
+      >
+        Service
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF",
+              "fontFamily": "MontserratExtraBold",
+              "fontSize": 14,
+              "paddingLeft": 12,
+            },
+          ]
+        }
+      >
+        0
+      </Text>
+    </View>
+    <RNCSlider
+      disabled={false}
+      enabled={true}
+      inverted={false}
+      maximumTrackTintColor="#FFFFFF"
+      maximumValue={10}
+      minimumTrackTintColor="#2D9CDB"
+      minimumValue={0}
+      onChange={[Function]}
+      onRNCSliderSlidingComplete={null}
+      onRNCSliderSlidingStart={null}
+      onRNCSliderValueChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      step={1}
+      style={
+        Array [
+          Object {
+            "height": 40,
+          },
+          Object {
+            "height": 40,
+            "width": "100%",
+          },
+        ]
+      }
+      tapToSeek={false}
+      thumbImage={null}
+      thumbTintColor="#2D9CDB"
+      value={0}
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "width": "90%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF7F",
+              "fontFamily": "Montserrat",
+              "fontSize": 14,
+              "paddingLeft": 12,
+            },
+          ]
+        }
+      >
+        Price
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#FFFFFF",
+              "fontFamily": "MontserratExtraBold",
+              "fontSize": 14,
+              "paddingLeft": 12,
+            },
+          ]
+        }
+      >
+        0
+      </Text>
+    </View>
+    <RNCSlider
+      disabled={false}
+      enabled={true}
+      inverted={false}
+      maximumTrackTintColor="#FFFFFF"
+      maximumValue={10}
+      minimumTrackTintColor="#2D9CDB"
+      minimumValue={0}
+      onChange={[Function]}
+      onRNCSliderSlidingComplete={null}
+      onRNCSliderSlidingStart={null}
+      onRNCSliderValueChange={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      step={1}
+      style={
+        Array [
+          Object {
+            "height": 40,
+          },
+          Object {
+            "height": 40,
+            "width": "100%",
+          },
+        ]
+      }
+      tapToSeek={false}
+      thumbImage={null}
+      thumbTintColor="#2D9CDB"
+      value={0}
+    />
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "flexBasis": 0,
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "marginTop": 24,
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "space-around",
+            "marginBottom": 24,
+            "paddingLeft": 24,
+            "paddingRight": 24,
+          },
+        ]
+      }
+    >
+      <Image
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        source={
+          Object {
+            "testUri": "../../../assets/images/star.png",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 32,
+              "width": 32,
+            },
+          ]
+        }
+      />
+      <Image
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        source={
+          Object {
+            "testUri": "../../../assets/images/star.png",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 32,
+              "width": 32,
+            },
+          ]
+        }
+      />
+      <Image
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        source={
+          Object {
+            "testUri": "../../../assets/images/star.png",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 32,
+              "width": 32,
+            },
+          ]
+        }
+      />
+      <Image
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        source={
+          Object {
+            "testUri": "../../../assets/images/star.png",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 32,
+              "width": 32,
+            },
+          ]
+        }
+      />
+      <Image
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        source={
+          Object {
+            "testUri": "../../../assets/images/star.png",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 32,
+              "width": 32,
+            },
+          ]
+        }
+      />
+    </View>
+  </View>
+  <TextInput
+    multiline={true}
+    name="comment"
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    placeholder="Type a comment..."
+    placeholderTextColor="#FFFFFF7F"
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "borderRadius": 16,
+          "color": "#2D9CDB",
+          "fontFamily": "Montserrat",
+          "fontSize": 14,
+          "marginTop": 12,
+          "paddingBottom": 12,
+          "paddingLeft": 24,
+          "paddingRight": 24,
+          "paddingTop": 12,
+        },
+      ]
+    }
+    testID="comment-text-input"
+    value=""
+  />
+  <View
+    style={
+      Array [
+        Object {
+          "alignSelf": "flex-end",
+          "marginTop": 24,
+          "width": "30%",
+        },
+      ]
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        nativeID="animatedComponent"
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#2D9CDB",
+            "borderRadius": 16,
+            "height": 40,
+            "justifyContent": "center",
+            "opacity": 1,
+            "width": "100%",
+          }
+        }
+      >
+        <Text
+          color="#FFFFFF"
+          fontSize={12}
+          style={
+            Array [
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "Montserrat",
+                "fontSize": 12,
+              },
+            ]
+          }
+        >
+          Send
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+
 import Enzyme from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import {ReviewsScreen} from './ReviewsScreen';
@@ -8,8 +8,7 @@ import * as redux from 'react-redux';
 import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import {STORE} from '../../tests/__mocks__/store-mock';
-import {CommentInputContainer} from '../../components/CommentInput/CommentInput.style';
-import {View} from 'react-native';
+import {Container} from './ReviewsScreen.style';
 
 jest.mock('@react-navigation/native');
 Enzyme.configure({adapter: new Adapter()});
@@ -51,6 +50,11 @@ describe('Testing ReviewScreen component', () => {
     useSelector = jest
       .spyOn(redux, 'useSelector')
       .mockImplementation(cb => cb(initMockStore));
+    wrapper = mount(
+      <Provider store={store}>
+        <ReviewsScreen />
+      </Provider>,
+    );
   });
   afterEach(() => {
     mockDispatch.mockClear();
@@ -58,16 +62,13 @@ describe('Testing ReviewScreen component', () => {
   });
 
   it('should match snapshot', () => {
+    // wrapper = shallow(<ReviewsScreen />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should be container ', () => {
     // const nodes = wrapper.render().find(CommentInputContainer);
-    wrapper = mount(
-      <Provider store={store}>
-        <ReviewsScreen />
-      </Provider>,
-    );
-    expect(wrapper.render().find(CommentInputContainer)).toExist();
+
+    expect(wrapper.find(Container)).toExist();
   });
 });

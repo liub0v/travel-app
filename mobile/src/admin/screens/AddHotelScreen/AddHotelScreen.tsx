@@ -37,8 +37,8 @@ import addIcon from '../../../../assets/images/addIcon.png';
 import {useDispatch, useSelector} from 'react-redux';
 import {addHotelIsLoadingSelector} from '../../../../redux/selectors/HotelSelectors';
 import {addHotel} from '../../../../redux/actions/HotelActions';
-import {StarsRating} from '../../../screens/ReviewsScreen/ReviewsScreen';
 import {hotelValidationSchema} from '../../../services/validation';
+import {StarsRating} from '../../../components/StarsRating/StarsRating';
 export type Props = {};
 
 export const AddHotelScreen: React.FC<Props> = () => {

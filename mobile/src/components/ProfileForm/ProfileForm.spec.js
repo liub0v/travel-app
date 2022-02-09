@@ -9,6 +9,7 @@ import {BoldWhiteText} from '../../screens/ProfileScreen/Profile.style';
 import {USER_MOCKS} from '../../tests/__mocks__/user-mocks';
 
 Enzyme.configure({adapter: new Adapter()});
+
 test('renders correctly', () => {
   const tree = renderer
     .create(
