@@ -12,7 +12,13 @@ const USER_INFO = {
   email: 'user@mail.com',
   role: 'client',
 };
-
+const ADMIN = {
+  userID: {
+    username: 'admin',
+    email: 'admin@mail.com',
+    role: 'admin',
+  },
+};
 export const AUTH = {
   user: {
     userID: USER_INFO,
@@ -23,4 +29,5 @@ export const AUTH = {
 export const USER_MOCKS = {
   PROFILE_INFO,
   USER_INFO,
+  ADMIN,
 };

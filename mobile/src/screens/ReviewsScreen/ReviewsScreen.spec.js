@@ -1,42 +1,48 @@
 import React from 'react';
-
-import Enzyme from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
-import {ReviewsScreen} from './ReviewsScreen';
+import {shallow} from 'enzyme';
 import {useRoute} from '@react-navigation/native';
-import * as redux from 'react-redux';
-import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
+import {useDispatch, useSelector} from 'react-redux';
+import {Author, ReviewsScreen} from './ReviewsScreen';
 import {STORE} from '../../tests/__mocks__/store-mock';
-import {Container} from './ReviewsScreen.style';
+import {TitleWrapper} from './ReviewsScreen.style';
+import {USER_MOCKS} from '../../tests/__mocks__/user-mocks';
+import {ReviewForm} from './ReviewForm';
+import {Comments} from './Comments';
 
 jest.mock('@react-navigation/native');
-Enzyme.configure({adapter: new Adapter()});
+
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: jest.fn(),
+  useDispatch: jest.fn(),
+}));
 
 describe('Testing ReviewScreen component', () => {
   let mockDispatch;
-  let useEffect;
+  let mockEffect;
   let wrapper;
-  let mockSelector;
   let mockMemo;
   let mockCallback;
-  let useSelector;
+  let mockSelector;
 
-  const initMockStore = STORE;
-  const mockStore = configureStore();
-  let store;
-
+  let user = {
+    profileInfo: USER_MOCKS.PROFILE_INFO,
+    userID: USER_MOCKS.USER_INFO,
+  };
+  let reviews = STORE.hotel.currentHotel.data.reviews;
   beforeEach(() => {
     mockDispatch = jest.fn();
-    // mockSelector = jest.fn();
-
-    store = mockStore(initMockStore);
+    mockSelector = jest.fn();
 
     useRoute.mockReturnValue({
-      params: {type: 'hotel', onSubmit: () => jest.fn()},
+      params: {
+        type: 'hotel',
+        onSubmit: () => jest.fn(() => Promise.resolve({})),
+      },
     });
-    useEffect = jest.spyOn(React, 'useEffect');
-    useEffect.mockImplementation(f => f());
+
+    mockEffect = jest.spyOn(React, 'useEffect');
+    mockEffect.mockImplementation(f => f());
 
     mockCallback = jest.spyOn(React, 'useCallback');
     mockCallback.mockImplementation(f => f());
@@ -44,17 +50,13 @@ describe('Testing ReviewScreen component', () => {
     mockMemo = jest.spyOn(React, 'useMemo');
     mockMemo.mockImplementation(f => f());
 
-    mockDispatch.mockImplementation(() => () => {});
-    // mockSelector.mockImplementation(selector => selector(store));
+    useDispatch.mockImplementation(() => () => {});
+    useSelector
+      .mockReturnValueOnce(user)
+      .mockReturnValueOnce(user.userID.role)
+      .mockReturnValueOnce(reviews);
 
-    useSelector = jest
-      .spyOn(redux, 'useSelector')
-      .mockImplementation(cb => cb(initMockStore));
-    wrapper = mount(
-      <Provider store={store}>
-        <ReviewsScreen />
-      </Provider>,
-    );
+    wrapper = shallow(<ReviewsScreen />);
   });
   afterEach(() => {
     mockDispatch.mockClear();
@@ -62,13 +64,31 @@ describe('Testing ReviewScreen component', () => {
   });
 
   it('should match snapshot', () => {
-    // wrapper = shallow(<ReviewsScreen />);
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should be container ', () => {
-    // const nodes = wrapper.render().find(CommentInputContainer);
+  it('should not show review form it role is admin ', () => {
+    useSelector
+      .mockReturnValueOnce(USER_MOCKS.ADMIN)
+      .mockReturnValueOnce(USER_MOCKS.ADMIN.userID.role)
+      .mockReturnValueOnce(reviews);
 
-    expect(wrapper.find(Container)).toExist();
+    wrapper = shallow(<ReviewsScreen />);
+
+    expect(wrapper.find(ReviewForm)).not.toExist();
+    expect(wrapper.find(Author)).not.toExist();
+    expect(wrapper.find(Comments)).toExist();
+  });
+  it('should not show review when comment has been send ', async () => {
+    await wrapper.find(ReviewForm).invoke('onSubmitHandler')({
+      commentText: 'text',
+      interestingRatingValue: 0,
+      guideRatingValue: 0,
+      serviceRatingValue: 0,
+      priceRatingValue: 0,
+      starsRatingValue: 0,
+    });
+    expect(wrapper.find(ReviewForm)).not.toExist();
+    expect(wrapper.find(TitleWrapper)).toExist();
   });
 });
