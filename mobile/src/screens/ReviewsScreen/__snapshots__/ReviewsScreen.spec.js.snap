@@ -7,14 +7,14 @@ exports[`Testing ReviewScreen component should match snapshot 1`] = `
     nameTitle="FirstName"
   />
   <ReviewForm
-    onSubmitHandler={[Function]}
+    onSubmitHandler={[MockFunction]}
     showCriterionRating={false}
   />
   <Memo()
     comments={
       Array [
         Object {
-          "_id": 14,
+          "_id": 12,
           "clientID": Object {
             "profileInfo": Object {
               "address": "City, Country",
@@ -25,11 +25,11 @@ exports[`Testing ReviewScreen component should match snapshot 1`] = `
               "phone": "80291234567",
             },
           },
-          "comment": "comment3",
-          "date": 2022-02-10T16:52:54.931Z,
+          "comment": "comment1",
+          "date": 2022-02-11T15:02:47.793Z,
           "rating": Object {
-            "generalRating": 10,
-            "starsNumber": 5,
+            "generalRating": 9,
+            "starsNumber": 4,
           },
           "userID": Object {
             "email": "user@mail.com",
@@ -50,7 +50,7 @@ exports[`Testing ReviewScreen component should match snapshot 1`] = `
             },
           },
           "comment": "comment2",
-          "date": 2022-02-10T16:52:54.931Z,
+          "date": 2022-02-11T15:02:47.793Z,
           "rating": Object {
             "generalRating": 8,
             "starsNumber": 3,
@@ -62,7 +62,7 @@ exports[`Testing ReviewScreen component should match snapshot 1`] = `
           },
         },
         Object {
-          "_id": 12,
+          "_id": 14,
           "clientID": Object {
             "profileInfo": Object {
               "address": "City, Country",
@@ -73,11 +73,11 @@ exports[`Testing ReviewScreen component should match snapshot 1`] = `
               "phone": "80291234567",
             },
           },
-          "comment": "comment1",
-          "date": 2022-02-10T16:52:54.931Z,
+          "comment": "comment3",
+          "date": 2022-02-11T15:02:47.793Z,
           "rating": Object {
-            "generalRating": 9,
-            "starsNumber": 4,
+            "generalRating": 10,
+            "starsNumber": 5,
           },
           "userID": Object {
             "email": "user@mail.com",

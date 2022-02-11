@@ -133,7 +133,6 @@ function* getHotelsByTermSaga(action) {
 }
 export function* getHotelsSaga(action) {
   try {
-    console.log('saga');
     const {page, limit} = action.payload;
     yield put(setHotelsIsLoading(true));
     const response = yield call(hotelAPI.getHotels, page, limit);

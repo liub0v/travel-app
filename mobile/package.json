@@ -63,6 +63,7 @@
     "@expo/metro-config": "^0.3.9",
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/react-native": "^9.0.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/enzyme": "^3.10.11",
@@ -86,13 +87,12 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!native-base)/"
     ],
-
     "setupFilesAfterEnv": [
       "jest-enzyme"
     ],
     "testEnvironment": "enzyme",
     "testEnvironmentOptions": {
-      "enzymeAdapter": "react16"
+      "enzymeAdapter": "react17"
     }
   },
   "assets": [

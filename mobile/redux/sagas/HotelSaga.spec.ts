@@ -60,8 +60,7 @@ describe('Hotel sagas', () => {
       let saga: ExpectApi;
       const error = new Error('test error');
       let action = addHotel(newHotelDataMock);
-      let token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTY4MjgwMTg5ZDJhODEyN2UxNDkzMGUiLCJyb2xlIjoiY2xpZW50IiwiaWF0IjoxNjQzOTYwMTY2fQ.TjJGznuns_mjnia9tE21MN3-YsHY-bO3Hq30QGGUfrQ';
+      let token = 'test token';
       beforeEach(() => {
         saga = expectSaga(addHotelSaga, action).provide([
           [select(tokenSelector), token],
@@ -177,8 +176,6 @@ describe('Hotel sagas', () => {
           sagaAction,
         );
       };
-
-      beforeEach(async () => {});
       afterEach(() => {
         jest.clearAllMocks();
       });

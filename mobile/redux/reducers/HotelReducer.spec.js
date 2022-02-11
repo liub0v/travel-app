@@ -30,16 +30,15 @@ describe('Hotel reducer', () => {
   describe(`${ADD_HOTEL_COMPLETED} action`, () => {
     let output;
     let state = STORE.hotel;
-    describe('success', () => {
-      beforeEach(() => {
-        output = hotelReducer(state, addHotelCompleted(newHotelMock));
-      });
-      it('should set isLoading flag to false', () => {
-        expect(output.add.isLoading).toBe(false);
-      });
-      it('should set hotel from action', () => {
-        expect(output.hotels).toEqual([...state.hotels, newHotelMock]);
-      });
+
+    beforeEach(() => {
+      output = hotelReducer(state, addHotelCompleted(newHotelMock));
+    });
+    it('should set isLoading flag to false', () => {
+      expect(output.add.isLoading).toBe(false);
+    });
+    it('should set hotel from action', () => {
+      expect(output.hotels).toEqual([...state.hotels, newHotelMock]);
     });
   });
 });

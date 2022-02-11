@@ -4,10 +4,14 @@ import {useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Author, ReviewsScreen} from './ReviewsScreen';
 import {STORE} from '../../tests/__mocks__/store-mock';
-import {TitleWrapper} from './ReviewsScreen.style';
 import {USER_MOCKS} from '../../tests/__mocks__/user-mocks';
 import {ReviewForm} from './ReviewForm';
 import {Comments} from './Comments';
+import {useReviews} from './useReviews';
+import {useSendReview} from './useSendReview';
+
+jest.mock('./useReviews');
+jest.mock('./useSendReview');
 
 jest.mock('@react-navigation/native');
 
@@ -18,12 +22,10 @@ jest.mock('react-redux', () => ({
 }));
 
 describe('Testing ReviewScreen component', () => {
-  let mockDispatch;
   let mockEffect;
   let wrapper;
   let mockMemo;
   let mockCallback;
-  let mockSelector;
 
   let user = {
     profileInfo: USER_MOCKS.PROFILE_INFO,
@@ -31,14 +33,19 @@ describe('Testing ReviewScreen component', () => {
   };
   let reviews = STORE.hotel.currentHotel.data.reviews;
   beforeEach(() => {
-    mockDispatch = jest.fn();
-    mockSelector = jest.fn();
-
     useRoute.mockReturnValue({
       params: {
         type: 'hotel',
         onSubmit: () => jest.fn(() => Promise.resolve({})),
       },
+    });
+    useReviews.mockReturnValue({
+      comments: reviews,
+      isCriterionRating: false,
+    });
+    useSendReview.mockReturnValue({
+      isCommentForm: true,
+      onSubmitHandler: jest.fn(),
     });
 
     mockEffect = jest.spyOn(React, 'useEffect');
@@ -58,21 +65,20 @@ describe('Testing ReviewScreen component', () => {
 
     wrapper = shallow(<ReviewsScreen />);
   });
-  afterEach(() => {
-    mockDispatch.mockClear();
-    mockSelector.mockClear();
-  });
 
   it('should match snapshot', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
   it('should not show review form it role is admin ', () => {
-    useSelector
-      .mockReturnValueOnce(USER_MOCKS.ADMIN)
-      .mockReturnValueOnce(USER_MOCKS.ADMIN.userID.role)
-      .mockReturnValueOnce(reviews);
-
+    // useSelector
+    //   .mockReturnValueOnce(USER_MOCKS.ADMIN)
+    //   .mockReturnValueOnce(USER_MOCKS.ADMIN.userID.role)
+    //   .mockReturnValueOnce(reviews);
+    useSendReview.mockReturnValue({
+      isCommentForm: false,
+      onSubmitHandler: jest.fn(),
+    });
     wrapper = shallow(<ReviewsScreen />);
 
     expect(wrapper.find(ReviewForm)).not.toExist();
@@ -88,7 +94,10 @@ describe('Testing ReviewScreen component', () => {
       priceRatingValue: 0,
       starsRatingValue: 0,
     });
-    expect(wrapper.find(ReviewForm)).not.toExist();
-    expect(wrapper.find(TitleWrapper)).toExist();
+
+    expect(wrapper.find(ReviewForm).prop('onSubmitHandler')).toHaveBeenCalled();
+
+    // expect(wrapper.find(ReviewForm)).not.toExist();
+    // expect(wrapper.find(TitleWrapper)).toExist();
   });
 });
