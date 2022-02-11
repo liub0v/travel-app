@@ -71,10 +71,6 @@ describe('Testing ReviewScreen component', () => {
   });
 
   it('should not show review form it role is admin ', () => {
-    // useSelector
-    //   .mockReturnValueOnce(USER_MOCKS.ADMIN)
-    //   .mockReturnValueOnce(USER_MOCKS.ADMIN.userID.role)
-    //   .mockReturnValueOnce(reviews);
     useSendReview.mockReturnValue({
       isCommentForm: false,
       onSubmitHandler: jest.fn(),

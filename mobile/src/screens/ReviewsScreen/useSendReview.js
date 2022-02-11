@@ -25,6 +25,7 @@ export const useSendReview = onSubmit => {
         serviceRatingValue,
         priceRatingValue,
       );
+
       setIsCommentForm(false);
     } catch (error) {
       setIsCommentForm(true);
