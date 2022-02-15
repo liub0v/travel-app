@@ -1,12 +1,15 @@
-import {createSelector} from 'reselect';
+import {createSelector, Selector} from 'reselect';
 import {savedHotelsSelector, visitedHotelsSelector} from './UserSelector';
+import {RootState} from '../reducers';
+import {THotel} from '../reducers/HotelReducer';
 
-const hotelSelector = state => state.hotel;
-export const hotelsSelector = createSelector(
-  hotelSelector,
-  item => item.hotels,
-);
-export const currentHotelSelector = createSelector(
+const hotelSelector = (state: RootState) => state.hotel;
+
+export const hotelsSelector: Selector<
+  RootState,
+  Array<THotel>
+> = createSelector(hotelSelector, item => item.hotels);
+export const currentHotelSelector: Selector<RootState, THotel> = createSelector(
   hotelSelector,
   item => item.currentHotel.data,
 );
@@ -55,21 +58,21 @@ export const popularHotelsSelector = createSelector(
   item => item.popularHotels,
 );
 
-export const getHotelGallerySelector = hotelID => {
+export const getHotelGallerySelector = (hotelID: string) => {
   return createSelector(
     hotelsSelector,
     hotels => hotels?.find(hotel => hotel._id === hotelID)?.gallery,
   );
 };
 
-export const getIsLikedHotelSelector = hotelID => {
+export const getIsLikedHotelSelector = (hotelID: string) => {
   return createSelector(savedHotelsSelector, hotels =>
-    hotels?.find(hotel => hotel._id === hotelID),
+    hotels?.find((hotel: THotel) => hotel._id === hotelID),
   );
 };
 
-export const getIsVisitedHotelSelector = hotelID => {
+export const getIsVisitedHotelSelector = (hotelID: string) => {
   return createSelector(visitedHotelsSelector, hotels =>
-    hotels?.find(hotel => hotel._id === hotelID),
+    hotels?.find((hotel: THotel) => hotel._id === hotelID),
   );
 };

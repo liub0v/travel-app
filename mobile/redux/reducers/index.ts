@@ -22,3 +22,5 @@ export const reducers = combineReducers({
   guide: guideReducer,
   comment: commentReducer,
 });
+
+export type RootState = ReturnType<typeof reducers>;

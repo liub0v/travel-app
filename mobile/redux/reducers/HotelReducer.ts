@@ -21,8 +21,46 @@ import {
   DELETE_GALLERY_IMAGE_STARTED,
 } from '../types/HotelTypes';
 import {PAGE_SIZE} from '../../src/constants/api';
+import {AnyAction} from 'redux';
 
-const initialState = {
+type TOperation = {
+  isLoading: boolean;
+  error?: any;
+};
+export type TRating = {
+  generalRating?: number;
+  starsNumber?: number;
+};
+export type THotel = {
+  _id: string;
+  name: string;
+  imageURL?: string;
+  summary?: string;
+  address?: string;
+  price?: number;
+  hotelOptions?: string;
+  rating?: TRating;
+  reviews?: Array<any>;
+  gallery?: Array<string>;
+  starsNumber?: number;
+};
+export type THotelState = {
+  hotels?: Array<THotel>;
+  popularHotels?: Array<THotel>;
+  isLoading: boolean;
+  error?: any;
+  hasMore: boolean;
+  deleteHotelLoader: boolean;
+  popularHotelsLoader: boolean;
+  update: TOperation;
+  add: TOperation;
+  currentHotel: TOperation & {data: any};
+  gallery: {
+    delete: TOperation;
+  };
+};
+
+const initialState: THotelState = {
   hotels: undefined,
   popularHotels: undefined,
   isLoading: false,
@@ -51,7 +89,10 @@ const initialState = {
   },
 };
 
-export const hotelReducer = (state = initialState, {type, payload}) => {
+export const hotelReducer = (
+  state = initialState,
+  {type, payload}: AnyAction,
+) => {
   switch (type) {
     case GET_HOTEL_COMPLETED:
       return {...state, currentHotel: {...state.currentHotel, data: payload}};
@@ -107,9 +148,12 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
       };
     }
     case UPDATE_HOTEL_COMPLETED: {
-      const hotelIndex = state.hotels.findIndex(hotel => {
+      const hotelIndex = state.hotels?.findIndex(hotel => {
         return hotel._id === payload._id;
       });
+      if (hotelIndex === undefined) {
+        throw new Error("hotel isn't exist");
+      }
       const hotelsCopy = [...state.hotels];
       hotelsCopy[hotelIndex] = payload;
       return {
@@ -123,12 +167,15 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
     case ADD_HOTEL_STARTED:
       return {...state, add: {...state.add, isLoading: payload}};
     case DELETE_GALLERY_IMAGE_COMPLETED: {
-      const hotelIndex = state.hotels.findIndex(hotel => {
+      const hotelIndex = state.hotels?.findIndex(hotel => {
         return hotel._id === payload.hotelID;
       });
+      if (hotelIndex === undefined) {
+        throw new Error("hotel isn't exist");
+      }
       const hotelsCopy = [...state.hotels];
       hotelsCopy[hotelIndex].gallery = hotelsCopy[hotelIndex]?.gallery?.filter(
-        imageURl => imageURl !== payload.imageURL,
+        (imageURl: string) => imageURl !== payload.imageURL,
       );
       return {
         ...state,
@@ -150,7 +197,7 @@ export const hotelReducer = (state = initialState, {type, payload}) => {
     case DELETE_HOTEL_COMPLETED: {
       return {
         ...state,
-        hotels: [...state.hotels.filter(hotel => hotel._id !== payload)],
+        hotels: [...state.hotels?.filter(hotel => hotel._id !== payload)],
       };
     }
     case DELETE_HOTEL_STARTED: {

@@ -1,5 +1,4 @@
 import {act, renderHook, RenderHookResult} from '@testing-library/react-hooks';
-import {useReviewsType} from './useReviews';
 import {useSendReview} from './useSendReview';
 import {useDispatch} from 'react-redux';
 
@@ -9,7 +8,7 @@ jest.mock('react-redux', () => ({
 }));
 
 describe('useSendReview hook', () => {
-  let hook: RenderHookResult<void, useReviewsType>;
+  let hook: RenderHookResult<void, any>;
   beforeEach(() => {
     useDispatch.mockImplementation(() => () => {});
   });
