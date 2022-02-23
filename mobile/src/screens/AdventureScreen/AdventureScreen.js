@@ -63,9 +63,10 @@ import {
   getIsVisitedAdventureSelector,
 } from '../../../redux/selectors/AdventureSelectors';
 import {RefreshControl} from 'react-native';
-import {Comment} from '../ReviewsScreen/ReviewsScreen';
+
 import {AnimatedImage} from '../../components/Loaders/AnimatedImage';
 import {NormalText} from '../AuthScreens/LoginScreen/LoginScreen.style';
+import {Comment} from '../ReviewsScreen/Comment';
 
 export const DynamicText = ({text, lineNumber = 5}) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text

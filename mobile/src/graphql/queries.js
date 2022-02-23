@@ -37,6 +37,14 @@ export const LOGIN = gql`
           gallery
           starsNumber
         }
+        profileInfo {
+          firstName
+          lastName
+          phone
+          birthDate
+          address
+          imageURL
+        }
       }
     }
   }

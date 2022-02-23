@@ -28,9 +28,9 @@ import {
   updateHotelIsLoadingSelector,
 } from '../../../../redux/selectors/HotelSelectors';
 import colors from '../../../constants/colors';
-import {StarsRating} from '../../../screens/ReviewsScreen/ReviewsScreen';
 import {Text, View} from 'react-native';
 import {hotelValidationSchema} from '../../../services/validation';
+import {StarsRating} from '../../../components/StarsRating/StarsRating';
 
 export type Props = {};
 

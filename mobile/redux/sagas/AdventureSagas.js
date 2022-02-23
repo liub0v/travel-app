@@ -1,5 +1,4 @@
 import {call, put, select, takeEvery} from 'redux-saga/effects';
-import {showMessage} from 'react-native-flash-message';
 import {
   ADD_ADVENTURE,
   ADD_VISITED_ADVENTURE,
@@ -43,6 +42,7 @@ import {
   setAdventureHotel,
 } from '../actions/AuthActions';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
+import {errorHandler} from './ErrorHandler';
 
 export const adventureSagas = [
   takeEvery(GET_ADVENTURES_BY_DESTINATION, getAdventuresByDestinationSaga),
@@ -58,16 +58,7 @@ export const adventureSagas = [
   takeEvery(GET_ADVENTURE, getAdventureSaga),
   takeEvery(GET_ADVENTURES_BY_TERM, getAdventuresByTermSaga),
 ];
-export const errorHandler = (error, action = undefined) => {
-  if (error.code === 'ECONNABORTED' || error.message === 'Network Error')
-    RootNavigation.navigate('ErrorScreen', {action});
-  else {
-    showMessage({
-      message: error.response?.data || error.message,
-      type: 'error',
-    });
-  }
-};
+
 function* getAdventureSaga(action) {
   try {
     const adventureID = action.payload;

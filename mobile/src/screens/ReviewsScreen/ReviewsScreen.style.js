@@ -8,3 +8,11 @@ export const TitleWrapper = styled.View`
   align-items: center;
   padding: 6px;
 `;
+
+export const Container = styled.ScrollView`
+  flex: 1;
+  margin-top: 24px;
+`;
+export const CommentsContainer = styled.View`
+  margin-top: 50px;
+`;

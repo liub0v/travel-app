@@ -25,8 +25,7 @@ import {
 import {userAPI} from '../../src/api/userAPI';
 import {tokenSelector} from '../selectors/UserSelector';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
-import {errorHandler} from './AdventureSagas';
-
+import {errorHandler} from './ErrorHandler';
 export const guideSagas = [
   takeEvery(GET_GUIDES, getGuidesSaga),
   takeEvery(ADD_GUIDE, addGuideSaga),

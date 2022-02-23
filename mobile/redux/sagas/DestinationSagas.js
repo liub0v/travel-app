@@ -25,7 +25,7 @@ import {
 import {searchAPI} from '../../src/api/searchAPI';
 import {tokenSelector} from '../selectors/UserSelector';
 import * as RootNavigation from '../../src/navigation/RootNavigation';
-import {errorHandler} from './AdventureSagas';
+import {errorHandler} from './ErrorHandler';
 
 export const destinationSagas = [
   takeEvery(GET_DESTINATIONS, getDestinationsSaga),

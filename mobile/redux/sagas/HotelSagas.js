@@ -49,7 +49,7 @@ import {
   setSavedHotel,
 } from '../actions/AuthActions';
 import {searchAPI} from '../../src/api/searchAPI';
-import {errorHandler} from './AdventureSagas';
+import {errorHandler} from './ErrorHandler';
 
 export const hotelSagas = [
   takeEvery(GET_HOTELS_BY_DESTINATION, getHotelsByDestinationSaga),
@@ -131,13 +131,14 @@ function* getHotelsByTermSaga(action) {
     yield call(errorHandler, error, action);
   }
 }
-function* getHotelsSaga(action) {
+export function* getHotelsSaga(action) {
   try {
     const {page, limit} = action.payload;
     yield put(setHotelsIsLoading(true));
     const response = yield call(hotelAPI.getHotels, page, limit);
-    const hotels = response.data;
-    !hotels.length && (yield put(setHasMoreHotels(false)));
+    const hotels = response?.data;
+
+    !hotels?.length && (yield put(setHasMoreHotels(false)));
     yield put(setHotels(hotels));
     yield put(setHotelsIsLoading(false));
   } catch (error) {
@@ -171,7 +172,7 @@ function* filterHotelsSaga(action) {
   }
 }
 
-function* updateHotelSaga(action) {
+export function* updateHotelSaga(action) {
   try {
     yield put(updateHotelStarted(true));
     const token = yield select(tokenSelector);
@@ -187,7 +188,7 @@ function* updateHotelSaga(action) {
   }
 }
 
-function* addHotelSaga(action) {
+export function* addHotelSaga(action) {
   try {
     yield put(addHotelStarted(true));
     const token = yield select(tokenSelector);

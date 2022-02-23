@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing ReviewScreen component should match snapshot 1`] = `
+<Styled(ScrollView)>
+  <Author
+    imageURL="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+    nameTitle="FirstName"
+  />
+  <ReviewForm
+    onSubmitHandler={[MockFunction]}
+    showCriterionRating={false}
+  />
+  <Memo()
+    comments={
+      Array [
+        Object {
+          "_id": 12,
+          "clientID": Object {
+            "profileInfo": Object {
+              "address": "City, Country",
+              "birthDate": "November 23, 2001",
+              "firstName": "FirstName",
+              "imageURL": "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+              "lastName": "LastName",
+              "phone": "80291234567",
+            },
+          },
+          "comment": "comment1",
+          "date": 2022-02-11T15:02:47.793Z,
+          "rating": Object {
+            "generalRating": 9,
+            "starsNumber": 4,
+          },
+          "userID": Object {
+            "email": "user@mail.com",
+            "role": "client",
+            "username": "username",
+          },
+        },
+        Object {
+          "_id": 13,
+          "clientID": Object {
+            "profileInfo": Object {
+              "address": "City, Country",
+              "birthDate": "November 23, 2001",
+              "firstName": "FirstName",
+              "imageURL": "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+              "lastName": "LastName",
+              "phone": "80291234567",
+            },
+          },
+          "comment": "comment2",
+          "date": 2022-02-11T15:02:47.793Z,
+          "rating": Object {
+            "generalRating": 8,
+            "starsNumber": 3,
+          },
+          "userID": Object {
+            "email": "user@mail.com",
+            "role": "client",
+            "username": "username",
+          },
+        },
+        Object {
+          "_id": 14,
+          "clientID": Object {
+            "profileInfo": Object {
+              "address": "City, Country",
+              "birthDate": "November 23, 2001",
+              "firstName": "FirstName",
+              "imageURL": "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+              "lastName": "LastName",
+              "phone": "80291234567",
+            },
+          },
+          "comment": "comment3",
+          "date": 2022-02-11T15:02:47.793Z,
+          "rating": Object {
+            "generalRating": 10,
+            "starsNumber": 5,
+          },
+          "userID": Object {
+            "email": "user@mail.com",
+            "role": "client",
+            "username": "username",
+          },
+        },
+      ]
+    }
+  />
+</Styled(ScrollView)>
+`;
